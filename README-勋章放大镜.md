@@ -1,6 +1,8 @@
 ## 勋章放大镜
 顾名思义看勋章的属性
+
 原作者：轶致
+
 原贴：https://www.gamemale.com/forum.php?mod=viewthread&tid=129944&ctid=452
 
 上传只是为了方便维护和更新，不想天天发那个TXT附件了
