@@ -11,9 +11,6 @@
 // @icon        https://www.gamemale.com/template/mwt2/extend/img/favicon.ico
 // ==/UserScript==
 
-// https://github.com/SaltFish-X/GM-Script/raw/refs/heads/main/%E2%98%86GM%E8%AE%BA%E5%9D%9B%E5%8B%8B%E7%AB%A0%E7%99%BE%E5%AE%9D%E7%AE%B1.user.js
-// https://github.com/SaltFish-X/GM-Script/raw/main/%E2%98%86GM%E8%AE%BA%E5%9D%9B%E5%8B%8B%E7%AB%A0%E7%99%BE%E5%AE%9D%E7%AE%B1.user.js
-
 // 脚本更新地址
 // https://greasyfork.org/zh-CN/scripts/508971/versions/new
 // 下载地址
