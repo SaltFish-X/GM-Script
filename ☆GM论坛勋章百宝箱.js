@@ -692,6 +692,7 @@
         .custom-button {
             padding: 5px 10px;
             margin: 5px;
+            margin-left: 0px;
             background-color: #007BFF;        /* 按钮背景颜色 */
             color: white;                      /* 字体颜色 */
             border: none;                      /* 去掉默认边框 */
