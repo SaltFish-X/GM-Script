@@ -24,6 +24,7 @@
 // TODO 一键切换天赋
 // TODO 一键把不喜欢的勋章塞最后
 // TODO 一键把自己想要展示的勋章塞最前面
+// TODO 统计临时效果（有效期）
 
 (function () {
     'use strict';
