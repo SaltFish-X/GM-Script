@@ -689,6 +689,14 @@
             margin: 5px 0;
         }
 
+        .badge-order {
+            margin: 5px 0;
+        }
+
+        .badge-order p {
+            margin: 0;
+        }
+
         .custom-button {
             padding: 5px 10px;
             margin: 5px;
@@ -1325,12 +1333,12 @@
         if (badgeOrderElement) {
             const element =
                 [
-                    '<H3>所有勋章收益</H3>' + huiAll, faAll, '',
-                    '<H3>常驻勋章收益</H3>' + huiPermanent, faPermanent, '',
-                    '<H3>临时勋章收益</H3>' + huiTemporary, faTemporary, '',
-                    coin, '', txt
+                    '<H3>所有勋章收益</H3>', huiAll, faAll, '<br>',
+                    '<H3>常驻勋章收益</H3>', huiPermanent, faPermanent, '<br>',
+                    '<H3>临时勋章收益</H3>', huiTemporary, faTemporary, '<br>',
+                    coin, '<br>', txt
                 ]
-            badgeOrderElement.innerHTML = "<p>" + element.join('<br>') + "</p>";
+            badgeOrderElement.innerHTML = element.join('<p>');
         }
 
         showValid()
@@ -1339,7 +1347,7 @@
         function getExpectation(regex, title, isTemporary) {
             const result = qiwang(regex, isTemporary)
             for (let key in result) {
-                title += key + ":" + result[key] + "&nbsp;&nbsp;"
+                title += key + ":" + result[key] + "  "
             }
 
             return title
