@@ -24,8 +24,7 @@
 // TODO 一键切换天赋
 // TODO 一键把不喜欢的勋章塞最后
 // TODO 一键把自己想要展示的勋章塞最前面
-// TODO 统计临时效果（有效期）
-// TODO 直接把勋章输出导出到日志记录(可能不太行)
+// DONE 分类统计勋章收益【所有、常驻、临时】
 
 (function () {
     'use strict';
@@ -690,6 +689,14 @@
             margin: 5px 0;
         }
 
+        .badge-order {
+            margin: 5px 0;
+        }
+
+        .badge-order p {
+            margin: 0;
+        }
+
         .custom-button {
             padding: 5px 10px;
             margin: 5px;
@@ -1237,9 +1244,21 @@
             txt += key + " : (" + (result[key].split(",").length - 1) + ") " + result[key].slice(0, -1) + "<br>"
         }
 
-        function qiwang(pattern) {
+        /**
+         *  计算勋章收益
+         *  @type ALL 计算所有 Temporary 计算临时 Permanent 计算永久
+         */
+        function qiwang(pattern, type) {
             let myblok = document.getElementsByClassName("myblok")
             let result = { "金币": 0, "血液": 0, "咒术": 0, "知识": 0, "旅程": 0, "堕落": 0, "灵魂": 0 };
+
+            // 仅计算临时勋章收益
+            if (type === 'Temporary') {
+                myblok = [...myblok].filter(e => ~e.textContent.indexOf('有效期'))
+            } else if (type === 'Permanent') {
+                myblok = [...myblok].filter(e => !~e.textContent.indexOf('有效期'))
+            }
+
             for (let blok of myblok) {
                 if (blok.innerText.indexOf("已寄售") > 0) {
                     continue
@@ -1291,28 +1310,48 @@
             }
         }
 
+        // 计算勋章总期望
         let huiPattern = /回帖\s+(.+?) ([+-])(\d+)/gi
-        let huiResult = qiwang(huiPattern)
-        let hui = "回帖期望 "
-        for (let key in huiResult) {
-            hui += key + ":" + huiResult[key] + "&nbsp;&nbsp;"
-        }
-
         let faPattern = /发帖\s+(.+?) ([+-])(\d+)/gi
-        let faResult = qiwang(faPattern)
+
+        let hui = "回帖期望 "
         let fa = "发帖期望 "
-        for (let key in faResult) {
-            fa += key + ":" + faResult[key] + "&nbsp;&nbsp;"
-        }
+        const huiAll = getExpectation(huiPattern, hui, 'ALL')
+        const faAll = getExpectation(faPattern, fa, 'ALL')
+
+        // 计算永久勋章收益
+        const huiPermanent = getExpectation(huiPattern, hui, 'Permanent')
+        const faPermanent = getExpectation(faPattern, fa, 'Permanent')
+
+        // 计算临时勋章的收益
+        const huiTemporary = getExpectation(huiPattern, hui, 'Temporary')
+        const faTemporary = getExpectation(faPattern, fa, 'Temporary')
 
         let coin = "寄售最大价格总和：" + getCoin()
 
         var badgeOrderElement = document.querySelector(".badge-order");
         if (badgeOrderElement) {
-            badgeOrderElement.innerHTML = "<p>" + hui + "<br>" + fa + "<br>" + coin + "<br><br>" + txt + "</p>";
+            const element =
+                [
+                    '<H3>所有勋章收益</H3>', huiAll, faAll, '<br>',
+                    '<H3>常驻勋章收益</H3>', huiPermanent, faPermanent, '<br>',
+                    '<H3>临时勋章收益</H3>', huiTemporary, faTemporary, '<br>',
+                    coin, '<br>', txt
+                ]
+            badgeOrderElement.innerHTML = element.join('<p>');
         }
 
         showValid()
+
+        // 计算期望
+        function getExpectation(regex, title, isTemporary) {
+            const result = qiwang(regex, isTemporary)
+            for (let key in result) {
+                title += key + ":" + result[key] + "  "
+            }
+
+            return title
+        }
     }
 
     // 临时方案，给真人男从全部加个'.'
