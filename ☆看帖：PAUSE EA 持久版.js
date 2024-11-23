@@ -910,12 +910,11 @@
         return tableHTML;
     }
 
-    // 把更新灵魂期望放在勋章百宝箱里
-    // GM_registerMenuCommand('更新灵魂期望', () => {
-    //     getLinghun().then(res => {
-    //         alert('灵魂期望更新成功')
-    //     })
-    // })
+    GM_registerMenuCommand('更新灵魂期望', () => {
+        getLinghun().then(res => {
+            alert('灵魂期望更新成功')
+        })
+    })
 
     // 计算灵魂
     function getLinghun() {
