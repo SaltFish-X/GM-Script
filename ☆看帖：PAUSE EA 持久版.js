@@ -16,6 +16,7 @@
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=gamemale.com
 // ==/UserScript==
 
+// TODO 重构一下表格生成
 (function () {
     'use strict';
     /////////////////////////快速设置////////////////////////////////
