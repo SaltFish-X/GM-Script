@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.3.1
+// @version      2.3.2
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @grant        GM_addStyle
@@ -652,7 +652,8 @@
     badgeOrder()
 
     // 存储灵魂期望给其他的用
-    setlocalStoragelinghun()
+    // 暂时用不上先注释了
+    // setlocalStoragelinghun()
     /* =============================================================================================================== */
 
     // 创建一个新的div元素用于管理徽章
