@@ -156,6 +156,9 @@
     function extractAndSave(divElement, area) {
         let curTime = new Date();
 
+        // 获取灵魂期望
+        const linghunExpectations = JSON.parse(localStorage.getItem('灵魂期望'));
+
         const result = {
             creditType: '',
             badgeActivated: '否',
@@ -168,7 +171,8 @@
             zhiShi: 0,
             lingHun: 0,
             duoLuo: 0,
-            acquiredAt: curTime
+            acquiredAt: curTime,
+            linghunExpectations
         };
 
         const keyMap = {
@@ -266,7 +270,7 @@
         var tableHTML = '';
 
         // 构建表格的HTML字符串
-        tableHTML += '<table border="1"><thead><tr><th>行号</th><th>奖励类型</th><th>是否触发</th><th>分区</th><th>旅程</th><th>金币</th><th>血液</th><th>咒术</th><th>知识</th><th>灵魂</th><th>堕落</th><th>时间</th></tr></thead><tbody>';
+        tableHTML += '<table border="1"><thead><tr><th>行号</th><th>奖励类型</th><th>是否触发</th><th>分区</th><th>旅程</th><th>金币</th><th>血液</th><th>咒术</th><th>知识</th><th>灵魂</th><th>堕落</th><th>时间</th><th>灵魂期望</th></tr></thead><tbody>';
 
         //创建行号
         var rowNumber = 1;
@@ -310,7 +314,9 @@
                         <td>${item.zhiShi}</td>
                         <td>${item.lingHun}</td>
                         <td>${item.duoLuo}</td>
-                        <td>${formattedDateTime}</td></tr>`;
+                        <td>${formattedDateTime}</td>
+                        <td>${linghunExpectationsFormat(item.linghunExpectations)}</td>
+                        </tr>`;
 
                 tempLvCheng += item.lvCheng;
                 temmpJinBi += item.jinBi;
@@ -866,7 +872,7 @@
 
     // 计算分区回帖数
     function getAreaNum(historyArray) {
-        let result = { 'C G A I': 0, '生活爆照': 0, '和谐动漫': 0, '汉化游戏': 0,'和谐游戏': 0,}
+        let result = { 'C G A I': 0, '生活爆照': 0, '和谐动漫': 0, '汉化游戏': 0, '和谐游戏': 0, }
         historyArray.forEach(e => {
             if (e.area) {
                 if (!result[e.area]) {
@@ -879,7 +885,7 @@
         })
         return result
     }
-
+    // 生产计算分区回帖数表格
     function generateAreaTable(data) {
         let tableHTML = '<table>';
 
@@ -902,5 +908,69 @@
         tableHTML += '</table>';
 
         return tableHTML;
+    }
+
+    // 计算灵魂
+    function getLinghun() {
+        return fetch('https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my')
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const xunzhang = doc.querySelectorAll('.my_fenlei .myblok');
+
+                const result = {};
+
+                xunzhang.forEach(element => {
+                    const linghun = [...element.querySelectorAll('.jiage.shuxing')].find(p => p.textContent.includes('灵魂'));
+                    const triggerProbability = [...element.querySelectorAll('.jiage')].find(p => p.textContent.includes('触发几率'));
+
+                    if (linghun && triggerProbability) {
+                        const probabilityMatch = triggerProbability.textContent.match(/触发几率 (\d+)%/);
+                        if (probabilityMatch) {
+                            const probability = parseFloat(probabilityMatch[1]) / 100; // 转换为小数
+                            const countMatch = linghun.textContent.match(/发帖\s*[\u00A0]*灵魂\s*\+\s*(\d+)/);
+                            const count = countMatch ? parseInt(countMatch[1], 10) : 0;
+
+                            // 记录结果
+                            if (result[probability]) {
+                                result[probability] += count; // 如果已经存在，累加数量
+                            } else {
+                                result[probability] = count; // 否则初始化数量
+                            }
+                        }
+                    }
+                });
+
+                console.log(result); // 输出结果对象
+                localStorage.setItem('灵魂期望', JSON.stringify(result))
+                return result
+            })
+            .catch(error => {
+                console.error('发生错误:', error);
+            });
+
+    }
+
+    GM_registerMenuCommand('更新灵魂期望', () => {
+        getLinghun().then(res => {
+            alert('灵魂期望更新成功')
+        })
+    })
+
+    function linghunExpectationsFormat(result) {
+        if (!result) return '暂无数据'
+
+        let total = 0;
+        Object.entries(result).forEach(([key, value]) => {
+            total += parseFloat(key) * value;
+        });
+
+        const outputParts = Object.entries(result).map(([key, value]) => {
+            return `${key}(${value})`;
+        });
+        const outputString = `${total.toFixed(2)} = ${outputParts.join(' + ')}`;
+
+        return outputString
     }
 })();
