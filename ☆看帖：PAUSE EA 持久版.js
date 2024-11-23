@@ -910,6 +910,13 @@
         return tableHTML;
     }
 
+    // 把更新灵魂期望放在勋章百宝箱里
+    // GM_registerMenuCommand('更新灵魂期望', () => {
+    //     getLinghun().then(res => {
+    //         alert('灵魂期望更新成功')
+    //     })
+    // })
+
     // 计算灵魂
     function getLinghun() {
         return fetch('https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my')
@@ -951,12 +958,6 @@
             });
 
     }
-
-    GM_registerMenuCommand('更新灵魂期望', () => {
-        getLinghun().then(res => {
-            alert('灵魂期望更新成功')
-        })
-    })
 
     function linghunExpectationsFormat(result) {
         if (!result) return '暂无数据'
