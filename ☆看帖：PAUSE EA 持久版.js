@@ -4,21 +4,15 @@
 // @version      0.7.0
 // @description  勋章触发奖励时停+发帖回帖奖励账本查询！
 // @author       瓦尼
-// @match        https://www.gamemale.com/forum.php?*
-// @match        https://www.gamemale.com/thread*
+// @match        https://www.gamemale.com/*
 // @match        https://www.gamemale.com/forum.php
-// @match        https://www.gamemale.com/
-// @match        https://www.gamemale.com/?fromuid=662711
-// @match        https://www.gamemale.com/space-uid-733330.html
-// @match        https://www.gamemale.com/home.php?mod=space&do=thread&view=me&type=reply&uid=733330&from=space
-// @match        https://www.gamemale.com/home.php?mod=space&uid=733330&do=thread&view=me&type=reply&order=dateline&from=space&page=*
 // @grant        GM_registerMenuCommand
 // @icon         https://www.gamemale.com/template/mwt2/extend/img/favicon.ico
 // ==/UserScript==
 
 // 下载地址 https://greasyfork.org/zh-CN/scripts/517953-%E7%9C%8B%E5%B8%96-pause-ea-%E6%8C%81%E4%B9%85%E7%89%88
 /**
- * 基于瓦尼开发的 勋章触发记录他来了-本地发回帖账本PAUSE（EA版）https://www.gamemale.com/thread-136471-1-1.html
+ * 基于瓦尼开发的 勋章触发记录他来了-本地发回帖账本PAUSE https://www.gamemale.com/thread-136471-1-1.html
  * 基于星之子修改的 勋章触发记录 PAUSE(EA) 账本界面皮肤 https://www.gamemale.com/thread-145044-1-1.html
  * 新增回帖分区统计，避免超出回帖上限
  * 新增【开启提示框暂停】，0为关闭，1为开启
