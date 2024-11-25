@@ -16,6 +16,7 @@
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=gamemale.com
 // ==/UserScript==
 
+// 下载地址 https://greasyfork.org/zh-CN/scripts/517953-%E7%9C%8B%E5%B8%96-pause-ea-%E6%8C%81%E4%B9%85%E7%89%88
 // TODO 重构一下表格生成
 (function () {
     'use strict';
