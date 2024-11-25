@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.3.0
+// @version      2.3.2
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @grant        GM_addStyle
@@ -651,6 +651,9 @@
     // 别人的勋章分类展示和回帖期望计算
     badgeOrder()
 
+    // 存储灵魂期望给其他的用
+    // 暂时用不上先注释了
+    // setlocalStoragelinghun()
     /* =============================================================================================================== */
 
     // 创建一个新的div元素用于管理徽章
@@ -1360,5 +1363,36 @@
         const zhenren = categories.zhenren
         const zhenrenTemporary = zhenren.map(e => e + '.')
         categories.zhenren = zhenren.concat(zhenrenTemporary)
+    }
+
+    function setlocalStoragelinghun() {
+        const xunzhang = document.querySelectorAll('.my_fenlei .myblok');
+        if(!xunzhang) return
+
+        const result = {};
+
+        xunzhang.forEach(element => {
+            const linghun = [...element.querySelectorAll('.jiage.shuxing')].find(p => p.textContent.includes('灵魂'));
+            const triggerProbability = [...element.querySelectorAll('.jiage')].find(p => p.textContent.includes('触发几率'));
+
+            if (linghun && triggerProbability) {
+                const probabilityMatch = triggerProbability.textContent.match(/触发几率 (\d+)%/);
+                if (probabilityMatch) {
+                    const probability = parseFloat(probabilityMatch[1]) / 100; // 转换为小数
+                    const countMatch = linghun.textContent.match(/发帖\s*[\u00A0]*灵魂\s*\+\s*(\d+)/);
+                    const count = countMatch ? parseInt(countMatch[1], 10) : 0;
+
+                    // 记录结果
+                    if (result[probability]) {
+                        result[probability] += count; // 如果已经存在，累加数量
+                    } else {
+                        result[probability] = count; // 否则初始化数量
+                    }
+                }
+            }
+        });
+
+        console.log(result); // 输出结果对象
+        localStorage.setItem('灵魂期望', JSON.stringify(result))
     }
 })();
