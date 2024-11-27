@@ -8,6 +8,7 @@
 // @match        https://www.gamemale.com/forum.php
 // @grant        GM_registerMenuCommand
 // @icon         https://www.gamemale.com/template/mwt2/extend/img/favicon.ico
+// @license      GPL
 // ==/UserScript==
 
 // 下载地址 https://greasyfork.org/zh-CN/scripts/517953-%E7%9C%8B%E5%B8%96-pause-ea-%E6%8C%81%E4%B9%85%E7%89%88
