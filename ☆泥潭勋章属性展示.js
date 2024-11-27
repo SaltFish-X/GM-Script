@@ -12,10 +12,10 @@
 // @grant        GM_getValue
 // @grant        GM_setValue
 // @grant        GM_registerMenuCommand
-// @license GPL
-// @downloadURL https://update.greasyfork.org/scripts/516559/%E5%8B%8B%E7%AB%A0%E6%94%BE%E5%A4%A7%E9%95%9C.user.js
-// @updateURL   https://update.greasyfork.org/scripts/516559/%E5%8B%8B%E7%AB%A0%E6%94%BE%E5%A4%A7%E9%95%9C.meta.js
-// @icon        https://www.gamemale.com/template/mwt2/extend/img/favicon.ico
+// @license      GPL
+// @downloadURL  https://update.greasyfork.org/scripts/516559/%E5%8B%8B%E7%AB%A0%E6%94%BE%E5%A4%A7%E9%95%9C.user.js
+// @updateURL    https://update.greasyfork.org/scripts/516559/%E5%8B%8B%E7%AB%A0%E6%94%BE%E5%A4%A7%E9%95%9C.meta.js
+// @icon         https://www.gamemale.com/template/mwt2/extend/img/favicon.ico
 // ==/UserScript==
 
 // 捆绑销售 博物馆传送门 https://www.gamemale.com/thread-144398-1-1.html
