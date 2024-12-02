@@ -23,7 +23,7 @@
 // TODO 一键仅保留自己喜欢的勋章的显示
 // TODO 一键切换天赋
 // TODO 一键把不喜欢的勋章塞最后
-// TODO 勋章置顶功能
+// DONE 勋章置顶功能
 // DONE 分类统计勋章收益【所有、常驻、临时】
 // TODO 勋章过期提示
 
@@ -648,16 +648,16 @@
     // 单个勋章一键续期
     oneClickRenew()
 
-    // 一键给所有可续期的咒术勋章续期
-    createLink('一键续期所有咒术勋章', oneClickAllSpell)
+    // 给所有可续期的咒术勋章续期
+    createLink('续期所有咒术勋章', oneClickAllSpell)
 
-    // 一键关闭赠礼/咒术类勋章显示
-    createLink('一键关闭赠礼/咒术类勋章显示', oneClickDisplay)
+    // 关闭赠礼/咒术类勋章显示
+    createLink('关闭赠礼/咒术类勋章显示', oneClickDisplay)
 
     if (是否自动开启茉香啤酒) { 自动开启茉香啤酒() }
 
-    //保存展示勋章/置顶展示勋章
-    createLink('保存展示勋章', saveTopMedal)
+    // 记录展示勋章/置顶展示勋章
+    createLink('记录展示勋章', saveTopMedal)
     createLink('置顶展示勋章', loadTopMedal)
     showTopMedal()
     observeElement()
@@ -926,7 +926,6 @@
             // alert("排序后的结果:\n" + sortedArray.join(', '));
         }
     }
-
 
     // 保存勋章顺序
     function saveArrayToLocalStorage(key, array) {
@@ -1437,10 +1436,22 @@
     // 展示勋章
     function showTopMedal() {
         function calculateMedals(level) {
-            const medals = [0, 6, 6, 6, 7, 7, 8, 8, 9, 9, 10];
-            return level >= 1 ? medals[Math.min(level, 10)] : 0;
+            const medals = [1, 6, 6, 6, 7, 7, 8, 8, 9, 9, 10];
+            return level >= 1 ? medals[Math.min(level, 10)] : 1;
         }
-        const showNum = 9
+
+        function getLevel(jifen) {
+            const levelThresholds = [3, 10, 35, 70, 120, 200, 300, 450, 650, 900];
+            for (let i = levelThresholds.length - 1; i >= 0; i--) {
+                if (jifen >= levelThresholds[i]) return i + 1; // 返回对应等级
+            }
+            return 0; // 积分小于最低等级返回 0
+        }
+        const jifen = document.querySelector("#extcreditmenu + span").textContent
+        const level = getLevel(Number(jifen))
+        const showNum = calculateMedals(level)
+
+
         const myblok = document.getElementsByClassName("myblok");
         function filterDiv(div, index) {
             const input = div.querySelector('input')
@@ -1491,15 +1502,16 @@
 
     // 保存展示勋章
     function saveTopMedal() {
-        const div = document.querySelectorAll('.TopMedal-container')
+        const div = document.querySelectorAll('.TopMedal-container img')
         const divName = [...div].map(e => e.getAttribute('alt'))
         saveArrayToLocalStorage('TopMedal', divName)
+        alert('保存展示勋章成功')
     }
 
     // 置顶展示勋章
     function loadTopMedal() {
-        const TopMedalName = getArrayFromLocalStorage('TopMedalName')
-        const TopMedalKey = NameToKey(TopMedalName)
+        const TopMedal = getArrayFromLocalStorage('TopMedal')
+        const TopMedalKey = NameToKey(TopMedal)
 
         const myblok = document.getElementsByClassName("myblok");
         const keyBlok = [...myblok].map(e => e.getAttribute('key'))
@@ -1582,7 +1594,4 @@
 
         return result;
     }
-
-
-
 })();
