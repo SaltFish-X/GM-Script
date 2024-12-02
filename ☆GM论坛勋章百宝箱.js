@@ -1500,12 +1500,12 @@
         });
     }
 
-    // 保存展示勋章
+    // 记录展示勋章成功
     function saveTopMedal() {
         const div = document.querySelectorAll('.TopMedal-container img')
         const divName = [...div].map(e => e.getAttribute('alt'))
         saveArrayToLocalStorage('TopMedal', divName)
-        alert('保存展示勋章成功')
+        alert('记录展示勋章成功')
     }
 
     // 置顶展示勋章
