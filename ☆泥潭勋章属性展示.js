@@ -24,6 +24,7 @@
 // 脚本更新地址 https://greasyfork.org/zh-CN/scripts/516559/versions/new
 // 脚本下载地址 https://greasyfork.org/zh-CN/scripts/516559-%E5%8B%8B%E7%AB%A0%E6%94%BE%E5%A4%A7%E9%95%9C
 
+// TODO 有些等级太tm长了
 (function () {
     'use strict';
     // 0为原版【上下显示】 1为新版【左右显示】
