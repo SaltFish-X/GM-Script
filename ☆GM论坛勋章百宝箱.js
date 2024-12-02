@@ -23,7 +23,7 @@
 // TODO 一键仅保留自己喜欢的勋章的显示
 // TODO 一键切换天赋
 // TODO 一键把不喜欢的勋章塞最后
-// TODO 一键把自己想要展示的勋章塞最前面
+// TODO 勋章置顶功能
 // DONE 分类统计勋章收益【所有、常驻、临时】
 // TODO 勋章过期提示
 
@@ -655,9 +655,12 @@
     createLink('一键关闭赠礼/咒术类勋章显示', oneClickDisplay)
 
     if (是否自动开启茉香啤酒) { 自动开启茉香啤酒() }
-    // 存储灵魂期望给其他的用
-    // 暂时用不上先注释了
-    // setlocalStoragelinghun()
+
+    //保存展示勋章/置顶展示勋章
+    createLink('保存展示勋章', saveTopMedal)
+    createLink('置顶展示勋章', loadTopMedal)
+    showTopMedal()
+    observeElement()
     /* =============================================================================================================== */
 
     // 创建一个新的div元素用于管理徽章
@@ -794,8 +797,17 @@
             font-family: 'Noto Sans SC', 'Microsoft Yahei', Arial, sans-serif;
         }
     `;
-
+        const TopMedalContainer = `
+        .appl .TopMedal-container img {
+            margin: 4px 2px 0 0;
+        }
+        .TopMedal-container {
+            width: 130px;
+            position: fixed;
+        }
+        `
         GM_addStyle(customStyles)
+        GM_addStyle(TopMedalContainer)
     }
 
     // 添加功能按钮
@@ -908,8 +920,7 @@
             const order2 = [].concat(...order1);
             const result = order2.map(key => mergedDict[key]).filter(value => value !== undefined);
 
-            postOrder(result)
-
+            postNewOrder(result)
 
             // 输出排序后的结果
             // alert("排序后的结果:\n" + sortedArray.join(', '));
@@ -939,7 +950,7 @@
         const divs = document.querySelectorAll(`div.myblok`);
 
         // 提取每个div的key属性并返回数组
-        // key 已经过时了，该返回div的name了
+        // 不能存key，得存name
         const keys = Array.from(divs).map(div => div.querySelector('img').alt);
 
         return keys;
@@ -952,8 +963,15 @@
         alert('保存成功')
     }
 
+    // 把存储的name转化成key并输出
     function loadKeysOrder() {
-        const keys = getArrayFromLocalStorage('keyOrder')
+        const name = getArrayFromLocalStorage('keyOrder')
+        const orderKey = NameToKey(name)
+        postNewOrder(orderKey)
+    }
+
+    // 把存储的Name转化为Key
+    function NameToKey(keys) {
         const divs = document.querySelectorAll(`div.myblok`);
         const array = Array.from(divs).map(div => {
             return {
@@ -962,7 +980,7 @@
             }
         });
 
-        // 按照name排序
+        // 按照 name排序
         // 创建 name 到 key 的索引映射
         const indexMap = {};
         keys.forEach((value, index) => {
@@ -974,11 +992,11 @@
             return (indexMap[a.name] || Infinity) - (indexMap[b.name] || Infinity);
         });
         const orderKey = array.map(e => e.key)
-        // 把Keys里面的name转换成对应的key
-        postOrder(orderKey)
+        return orderKey
     }
 
-    function postOrder(newOrder) {
+    // 输出新的排序
+    function postNewOrder(newOrder) {
         const url = 'https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang'
         // 创建FormData对象
         const formData = new FormData();
@@ -1416,6 +1434,81 @@
 
     }
 
+    // 展示勋章
+    function showTopMedal() {
+        function calculateMedals(level) {
+            const medals = [0, 6, 6, 6, 7, 7, 8, 8, 9, 9, 10];
+            return level >= 1 ? medals[Math.min(level, 10)] : 0;
+        }
+        const showNum = 9
+        const myblok = document.getElementsByClassName("myblok");
+        function filterDiv(div, index) {
+            const input = div.querySelector('input')
+            return input && input.checked
+        }
+        const showDiv = [...myblok].filter(filterDiv).slice(0, showNum).map(e => {
+            const img = e.querySelector('img')
+            img.setAttribute('key', e.getAttribute('key'))
+            return img
+        })
+
+        const container = document.createElement('div');
+        container.classList.add('TopMedal-container');
+
+        showDiv.forEach(img => {
+            if (img) {
+                container.appendChild(img.cloneNode());
+            }
+        });
+
+        const targetElement = document.querySelector('.appl');
+        const existingContainer = document.querySelector('.appl .TopMedal-container');
+
+        if (!existingContainer) {
+            targetElement.appendChild(container);
+        } else {
+            targetElement.replaceChild(container, existingContainer);
+        }
+    }
+
+    function observeElement() {
+        const observer = new MutationObserver(showTopMedal);
+        const myElement = document.querySelector("#medalid_f > div.my_fenlei > div.myfldiv.clearfix.ui-sortable")
+
+        const config = {
+            childList: true, // 观察直接子节点的变化
+        };
+
+        observer.observe(myElement, config);
+
+        myElement.addEventListener('change', event => {
+            if (event.target.tagName === 'INPUT' && event.target.type === 'checkbox') {
+                showTopMedal()
+                console.log(`Checkbox ${event.target.checked ? '选中' : '未选中'}: ${event.target.parentNode.innerText}`);
+            }
+        });
+    }
+
+    // 保存展示勋章
+    function saveTopMedal() {
+        const div = document.querySelectorAll('.TopMedal-container')
+        const divName = [...div].map(e => e.getAttribute('alt'))
+        saveArrayToLocalStorage('TopMedal', divName)
+    }
+
+    // 置顶展示勋章
+    function loadTopMedal() {
+        const TopMedalName = getArrayFromLocalStorage('TopMedalName')
+        const TopMedalKey = NameToKey(TopMedalName)
+
+        const myblok = document.getElementsByClassName("myblok");
+        const keyBlok = [...myblok].map(e => e.getAttribute('key'))
+        const array = mergeArrays(TopMedalKey, keyBlok)
+        postNewOrder(array)
+    }
+
+    /* =========================================工具函数区域============================================================ */
+
     /**
      * 将普通对象转换为 FormData 对象
      * @param {Object} obj - 要转换的对象
@@ -1451,17 +1544,45 @@
             const key = div.getAttribute('key')
             const categories = div.getAttribute('categories')
             const lv = getLv(div)
+            const checked = div.querySelector('input').checked
 
-            return { div, name, key, categories, lv }
+            return { div, name, key, categories, lv, checked }
         }
 
         function getLv(div) {
             const textContent = div.querySelector('.mingcheng').textContent
             const match = textContent.match(/等级\s+(\w+)/);
             if (match && match[1]) {
-                return match[1]; 
+                return match[1];
             }
         }
     }
+
+    /**
+     * 合并两个数组，重复项只保留第一次出现的元素。
+     * @param {Array} arr1 - 第一个待合并的数组。
+     * @param {Array} arr2 - 第二个待合并的数组。
+     * @returns {Array} - 合并后的数组，包含唯一元素。
+     */
+    function mergeArrays(arr1, arr2) {
+        const seen = new Set();
+        const result = [];
+
+        function addUniqueElements(arr) {
+            for (const item of arr) {
+                if (!seen.has(item)) {
+                    seen.add(item);
+                    result.push(item);
+                }
+            }
+        }
+
+        addUniqueElements(arr1);
+        addUniqueElements(arr2);
+
+        return result;
+    }
+
+
 
 })();
