@@ -654,10 +654,7 @@
     // 一键关闭赠礼/咒术类勋章显示
     createLink('一键关闭赠礼/咒术类勋章显示', oneClickDisplay)
 
-    if (是否自动开启茉香啤酒) { 自动开启茉香啤酒() }
-    // 存储灵魂期望给其他的用
-    // 暂时用不上先注释了
-    // setlocalStoragelinghun()
+    // if (是否自动开启茉香啤酒) { 自动开启茉香啤酒() }
     /* =============================================================================================================== */
 
     // 创建一个新的div元素用于管理徽章
@@ -1396,24 +1393,23 @@
 
     // 自动开启茉香啤酒
     function 自动开启茉香啤酒() {
-        const userMedalid = findMedal('茉香啤酒').key
-        if (!userMedalid) return
+        const { key, lv } = findMedal('茉香啤酒')
+        if (key && lv === '1') {
+            const data = {
+                formhash,
+                action: 'UPLV',
+                jishoujiage: '',
+                userMedalid: key
+            };
 
-        const data = {
-            formhash,
-            action: 'UPLV',
-            jishoujiage: '',
-            userMedalid
-        };
+            const formData = objectToFormData(data);
+            const url = 'https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang';
 
-        const formData = objectToFormData(data);
-        const url = 'https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang';
-
-        fetch(url, {
-            method: 'POST',
-            body: formData,
-        })
-
+            fetch(url, {
+                method: 'POST',
+                body: formData,
+            })
+        }
     }
 
     /**
@@ -1459,7 +1455,7 @@
             const textContent = div.querySelector('.mingcheng').textContent
             const match = textContent.match(/等级\s+(\w+)/);
             if (match && match[1]) {
-                return match[1]; 
+                return match[1];
             }
         }
     }
