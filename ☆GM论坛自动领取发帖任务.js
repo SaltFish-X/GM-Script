@@ -104,4 +104,8 @@
         console.error('发生错误：', error);
       })
   }
+
+  // 月任务奖励
+  // 主题奖励
+  // https://www.gamemale.com/plugin.php?id=reply_reward&code=4&type_7ree=1
 })()
