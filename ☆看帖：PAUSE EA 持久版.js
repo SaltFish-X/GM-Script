@@ -76,8 +76,10 @@
         }
 
         // 获取分区元素
-        const ele = document.querySelector("#pt > div").textContent.split('›').map(item => item.trim())
-        const area = ele.slice(-2, -1)[0]
+        const area = (() => {
+            const ele = document.querySelector("#pt > div");
+            return ele ? ele.textContent.split('›').map(item => item.trim()).slice(-2, -1)[0] : undefined;
+        })();        
 
         // 保存内容
         extractAndSave(creditElement, area);
