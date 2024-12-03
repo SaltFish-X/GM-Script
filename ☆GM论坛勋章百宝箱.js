@@ -1,14 +1,14 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.3.2
+// @version      2.3.3
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @grant        GM_addStyle
-// @license GPL
-// @downloadURL https://update.greasyfork.org/scripts/508971/GM%E8%AE%BA%E5%9D%9B%E5%8B%8B%E7%AB%A0%E7%99%BE%E5%AE%9D%E7%AE%B1.user.js
-// @updateURL   https://update.greasyfork.org/scripts/508971/GM%E8%AE%BA%E5%9D%9B%E5%8B%8B%E7%AB%A0%E7%99%BE%E5%AE%9D%E7%AE%B1.meta.js
-// @icon        https://www.gamemale.com/template/mwt2/extend/img/favicon.ico
+// @license      GPL
+// @downloadURL  https://update.greasyfork.org/scripts/508971/GM%E8%AE%BA%E5%9D%9B%E5%8B%8B%E7%AB%A0%E7%99%BE%E5%AE%9D%E7%AE%B1.user.js
+// @updateURL    https://update.greasyfork.org/scripts/508971/GM%E8%AE%BA%E5%9D%9B%E5%8B%8B%E7%AB%A0%E7%99%BE%E5%AE%9D%E7%AE%B1.meta.js
+// @icon         https://www.gamemale.com/template/mwt2/extend/img/favicon.ico
 // ==/UserScript==
 
 // 脚本更新地址
@@ -29,6 +29,8 @@
 
 (function () {
     'use strict';
+    const 是否自动开启茉香啤酒 = 0
+
     // 徽章按类型排序和顺序调整
     // 如果想改动默认顺序就改这里
     const orderList = ['储蓄', '游戏男从', '真人男从', '女从', '装备', '资产', '宠物', '板块', '天赋', '赠礼', '咒术', '剧情', '奖品', '其他']
@@ -37,6 +39,7 @@
         "宠物": "Pet", "板块": "Forum", "天赋": "Skill", "赠礼": "Gift", "咒术": "Spell", "剧情": "Plot",
         "其他": "other", "奖品": 'Prize', '储蓄': 'Deposit'
     }
+    const formhash = document.querySelector('input[name="formhash"]').value
 
     const categoriesData = {
         "youxi": [
@@ -213,7 +216,7 @@
             "丢肥皂",
             "千杯不醉",
             "灵光补脑剂",
-            "贞洁内裤",
+            "贞洁内裤", // 已下架
             "遗忘之水",
             "萨赫的蛋糕",
             "神秘商店贵宾卡",
@@ -221,7 +224,7 @@
             "没有梦想的咸鱼",
             "闪光糖果盒",
             "茉香啤酒",
-            "香蕉特饮",
+            "香蕉特饮", //某次活动限定
             "枕套幽灵", //2024年万圣节限定
 
         ],
@@ -628,6 +631,9 @@
     // 创建一个新的div元素用于管理徽章
     initbadgeManage()
 
+    // 别人的勋章分类展示和回帖期望计算
+    badgeOrder()
+
     // 默认关闭回收功能
     createLink('显示/隐藏回收按钮', setHuiShou)
     setHuiShou('init')
@@ -648,12 +654,7 @@
     // 一键关闭赠礼/咒术类勋章显示
     createLink('一键关闭赠礼/咒术类勋章显示', oneClickDisplay)
 
-    // 别人的勋章分类展示和回帖期望计算
-    badgeOrder()
-
-    // 存储灵魂期望给其他的用
-    // 暂时用不上先注释了
-    // setlocalStoragelinghun()
+    // if (是否自动开启茉香啤酒) { 自动开启茉香啤酒() }
     /* =============================================================================================================== */
 
     // 创建一个新的div元素用于管理徽章
@@ -1052,17 +1053,8 @@
     function postRenew(userMedalid) {
         if (!userMedalid) return
         const url = 'https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang'
-        // 创建FormData对象
-        const formData = new FormData();
-        const formhash = document.querySelector('input[name="formhash"]').value
         const data = { formhash, action: 'xuqi', jishoujiage: '', userMedalid }
-
-        // 将数据添加到formData
-        for (const key in data) {
-            if (data.hasOwnProperty(key)) {
-                formData.append(key, data[key]);
-            }
-        }
+        const formData = objectToFormData(data)
 
         return fetch(url, { method: 'POST', body: formData, })
     }
@@ -1234,12 +1226,14 @@
                     if (isTure(matchArray)) {
                         result[categories[key]] += match + ",";
                         found = true;
+                        blok.setAttribute('categories', key);
                         break;
                     }
                 }
 
                 if (!found) {
                     result["其他"] += match + ",";
+                    blok.setAttribute('categories', 'other');
                 }
             }
         }
@@ -1351,7 +1345,7 @@
         function getExpectation(regex, title, isTemporary) {
             const result = qiwang(regex, isTemporary)
             for (let key in result) {
-                title += key + ":" + result[key] + "  "
+                title += key + ":" + result[key].toFixed(2) + "  "
             }
 
             return title
@@ -1365,9 +1359,10 @@
         categories.zhenren = zhenren.concat(zhenrenTemporary)
     }
 
+    // 计算灵魂期望并存本地
     function setlocalStoragelinghun() {
         const xunzhang = document.querySelectorAll('.my_fenlei .myblok');
-        if(!xunzhang) return
+        if (!xunzhang) return
 
         const result = {};
 
@@ -1395,4 +1390,74 @@
         console.log(result); // 输出结果对象
         localStorage.setItem('灵魂期望', JSON.stringify(result))
     }
+
+    // 自动开启茉香啤酒
+    function 自动开启茉香啤酒() {
+        const { key, lv } = findMedal('茉香啤酒')
+        if (key && lv === '1') {
+            const data = {
+                formhash,
+                action: 'UPLV',
+                jishoujiage: '',
+                userMedalid: key
+            };
+
+            const formData = objectToFormData(data);
+            const url = 'https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang';
+
+            fetch(url, {
+                method: 'POST',
+                body: formData,
+            })
+        }
+    }
+
+    /**
+     * 将普通对象转换为 FormData 对象
+     * @param {Object} obj - 要转换的对象
+     * @returns {FormData} - 转换后的 FormData 对象
+     */
+    function objectToFormData(obj) {
+        const formData = new FormData();
+        for (const key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                formData.append(key, obj[key]);
+            }
+        }
+        return formData;
+    }
+
+    /**
+     * 查找包含指定名称的 "myblok" 元素，并返回相关信息。
+     *
+     * @param {string} name - 要查找的名称字符串。函数会在 "myblok" 类的元素中搜索该名称。
+     * @returns {Object|null} 如果找到对应的元素，返回一个对象，包括：
+     *   - {HTMLElement} div - 找到的包含名称的 HTML 元素。
+     *   - {string} name - 传入的名称参数。
+     *   - {string} key - 勋章的key
+     *   - {string} kind - 勋章的类型
+     *   如果未找到匹配的元素，则返回 null。
+     */
+    function findMedal(name) {
+        const myblok = document.getElementsByClassName("myblok");
+        const div = [...myblok].find(e => e.textContent.includes(name))
+
+        if (div) {
+            // const name = div.querySelector('img').alt
+            const key = div.getAttribute('key')
+            const categories = div.getAttribute('categories')
+            const lv = getLv(div)
+
+            return { div, name, key, categories, lv }
+        }
+
+        function getLv(div) {
+            const textContent = div.querySelector('.mingcheng').textContent
+            const match = textContent.match(/等级\s+(\w+)/);
+            if (match && match[1]) {
+                return match[1];
+            }
+        }
+    }
+
 })();
