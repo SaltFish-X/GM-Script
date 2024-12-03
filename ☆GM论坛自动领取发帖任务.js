@@ -106,6 +106,6 @@
   }
 
   // 月任务奖励
-  // 主题奖励
-  // https://www.gamemale.com/plugin.php?id=reply_reward&code=4&type_7ree=1
+  // 主题奖励 https://www.gamemale.com/plugin.php?id=reply_reward&code=4&type_7ree=1
+  // 回帖奖励 https://www.gamemale.com/plugin.php?id=reply_reward&code=4&type_7ree=2
 })()
