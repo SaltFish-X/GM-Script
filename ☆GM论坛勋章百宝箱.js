@@ -803,7 +803,11 @@
         }
         .TopMedal-container {
             width: 130px;
+        }
+
+        .TopMedal-container__Fixed {
             position: fixed;
+            top: 40px;
         }
         `
         GM_addStyle(customStyles)
@@ -1457,20 +1461,27 @@
             const input = div.querySelector('input')
             return input && input.checked
         }
-        const showDiv = [...myblok].filter(filterDiv).slice(0, showNum).map(e => {
-            const img = e.querySelector('img')
-            img.setAttribute('key', e.getAttribute('key'))
-            return img
-        })
 
         const container = document.createElement('div');
         container.classList.add('TopMedal-container');
 
-        showDiv.forEach(img => {
-            if (img) {
-                container.appendChild(img.cloneNode());
+        [...myblok]
+        .filter(filterDiv)
+        .slice(0, showNum)
+        .forEach(e => {
+            const newImg = document.createElement('img');
+            const src = e.querySelector('img').getAttribute('src');
+            newImg.setAttribute('src', src);
+    
+            if (e.querySelector('img').onmouseover) {
+                newImg.onmouseover = e.querySelector('img').onmouseover;
             }
+    
+            const key = e.getAttribute('key');
+            newImg.setAttribute('key', key);
+            container.appendChild(newImg);
         });
+    
 
         const targetElement = document.querySelector('.appl');
         const existingContainer = document.querySelector('.appl .TopMedal-container');
@@ -1480,6 +1491,16 @@
         } else {
             targetElement.replaceChild(container, existingContainer);
         }
+
+        TopMedalDomSticky()
+        window.removeEventListener('scroll', TopMedalDomSticky)
+        window.addEventListener('scroll', TopMedalDomSticky)
+    }
+
+    function TopMedalDomSticky() {
+        const TopMedalContainer = document.querySelector('.appl .TopMedal-container')
+        const tbnBottom = document.querySelector('.appl .tbn').getBoundingClientRect().bottom
+        TopMedalContainer.classList.toggle('TopMedal-container__Fixed', tbnBottom < 40)
     }
 
     function observeElement() {
