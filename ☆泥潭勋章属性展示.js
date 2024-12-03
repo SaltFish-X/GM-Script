@@ -82,6 +82,8 @@
         放大镜.style.zIndex = '10000';
         放大镜.style.fontWeight = 'bold';
         放大镜.style.color = '#000516';
+        放大镜.style['max-height'] = '600px';
+        放大镜.style['overflow-y'] = 'scroll';
         document.body.appendChild(放大镜);
         return 放大镜;
     }
@@ -270,7 +272,6 @@
     function 初始化放大镜() {
         document.querySelectorAll('.myimg img').forEach(function (img) {
             const alt = img.getAttribute('alt');
-            
             // 有的勋章是全角· 有的勋章是‧ 这里我们判断一下来保证匹配
             const alt1 = alt.replace(/·/g, '‧');
             const alt2 = alt.replace(/‧/g, '·');
@@ -311,7 +312,7 @@
     // Object.keys(放大镜内容映射表) 
     // 24.09.20 目前长度为448 男从165、女从23、装备52、资产66、宠物39、板块26、天赋12、故事10、剧情26、礼物13、咒术13 165+23+52+66+39+26+12+10+26+26=455
     // 不太可能纳入统计的 储蓄4 薪俸4 活动奖励79
-    var 放大镜内容映射表 = {
+var 放大镜内容映射表 = {
 '史莱姆蛋': `史莱姆蛋
 【入手条件】发帖数≥30
 【商店售价】220血液

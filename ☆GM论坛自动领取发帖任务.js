@@ -11,6 +11,9 @@
 // ==/UserScript==
 // 每周发帖任务的刷新时间实际为每周日00：00，并不是每周一
 
+// 下载地址
+// https://greasyfork.org/zh-CN/scripts/519502-gm%E8%AE%BA%E5%9D%9B%E8%87%AA%E5%8A%A8%E9%A2%86%E5%8F%96%E5%8F%91%E5%B8%96%E4%BB%BB%E5%8A%A1
+
 (function () {
   // 获取当前日期
   const currentDateString = getDate()
@@ -101,4 +104,8 @@
         console.error('发生错误：', error);
       })
   }
+
+  // 月任务奖励
+  // 主题奖励
+  // https://www.gamemale.com/plugin.php?id=reply_reward&code=4&type_7ree=1
 })()
