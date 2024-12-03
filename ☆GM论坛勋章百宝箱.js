@@ -654,7 +654,7 @@
     // 关闭赠礼/咒术类勋章显示
     createLink('关闭赠礼/咒术类勋章显示', oneClickDisplay)
 
-    if (是否自动开启茉香啤酒) { 自动开启茉香啤酒() }
+    // if (是否自动开启茉香啤酒) { 自动开启茉香啤酒() }
 
     // 记录展示勋章/置顶展示勋章
     createLink('记录展示勋章', saveTopMedal)
@@ -1417,24 +1417,23 @@
 
     // 自动开启茉香啤酒
     function 自动开启茉香啤酒() {
-        const userMedalid = findMedal('茉香啤酒').key
-        if (!userMedalid) return
+        const { key, lv } = findMedal('茉香啤酒')
+        if (key && lv === '1') {
+            const data = {
+                formhash,
+                action: 'UPLV',
+                jishoujiage: '',
+                userMedalid: key
+            };
 
-        const data = {
-            formhash,
-            action: 'UPLV',
-            jishoujiage: '',
-            userMedalid
-        };
+            const formData = objectToFormData(data);
+            const url = 'https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang';
 
-        const formData = objectToFormData(data);
-        const url = 'https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang';
-
-        fetch(url, {
-            method: 'POST',
-            body: formData,
-        })
-
+            fetch(url, {
+                method: 'POST',
+                body: formData,
+            })
+        }
     }
 
     // 展示勋章
