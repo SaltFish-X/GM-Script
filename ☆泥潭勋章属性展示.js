@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.1.10
+// @version      2.1.11
 // @description  泥潭勋章属性展示！
 // @author       轶致
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html*
@@ -21,10 +21,8 @@
 // 捆绑销售 博物馆传送门 https://www.gamemale.com/thread-144398-1-1.html
 // 神秘的许愿池 https://www.gamemale.com/plugin.php?id=wodexunzhang%3Ashowxunzhang&fid=24
 
-// 脚本更新地址 https://greasyfork.org/zh-CN/scripts/516559/versions/new
 // 脚本下载地址 https://greasyfork.org/zh-CN/scripts/516559-%E5%8B%8B%E7%AB%A0%E6%94%BE%E5%A4%A7%E9%95%9C
 
-// DONE 有些等级太tm长了
 (function () {
     'use strict';
     // 0为原版【上下显示】 1为新版【左右显示】
@@ -82,8 +80,6 @@
         放大镜.style.zIndex = '10000';
         放大镜.style.fontWeight = 'bold';
         放大镜.style.color = '#000516';
-        放大镜.style['max-height'] = '600px';
-        放大镜.style['overflow-y'] = 'scroll';
         document.body.appendChild(放大镜);
         return 放大镜;
     }
