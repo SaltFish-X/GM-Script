@@ -191,7 +191,7 @@
 
         // 提取奖励类型
         const creditTypeNode = divElement.querySelector('i');
-
+        console.log(creditTypeNode);
         var parts = creditTypeNode.textContent.trim().split(' ');
 
         // 出现以下关键词则代表第一个部分不是类型
