@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         看帖：PAUSE EA 持久版
 // @namespace    https://www.gamemale.com/space-uid-687897.html
-// @version      0.7.0
+// @version      0.7.1
 // @description  勋章触发奖励时停+发帖回帖奖励账本查询！
 // @author       瓦尼
 // @match        https://www.gamemale.com/*
@@ -76,8 +76,10 @@
         }
 
         // 获取分区元素
-        const ele = document.querySelector("#pt > div").textContent.split('›').map(item => item.trim())
-        const area = ele.slice(-2, -1)[0]
+        const area = (() => {
+            const ele = document.querySelector("#pt > div");
+            return ele ? ele.textContent.split('›').map(item => item.trim()).slice(-2, -1)[0] : undefined;
+        })();        
 
         // 保存内容
         extractAndSave(creditElement, area);
@@ -191,7 +193,7 @@
 
         // 提取奖励类型
         const creditTypeNode = divElement.querySelector('i');
-
+        console.log(creditTypeNode);
         var parts = creditTypeNode.textContent.trim().split(' ');
 
         // 出现以下关键词则代表第一个部分不是类型

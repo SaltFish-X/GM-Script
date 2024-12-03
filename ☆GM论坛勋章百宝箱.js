@@ -654,13 +654,14 @@
     // 关闭赠礼/咒术类勋章显示
     createLink('关闭赠礼/咒术类勋章显示', oneClickDisplay)
 
-    // if (是否自动开启茉香啤酒) { 自动开启茉香啤酒() }
-
+    if (是否自动开启茉香啤酒) { 自动开启茉香啤酒() }
+    
     // 记录展示勋章/置顶展示勋章
     createLink('记录展示勋章', saveTopMedal)
     createLink('置顶展示勋章', loadTopMedal)
     showTopMedal()
     observeElement()
+
     /* =============================================================================================================== */
 
     // 创建一个新的div元素用于管理徽章
@@ -1586,6 +1587,8 @@
             const match = textContent.match(/等级\s+(\w+)/);
             if (match && match[1]) {
                 return match[1];
+            } else {
+                return {}
             }
         }
     }
