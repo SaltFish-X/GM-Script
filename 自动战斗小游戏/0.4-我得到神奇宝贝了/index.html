@@ -345,20 +345,26 @@
                 battleLog.innerHTML = log.join('<br>');
             }
 
-            // 最终胜利者
-            if (playerIndex >= playerTeam.length && enemyIndex >= enemyTeam.length) {
-                log.push("战斗平局！");
-            } else if (playerIndex >= playerTeam.length) {
-                log.push("敌方训练家获胜！");
-            } else {
-                log.push("我方训练家获胜！");
+            // 抽象出胜负判断函数
+            function determineBattleResult(playerIndex, enemyIndex, playerTeam, enemyTeam) {
+                if (playerIndex >= playerTeam.length && enemyIndex >= enemyTeam.length) {
+                    return "战斗平局！";
+                } else if (playerIndex >= playerTeam.length) {
+                    return "敌方训练家获胜！";
+                } else if (enemyIndex >= enemyTeam.length) {
+                    return "我方训练家获胜！";
+                }
             }
+
+            // 使用抽象函数记录战斗结果
+            log.push(`${determineBattleResult(playerIndex, enemyIndex, playerTeam, enemyTeam)}`);
+
 
             // 记录我方和敌方队伍，以及最终结果
             log.push(`<br><strong>最终结果</strong>`)
             log.push(`<strong>我方队伍：</strong> ${playerTeam.map(pkmn => pkmn.name).join(' ')}`);
             log.push(`<strong>敌方队伍：</strong> ${enemyTeam.map(pkmn => pkmn.name).join(' ')}`);
-            log.push(`<strong>战斗结果：</strong> ${playerIndex >= playerTeam.length ? '敌方训练家获胜！' : '我方训练家获胜！'}`);
+            log.push(`<strong>战斗结果：</strong> ${determineBattleResult(playerIndex, enemyIndex, playerTeam, enemyTeam)}`);
             // 将战斗数据转为字符串，用于生成哈希值
             let battleData = `我方队伍：${playerTeam.map(pkmn => pkmn.name).join(' ')}\n敌方队伍：${enemyTeam.map(pkmn => pkmn.name).join(' ')}\n战斗结果：${playerIndex >= playerTeam.length ? '敌方训练家获胜！' : '我方训练家获胜！'}`;
 
