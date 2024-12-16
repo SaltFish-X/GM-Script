@@ -64,6 +64,7 @@
   }
 
   // 自动领取发帖任务
+  // TODO 领任务可以改成进入发帖页面的时候再去领，可以加个标识方便判断
   function applyTask() {
     return fetch('https://www.gamemale.com/home.php?mod=task&do=apply&id=25', {
       method: 'GET'
