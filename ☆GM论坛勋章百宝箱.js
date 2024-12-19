@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.3.3
+// @version      2.3.4
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @grant        GM_addStyle
@@ -620,7 +620,10 @@
             "脉律辐石",
             "劫掠核芯",
             "幸运女神的微笑",
-            "梅克军徽"
+            "梅克军徽",
+            "奎兰",
+            "水银日报社特约调查员",
+            // 2025年之后的新奖品
         ],
 
     }
@@ -654,7 +657,7 @@
     // 一键关闭赠礼/咒术类勋章显示
     createLink('一键关闭赠礼/咒术类勋章显示', oneClickDisplay)
 
-    // if (是否自动开启茉香啤酒) { 自动开启茉香啤酒() }
+    if (是否自动开启茉香啤酒) { 自动开启茉香啤酒() }
     /* =============================================================================================================== */
 
     // 创建一个新的div元素用于管理徽章
@@ -1456,6 +1459,8 @@
             const match = textContent.match(/等级\s+(\w+)/);
             if (match && match[1]) {
                 return match[1];
+            } else {
+                return {}
             }
         }
     }
