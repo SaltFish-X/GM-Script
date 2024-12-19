@@ -1471,7 +1471,9 @@
         .forEach(e => {
             const newImg = document.createElement('img');
             const src = e.querySelector('img').getAttribute('src');
+            const alt = e.querySelector('img').getAttribute('alt');
             newImg.setAttribute('src', src);
+            newImg.setAttribute('alt', alt);
     
             if (e.querySelector('img').onmouseover) {
                 newImg.onmouseover = e.querySelector('img').onmouseover;
