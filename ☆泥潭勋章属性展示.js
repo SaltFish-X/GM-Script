@@ -22,6 +22,7 @@
 // 神秘的许愿池 https://www.gamemale.com/plugin.php?id=wodexunzhang%3Ashowxunzhang&fid=24
 
 // 脚本下载地址 https://greasyfork.org/zh-CN/scripts/516559-%E5%8B%8B%E7%AB%A0%E6%94%BE%E5%A4%A7%E9%95%9C
+// TODO 给每个勋章加个分类
 
 (function () {
     'use strict';
@@ -1799,7 +1800,7 @@ var 放大镜内容映射表 = {
 '超级无敌名贵金卡': `超级无敌名贵金卡
 【入手条件】无
 【商店售价】688金币
-【 Max 】神秘属性`,
+【 Max 】无属性`,
 'One Ring': `One Ring
 【入手条件】旅程≥25
 【商店售价】500金币

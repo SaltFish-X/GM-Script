@@ -26,6 +26,7 @@
 // TODO 一键把自己想要展示的勋章塞最前面
 // DONE 分类统计勋章收益【所有、常驻、临时】
 // TODO 勋章过期提示
+// TODO 再分的细一点，分出装饰.jpg
 
 (function () {
     'use strict';
