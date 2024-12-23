@@ -15,7 +15,8 @@
 /**
  * 基于瓦尼开发的 勋章触发记录他来了-本地发回帖账本PAUSE https://www.gamemale.com/thread-136471-1-1.html
  * 基于星之子修改的 勋章触发记录 PAUSE(EA) 账本界面皮肤 https://www.gamemale.com/thread-145044-1-1.html
- * 回帖限制请参考Nittbone发表的 你需要知道的回帖发帖收益及各版版规 https://www.gamemale.com/thread-114869-1-1.html
+ * 回帖限制请参考你需要知道的回帖发帖收益及各版版规 https://www.gamemale.com/thread-114869-1-1.html
+ * 回帖限制请参考关于各版块的回帖数限制的回答 https://www.gamemale.com/forum.php?mod=redirect&goto=findpost&ptid=150652&pid=4647886&fromuid=723150
  * 重构表格生成代码，使其更为直观。
  * 新增回帖分区统计，避免超出回帖上限
  * 新增【开启提示框暂停】，0为关闭，1为开启
