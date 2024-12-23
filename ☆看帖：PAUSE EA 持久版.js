@@ -12,18 +12,21 @@
 // ==/UserScript==
 
 // 下载地址 https://greasyfork.org/zh-CN/scripts/517953-%E7%9C%8B%E5%B8%96-pause-ea-%E6%8C%81%E4%B9%85%E7%89%88
-// TODO 支持手机，把新开页面变成弹浮窗即可
 /**
  * 基于瓦尼开发的 勋章触发记录他来了-本地发回帖账本PAUSE https://www.gamemale.com/thread-136471-1-1.html
  * 基于星之子修改的 勋章触发记录 PAUSE(EA) 账本界面皮肤 https://www.gamemale.com/thread-145044-1-1.html
+ * 回帖限制请参考Nittbone发表的 你需要知道的回帖发帖收益及各版版规 https://www.gamemale.com/thread-114869-1-1.html
  * 新增回帖分区统计，避免超出回帖上限
  * 新增【开启提示框暂停】，0为关闭，1为开启
+ * 新增【发帖灵魂统计】，0为关闭，1为开启
  */
 
-// TODO 重构一下表格生成
 (function () {
     'use strict';
+
+    // 0为关闭，1为开启
     const 开启提示框暂停 = 1
+    const 发帖灵魂统计 = 0
     /////////////////////////快速设置////////////////////////////////
 
     // 抽卡音乐开关，值为0时关闭，值为1时开启
@@ -80,7 +83,7 @@
         const area = (() => {
             const ele = document.querySelector("#pt > div");
             return ele ? ele.textContent.split('›').map(item => item.trim()).slice(-2, -1)[0] : undefined;
-        })();        
+        })();
 
         // 保存内容
         extractAndSave(creditElement, area);
@@ -318,11 +321,20 @@
                 ('0' + date.getMinutes()).slice(-2) + ':' +
                 ('0' + date.getSeconds()).slice(-2);
         }
-        const headers = ['行号', '奖励类型', '是否触发', '分区', '旅程', '金币', '血液', '咒术', '知识', '灵魂', '堕落', '时间', '灵魂期望'];
-        const dataKeys = ['rowNumber', 'creditType', 'badgeActivated', 'area', 'lvCheng', 'jinBi', 'xueYe', 'zhouShu', 'zhiShi', 'lingHun', 'duoLuo', 'acquiredAt', 'linghunExpectations'];
+
+        const headers = [
+            '行号', '奖励类型', '是否触发', '分区', '旅程', '金币', '血液', '咒术', '知识', '灵魂', '堕落', '时间',
+            ...(发帖灵魂统计 ? ['灵魂期望'] : []),
+        ];
+
+        const dataKeys = [
+            'rowNumber', 'creditType', 'badgeActivated', 'area', 'lvCheng', 'jinBi', 'xueYe', 'zhouShu', 'zhiShi', 'lingHun', 'duoLuo', 'acquiredAt',
+            ...(发帖灵魂统计 ? ['linghunExpectations'] : []),
+        ];
+
         const dataFormat = {
             acquiredAt: val => formattedDateTime(val),
-            linghunExpectations: item => linghunExpectationsFormat(item)
+            ...(发帖灵魂统计 ? { linghunExpectations: item => linghunExpectationsFormat(item) } : {}),
         };
         const mainTable = generateTable(checkCreditHistory, headers, dataKeys, dataFormat, true)
 
@@ -885,11 +897,13 @@
         return generateTable(data, headers, dataKeys, { rowNumber: (val) => val - 1 }, true)
     }
 
-    GM_registerMenuCommand('更新灵魂期望', () => {
-        getLinghun().then(res => {
-            alert('灵魂期望更新成功')
+    if (发帖灵魂统计) {
+        GM_registerMenuCommand('更新灵魂期望', () => {
+            getLinghun().then(res => {
+                alert('灵魂期望更新成功')
+            })
         })
-    })
+    }
 
     // 计算灵魂
     function getLinghun() {
@@ -948,7 +962,7 @@
 
         return outputString
     }
-    
+
     /**
      * 生成一个 HTML 表格。
      *
@@ -966,7 +980,7 @@
      * const dataKeys = ['lvcheng', 'jinbi'];
      * const tableElement = generateTable(data, headers, dataKeys);
      * document.body.appendChild(tableElement);
-     */    
+     */
     function generateTable(data, headers, dataKeys, dataFormat, inHTML) {
         if (dataFormat) {
             data = data.map(item => {
