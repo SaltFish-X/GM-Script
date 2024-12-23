@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         看帖：PAUSE EA 持久版
 // @namespace    https://www.gamemale.com/space-uid-687897.html
-// @version      0.8.0
+// @version      0.8.1
 // @description  勋章触发奖励时停+发帖回帖奖励账本查询！
 // @author       瓦尼
 // @match        https://www.gamemale.com/*
@@ -323,19 +323,25 @@
                 ('0' + date.getSeconds()).slice(-2);
         }
 
+
+        const settings = JSON.parse(localStorage.getItem("filterSettings"))
+        const 显示灵魂期望 = 发帖灵魂统计 && settings.showFaTie
         const headers = [
             '行号', '奖励类型', '是否触发', '分区', '旅程', '金币', '血液', '咒术', '知识', '灵魂', '堕落', '时间',
-            ...(发帖灵魂统计 ? ['灵魂期望'] : []),
+            ...(显示灵魂期望 ? ['灵魂期望'] : []),
         ];
 
         const dataKeys = [
             'rowNumber', 'creditType', 'badgeActivated', 'area', 'lvCheng', 'jinBi', 'xueYe', 'zhouShu', 'zhiShi', 'lingHun', 'duoLuo', 'acquiredAt',
-            ...(发帖灵魂统计 ? ['linghunExpectations'] : []),
+            ...(显示灵魂期望 ? ['linghunExpectations'] : []),
         ];
 
         const dataFormat = {
             acquiredAt: val => formattedDateTime(val),
-            ...(发帖灵魂统计 ? { linghunExpectations: item => linghunExpectationsFormat(item) } : {}),
+            ...(显示灵魂期望 ? {
+                linghunExpectations: (val, item) => item.creditType === '发表主题' ?
+                    linghunExpectationsFormat(val) : ''
+            } : {}),
         };
         const mainTable = generateTable(checkCreditHistory, headers, dataKeys, dataFormat, true)
 
@@ -988,7 +994,7 @@
                 const formattedItem = {};
                 for (const key of dataKeys) {
                     if (dataFormat[key]) {
-                        formattedItem[key] = dataFormat[key](item[key]);
+                        formattedItem[key] = dataFormat[key](item[key], item);
                     } else {
                         formattedItem[key] = item[key];
                     }
