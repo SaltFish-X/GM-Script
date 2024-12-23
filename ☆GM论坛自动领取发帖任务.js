@@ -6,6 +6,7 @@
 // @match        https://www.gamemale.com/forum.php
 // @match        https://www.gamemale.com/?fromuid=662711
 // @match        https://www.gamemale.com/forum.php?mod=viewthread*
+// @match        https://www.gamemale.com/thread-*
 // @grant        none
 // @icon         https://www.gamemale.com/template/mwt2/extend/img/favicon.ico
 // @license      GPL
