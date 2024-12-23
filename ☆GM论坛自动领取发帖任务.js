@@ -1,11 +1,10 @@
 // ==UserScript==
 // @name         GM论坛自动领取发帖任务
 // @namespace    http://tampermonkey.net/
-// @version      1.1
+// @version      1.2
 // @description  自动领取发帖任务
 // @match        https://www.gamemale.com/forum.php
 // @match        https://www.gamemale.com/?fromuid=662711
-// @match        https://www.gamemale.com/forum.php?mod=viewthread*
 // @match        https://www.gamemale.com/thread-*
 // @grant        none
 // @icon         https://www.gamemale.com/template/mwt2/extend/img/favicon.ico
@@ -117,10 +116,9 @@
   // https://www.gamemale.com/forum.php?mod=post&action=newthread&fid=154
   // https://www.gamemale.com/forum.php?mod=viewthread&tid=150221
   // 定义目标页面的正则匹配规则，忽略额外的查询参数
-  const targetReferrerPattern = /^https:\/\/www\.gamemale\.com\/forum\.php\?mod=post&action=newthread(&.*)?/;
 
   // 检查 referrer 是否匹配
-  if (targetReferrerPattern.test(document.referrer)) {
+  if (/^https:\/\/www\.gamemale\.com\/forum\.php\?mod=post&action=newthread(&.*)?/.test(document.referrer)) {
     claimReward(); // 调用你的函数
     console.log('已经领取每周发帖奖励');
   }
