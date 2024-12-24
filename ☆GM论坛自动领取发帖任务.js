@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name         GM论坛自动领取发帖任务
 // @namespace    http://tampermonkey.net/
-// @version      1.2
+// @version      1.3
 // @description  自动领取发帖任务
 // @match        https://www.gamemale.com/forum.php
 // @match        https://www.gamemale.com/?fromuid=662711
 // @match        https://www.gamemale.com/thread-*
+// @match        https://www.gamemale.com/forum.php?mod=viewthread&tid=*
 // @grant        none
 // @icon         https://www.gamemale.com/template/mwt2/extend/img/favicon.ico
 // @license      GPL
@@ -116,6 +117,10 @@
   // https://www.gamemale.com/forum.php?mod=post&action=newthread&fid=154
   // https://www.gamemale.com/forum.php?mod=viewthread&tid=150221
   // 定义目标页面的正则匹配规则，忽略额外的查询参数
+
+  // 不知道为什么发帖成功后会有两个界面，非常奇怪
+  // https://www.gamemale.com/thread-*
+  // https://www.gamemale.com/forum.php?mod=viewthread&tid=*
 
   // 检查 referrer 是否匹配
   if (/^https:\/\/www\.gamemale\.com\/forum\.php\?mod=post&action=newthread(&.*)?/.test(document.referrer)) {
