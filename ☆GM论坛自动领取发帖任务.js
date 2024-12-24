@@ -4,7 +4,6 @@
 // @version      1.3
 // @description  自动领取发帖任务
 // @match        https://www.gamemale.com/forum.php
-// @match        https://www.gamemale.com/?fromuid=662711
 // @match        https://www.gamemale.com/thread-*
 // @match        https://www.gamemale.com/forum.php?mod=viewthread&tid=*
 // @grant        none
