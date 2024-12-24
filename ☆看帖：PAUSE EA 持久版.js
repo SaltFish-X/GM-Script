@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         看帖：PAUSE EA 持久版
 // @namespace    https://www.gamemale.com/space-uid-687897.html
-// @version      0.7.1
+// @version      0.8.1
 // @description  勋章触发奖励时停+发帖回帖奖励账本查询！
 // @author       瓦尼
 // @match        https://www.gamemale.com/*
@@ -15,14 +15,20 @@
 /**
  * 基于瓦尼开发的 勋章触发记录他来了-本地发回帖账本PAUSE https://www.gamemale.com/thread-136471-1-1.html
  * 基于星之子修改的 勋章触发记录 PAUSE(EA) 账本界面皮肤 https://www.gamemale.com/thread-145044-1-1.html
+ * 回帖限制请参考你需要知道的回帖发帖收益及各版版规 https://www.gamemale.com/thread-114869-1-1.html
+ * 回帖限制请参考关于各版块的回帖数限制的回答 https://www.gamemale.com/forum.php?mod=redirect&goto=findpost&ptid=150652&pid=4647886&fromuid=723150
+ * 重构表格生成代码，使其更为直观。
  * 新增回帖分区统计，避免超出回帖上限
  * 新增【开启提示框暂停】，0为关闭，1为开启
+ * 新增【发帖灵魂统计】，0为关闭，1为开启
  */
 
-// TODO 重构一下表格生成
 (function () {
     'use strict';
-    const 开启提示框暂停 = 0
+
+    // 0为关闭，1为开启
+    const 开启提示框暂停 = 1
+    const 发帖灵魂统计 = 0
     /////////////////////////快速设置////////////////////////////////
 
     // 抽卡音乐开关，值为0时关闭，值为1时开启
@@ -79,7 +85,7 @@
         const area = (() => {
             const ele = document.querySelector("#pt > div");
             return ele ? ele.textContent.split('›').map(item => item.trim()).slice(-2, -1)[0] : undefined;
-        })();        
+        })();
 
         // 保存内容
         extractAndSave(creditElement, area);
@@ -165,6 +171,9 @@
     function extractAndSave(divElement, area) {
         let curTime = new Date();
 
+        // 获取灵魂期望
+        const linghunExpectations = JSON.parse(localStorage.getItem('灵魂期望'));
+
         const result = {
             creditType: '',
             badgeActivated: '否',
@@ -177,7 +186,8 @@
             zhiShi: 0,
             lingHun: 0,
             duoLuo: 0,
-            acquiredAt: curTime
+            acquiredAt: curTime,
+            linghunExpectations
         };
 
         const keyMap = {
@@ -271,12 +281,6 @@
         var creditHistoryStr = localStorage.getItem('extractedCreditHistory');
         var creditHistory = JSON.parse(creditHistoryStr);
 
-        //创建记录表格
-        var tableHTML = '';
-
-        // 构建表格的HTML字符串
-        tableHTML += '<table border="1"><thead><tr><th>行号</th><th>奖励类型</th><th>是否触发</th><th>分区</th><th>旅程</th><th>金币</th><th>血液</th><th>咒术</th><th>知识</th><th>灵魂</th><th>堕落</th><th>时间</th></tr></thead><tbody>';
-
         //创建行号
         var rowNumber = 1;
         var tempLvCheng = 0;
@@ -294,32 +298,7 @@
                 if (checkItem(item)) {
                     return;
                 }
-                checkCreditHistory.push(item)
-
-                // 解析ISO 8601时间字符串为UTC时间，然后转为本地时间
-                var date = new Date(item.acquiredAt);
-
-                // 格式化日期和时间
-                var formattedDateTime = date.getFullYear() + '-' +
-                    ('0' + (date.getMonth() + 1)).slice(-2) + '-' +
-                    ('0' + date.getDate()).slice(-2) + ' ' +
-                    ('0' + date.getHours()).slice(-2) + ':' +
-                    ('0' + date.getMinutes()).slice(-2) + ':' +
-                    ('0' + date.getSeconds()).slice(-2);
-
-                tableHTML +=
-                    `<tr><td>${rowNumber++}</td>
-                        <td>${item.creditType}</td>
-                        <td>${item.badgeActivated}</td>
-                        <td>${item.area || '暂无数据'}</td>
-                        <td>${item.lvCheng}</td>
-                        <td>${item.jinBi}</td>
-                        <td>${item.xueYe}</td>
-                        <td>${item.zhouShu}</td>
-                        <td>${item.zhiShi}</td>
-                        <td>${item.lingHun}</td>
-                        <td>${item.duoLuo}</td>
-                        <td>${formattedDateTime}</td></tr>`;
+                checkCreditHistory.push({ ...item, rowNumber })
 
                 tempLvCheng += item.lvCheng;
                 temmpJinBi += item.jinBi;
@@ -329,29 +308,52 @@
                 tempLingHun += item.lingHun;
                 tempDuoLuo += item.duoLuo;
 
+                rowNumber++
             });
         }
-        tableHTML += '</tbody></table>';
 
-        var summaryTableHTML = ''
-        summaryTableHTML += '<table id="summaryTable" border="1"><thead><tr><th>行数</th><th>旅程</th><th>金币</th><th>血液</th><th>咒术</th><th>知识</th><th>灵魂</th><th>堕落</th></thead><tbody>';
-        summaryTableHTML +=
-            `<tr><td>${--rowNumber}</td>
-                        <td>${tempLvCheng}</td>
-                        <td>${temmpJinBi}</td>
-                        <td>${tempXueYe}</td>
-                        <td>${tempZhouShu}</td>
-                        <td>${tempZhiShi}</td>
-                        <td>${tempLingHun}</td>
-                        <td>${tempDuoLuo}</td></tr>`;
+        // 格式化日期和时间
+        // 解析ISO 8601时间字符串为UTC时间，然后转为本地时间
+        var formattedDateTime = (date) => {
+            var date = new Date(date);
+            return date.getFullYear() + '-' +
+                ('0' + (date.getMonth() + 1)).slice(-2) + '-' +
+                ('0' + date.getDate()).slice(-2) + ' ' +
+                ('0' + date.getHours()).slice(-2) + ':' +
+                ('0' + date.getMinutes()).slice(-2) + ':' +
+                ('0' + date.getSeconds()).slice(-2);
+        }
 
+
+        const settings = JSON.parse(localStorage.getItem("filterSettings"))
+        const 显示灵魂期望 = 发帖灵魂统计 && settings.showFaTie
+        const headers = [
+            '行号', '奖励类型', '是否触发', '分区', '旅程', '金币', '血液', '咒术', '知识', '灵魂', '堕落', '时间',
+            ...(显示灵魂期望 ? ['灵魂期望'] : []),
+        ];
+
+        const dataKeys = [
+            'rowNumber', 'creditType', 'badgeActivated', 'area', 'lvCheng', 'jinBi', 'xueYe', 'zhouShu', 'zhiShi', 'lingHun', 'duoLuo', 'acquiredAt',
+            ...(显示灵魂期望 ? ['linghunExpectations'] : []),
+        ];
+
+        const dataFormat = {
+            acquiredAt: val => formattedDateTime(val),
+            ...(显示灵魂期望 ? {
+                linghunExpectations: (val, item) => item.creditType === '发表主题' ?
+                    linghunExpectationsFormat(val) : ''
+            } : {}),
+        };
+        const mainTable = generateTable(checkCreditHistory, headers, dataKeys, dataFormat, true)
+
+        // 小计表格
+        const summaryTable = generateSummaryTable([{ rowNumber, tempLvCheng, temmpJinBi, tempXueYe, tempZhouShu, tempZhiShi, tempLingHun, tempDuoLuo }])
         // 计算分区 并 生成回帖数表格
         const areaNum = getAreaNum(checkCreditHistory)
         const areaTable = generateAreaTable(areaNum)
-        console.log(areaNum);
 
         // 整合页面HTML
-        var rightHTML = '<h3>当前记录汇总</h3>' + summaryTableHTML + areaTable + tableHTML;
+        var rightHTML = '<h3>当前记录汇总</h3>' + summaryTable + areaTable + mainTable;
 
         return rightHTML;
     }
@@ -888,28 +890,144 @@
         })
         return result
     }
-
+    // 生成计算分区回帖数表格
     function generateAreaTable(data) {
-        let tableHTML = '<table>';
+        const newdata = [{ '回帖数': '', ...data }]
+        const headers = Object.keys(data)
+        const dataKeys = headers
+        return generateTable(newdata, headers, dataKeys, {}, true)
+    }
 
-        // 添加表头
-        tableHTML += '<thead><tr>';
-        tableHTML += '<th></th>'; // 空白单元格
-        for (const key in data) {
-            tableHTML += `<th>${key}</th>`;
+    // 生成总计
+    function generateSummaryTable(data) {
+        const headers = ['行数', '旅程', '金币', '血液', '咒术', '知识', '灵魂', '堕落']
+        const dataKeys = ['rowNumber', 'tempLvCheng', 'temmpJinBi', 'tempXueYe', 'tempZhouShu', 'tempZhiShi', 'tempLingHun', 'tempDuoLuo']
+        return generateTable(data, headers, dataKeys, { rowNumber: (val) => val - 1 }, true)
+    }
+
+    if (发帖灵魂统计) {
+        GM_registerMenuCommand('更新灵魂期望', () => {
+            getLinghun().then(res => {
+                alert('灵魂期望更新成功')
+            })
+        })
+    }
+
+    // 计算灵魂
+    function getLinghun() {
+        return fetch('https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my')
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const xunzhang = doc.querySelectorAll('.my_fenlei .myblok');
+
+                const result = {};
+
+                xunzhang.forEach(element => {
+                    const linghun = [...element.querySelectorAll('.jiage.shuxing')].find(p => p.textContent.includes('灵魂'));
+                    const triggerProbability = [...element.querySelectorAll('.jiage')].find(p => p.textContent.includes('触发几率'));
+
+                    if (linghun && triggerProbability) {
+                        const probabilityMatch = triggerProbability.textContent.match(/触发几率 (\d+)%/);
+                        if (probabilityMatch) {
+                            const probability = parseFloat(probabilityMatch[1]) / 100; // 转换为小数
+                            const countMatch = linghun.textContent.match(/发帖\s*[\u00A0]*灵魂\s*\+\s*(\d+)/);
+                            const count = countMatch ? parseInt(countMatch[1], 10) : 0;
+
+                            // 记录结果
+                            if (result[probability]) {
+                                result[probability] += count; // 如果已经存在，累加数量
+                            } else {
+                                result[probability] = count; // 否则初始化数量
+                            }
+                        }
+                    }
+                });
+
+                console.log(result); // 输出结果对象
+                localStorage.setItem('灵魂期望', JSON.stringify(result))
+                return result
+            })
+            .catch(error => {
+                console.error('发生错误:', error);
+            });
+
+    }
+
+    function linghunExpectationsFormat(result) {
+        if (!result) return '暂无数据'
+
+        let total = 0;
+        Object.entries(result).forEach(([key, value]) => {
+            total += parseFloat(key) * value;
+        });
+
+        const outputParts = Object.entries(result).map(([key, value]) => {
+            return `${key}(${value})`;
+        });
+        const outputString = `${total.toFixed(2)} = ${outputParts.join(' + ')}`;
+
+        return outputString
+    }
+
+    /**
+     * 生成一个 HTML 表格。
+     *
+     * @param {Array<Object>} data - 表格数据的数组，每个对象代表一行数据。
+     * @param {Array<string>} headers - 表头的名称数组，用于定义表格的列标题。
+     * @param {Array<string>} dataKeys - 数据对象中对应的键名数组，用于从数据中提取显示的值。
+     * @param {Object} [dataFormat] - 可选参数，包含格式化函数的对象，格式化每个字段的显示值。
+     * @param {boolean} [inHTML=false] - 可选参数，若为 true，则返回 HTML 字符串形式的表格；否则返回 DOM 元素。
+     * 
+     * @returns {HTMLElement|string} 返回生成的表格元素或 HTML 字符串，具体取决于 `inHTML` 参数的值。
+     *
+     * @example
+     * const data = [{lvcheng: 1, jinbi: 10}];
+     * const headers = ['旅程', '金币'];
+     * const dataKeys = ['lvcheng', 'jinbi'];
+     * const tableElement = generateTable(data, headers, dataKeys);
+     * document.body.appendChild(tableElement);
+     */
+    function generateTable(data, headers, dataKeys, dataFormat, inHTML) {
+        if (dataFormat) {
+            data = data.map(item => {
+                const formattedItem = {};
+                for (const key of dataKeys) {
+                    if (dataFormat[key]) {
+                        formattedItem[key] = dataFormat[key](item[key], item);
+                    } else {
+                        formattedItem[key] = item[key];
+                    }
+                }
+                return formattedItem;
+            });
         }
-        tableHTML += '</tr></thead>';
 
-        // 添加表体
-        tableHTML += '<tbody><tr>';
-        tableHTML += '<td>回帖数</td>'; // 标签单元格
-        for (const key in data) {
-            tableHTML += `<td>${data[key]}</td>`;
+        let tableHTML = '<table><thead><tr>';
+
+        headers.forEach(header => {
+            tableHTML += `<th>${header}</th>`;
+        });
+
+        tableHTML += '</tr></thead><tbody>';
+
+        data.forEach(item => {
+            tableHTML += '<tr>';
+            dataKeys.forEach(key => {
+                tableHTML += `<td>${item[key] !== undefined ? item[key] : ''}</td>`;
+            });
+            tableHTML += '</tr>';
+        });
+
+        tableHTML += '</tbody></table>';
+
+        if (inHTML) {
+            return tableHTML; // 返回 HTML 字符串
+        } else {
+            const table = document.createElement('div');
+            table.innerHTML = tableHTML; // 将 HTML 字符串插入到一个 div 中
+            return table.firstChild; // 返回生成的 table 元素
         }
-        tableHTML += '</tr></tbody>';
-
-        tableHTML += '</table>';
-
-        return tableHTML;
     }
 })();

@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         GM论坛自动领取发帖任务
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.3
 // @description  自动领取发帖任务
 // @match        https://www.gamemale.com/forum.php
-// @match        https://www.gamemale.com/?fromuid=662711
+// @match        https://www.gamemale.com/thread-*
+// @match        https://www.gamemale.com/forum.php?mod=viewthread&tid=*
 // @grant        none
 // @icon         https://www.gamemale.com/template/mwt2/extend/img/favicon.ico
 // @license      GPL
@@ -63,6 +64,7 @@
   }
 
   // 自动领取发帖任务
+  // TODO 领任务可以改成进入发帖页面的时候再去领，可以加个标识方便判断
   function applyTask() {
     return fetch('https://www.gamemale.com/home.php?mod=task&do=apply&id=25', {
       method: 'GET'
@@ -94,7 +96,7 @@
         const doc = parser.parseFromString(html, 'text/html')
         const messagetext = doc.querySelector('#messagetext p').textContent
         console.log(messagetext);
-        
+
         if (messagetext.includes(messageInfo.done)) {
           // 清除系统消息
           Mjq.get('home.php?mod=space&do=notice&view=system&inajax=1')
@@ -106,6 +108,59 @@
   }
 
   // 月任务奖励
-  // 主题奖励
-  // https://www.gamemale.com/plugin.php?id=reply_reward&code=4&type_7ree=1
+  // 主题奖励 https://www.gamemale.com/plugin.php?id=reply_reward&code=4&type_7ree=1
+  // 回帖奖励 https://www.gamemale.com/plugin.php?id=reply_reward&code=4&type_7ree=2
+
+  // 发帖
+  // https://www.gamemale.com/forum.php?mod=post&action=newthread&fid=206
+  // https://www.gamemale.com/forum.php?mod=post&action=newthread&fid=154
+  // https://www.gamemale.com/forum.php?mod=viewthread&tid=150221
+  // 定义目标页面的正则匹配规则，忽略额外的查询参数
+
+  // 不知道为什么发帖成功后会有两个界面，非常奇怪
+  // https://www.gamemale.com/thread-*
+  // https://www.gamemale.com/forum.php?mod=viewthread&tid=*
+
+  // 检查 referrer 是否匹配
+  if (/^https:\/\/www\.gamemale\.com\/forum\.php\?mod=post&action=newthread(&.*)?/.test(document.referrer)) {
+    claimReward(); // 调用你的函数
+    console.log('已经领取每周发帖奖励');
+  }
+
+  // 可以监听标签，但是算了，有点麻烦，重复造轮子，我想弄点简单的
+  // 我选择正则+document.referrer
+  function startObserve() {
+    const targetNode = document.getElementById('append_parent');
+
+    // 观察器配置
+    const config = { attributes: false, childList: true, subtree: false };
+
+    // 当检测到变化时调用的回调函数
+    const callback = function () {
+
+      // 如果检测到奖励内容再执行函数
+      if (document.getElementById("creditpromptdiv")) {
+
+        var creditElement = document.getElementById("creditpromptdiv");
+        if (creditElement) {
+          const creditTypeNode = creditElement.querySelector('i');
+          console.log(creditTypeNode);
+          const parts = creditTypeNode.textContent.trim().split(' ');
+          const creditType = parts[0]
+
+          if (creditType === '发表主题') {
+            claimReward()
+          }
+        }
+
+      }
+
+    };
+
+    // 创建一个观察器实例并传入回调函数
+    const observer = new MutationObserver(callback);
+
+    // 开始观察目标节点
+    observer.observe(targetNode, config);
+  }
 })()
