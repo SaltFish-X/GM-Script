@@ -22,7 +22,6 @@
 // 神秘的许愿池 https://www.gamemale.com/plugin.php?id=wodexunzhang%3Ashowxunzhang&fid=24
 
 // 脚本下载地址 https://greasyfork.org/zh-CN/scripts/516559-%E5%8B%8B%E7%AB%A0%E6%94%BE%E5%A4%A7%E9%95%9C
-// TODO 给每个勋章加个分类
 
 (function () {
     'use strict';
