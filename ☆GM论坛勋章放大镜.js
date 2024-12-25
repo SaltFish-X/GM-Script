@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.2.2
+// @version      2.2.3
 // @description  泥潭勋章属性展示！
 // @author       轶致
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html*
@@ -3910,7 +3910,7 @@ var 放大镜内容映射表 = {
 【勋章类型】游戏男从
 【入手条件】旅程≥20
 【商店售价】560金币
-【等级1】暂无资料
+【等级1】2% 回帖咒术+1▕▏升级条件：追随≥33
 【等级2】4% 回帖血液+1 咒术+1▕▏升级条件：消耗88咒术
 【等级3】5% 回帖血液+1 咒术+1▕▏升级条件：消耗360血液
 【 Max 】8% 回帖血液+2 咒术+1`,
