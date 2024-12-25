@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.3.5
+// @version      2.3.6
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @grant        GM_addStyle
@@ -24,9 +24,9 @@
 // TODO 一键切换天赋
 // TODO 一键把不喜欢的勋章塞最后
 // TODO 一键把自己想要展示的勋章塞最前面
-// DONE 分类统计勋章收益【所有、常驻、临时】
 // TODO 勋章过期提示
-// TODO 再分的细一点，分出装饰.jpg
+// DONE 分类统计勋章收益【所有、常驻、临时】
+// DONE 分类新增装饰，因为他有最大数量上限
 
 (function () {
     'use strict';
