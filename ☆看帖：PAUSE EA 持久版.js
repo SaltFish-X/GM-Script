@@ -23,6 +23,9 @@
  * 新增【发帖灵魂统计】，0为关闭，1为开启
  */
 
+// TODO 区别账号
+// TODO 区域合并
+// TODO 全区监控之后，有一些报错暂时未处理
 (function () {
     'use strict';
 
@@ -203,7 +206,9 @@
 
         // 提取奖励类型
         const creditTypeNode = divElement.querySelector('i');
-        console.log(creditTypeNode);
+        console.log(creditTypeNode, divElement);
+        //creditTypeNode 可能为空 当他是赠礼或者花钱的时候
+        if (!creditTypeNode) return;
         var parts = creditTypeNode.textContent.trim().split(' ');
 
         // 出现以下关键词则代表第一个部分不是类型
