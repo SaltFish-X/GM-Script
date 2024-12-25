@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.2.1
+// @version      2.2.2
 // @description  泥潭勋章属性展示！
 // @author       轶致
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html*
@@ -3926,7 +3926,7 @@ var 放大镜内容映射表 = {
 【勋章类型】真人男从
 【入手条件】无
 【商店售价】800金币
-【等级1】2% 回帖金币+2、发帖金币+2▕▏升级条件：消耗10咒术
+【等级1】10% 回帖金币+2、发帖金币+2▕▏升级条件：消耗10咒术
 【等级2】10% 回帖堕落+2、发帖堕落+2▕▏升级条件：消耗10咒术
 【等级3】10% 回帖堕落-2、发帖堕落-2▕▏升级条件：消耗10咒术
 【 Max 】12% 回帖金币+2、发帖金币+2`,
