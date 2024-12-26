@@ -223,6 +223,7 @@
         }
 
         result.creditType = reason;
+        // 奖励类型为发表回复或发表主题时，记录区域
         if (result.creditType === '发表回复' || result.creditType === '发表主题') {
             result.area = area
         }
