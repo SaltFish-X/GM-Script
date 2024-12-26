@@ -207,7 +207,6 @@
 
         // 提取奖励类型
         const creditTypeNode = divElement.querySelector('i');
-        // 
         console.log(creditTypeNode, divElement.outerHTML)
         //creditTypeNode 可能为空 当他是赠礼或者花钱的时候
         if (!creditTypeNode) return;
