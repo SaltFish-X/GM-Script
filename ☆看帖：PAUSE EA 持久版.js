@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         看帖：PAUSE EA 持久版
 // @namespace    https://www.gamemale.com/space-uid-687897.html
-// @version      0.8.1
+// @version      0.8.2
 // @description  勋章触发奖励时停+发帖回帖奖励账本查询！
 // @author       瓦尼
 // @match        https://www.gamemale.com/*
@@ -26,6 +26,7 @@
 // TODO 区别账号
 // TODO 区域合并
 // TODO 全区监控之后，有一些报错暂时未处理
+// DONE 仅在发帖和回帖时，记录区域位置
 (function () {
     'use strict';
 
@@ -206,7 +207,7 @@
 
         // 提取奖励类型
         const creditTypeNode = divElement.querySelector('i');
-        console.log(creditTypeNode, divElement);
+        console.log(creditTypeNode, divElement.outerHTML)
         //creditTypeNode 可能为空 当他是赠礼或者花钱的时候
         if (!creditTypeNode) return;
         var parts = creditTypeNode.textContent.trim().split(' ');
@@ -222,7 +223,10 @@
         }
 
         result.creditType = reason;
-        result.area = area
+        // 奖励类型为发表回复或发表主题时，记录区域
+        if (result.creditType === '发表回复' || result.creditType === '发表主题') {
+            result.area = area
+        }
 
         // 检查是否触发勋章
         if (creditTypeNode.textContent.includes('勋章功能触发')) {

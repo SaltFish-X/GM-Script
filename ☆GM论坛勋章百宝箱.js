@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.3.5
+// @version      2.3.6
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @grant        GM_addStyle
@@ -23,24 +23,24 @@
 // TODO 一键仅保留自己喜欢的勋章的显示
 // TODO 一键切换天赋
 // TODO 一键把不喜欢的勋章塞最后
+// TODO 一键把自己想要展示的勋章塞最前面
+// TODO 勋章过期提示
 // DONE 勋章置顶功能
 // DONE 分类统计勋章收益【所有、常驻、临时】
-// TODO 勋章过期提示
-// TODO 再分的细一点，分出装饰.jpg
+// DONE 分类新增装饰，因为他有最大数量上限
 
 (function () {
     'use strict';
     const 是否自动开启茉香啤酒 = 0
 
-    // 徽章按类型排序和顺序调整
-    // 如果想改动默认顺序就改这里
-    const orderList = ['储蓄', '游戏男从', '真人男从', '女从', '装备', '资产', '宠物', '板块', '天赋', '赠礼', '咒术', '剧情', '奖品', '其他']
     const linkList = {
         "游戏男从": "youxi", "真人男从": "zhenren", "女从": "Maid", "装备": "Equip", "资产": "Asset",
         "宠物": "Pet", "板块": "Forum", "天赋": "Skill", "赠礼": "Gift", "咒术": "Spell", "剧情": "Plot",
         "其他": "other", "奖品": 'Prize', '储蓄': 'Deposit', '装饰': 'Deco'
     }
     const formhash = document.querySelector('input[name="formhash"]').value
+    // 勋章总类型
+    const orderList = Object.keys(linkList)
 
     const categoriesData = {
         "youxi": [
@@ -913,7 +913,7 @@
         const previousInput = localStorage.getItem('sortInput') || orderList.join(' ');
 
         // 弹出输入框，默认值为之前的内容
-        const userInput = prompt("您正在进行一键排序，是否需要修改排序顺序（用空格分隔，新增类型奖品）:", previousInput);
+        const userInput = prompt("您正在进行一键排序，是否需要修改排序顺序（用空格分隔）:", previousInput);
 
         // 如果用户输入了内容
         if (userInput !== null) {
