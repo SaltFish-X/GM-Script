@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.3.7
+// @version      2.3.8
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @grant        GM_addStyle
@@ -480,10 +480,10 @@
             "龙腾世纪：审判",
             "堕落飨宴",
             "奥兹大陆",
-            "生化危机:复仇", // 和勋章博物馆相矛盾
-            "荒野大镖客：救赎 II", // 和勋章博物馆相矛盾
-            "TRPG版塊", // 和勋章博物馆相矛盾
-            "模擬人生4",// 和勋章博物馆相矛盾
+            "生化危机：复仇",
+            "荒野大镖客：救赎 II",
+            "TRPG版塊",
+            "模擬人生4",
             "达拉然",
             "雾都血医",
             "寶可夢 Pokémon",
