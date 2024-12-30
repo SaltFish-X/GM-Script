@@ -1060,22 +1060,32 @@
      * 应用颜色样式到 HTML 元素。
      *
      * @param {string} content - 要显示的内容。
-     * @param {string|Object} colorConfig - 颜色配置，可以是字符串（颜色值或渐变）或对象（包含 color、textShadow 和 filter）。
+     * @param {string|Object} colorConfig - 颜色配置，可以是字符串（颜色值或渐变）或对象（包含样式属性）。
      * @returns {string} 返回应用了样式的 HTML 字符串。
      */
     function applyColor(content, colorConfig) {
-        if (!colorConfig) return content
-        if (typeof colorConfig === 'object') {
-            const { color, textShadow, filter } = colorConfig
-            let style = `color: ${color};`
-            if (textShadow) style += ` text-shadow: ${textShadow};`
-            if (filter) style += ` filter: ${filter};`
-            return `<span style="${style}">${content}</span>`
-        } else if (colorConfig.startsWith('linear-gradient')) {
-            return `<span style="background: ${colorConfig}; -webkit-background-clip: text; background-clip: text; color: transparent;">${content}</span>`
-        } else {
-            return `<span style="color: ${colorConfig};">${content}</span>`
+        function camelToKebab(camelCase) {
+            return camelCase.replace(/([A-Z])/g, '-$1').toLowerCase()
         }
+        if (!colorConfig) return content
+
+        let style = ''
+
+        if (typeof colorConfig === 'object') {
+            // 遍历对象属性，动态生成 style 字符串
+            for (const [key, value] of Object.entries(colorConfig)) {
+                if (value) {
+                    const cssProperty = camelToKebab(key) // 转换驼峰式为短横线分隔
+                    style += `${cssProperty}: ${value};`
+                }
+            }
+        } else if (colorConfig.startsWith('linear-gradient')) {
+            style = `background: ${colorConfig}; -webkit-background-clip: text; background-clip: text; color: transparent;`
+        } else {
+            style = `color: ${colorConfig};`
+        }
+
+        return `<span style="${style}">${content}</span>`
     }
 
     const colorMapByUid = {
