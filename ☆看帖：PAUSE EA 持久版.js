@@ -1159,26 +1159,37 @@
     addLedgerLink()
     // 插入链接
     function addLedgerLink() {
-        // 创建一个新的 <a> 元素
-        const ledgerLink = document.createElement('a')
+        // 图片URL
+        const icon = 'https://img.gamemale.com/album/202412/30/145538ebff949ooy6ybfo4.png.thumb.jpg'
 
-        // 设置链接的文本内容
-        ledgerLink.textContent = '查看账本'
+        // 创建一个按钮元素
+        const div = document.createElement('div')
 
-        // 设置链接的点击行为（这里可以根据需要添加具体的功能）
-        ledgerLink.href = 'javascript:;' // 保持链接不跳转
-        ledgerLink.onclick = function () {
-            viewLedger()
-        }
+        // 设置按钮的样式
+        div.style.position = 'absolute'
+        div.style.right = '0px'
+        div.style.background = 'none' // 去掉默认背景
+        div.style.cursor = 'pointer' // 鼠标悬停时显示为手型
 
-        // 获取目标 <div class="y"> 元素
-        const targetDiv = document.querySelector('div.y')
+        // 创建图片元素
+        const img = document.createElement('img')
+        img.src = icon
+        img.width = 30
+        img.height = 30
 
-        // 将新创建的链接添加到目标 <div> 的最前面
-        if (targetDiv) {
-            targetDiv.insertBefore(ledgerLink, targetDiv.firstChild)
+        div.appendChild(img)
+
+        // 获取目标元素
+        const targetElement = document.querySelector("#um > div.u-info.col_2a > div.u-info-credit.col_3.sdw")
+
+        // 将按钮添加到目标元素中
+        if (targetElement) {
+            targetElement.insertBefore(div, targetElement.firstChild); // 插入到最前面
+            div.addEventListener('click', () => {
+                viewLedger()
+            })
         } else {
-            console.error('未找到 class 为 "y" 的 <div> 元素')
+            console.error('未找到class为"div.u-info-credit.col_3.sdw"的元素')
         }
     }
 })()
