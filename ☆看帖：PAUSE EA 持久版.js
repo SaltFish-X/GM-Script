@@ -36,6 +36,7 @@
     // 0为关闭，1为开启
     const 开启提示框暂停 = 1
     const 发帖灵魂统计 = 0
+    const 开启颜色样式 = 0
     /////////////////////////快速设置////////////////////////////////
 
     // 抽卡音乐开关，值为0时关闭，值为1时开启
@@ -1014,18 +1015,64 @@
             })
         }
 
+        // 定义颜色映射
+        const colorMap = {
+            '行数': 'black', // 行数：黑色
+            '旅程': {
+                color: '#99FF00', // 文字颜色
+                textShadow: '#6666FF 0px 1px 3px, #6666FF 1px 0px 3px, #6666FF 0px -1px 3px, #6666FF -1px 0px 3px', // 发光效果
+                filter: 'glow(color=#6666FF, strength=3)' // 发光滤镜
+            },
+            '金币': {
+                color: '#FF6666', // 文字颜色
+                textShadow: '#FFFF00 0px 1px 3px, #FFFF00 1px 0px 3px, #FFFF00 0px -1px 3px, #FFFF00 -1px 0px 3px', // 发光效果
+                filter: 'glow(color=#FFFF00, strength=3)' // 发光滤镜
+            },
+            '血液': {
+                color: '#000000', // 文字颜色
+                textShadow: '#FF0000 0px 1px 3px, #FF0000 1px 0px 3px, #FF0000 0px -1px 3px, #FF0000 -1px 0px 3px', // 发光效果
+                filter: 'glow(color=#FF0000, strength=3)' // 发光滤镜
+            },
+            '咒术': {
+                color: '#FFFFFF', // 文字颜色
+                textShadow: '#0000FF 0px 1px 3px, #0000FF 1px 0px 3px, #0000FF 0px -1px 3px, #0000FF -1px 0px 3px', // 发光效果
+                filter: 'glow(color=#0000FF, strength=3)' // 发光滤镜
+            },
+            '知识': {
+                color: '#FFFFFF', // 文字颜色
+                textShadow: '#0099FF 0px 1px 3px, #0099FF 1px 0px 3px, #0099FF 0px -1px 3px, #0099FF -1px 0px 3px', // 发光效果
+                filter: 'glow(color=#0099FF, strength=3)' // 发光滤镜
+            },
+            '灵魂': {
+                color: '#66FFFF', // 文字颜色
+                textShadow: '#0000FF 0px 1px 3px, #0000FF 1px 0px 3px, #0000FF 0px -1px 3px, #0000FF -1px 0px 3px', // 发光效果
+                filter: 'glow(color=#0000FF, strength=3)' // 发光滤镜
+            },
+            '堕落': {
+                color: '#FFFFFF', // 文字颜色
+                textShadow: '#000000 0px 1px 3px, #000000 1px 0px 3px, #000000 0px -1px 3px, #000000 -1px 0px 3px', // 发光效果
+                filter: 'glow(color=#000000, strength=3)' // 发光滤镜
+            }
+        }
+
         let tableHTML = '<table><thead><tr>'
 
+        // 生成表头，并应用颜色
         headers.forEach(header => {
-            tableHTML += `<th>${header}</th>`
+            const colorConfig = 开启颜色样式 ? colorMap[header] || 'inherit' : 'inherit'
+            tableHTML += `<th>${applyColor(header, colorConfig)}</th>`
         })
 
         tableHTML += '</tr></thead><tbody>'
 
+        // 生成表格数据行，并应用颜色
         data.forEach(item => {
             tableHTML += '<tr>'
-            dataKeys.forEach(key => {
-                tableHTML += `<td>${item[key] !== undefined ? item[key] : ''}</td>`
+            dataKeys.forEach((key, index) => {
+                const value = item[key] !== undefined ? item[key] : ''
+                const header = headers[index]
+                const colorConfig = 开启颜色样式 ? colorMap[header] || 'inherit' : 'inherit'
+                tableHTML += `<td>${applyColor(value, colorConfig)}</td>`
             })
             tableHTML += '</tr>'
         })
@@ -1040,4 +1087,37 @@
             return table.firstChild // 返回生成的 table 元素
         }
     }
+
+    /**
+     * 应用颜色样式到 HTML 元素。
+     *
+     * @param {string} content - 要显示的内容。
+     * @param {string|Object} colorConfig - 颜色配置，可以是字符串（颜色值或渐变）或对象（包含 color、textShadow 和 filter）。
+     * @returns {string} 返回应用了样式的 HTML 字符串。
+     */
+    function applyColor(content, colorConfig) {
+        if (typeof colorConfig === 'object') {
+            const { color, textShadow, filter } = colorConfig
+            let style = `color: ${color};`
+            if (textShadow) style += ` text-shadow: ${textShadow};`
+            if (filter) style += ` filter: ${filter};`
+            return `<span style="${style}">${content}</span>`
+        } else if (colorConfig.startsWith('linear-gradient')) {
+            return `<span style="background: ${colorConfig}; -webkit-background-clip: text; background-clip: text; color: transparent;">${content}</span>`
+        } else {
+            return `<span style="color: ${colorConfig};">${content}</span>`
+        }
+    }
 })()
+
+// 这是我喜欢的一版颜色
+// const colorMap = {
+//     '行数': 'black', // 行数：黑色
+//     '旅程': 'linear-gradient(to bottom, #90EE90, #008000)', // 旅程：从上到下的浅绿到绿色渐变
+//     '金币': 'orange', // 金币：橙色
+//     '血液': 'red', // 血液：红色
+//     '咒术': 'purple', // 咒术：紫色
+//     '知识': 'blue', // 知识：蓝色
+//     '灵魂': 'linear-gradient(to bottom, #6A11CB, #2575FC)', // 灵魂：从上到下的紫色到蓝色渐变
+//     '堕落': 'black' // 堕落：黑色
+// };
