@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         看帖：PAUSE EA 持久版
 // @namespace    https://www.gamemale.com/space-uid-687897.html
-// @version      0.8.3
+// @version      0.8.4
 // @description  勋章触发奖励时停+发帖回帖奖励账本查询！
 // @author       瓦尼
 // @match        https://www.gamemale.com/*
@@ -30,13 +30,15 @@
 // DONE 全区监控之后，有一些报错暂时未处理
 // DONE 仅在发帖和回帖时，记录区域位置
 // DONE 仅在发帖和回帖时，弹出提示框
+// TODO 定制颜色样式
+// TODO 如果某条回复打到阈值，突出显示
 (function () {
     'use strict'
 
     // 0为关闭，1为开启
     const 开启提示框暂停 = 1
     const 发帖灵魂统计 = 0
-    const 开启颜色样式 = 0
+    const uid = discuz_uid
     /////////////////////////快速设置////////////////////////////////
 
     // 抽卡音乐开关，值为0时关闭，值为1时开启
@@ -1015,8 +1017,66 @@
             })
         }
 
-        // 定义颜色映射
-        const colorMap = {
+        // 根据 uid 获取颜色配置，如果没有则使用默认配置（全黑）
+        const colorMap = uid ? colorMapByUid[uid] || defaultColorMap : defaultColorMap
+
+        let tableHTML = '<table><thead><tr>'
+
+        // 生成表头，并应用颜色
+        headers.forEach(header => {
+            const colorConfig = colorMap[header]
+            tableHTML += `<th>${applyColor(header, colorConfig)}</th>`
+        })
+
+        tableHTML += '</tr></thead><tbody>'
+
+        // 生成表格数据行，并应用颜色
+        data.forEach(item => {
+            tableHTML += '<tr>'
+            dataKeys.forEach((key, index) => {
+                const value = item[key] !== undefined ? item[key] : ''
+                const header = headers[index]
+                const colorConfig = colorMap[header]
+                tableHTML += `<td>${applyColor(value, colorConfig)}</td>`
+            })
+            tableHTML += '</tr>'
+        })
+
+        tableHTML += '</tbody></table>'
+
+        if (inHTML) {
+            return tableHTML // 返回 HTML 字符串
+        } else {
+            const table = document.createElement('div')
+            table.innerHTML = tableHTML // 将 HTML 字符串插入到一个 div 中
+            return table.firstChild // 返回生成的 table 元素
+        }
+    }
+
+    /**
+     * 应用颜色样式到 HTML 元素。
+     *
+     * @param {string} content - 要显示的内容。
+     * @param {string|Object} colorConfig - 颜色配置，可以是字符串（颜色值或渐变）或对象（包含 color、textShadow 和 filter）。
+     * @returns {string} 返回应用了样式的 HTML 字符串。
+     */
+    function applyColor(content, colorConfig) {
+        if (!colorConfig) return content
+        if (typeof colorConfig === 'object') {
+            const { color, textShadow, filter } = colorConfig
+            let style = `color: ${color};`
+            if (textShadow) style += ` text-shadow: ${textShadow};`
+            if (filter) style += ` filter: ${filter};`
+            return `<span style="${style}">${content}</span>`
+        } else if (colorConfig.startsWith('linear-gradient')) {
+            return `<span style="background: ${colorConfig}; -webkit-background-clip: text; background-clip: text; color: transparent;">${content}</span>`
+        } else {
+            return `<span style="color: ${colorConfig};">${content}</span>`
+        }
+    }
+
+    const colorMapByUid = {
+        694610: {
             '行数': 'black', // 行数：黑色
             '旅程': {
                 color: '#99FF00', // 文字颜色
@@ -1053,71 +1113,28 @@
                 textShadow: '#000000 0px 1px 3px, #000000 1px 0px 3px, #000000 0px -1px 3px, #000000 -1px 0px 3px', // 发光效果
                 filter: 'glow(color=#000000, strength=3)' // 发光滤镜
             }
-        }
-
-        let tableHTML = '<table><thead><tr>'
-
-        // 生成表头，并应用颜色
-        headers.forEach(header => {
-            const colorConfig = 开启颜色样式 ? colorMap[header] || 'inherit' : 'inherit'
-            tableHTML += `<th>${applyColor(header, colorConfig)}</th>`
-        })
-
-        tableHTML += '</tr></thead><tbody>'
-
-        // 生成表格数据行，并应用颜色
-        data.forEach(item => {
-            tableHTML += '<tr>'
-            dataKeys.forEach((key, index) => {
-                const value = item[key] !== undefined ? item[key] : ''
-                const header = headers[index]
-                const colorConfig = 开启颜色样式 ? colorMap[header] || 'inherit' : 'inherit'
-                tableHTML += `<td>${applyColor(value, colorConfig)}</td>`
-            })
-            tableHTML += '</tr>'
-        })
-
-        tableHTML += '</tbody></table>'
-
-        if (inHTML) {
-            return tableHTML // 返回 HTML 字符串
-        } else {
-            const table = document.createElement('div')
-            table.innerHTML = tableHTML // 将 HTML 字符串插入到一个 div 中
-            return table.firstChild // 返回生成的 table 元素
+        },
+        723150: {
+            '行数': 'black', // 行数：黑色
+            '旅程': 'linear-gradient(to bottom, #90EE90, #008000)', // 旅程：从上到下的浅绿到绿色渐变
+            '金币': 'orange', // 金币：橙色
+            '血液': 'red', // 血液：红色
+            '咒术': 'purple', // 咒术：紫色
+            '知识': 'blue', // 知识：蓝色
+            '灵魂': 'linear-gradient(to bottom, #6A11CB, #2575FC)', // 灵魂：从上到下的紫色到蓝色渐变
+            '堕落': 'black' // 堕落：黑色
         }
     }
 
-    /**
-     * 应用颜色样式到 HTML 元素。
-     *
-     * @param {string} content - 要显示的内容。
-     * @param {string|Object} colorConfig - 颜色配置，可以是字符串（颜色值或渐变）或对象（包含 color、textShadow 和 filter）。
-     * @returns {string} 返回应用了样式的 HTML 字符串。
-     */
-    function applyColor(content, colorConfig) {
-        if (typeof colorConfig === 'object') {
-            const { color, textShadow, filter } = colorConfig
-            let style = `color: ${color};`
-            if (textShadow) style += ` text-shadow: ${textShadow};`
-            if (filter) style += ` filter: ${filter};`
-            return `<span style="${style}">${content}</span>`
-        } else if (colorConfig.startsWith('linear-gradient')) {
-            return `<span style="background: ${colorConfig}; -webkit-background-clip: text; background-clip: text; color: transparent;">${content}</span>`
-        } else {
-            return `<span style="color: ${colorConfig};">${content}</span>`
-        }
+    // 默认颜色配置（全黑）
+    const defaultColorMap = {
+        '行数': 'black',
+        '旅程': 'black',
+        '金币': 'black',
+        '血液': 'black',
+        '咒术': 'black',
+        '知识': 'black',
+        '灵魂': 'black',
+        '堕落': 'black'
     }
 })()
-
-// 这是我喜欢的一版颜色
-// const colorMap = {
-//     '行数': 'black', // 行数：黑色
-//     '旅程': 'linear-gradient(to bottom, #90EE90, #008000)', // 旅程：从上到下的浅绿到绿色渐变
-//     '金币': 'orange', // 金币：橙色
-//     '血液': 'red', // 血液：红色
-//     '咒术': 'purple', // 咒术：紫色
-//     '知识': 'blue', // 知识：蓝色
-//     '灵魂': 'linear-gradient(to bottom, #6A11CB, #2575FC)', // 灵魂：从上到下的紫色到蓝色渐变
-//     '堕落': 'black' // 堕落：黑色
-// };
