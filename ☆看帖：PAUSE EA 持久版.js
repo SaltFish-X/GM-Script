@@ -437,6 +437,10 @@
 
     //创建查看数据菜单
     GM_registerMenuCommand('查看账本', () => {
+        viewLedger()
+    })
+
+    function viewLedger() {
         // 创建一个隐藏的iframe
         var iframe = document.createElement('iframe')
         iframe.style.display = 'none'
@@ -478,33 +482,33 @@
             var filterHTML = '<div id="toolBox"><h3>筛选记录</h3>'
 
             filterHTML += `
-                <fieldset>
-                <legend>奖励类型</legend>
-                  <div>
-                  <input type="checkbox" id="showHuiTie" name="showHuiTie" checked />
-                  <label for="showHuiTie">回帖奖励</label>
-                  </div>
-                  <div>
-                  <input type="checkbox" id="showFaTie" name="showFaTie" checked />
-                  <label for="showFaTie">发帖奖励</label>
-                  </div>
-                  <div>
-                  <input type="checkbox" id="showQiTa" name="showQiTa" checked />
-                  <label for="showQiTa">其他奖励</label>
-                  </div>
-                </fieldset>
-
-                <fieldset>
-                <legend>时间范围</legend>
-                <input type="radio" id="option1" name="timeRange" value="1">
-                    <label for="option1">当天</label><br>
-
-                <input type="radio" id="option2" name="timeRange" value="custom" checked>
-                <label for="option2">自定义  <input type="number" min="0" id="customDays" value="0"></label><br>
-                <small>(N:过去N天内 1:当天 0:全部)</small>
-                </fieldset>
-
-                `
+                    <fieldset>
+                    <legend>奖励类型</legend>
+                      <div>
+                      <input type="checkbox" id="showHuiTie" name="showHuiTie" checked />
+                      <label for="showHuiTie">回帖奖励</label>
+                      </div>
+                      <div>
+                      <input type="checkbox" id="showFaTie" name="showFaTie" checked />
+                      <label for="showFaTie">发帖奖励</label>
+                      </div>
+                      <div>
+                      <input type="checkbox" id="showQiTa" name="showQiTa" checked />
+                      <label for="showQiTa">其他奖励</label>
+                      </div>
+                    </fieldset>
+    
+                    <fieldset>
+                    <legend>时间范围</legend>
+                    <input type="radio" id="option1" name="timeRange" value="1">
+                        <label for="option1">当天</label><br>
+    
+                    <input type="radio" id="option2" name="timeRange" value="custom" checked>
+                    <label for="option2">自定义  <input type="number" min="0" id="customDays" value="0"></label><br>
+                    <small>(N:过去N天内 1:当天 0:全部)</small>
+                    </fieldset>
+    
+                    `
 
             filterHTML += '</div>'
 
@@ -535,152 +539,152 @@
 
             // 定义CSS样式内容
             var styles = `
-                #fixedBox {
-                    position: fixed;
-                    width: auto;
-                    height: 96vh;
-                    background: #eeeeee;
-                    float: left;
-                    min-width: 100px;
-                    overflow-y: auto;
-                    border-radius: 8px;
-                    font-family: Noto Sans SC, Microsoft Yahei, Arial, sans-serif;
-                }
-
-                .container {
-                    display: flex;
-                }
-
-                #toolBox {
-                    padding: 10px;
-                }
-
-                #exportBtn,
-                #importBtn {
-                    margin: 6px auto 20px;
-                }
-
-                #deleteBtn {
-                    margin: auto;
-                }
-
-                #exportBtn,
-                #importBtn,
-                #deleteBtn {
-                    display: block;
-                    background-color: transparent;
-                    border: 2px solid #1A1A1A;
-                    border-radius: 0.6em;
-                    color: #3B3B3B;
-                    font-weight: 600;
-                    font-size: 14.4px;
-                    padding: 0.4em 1.2em;
-                    text-align: center;
-                    text-decoration: none;
-                    transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
-                    font-family: Noto Sans SC, Microsoft Yahei, Arial, sans-serif;
-                }
-
-                #exportBtn:hover,
-                #importBtn:hover,
-                #deleteBtn:hover {
-                    color: #fff;
-                    background-color: #1A1A1A;
-                    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
-                    transform: translateY(-2px);
-                }
-
-                #exportBtn:active,
-                #importBtn:active,
-                #deleteBtn:active {
-                    box-shadow: none;
-                    transform: translateY(0);
-                }
-
-                h3 {
-                    display: block;
-                    text-align: center;
-                    font-size: 2em;
-                    margin: 36px auto 12px;
-                }
-
-                #customConfirmModal {
-                    border-style: solid;
-                    border-width: 3px;
-                    border-color: red;
-                }
-
-                #customConfirmModal p {
-                    color: red;
-                    margin: 20px;
-                }
-
-                #confirmYes {
-                    margin: 0 20% 20px 20%;
-                }
-
-                #customDays {
-                    width: 4em;
-                    font-family: Noto Sans SC, Microsoft Yahei, Arial, sans-serif;
-                    border-radius: 6px;
-                    border: 1px solid #333;
-                }
-
-                #tableBox {
-                    width: 80%;
-                    float: right;
-                    margin-left: 20%;
-                }
-
-                #tableBox table {
-                    margin: 20px auto 40px auto;
-                    border: 2px solid #333;
-                    border-radius: 6px;
-                    border-spacing: 0;
-                    overflow: hidden;
-                }
-
-                th,
-                td {
-                    padding: 4px 8px;
-                    text-align: center;
-                    transition: all 0.2s;
-                    border: none;
-                }
-
-                th {background-color: #f2f2f2;}
-                tr:nth-child(even) {background-color: #f2f2f2; transition: all 0.2s;}
-                tr:hover {background-color: #d3d3d3; transition: all 0.2s;}
-
-                #toggleToolBoxBtn {
-                    position: fixed;
-                    width: 16px;
-                    height: 16px;
-                    margin-top: 8px;
-                    margin-left: 8px;
-                    z-index: 1000;
-                    border: 1px solid #333;
-                    padding: 4px;
-                    border-radius: 50%;
-                }
-
-                fieldset {
-                  border: 2px solid #333; /* 设置边框 */
-                  padding: 8px 12px 16px 12px; /* 设置内边距 */
-                  margin: 20px 10px; /* 设置外边距 */
-                  background-color: #f9f9f9; /* 设置背景颜色 */
-                  border-radius: 6px; /* 设置圆角 */
-                }
-
-                legend {
-                  font-weight: bold; /* 设置字体加粗 */
-                  color: #000; /* 设置字体颜色 */
-                }
-
-                label {
-                  font-size:14.4px;
-                }
-                `
+                    #fixedBox {
+                        position: fixed;
+                        width: auto;
+                        height: 96vh;
+                        background: #eeeeee;
+                        float: left;
+                        min-width: 100px;
+                        overflow-y: auto;
+                        border-radius: 8px;
+                        font-family: Noto Sans SC, Microsoft Yahei, Arial, sans-serif;
+                    }
+    
+                    .container {
+                        display: flex;
+                    }
+    
+                    #toolBox {
+                        padding: 10px;
+                    }
+    
+                    #exportBtn,
+                    #importBtn {
+                        margin: 6px auto 20px;
+                    }
+    
+                    #deleteBtn {
+                        margin: auto;
+                    }
+    
+                    #exportBtn,
+                    #importBtn,
+                    #deleteBtn {
+                        display: block;
+                        background-color: transparent;
+                        border: 2px solid #1A1A1A;
+                        border-radius: 0.6em;
+                        color: #3B3B3B;
+                        font-weight: 600;
+                        font-size: 14.4px;
+                        padding: 0.4em 1.2em;
+                        text-align: center;
+                        text-decoration: none;
+                        transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+                        font-family: Noto Sans SC, Microsoft Yahei, Arial, sans-serif;
+                    }
+    
+                    #exportBtn:hover,
+                    #importBtn:hover,
+                    #deleteBtn:hover {
+                        color: #fff;
+                        background-color: #1A1A1A;
+                        box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+                        transform: translateY(-2px);
+                    }
+    
+                    #exportBtn:active,
+                    #importBtn:active,
+                    #deleteBtn:active {
+                        box-shadow: none;
+                        transform: translateY(0);
+                    }
+    
+                    h3 {
+                        display: block;
+                        text-align: center;
+                        font-size: 2em;
+                        margin: 36px auto 12px;
+                    }
+    
+                    #customConfirmModal {
+                        border-style: solid;
+                        border-width: 3px;
+                        border-color: red;
+                    }
+    
+                    #customConfirmModal p {
+                        color: red;
+                        margin: 20px;
+                    }
+    
+                    #confirmYes {
+                        margin: 0 20% 20px 20%;
+                    }
+    
+                    #customDays {
+                        width: 4em;
+                        font-family: Noto Sans SC, Microsoft Yahei, Arial, sans-serif;
+                        border-radius: 6px;
+                        border: 1px solid #333;
+                    }
+    
+                    #tableBox {
+                        width: 80%;
+                        float: right;
+                        margin-left: 20%;
+                    }
+    
+                    #tableBox table {
+                        margin: 20px auto 40px auto;
+                        border: 2px solid #333;
+                        border-radius: 6px;
+                        border-spacing: 0;
+                        overflow: hidden;
+                    }
+    
+                    th,
+                    td {
+                        padding: 4px 8px;
+                        text-align: center;
+                        transition: all 0.2s;
+                        border: none;
+                    }
+    
+                    th {background-color: #f2f2f2;}
+                    tr:nth-child(even) {background-color: #f2f2f2; transition: all 0.2s;}
+                    tr:hover {background-color: #d3d3d3; transition: all 0.2s;}
+    
+                    #toggleToolBoxBtn {
+                        position: fixed;
+                        width: 16px;
+                        height: 16px;
+                        margin-top: 8px;
+                        margin-left: 8px;
+                        z-index: 1000;
+                        border: 1px solid #333;
+                        padding: 4px;
+                        border-radius: 50%;
+                    }
+    
+                    fieldset {
+                      border: 2px solid #333; /* 设置边框 */
+                      padding: 8px 12px 16px 12px; /* 设置内边距 */
+                      margin: 20px 10px; /* 设置外边距 */
+                      background-color: #f9f9f9; /* 设置背景颜色 */
+                      border-radius: 6px; /* 设置圆角 */
+                    }
+    
+                    legend {
+                      font-weight: bold; /* 设置字体加粗 */
+                      color: #000; /* 设置字体颜色 */
+                    }
+    
+                    label {
+                      font-size:14.4px;
+                    }
+                    `
 
 
             // 将样式内容赋值给<style>元素的textContent属性
@@ -889,7 +893,7 @@
 
         // 清理创建的iframe
         document.body.removeChild(iframe)
-    })
+    }
 
     // 计算分区回帖数
     function getAreaNum(historyArray) {
@@ -1149,5 +1153,32 @@
         '知识': 'black',
         '灵魂': 'black',
         '堕落': 'black'
+    }
+
+    // 调用函数
+    addLedgerLink()
+    // 插入链接
+    function addLedgerLink() {
+        // 创建一个新的 <a> 元素
+        const ledgerLink = document.createElement('a')
+
+        // 设置链接的文本内容
+        ledgerLink.textContent = '查看账本'
+
+        // 设置链接的点击行为（这里可以根据需要添加具体的功能）
+        ledgerLink.href = 'javascript:;' // 保持链接不跳转
+        ledgerLink.onclick = function () {
+            viewLedger()
+        }
+
+        // 获取目标 <div class="y"> 元素
+        const targetDiv = document.querySelector('div.y')
+
+        // 将新创建的链接添加到目标 <div> 的最前面
+        if (targetDiv) {
+            targetDiv.insertBefore(ledgerLink, targetDiv.firstChild)
+        } else {
+            console.error('未找到 class 为 "y" 的 <div> 元素')
+        }
     }
 })()
