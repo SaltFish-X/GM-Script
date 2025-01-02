@@ -103,6 +103,7 @@
     // 持续监听页面，当目标节点发生变化时，调用检测函数
     function startObserve() {
         const targetNode = document.getElementById('append_parent')
+        if (!targetNode) return
 
         // 观察器配置
         const config = { attributes: false, childList: true, subtree: false }
@@ -1184,7 +1185,7 @@
 
         // 将按钮添加到目标元素中
         if (targetElement) {
-            targetElement.insertBefore(div, targetElement.firstChild); // 插入到最前面
+            targetElement.insertBefore(div, targetElement.firstChild) // 插入到最前面
             div.addEventListener('click', () => {
                 viewLedger()
             })
