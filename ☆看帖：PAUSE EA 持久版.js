@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         看帖：PAUSE EA 持久版
 // @namespace    https://www.gamemale.com/space-uid-687897.html
-// @version      0.8.6
+// @version      0.8.7
 // @description  勋章触发奖励时停+发帖回帖奖励账本查询！
 // @author       瓦尼
 // @match        https://www.gamemale.com/*
@@ -898,8 +898,8 @@
 
     // 计算分区回帖数
     function getAreaNum(historyArray) {
-        // let result = { 'C G A I': 0, '生活爆照': 0, '和谐动漫': 0, '汉化游戏': 0, '和谐游戏': 0, }
-        let result = {}
+        let result = { 'C G A I': 0, '生活爆照': 0, '和谐动漫': 0, '汉化游戏': 0, '和谐游戏': 0, }
+        // let result = {}
         historyArray.forEach(e => {
             if (e.area) {
                 if (!result[e.area]) {
