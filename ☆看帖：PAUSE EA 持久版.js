@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         看帖：PAUSE EA 持久版
 // @namespace    https://www.gamemale.com/space-uid-687897.html
-// @version      0.8.8
+// @version      0.8.8.1
 // @description  勋章触发奖励时停+发帖回帖奖励账本查询！
 // @author       瓦尼
 // @match        https://www.gamemale.com/*
@@ -228,12 +228,6 @@
         result.creditType = reason
         // 奖励类型为发表回复或发表主题时，记录区域
         if (result.creditType === '发表回复' || result.creditType === '发表主题') {
-            // 等待提示框加载/抽卡音乐加载
-            if (开启提示框暂停) {
-                setTimeout(function () {
-                    alert(divElement.textContent)
-                }, 500)
-            }
             result.area = area
         }
 
@@ -268,6 +262,14 @@
         console.log(result)
         localStorage.setItem('extractedCreditHistory', JSON.stringify(historyArrayEx))
 
+        // 最后弹框提示
+        if (开启提示框暂停) {
+            if (result.creditType === '发表回复' || result.creditType === '发表主题') {
+                setTimeout(function () {
+                    alert(divElement.textContent)
+                }, 500)
+            }
+        }
         return 0
     }
 
