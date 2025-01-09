@@ -11,7 +11,7 @@
 // @icon         https://www.gamemale.com/template/mwt2/extend/img/favicon.ico
 // ==/UserScript==
 
-// 下载地址 https://greasyfork.org/zh-CN/scripts/523275-%E7%BB%9F%E8%AE%A1%E8%AE%BA%E5%9D%9B%E5%8F%91%E5%B8%96%E4%BF%A1%E6%81%AF
+// 下载地址 https://greasyfork.org/zh-CN/scripts/523275-gm%E8%AE%BA%E5%9D%9B%E7%BB%9F%E8%AE%A1%E8%AE%BA%E5%9D%9B%E5%8F%91%E5%B8%96%E4%BF%A1%E6%81%AF
 (function () {
     'use strict'
 
