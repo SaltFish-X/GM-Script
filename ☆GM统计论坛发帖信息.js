@@ -7,6 +7,7 @@
 // @match        https://www.gamemale.com/search.php?mod=forum&searchid=*
 // @grant        none
 // @require      https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js
+// @license      GPL
 // ==/UserScript==
 
 (function () {
