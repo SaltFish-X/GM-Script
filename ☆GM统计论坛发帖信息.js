@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛统计论坛发帖信息
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @description  点击按钮后爬取论坛帖子信息并生成 Excel 文件
 // @author       Your Name
 // @match        https://www.gamemale.com/search.php?mod=forum&searchid=*
@@ -11,7 +11,7 @@
 // @icon         https://www.gamemale.com/template/mwt2/extend/img/favicon.ico
 // ==/UserScript==
 
-// 下载地址 https://greasyfork.org/zh-CN/scripts/523275-gm%E8%AE%BA%E5%9D%9B%E7%BB%9F%E8%AE%A1%E8%AE%BA%E5%9D%9B%E5%8F%91%E5%B8%96%E4%BF%A1%E6%81%AF
+// 下载地址 https://greasyfork.org/zh-CN/scripts/523275
 (function () {
     'use strict'
 
@@ -100,14 +100,14 @@
                     allPosts.push({
                         key,
                         追随: followers,
-                        title,
-                        author,
-                        authorUid,
-                        section,
-                        sectionId,
-                        tid,
-                        link,
-                        postTime
+                        标题: title,
+                        作者: author,
+                        作者uid: authorUid,
+                        板块: section,
+                        板块编号: sectionId,
+                        帖子id: tid,
+                        帖子链接: link,
+                        发布时间: postTime
                     })
                 }
             } catch (error) {
@@ -153,13 +153,30 @@
             { wch: 10 }, // author
             { wch: 10 }, // authorUid
             { wch: 10 }, // section
-            { wch: 10 }, // sectionId
-            { wch: 10 }, // tid
+            { wch: 10 }, // sectionId (板块编号)
+            { wch: 10 }, // tid (帖子ID)
             { wch: 50 }, // link
             { wch: 20 }  // postTime
         ]
 
+        // 设置列宽
         ws['!cols'] = wscols
+
+        // 隐藏特定列（板块编号和帖子ID）
+        const hideColumns = ["板块编号", "帖子id"] // 需要隐藏的列名
+        if (!followCheckbox.checked) {
+            hideColumns.push("追随") // 如果未统计追随，则隐藏追随列
+        }
+        const header = Object.keys(data[0]) // 获取标题行
+
+        // 遍历标题行，找到需要隐藏的列的索引
+        hideColumns.forEach(colName => {
+            const colIndex = header.indexOf(colName)
+            if (colIndex !== -1) {
+                if (!ws['!cols'][colIndex]) ws['!cols'][colIndex] = {}
+                ws['!cols'][colIndex].hidden = true // 隐藏列
+            }
+        })
 
         // 生成Excel文件并下载
         const name = document.querySelector("#scform_srchtxt").value
