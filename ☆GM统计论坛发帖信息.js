@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         统计论坛发帖信息
+// @name         GM论坛统计论坛发帖信息
 // @namespace    http://tampermonkey.net/
 // @version      1.0
 // @description  点击按钮后爬取论坛帖子信息并生成 Excel 文件
@@ -8,8 +8,10 @@
 // @grant        none
 // @require      https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js
 // @license      GPL
+// @icon         https://www.gamemale.com/template/mwt2/extend/img/favicon.ico
 // ==/UserScript==
 
+// 下载地址 https://greasyfork.org/zh-CN/scripts/523275-%E7%BB%9F%E8%AE%A1%E8%AE%BA%E5%9D%9B%E5%8F%91%E5%B8%96%E4%BF%A1%E6%81%AF
 (function () {
     'use strict'
 
