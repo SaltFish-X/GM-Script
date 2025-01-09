@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         论坛帖子爬虫
+// @name         统计论坛发帖信息
 // @namespace    http://tampermonkey.net/
 // @version      1.0
 // @description  点击按钮后爬取论坛帖子信息并生成 Excel 文件
