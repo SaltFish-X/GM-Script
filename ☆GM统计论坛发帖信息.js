@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛统计论坛发帖信息
 // @namespace    http://tampermonkey.net/
-// @version      1.1
+// @version      1.1.0
 // @description  点击按钮后爬取论坛帖子信息并生成 Excel 文件
 // @author       Your Name
 // @match        https://www.gamemale.com/search.php?mod=forum&searchid=*
