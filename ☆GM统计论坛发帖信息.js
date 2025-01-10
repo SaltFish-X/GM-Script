@@ -163,7 +163,7 @@
         ws['!cols'] = wscols
 
         // 隐藏特定列（板块编号和帖子ID）
-        const hideColumns = ["板块编号", "帖子id"] // 需要隐藏的列名
+        const hideColumns = ["板块编号"] // 需要隐藏的列名
         if (!followCheckbox.checked) {
             hideColumns.push("追随") // 如果未统计追随，则隐藏追随列
         }
