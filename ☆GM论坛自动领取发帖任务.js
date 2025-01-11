@@ -43,7 +43,7 @@
   // 获取当前页面的 URL
   const currentUrl = window.location.href
   const currentReferrer = document.referrer
-  const newThreadUrl = 'https://www.gamemale.com/forum.php?mod=post&action=newthread&fid='
+  const newThreadUrl = 'https://www.gamemale.com/forum.php?mod=post&action=newthread'
 
   // 检查当前 URL 是否匹配正则表达式
   if (currentUrl.includes(newThreadUrl)) {
