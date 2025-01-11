@@ -27,67 +27,67 @@
 // TODO 过长等级显示
 
 (function () {
-    'use strict';
+    'use strict'
     // 0为原版【上下显示】 1为新版【左右显示】
     // 似乎手机上下显示没问题，那保留一下
     // 判断是否为移动设备（包括 iPhone）
-    const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
+    const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent)
 
     if (GM_getValue("toggleSetting") === undefined) {
         // toggleSetting 代表放大镜是否位于标签左右 true为左右，false为上下
-        GM_setValue("toggleSetting", !isMobile); // 如果是移动设备，默认为 false；否则为 true
+        GM_setValue("toggleSetting", !isMobile) // 如果是移动设备，默认为 false；否则为 true
     }
 
     // 创建菜单命令用于切换设置
-    GM_registerMenuCommand("切换放大镜显示位置", toggleSettingFun);
+    GM_registerMenuCommand("切换放大镜显示位置", toggleSettingFun)
     function toggleSettingFun() {
-        const currentValue = GM_getValue("toggleSetting");
-        const newValue = !currentValue;
-        GM_setValue("toggleSetting", newValue);
+        const currentValue = GM_getValue("toggleSetting")
+        const newValue = !currentValue
+        GM_setValue("toggleSetting", newValue)
     }
 
     // 此外右下角有一个放大器可以显示/隐藏放大镜，解决遮挡原信息问题
     // 估计很多人没法发现过这个东西
-    let 放大镜显示 = localStorage.getItem('放大镜显示') !== 'false';
+    let 放大镜显示 = localStorage.getItem('放大镜显示') !== 'false'
 
     function 创建控制面板() {
-        const 控制面板 = document.createElement('div');
-        控制面板.id = '控制面板';
-        控制面板.style.position = 'fixed';
-        控制面板.style.bottom = '20px';
-        控制面板.style.right = '20px';
-        控制面板.style.zIndex = '1000';
-        控制面板.innerHTML = `<button id="切换放大镜按钮" style="font-size: 18px; background: none; border: none; padding: 0; box-shadow: none; line-height: 1;">${放大镜显示 ? "🔎✅" : "🔎🚫"}</button>`;
-        document.body.appendChild(控制面板);
-        document.getElementById("切换放大镜按钮").addEventListener("click", 切换放大镜显示);
+        const 控制面板 = document.createElement('div')
+        控制面板.id = '控制面板'
+        控制面板.style.position = 'fixed'
+        控制面板.style.bottom = '20px'
+        控制面板.style.right = '20px'
+        控制面板.style.zIndex = '1000'
+        控制面板.innerHTML = `<button id="切换放大镜按钮" style="font-size: 18px; background: none; border: none; padding: 0; box-shadow: none; line-height: 1;">${放大镜显示 ? "🔎✅" : "🔎🚫"}</button>`
+        document.body.appendChild(控制面板)
+        document.getElementById("切换放大镜按钮").addEventListener("click", 切换放大镜显示)
     }
 
     function 切换放大镜显示() {
-        放大镜显示 = !放大镜显示;
-        this.innerHTML = 放大镜显示 ? "🔎✅" : "🔎🚫";
-        localStorage.setItem('放大镜显示', 放大镜显示);
+        放大镜显示 = !放大镜显示
+        this.innerHTML = 放大镜显示 ? "🔎✅" : "🔎🚫"
+        localStorage.setItem('放大镜显示', 放大镜显示)
         if (!放大镜显示) {
-            隐藏所有放大镜();
+            隐藏所有放大镜()
         }
     }
 
     function 创建放大镜() {
-        const 放大镜 = document.createElement('div');
-        放大镜.id = '泥潭勋章放大镜';
-        放大镜.style.position = 'absolute';
-        放大镜.style.padding = '10px';
-        放大镜.style.background = 'white';
-        放大镜.style.border = '1px solid black';
-        放大镜.style.borderRadius = '5px';
-        放大镜.style.display = 'none';
-        放大镜.style.zIndex = '10000';
-        放大镜.style.fontWeight = 'bold';
-        放大镜.style.color = '#000516';
-        document.body.appendChild(放大镜);
-        return 放大镜;
+        const 放大镜 = document.createElement('div')
+        放大镜.id = '泥潭勋章放大镜'
+        放大镜.style.position = 'absolute'
+        放大镜.style.padding = '10px'
+        放大镜.style.background = 'white'
+        放大镜.style.border = '1px solid black'
+        放大镜.style.borderRadius = '5px'
+        放大镜.style.display = 'none'
+        放大镜.style.zIndex = '10000'
+        放大镜.style.fontWeight = 'bold'
+        放大镜.style.color = '#000516'
+        document.body.appendChild(放大镜)
+        return 放大镜
     }
 
-    const 放大镜 = 创建放大镜();
+    const 放大镜 = 创建放大镜()
 
     const 收益权重映射 = {
         '金币': 1,
@@ -97,7 +97,7 @@
         '知识': 50,
         '灵魂': 1000,
         '堕落': 0 // 堕落不计入总消耗
-    };
+    }
 
     const 属性映射 = {
         '金币': { 颜色: '#FFBF00', emoji: '💰' },
@@ -108,12 +108,12 @@
         '灵魂': { 颜色: '#add8e6', emoji: '✡️' },
         '堕落': { 颜色: '#800080', emoji: '😈' },
         '总计': { 颜色: '#ffa500', emoji: '🈴' }
-      };
+    }
 
     const 属性颜色映射 = {
         '回帖': '#0189ff',
         '发帖': 'purple'
-    };
+    }
 
     function 计算收益(文本) {
         const 行列表 = 文本.split('\n')
@@ -165,7 +165,7 @@
 
                     // 更新最大收益
                     if (非自动升级收益 > 最大收益.收益) {
-                        最大收益 = { 收益: 总收益, 等级: 行.match(/【等级(\d+)】/)?.[1] || 'Max' } 
+                        最大收益 = { 收益: 总收益, 等级: 行.match(/【等级(\d+)】/)?.[1] || 'Max' }
                     }
                 }
             }
@@ -185,7 +185,7 @@
         const 匹配结果 = 内容.match(/商店售价】(\d+)(金币|血液|旅程|咒术|知识|灵魂|堕落)?/)
         let 价格 = parseInt(匹配结果?.[1]) || 0
         const 单位 = 匹配结果?.[2]
-        价格 = 价格*收益权重映射[单位]
+        价格 = 价格 * 收益权重映射[单位]
 
         if (最大收益.收益 > 0) {
             const 回本周期1 = 升级消耗 / 最大收益.收益
@@ -202,80 +202,80 @@
         const 最大收益 = 计算收益(内容).最大收益
         const 升级消耗 = 统计升级消耗(内容)
         const 升级消耗文本 = 升级消耗.文本
-        const 回本周期 = 计算回本周期(内容,升级消耗.数字,最大收益)
+        const 回本周期 = 计算回本周期(内容, 升级消耗.数字, 最大收益)
 
-        const 行列表 = 内容.split('\n');
-        let 新内容 = '';
+        const 行列表 = 内容.split('\n')
+        let 新内容 = ''
         for (let i = 0; i < 行列表.length; i++) {
-            const 行 = 行列表[i];
-            const 收益详情 = 收益详情列表[i];
+            const 行 = 行列表[i]
+            const 收益详情 = 收益详情列表[i]
             if (收益详情) {
-                新内容 += 行.replace(/(】)(\d+)%(\s*)/, `$1${收益详情} $2%$3`);
+                新内容 += 行.replace(/(】)(\d+)%(\s*)/, `$1${收益详情} $2%$3`)
             } else {
-                新内容 += 行;
+                新内容 += 行
             }
             if (i < 行列表.length - 1) {
-                新内容 += '\n';
+                新内容 += '\n'
             }
         }
-        
+
         // 修改属性颜色
         新内容 = 新内容.replace(/(回帖)(.*?)(?=、|\n|$|发帖|升级|▕)/g, function (match, p1, p2) {
-            return `<span style="color:${属性颜色映射['回帖']}">${p1}${p2}</span>`;
-        });
+            return `<span style="color:${属性颜色映射['回帖']}">${p1}${p2}</span>`
+        })
         新内容 = 新内容.replace(/(发帖)(.*?)(?=、|\n|$|升级|▕)/g, function (match, p1, p2) {
-            return `<span style="color:${属性颜色映射['发帖']}">${p1}${p2}</span>`;
-        });
-        
+            return `<span style="color:${属性颜色映射['发帖']}">${p1}${p2}</span>`
+        })
+
         新内容 += 升级消耗文本
         // 新内容 += '\n' + 回本周期
-        return 新内容;
+        return 新内容
     }
 
     function 显示放大镜(内容, 目标) {
-        if (!放大镜显示) return;
-        const 新内容 = 修改属性颜色(内容);
-        放大镜.innerHTML = 新内容.replace(/\n/g, '<br>');
-        放大镜.style.display = 'block';
-        放大镜.style.visibility = 'hidden';
+        if (!放大镜显示) return
+        const 新内容 = 修改属性颜色(内容)
+        放大镜.innerHTML = 新内容.replace(/\n/g, '<br>')
+        放大镜.style.display = 'block'
+        放大镜.style.visibility = 'hidden'
 
         if (GM_getValue("toggleSetting")) {
             定位放大镜New(目标)
         } else {
-            定位放大镜(目标);
+            定位放大镜(目标)
         }
 
-        放大镜.style.visibility = 'visible';
+        放大镜.style.visibility = 'visible'
     }
 
     function 定位放大镜(目标) {
-        const 放大镜宽度 = 放大镜.offsetWidth;
-        const 放大镜高度 = 放大镜.offsetHeight;
-        const 目标矩形 = 目标.getBoundingClientRect();
-        let 放大镜左边 = window.pageXOffset + 目标矩形.left - (放大镜宽度 / 2) + (目标矩形.width / 2);
-        let 放大镜顶部 = window.pageYOffset + 目标矩形.top - 放大镜高度 - 10;
+        const 放大镜宽度 = 放大镜.offsetWidth
+        const 放大镜高度 = 放大镜.offsetHeight
+        const 目标矩形 = 目标.getBoundingClientRect()
+        let 放大镜左边 = window.pageXOffset + 目标矩形.left - (放大镜宽度 / 2) + (目标矩形.width / 2)
+        let 放大镜顶部 = window.pageYOffset + 目标矩形.top - 放大镜高度 - 10
 
         if (放大镜顶部 < window.pageYOffset) {
-            放大镜顶部 = window.pageYOffset + 目标矩形.bottom + 10;
+            放大镜顶部 = window.pageYOffset + 目标矩形.bottom + 10
         }
         if (放大镜左边 + 放大镜宽度 > window.pageXOffset + document.documentElement.clientWidth) {
-            放大镜左边 = window.pageXOffset + document.documentElement.clientWidth - 放大镜宽度 - 10;
+            放大镜左边 = window.pageXOffset + document.documentElement.clientWidth - 放大镜宽度 - 10
         }
         if (放大镜左边 < window.pageXOffset) {
-            放大镜左边 = window.pageXOffset + 10;
+            放大镜左边 = window.pageXOffset + 10
         }
         if (放大镜顶部 + 放大镜高度 > window.pageYOffset + window.innerHeight) {
-            放大镜顶部 = window.pageYOffset + 目标矩形.top - 放大镜高度 - 10;
+            放大镜顶部 = window.pageYOffset + 目标矩形.top - 放大镜高度 - 10
         }
-        放大镜.style.left = 放大镜左边 + 'px';
-        放大镜.style.top = 放大镜顶部 + 'px';
+        放大镜.style.left = 放大镜左边 + 'px'
+        放大镜.style.top = 放大镜顶部 + 'px'
     }
 
     function 定位放大镜New(img) {
         document.querySelectorAll(".MyshowTip2").forEach(label => {
             if (label.style.display != 'none') {
-                const 放大镜宽度 = 放大镜.offsetWidth;
-                const 放大镜高度 = 放大镜.offsetHeight;
+                const 放大镜宽度 = 放大镜.offsetWidth
+                const 放大镜高度 = 放大镜.offsetHeight
 
                 // 和原标签顶部对齐
                 let 放大镜顶部 = parseInt(label.style.top)
@@ -299,36 +299,36 @@
                     放大镜顶部 = 放大镜顶部 + labelHeight - 放大镜高度
                 }
 
-                放大镜.style.top = 放大镜顶部 + 'px';
-                放大镜.style.left = 放大镜左边 + 'px';
+                放大镜.style.top = 放大镜顶部 + 'px'
+                放大镜.style.left = 放大镜左边 + 'px'
             }
         })
 
     }
 
     function 隐藏放大镜() {
-        放大镜.style.display = 'none';
+        放大镜.style.display = 'none'
     }
 
     function 隐藏所有放大镜() {
-        隐藏放大镜();
+        隐藏放大镜()
     }
 
     function 添加悬停监听器(目标, 放大镜内容) {
         目标.addEventListener('mouseover', function () {
             if (放大镜内容) {
-                显示放大镜(放大镜内容, 目标);
+                显示放大镜(放大镜内容, 目标)
             }
-        });
-        目标.addEventListener('mouseout', 隐藏放大镜);
+        })
+        目标.addEventListener('mouseout', 隐藏放大镜)
     }
 
     function 初始化放大镜() {
         document.querySelectorAll('.myimg img').forEach(function (img) {
-            const alt = img.getAttribute('alt');
+            const alt = img.getAttribute('alt')
             // 有的勋章是全角· 有的勋章是‧ 这里我们判断一下来保证匹配
-            const alt1 = alt.replace(/·/g, '‧');
-            const alt2 = alt.replace(/‧/g, '·');
+            const alt1 = alt.replace(/·/g, '‧')
+            const alt2 = alt.replace(/‧/g, '·')
             // 临时更新，真人男从勋章后面会带个.
             const alt3 = alt1.slice(0, -1)
             const alt4 = alt2.slice(0, -1)
@@ -340,26 +340,26 @@
             const 放大镜内容 = getAlt(altArray)
 
             if (放大镜内容) {
-                添加悬停监听器(img, 放大镜内容);
+                添加悬停监听器(img, 放大镜内容)
             }
-        });
+        })
     }
     function 变化检测() {
         const 观察 = new MutationObserver(function (变化标记) {
             变化标记.forEach(function (变化) {
                 变化.addedNodes.forEach(function (节点) {
                     if (节点.nodeType === Node.ELEMENT_NODE && 节点.matches('.myimg img')) {
-                        const 替代文本 = 节点.getAttribute('alt');
+                        const 替代文本 = 节点.getAttribute('alt')
                         if (放大镜内容映射表.hasOwnProperty(替代文本)) {
-                            添加悬停监听器(节点);
+                            添加悬停监听器(节点)
                         }
                     }
-                });
-            });
-        });
-        const 目标容器 = document.querySelector('.my_fenlei');
+                })
+            })
+        })
+        const 目标容器 = document.querySelector('.my_fenlei')
         if (目标容器) {
-            观察.observe(目标容器, { childList: true, subtree: true });
+            观察.observe(目标容器, { childList: true, subtree: true })
         }
     }
 
@@ -374,7 +374,7 @@
             灵魂: 0,
             堕落: 0
         }
-        const 升级消耗 ={
+        const 升级消耗 = {
             文本: '',
             数字: 0
         }
@@ -411,7 +411,7 @@
         if (消耗描述) {
             升级消耗.文本 = `\n  【满级消耗】${消耗描述} 总计消耗${总消耗} `
             升级消耗.数字 = 总消耗
-        } 
+        }
         return 升级消耗
     }
 var 放大镜内容映射表 = {
@@ -4091,11 +4091,11 @@ var 放大镜内容映射表 = {
 【入手条件】无
 【商店售价】100金币
 【 Max 】1% 回帖旅程+1`,
-};
-创建控制面板();
-初始化放大镜();
-变化检测();
-})();
+}
+创建控制面板()
+初始化放大镜()
+变化检测()
+})()
 
 // 录入模板 ≥
 var 录入模板 = {
