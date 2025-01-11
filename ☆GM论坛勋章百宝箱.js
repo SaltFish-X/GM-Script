@@ -639,6 +639,8 @@
         ],
         // 期间限定的临时活动勋章
         Events: [
+            // 2023-2024年的期间限定勋章
+            // https://www.gamemale.com/forum.php?mod=viewthread&tid=137437
             "香浓罗宋汤" // https://img.gamemale.com/album/202412/31/230448aspoeushzeup66kf.gif
         ],
 
