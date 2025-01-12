@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.3.2
+// @version      2.3.3
 // @description  泥潭勋章属性展示！
 // @author       轶致
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html*
@@ -83,6 +83,8 @@
         放大镜.style.zIndex = '10000'
         放大镜.style.fontWeight = 'bold'
         放大镜.style.color = '#000516'
+        放大镜.style.maxHeight = '400px' // 设置最大高度
+        放大镜.style.overflowY = 'auto'  // 添加垂直滚动条
         document.body.appendChild(放大镜)
         return 放大镜
     }
@@ -314,14 +316,27 @@
         隐藏放大镜()
     }
 
+    let timeoutId
     function 添加悬停监听器(目标, 放大镜内容) {
         目标.addEventListener('mouseover', function () {
             if (放大镜内容) {
+                clearTimeout(timeoutId); // 清除之前的隐藏任务
                 显示放大镜(放大镜内容, 目标)
             }
         })
-        目标.addEventListener('mouseout', 隐藏放大镜)
+        目标.addEventListener('mouseout', () => {
+            // 延迟隐藏 B
+            timeoutId = setTimeout(() => {
+                if (!放大镜.matches(':hover')) {
+                    隐藏放大镜()
+                }
+            }, 100) // 延迟时间
+        })
     }
+
+    放大镜.addEventListener('mouseleave', () => {
+        隐藏放大镜()
+    });
 
     function 初始化放大镜() {
         document.querySelectorAll('.myimg img').forEach(function (img) {
