@@ -29,7 +29,7 @@
 // TODO 再分的细一点，分出装饰.jpg
 
 (function () {
-    'use strict';
+    'use strict'
     const 是否自动开启茉香啤酒 = 0
 
     // 徽章按类型排序和顺序调整
@@ -666,7 +666,7 @@
     createLink('关闭赠礼/咒术类勋章显示', oneClickDisplay)
 
     if (是否自动开启茉香啤酒) { 自动开启茉香啤酒() }
-    
+
     // 记录展示勋章/置顶展示勋章
     createLink('记录展示勋章', saveTopMedal)
     createLink('置顶展示勋章', loadTopMedal)
@@ -677,17 +677,17 @@
 
     // 创建一个新的div元素用于管理徽章
     function initbadgeManage() {
-        const badgeManagerDiv = document.createElement('div');
-        badgeManagerDiv.className = 'badge-manager';
-        badgeManagerDiv.innerHTML = '<h2>徽章管理</h2><p>这里可以管理您的徽章。</p><div class="badge-manager-button"><div>';
+        const badgeManagerDiv = document.createElement('div')
+        badgeManagerDiv.className = 'badge-manager'
+        badgeManagerDiv.innerHTML = '<h2>徽章管理</h2><p>这里可以管理您的徽章。</p><div class="badge-manager-button"><div>'
 
-        const badgeOrderDiv = document.createElement('div');
-        badgeOrderDiv.className = 'badge-order';
+        const badgeOrderDiv = document.createElement('div')
+        badgeOrderDiv.className = 'badge-order'
         badgeOrderDiv.innerHTML = '正在计算您拥有的徽章类型和价值，请稍等。。。如果长期没有加载，可能是你的其他插件报错影响了本插件的正常运行，请逐个关闭其他插件进行排查'
 
         // 获取目标div并在其前面插入新创建的div
-        const targetDiv = document.querySelector('.my_fenlei');
-        targetDiv.parentNode.insertBefore(badgeManagerDiv, targetDiv);
+        const targetDiv = document.querySelector('.my_fenlei')
+        targetDiv.parentNode.insertBefore(badgeManagerDiv, targetDiv)
         badgeManagerDiv.appendChild(badgeOrderDiv)
         // targetDiv.parentNode.insertBefore(badgeOrderDiv, badgeManagerDiv);
 
@@ -744,7 +744,7 @@
             padding: 10px;
             z-index: 1000;
         }
-    `;
+    `
 
         // 新皮肤，白色主题 
         // GM_addStyle 没有删除功能 搁置
@@ -808,7 +808,7 @@
             font-size: 16px;
             font-family: 'Noto Sans SC', 'Microsoft Yahei', Arial, sans-serif;
         }
-    `;
+    `
         const TopMedalContainer = `
         .appl .TopMedal-container img {
             margin: 4px 2px 0 0;
@@ -828,17 +828,17 @@
 
     // 添加功能按钮
     function createLink(label, onClickMethod) {
-        const button = document.createElement('button');
-        button.className = 'custom-button';
-        button.textContent = label;
+        const button = document.createElement('button')
+        button.className = 'custom-button'
+        button.textContent = label
         button.onclick = (event) => {
-            event.preventDefault(); // 阻止默认行为
-            onClickMethod(); // 调用自定义方法
-        };
+            event.preventDefault() // 阻止默认行为
+            onClickMethod() // 调用自定义方法
+        }
 
         // 将链接添加到页面的 body 中
         const my_biaoti = document.querySelector('.badge-manager-button')
-        my_biaoti.appendChild(button);
+        my_biaoti.appendChild(button)
     }
 
     // 设置回收按钮
@@ -848,20 +848,20 @@
             if (element.innerText == '回收') {
                 // 初始化干掉
                 if (init) {
-                    element.style.display = "none";
-                    element.parentElement.style.display = "none";
+                    element.style.display = "none"
+                    element.parentElement.style.display = "none"
                 } else {
                     // 检查元素的display属性
                     if (element.style.display === "none" || getComputedStyle(element).display === "none") {
                         // 如果是none，则显示元素和其父元素
-                        element.style.display = "inline";
-                        element.parentElement.style.display = "inline"; // 显示父元素
+                        element.style.display = "inline"
+                        element.parentElement.style.display = "inline" // 显示父元素
                         isShow = true
                         // alert('回收按钮已显示')
                     } else {
                         // 否则隐藏元素和其父元素
-                        element.style.display = "none";
-                        element.parentElement.style.display = "none"; // 隐藏父元素
+                        element.style.display = "none"
+                        element.parentElement.style.display = "none" // 隐藏父元素
                         isShow = false
                         // alert('回收按钮已隐藏')
                     }
@@ -878,63 +878,63 @@
     // 勋章排序
     function kindOrder() {
         // 获取所有匹配的元素
-        const elements = document.querySelectorAll('.my_fenlei .myblok');
-        const elementsArray = Array.from(elements);
+        const elements = document.querySelectorAll('.my_fenlei .myblok')
+        const elementsArray = Array.from(elements)
 
         // 使用 map 函数处理每个元素
         const xunzhangList = elementsArray.map(myBlock => {
-            const key = myBlock.getAttribute('key');
-            const nameElement = myBlock.querySelector('p b'); // 找到包含名称的 <b> 标签
-            const name = nameElement ? nameElement.textContent : '';
+            const key = myBlock.getAttribute('key')
+            const nameElement = myBlock.querySelector('p b') // 找到包含名称的 <b> 标签
+            const name = nameElement ? nameElement.textContent : ''
             return { [name]: key }
         })
         // 使用 reduce 合并字典
         const mergedDict = xunzhangList.reduce((acc, curr) => {
-            return { ...acc, ...curr };
-        }, {});
+            return { ...acc, ...curr }
+        }, {})
 
         // 填补未知的勋章
         const mergedDictKey = Object.keys(mergedDict)
-        const allCategoriesData = Object.values(categoriesData).flat();
+        const allCategoriesData = Object.values(categoriesData).flat()
         categoriesData.other = findUniqueValues(mergedDictKey, allCategoriesData)
 
         function findUniqueValues(a, b) {
             // 将数组 b 转换为一个 Set，以提高查找效率
-            const setB = new Set(b);
+            const setB = new Set(b)
 
             // 过滤出在 a 中且不在 b 中的值
-            const uniqueValues = a.filter(value => !setB.has(value));
+            const uniqueValues = a.filter(value => !setB.has(value))
 
-            return uniqueValues;
+            return uniqueValues
         }
 
-        const previousInput = localStorage.getItem('sortInput') || orderList.join(' ');
+        const previousInput = localStorage.getItem('sortInput') || orderList.join(' ')
 
         // 弹出输入框，默认值为之前的内容
-        const userInput = prompt("您正在进行一键排序，是否需要修改排序顺序（用空格分隔，新增类型奖品）:", previousInput);
+        const userInput = prompt("您正在进行一键排序，是否需要修改排序顺序（用空格分隔，新增类型奖品）:", previousInput)
 
         // 如果用户输入了内容
         if (userInput !== null) {
             // 将输入的内容转换为数组并进行排序
-            const sortedArray = userInput.split(' ').map(item => item.trim());
+            const sortedArray = userInput.split(' ').map(item => item.trim())
 
             // 验证用户输入的合理性，如果不全或者输入错误，就给他补全
             // 过滤 userInput，保留在 orderList 中的项
-            const filteredInput = sortedArray.filter(item => orderList.includes(item));
+            const filteredInput = sortedArray.filter(item => orderList.includes(item))
 
             // 找出 orderList 中缺失的元素
-            const missingItems = orderList.filter(item => !filteredInput.includes(item));
+            const missingItems = orderList.filter(item => !filteredInput.includes(item))
 
             // 将 filteredInput 和 missingItems 合并，missingItems 加在最后
-            const resultInput = [...filteredInput, ...missingItems];
+            const resultInput = [...filteredInput, ...missingItems]
 
             // 保存到 localStorage
-            localStorage.setItem('sortInput', resultInput.join(' '));
+            localStorage.setItem('sortInput', resultInput.join(' '))
 
             // 按类别拼接对应的Key
             const order1 = sortedArray.map(e => categoriesData[linkList[e]])
-            const order2 = [].concat(...order1);
-            const result = order2.map(key => mergedDict[key]).filter(value => value !== undefined);
+            const order2 = [].concat(...order1)
+            const result = order2.map(key => mergedDict[key]).filter(value => value !== undefined)
 
             postNewOrder(result)
 
@@ -945,30 +945,30 @@
 
     // 保存勋章顺序
     function saveArrayToLocalStorage(key, array) {
-        localStorage.setItem(key, JSON.stringify(array));
+        localStorage.setItem(key, JSON.stringify(array))
     }
 
     // 从本地存储获取数组
     function getArrayFromLocalStorage(key) {
-        const storedArray = localStorage.getItem(key);
-        return storedArray ? JSON.parse(storedArray) : null;
+        const storedArray = localStorage.getItem(key)
+        return storedArray ? JSON.parse(storedArray) : null
     }
 
     // 从本地存储删除数组
     function removeArrayFromLocalStorage(key) {
-        localStorage.removeItem(key);
+        localStorage.removeItem(key)
     }
 
     // 获取所有具有指定类名的div元素
     function getKeysFromDivs() {
         // 使用querySelectorAll获取所有带有该类的div
-        const divs = document.querySelectorAll(`div.myblok`);
+        const divs = document.querySelectorAll(`div.myblok`)
 
         // 提取每个div的key属性并返回数组
         // 不能存key，得存name
-        const keys = Array.from(divs).map(div => div.querySelector('img').alt);
+        const keys = Array.from(divs).map(div => div.querySelector('img').alt)
 
-        return keys;
+        return keys
     }
 
     // 保存勋章顺序
@@ -987,25 +987,25 @@
 
     // 把存储的Name转化为Key
     function NameToKey(keys) {
-        const divs = document.querySelectorAll(`div.myblok`);
+        const divs = document.querySelectorAll(`div.myblok`)
         const array = Array.from(divs).map(div => {
             return {
                 name: div.querySelector('img').alt,
                 key: div.getAttribute('key')
             }
-        });
+        })
 
         // 按照 name排序
         // 创建 name 到 key 的索引映射
-        const indexMap = {};
+        const indexMap = {}
         keys.forEach((value, index) => {
-            indexMap[value] = index + 1;
-        });
+            indexMap[value] = index + 1
+        })
 
         // 根据映射对 array 排序
         array.sort((a, b) => {
-            return (indexMap[a.name] || Infinity) - (indexMap[b.name] || Infinity);
-        });
+            return (indexMap[a.name] || Infinity) - (indexMap[b.name] || Infinity)
+        })
         const orderKey = array.map(e => e.key)
         return orderKey
     }
@@ -1014,13 +1014,13 @@
     function postNewOrder(newOrder) {
         const url = 'https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang'
         // 创建FormData对象
-        const formData = new FormData();
+        const formData = new FormData()
         const data = { newOrder, action: 'newOrder' }
 
         // 将数据添加到formData
         for (const key in data) {
             if (data.hasOwnProperty(key)) {
-                formData.append(key, data[key]);
+                formData.append(key, data[key])
             }
         }
 
@@ -1034,55 +1034,55 @@
                 location.reload()
 
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error('Network response was not ok')
                 }
                 // return response.json(); // 或根据需要返回其他格式
             })
             .then(data => {
-                console.log('Success:', data);
+                console.log('Success:', data)
             })
             .catch(error => {
-                console.error('Error:', error);
-            });
+                console.error('Error:', error)
+            })
     }
 
     function oneClickRenew() {
         // 获取所有的按钮元素
-        const buttons = document.querySelectorAll('button.pn');
+        const buttons = document.querySelectorAll('button.pn')
 
         buttons.forEach(button => {
             // 检查onclick属性是否包含'可续期'
             if (button.innerText == '可续期') {
                 // 创建新的一键续期按钮
-                const newButton = document.createElement('button');
+                const newButton = document.createElement('button')
                 const userMedalid = button.getAttribute('onclick').match(/\d+/g)[0]
-                const titleElement = button.closest('.myimg').querySelector('img[alt]');
-                const name = titleElement.getAttribute('alt');
+                const titleElement = button.closest('.myimg').querySelector('img[alt]')
+                const name = titleElement.getAttribute('alt')
 
-                newButton.type = 'button';
-                newButton.className = 'pn';
-                newButton.innerHTML = '<em>一键续期</em>';
+                newButton.type = 'button'
+                newButton.className = 'pn'
+                newButton.innerHTML = '<em>一键续期</em>'
                 newButton.onclick = function () {
                     // 弹出提示框询问续期多少次
-                    const times = prompt(`您正在为【${name}】一键续期，请输入续期次数：`, "1");
-                    const count = parseInt(times);
+                    const times = prompt(`您正在为【${name}】一键续期，请输入续期次数：`, "1")
+                    const count = parseInt(times)
 
                     // 判断输入是否合法
                     if (isNaN(count) || count <= 0) {
-                        alert("请输入有效的次数！");
-                        return;
+                        alert("请输入有效的次数！")
+                        return
                     }
 
-                    repeatRequest(count, 3000, userMedalid);
-                };
+                    repeatRequest(count, 3000, userMedalid)
+                }
                 // 创建一个<p>标签来包裹新按钮
-                const p = document.createElement('p');
-                p.appendChild(newButton);
+                const p = document.createElement('p')
+                p.appendChild(newButton)
 
                 // 将<p>标签插入到原按钮的父元素的父元素后面，并紧贴
-                button.parentNode.insertAdjacentElement('afterend', p);
+                button.parentNode.insertAdjacentElement('afterend', p)
             }
-        });
+        })
     }
 
     // 给单个勋章续期
@@ -1105,27 +1105,27 @@
             //     throw new Error('网络请求失败');
             // }
 
-            const data = await response.text();
-            console.log("请求已发送:", data); // 打印响应数据
-            return data; // 返回请求结果
+            const data = await response.text()
+            console.log("请求已发送:", data) // 打印响应数据
+            return data // 返回请求结果
         } catch (error) {
-            console.error('请求出错:', error);
-            throw error; // 抛出错误以供调用者处理
+            console.error('请求出错:', error)
+            throw error // 抛出错误以供调用者处理
         }
     }
 
     // 显示提示信息的函数
     function showMessage(message) {
-        const messageDiv = document.createElement('div');
-        messageDiv.textContent = message;
+        const messageDiv = document.createElement('div')
+        messageDiv.textContent = message
         messageDiv.className = 'message-item'
 
-        document.body.appendChild(messageDiv);
+        document.body.appendChild(messageDiv)
 
         // 自动消失
         setTimeout(() => {
-            document.body.removeChild(messageDiv);
-        }, 3000); // 3秒后消失
+            document.body.removeChild(messageDiv)
+        }, 3000) // 3秒后消失
     }
 
     // 重复请求的函数
@@ -1138,26 +1138,26 @@
                     await makeRequest(userMedalid)
                 }
 
-                showMessage(`共需${times}次，已经请求 ${i + 1} 次`);
+                showMessage(`共需${times}次，已经请求 ${i + 1} 次`)
             } catch (error) {
-                showMessage(`请求 ${i + 1} 失败: ${error.message}`);
+                showMessage(`请求 ${i + 1} 失败: ${error.message}`)
             }
 
             // 等待间隔
             if (i < times - 1) {
-                await new Promise(resolve => setTimeout(resolve, interval)); // 等待间隔
+                await new Promise(resolve => setTimeout(resolve, interval)) // 等待间隔
             }
         }
-        showMessage('一键续期已完成，3秒后刷新页面');
+        showMessage('一键续期已完成，3秒后刷新页面')
         setTimeout(() => {
             location.reload()
-        }, 3000); // 3秒后消失
+        }, 3000) // 3秒后消失
         // console.log("所有请求已完成");
     }
 
     // 一键给所有可续期的咒术勋章续期
     function oneClickAllSpell() {
-        const myblok = document.getElementsByClassName("myblok");
+        const myblok = document.getElementsByClassName("myblok")
         const arrayName = []
         const arrayKey = []
         for (let blok of myblok) {
@@ -1178,14 +1178,14 @@
         }
 
         if (confirm(`您正在为【${arrayName.join(' ')}】咒术勋章续期，是否确认\n（思绪骤聚可能有人希望重新购买获取+1知识，并未加入一键续期中）`)) {
-            repeatRequest(arrayKey.length, 3000, arrayKey);
+            repeatRequest(arrayKey.length, 3000, arrayKey)
         }
     }
 
 
     // 一键关闭赠礼/咒术类勋章显示
     function oneClickDisplay() {
-        const myblok = document.getElementsByClassName("myblok");
+        const myblok = document.getElementsByClassName("myblok")
 
         for (let blok of myblok) {
             const name = blok.querySelector('img[alt]').getAttribute('alt')
@@ -1213,23 +1213,23 @@
         let result = {
             "游戏男从(10)": "", "真人男从(8)": "", "女从(4)": "", "装备(11)": "", "资产(16)": "",
             "宠物(7)": "", "板块(4)": "", "天赋(4)": "", "赠礼": "", "咒术": "", "剧情": "", "奖品": "", "其他": "", "储蓄(1)": "",
-        };
+        }
         let categories = {
             "youxi": "游戏男从(10)", "zhenren": "真人男从(8)", "Maid": "女从(4)",
             "Equip": "装备(11)", "Asset": "资产(16)", "Pet": "宠物(7)",
             "Forum": "板块(4)", "Skill": "天赋(4)", "Gift": "赠礼",
             "Spell": "咒术", "Plot": "剧情", "Prize": "奖品", 'Deposit': '储蓄(1)'
-        };
+        }
 
         // 名称匹配核心功能
-        let myblok = document.getElementsByClassName("myblok");
+        let myblok = document.getElementsByClassName("myblok")
         for (let blok of myblok) {
-            let regex = /alt="(.+?)"/;
+            let regex = /alt="(.+?)"/
             let matches = blok.innerHTML.match(regex)
 
             if (matches) {
-                let match = matches[1];
-                let found = false;
+                let match = matches[1]
+                let found = false
 
                 for (let key in categories) {
                     // 在这里对于一些同名的blok进行处理
@@ -1260,16 +1260,16 @@
 
                     const matchArray = [match1, match2]
                     if (isTure(matchArray)) {
-                        result[categories[key]] += match + ",";
-                        found = true;
-                        blok.setAttribute('categories', key);
-                        break;
+                        result[categories[key]] += match + ","
+                        found = true
+                        blok.setAttribute('categories', key)
+                        break
                     }
                 }
 
                 if (!found) {
-                    result["其他"] += match + ",";
-                    blok.setAttribute('categories', 'other');
+                    result["其他"] += match + ","
+                    blok.setAttribute('categories', 'other')
                 }
             }
         }
@@ -1284,7 +1284,7 @@
          */
         function qiwang(pattern, type) {
             let myblok = document.getElementsByClassName("myblok")
-            let result = { "金币": 0, "血液": 0, "咒术": 0, "知识": 0, "旅程": 0, "堕落": 0, "灵魂": 0 };
+            let result = { "金币": 0, "血液": 0, "咒术": 0, "知识": 0, "旅程": 0, "堕落": 0, "灵魂": 0 }
 
             // 仅计算临时勋章收益
             if (type === 'Temporary') {
@@ -1297,20 +1297,20 @@
                 if (blok.innerText.indexOf("已寄售") > 0) {
                     continue
                 }
-                let regex = /几率 (\d+)%/i;
+                let regex = /几率 (\d+)%/i
                 let matches = blok.innerText.match(regex)
 
                 if (matches) {
                     let prob = matches[1]
-                    let symbols = Array.from(blok.innerText.matchAll(pattern), m => m[2]);
+                    let symbols = Array.from(blok.innerText.matchAll(pattern), m => m[2])
                     let isSame = symbols.every(function (element) {
-                        return element === symbols[0];
-                    });
+                        return element === symbols[0]
+                    })
 
-                    matches = blok.innerText.matchAll(pattern);
+                    matches = blok.innerText.matchAll(pattern)
                     for (let match of matches) {
                         let score = prob / 100 * parseInt(match[2] + match[3])
-                        result[match[1]] = Number((result[match[1]] + score).toFixed(4));
+                        result[match[1]] = Number((result[match[1]] + score).toFixed(4))
                     }
                 }
             }
@@ -1318,10 +1318,10 @@
         }
 
         function getCoin() {
-            let coin = 0;
+            let coin = 0
             let myblok = document.getElementsByClassName("myblok")
             for (let blok of myblok) {
-                let regex = /金币\s+(\d+)寄售/i;
+                let regex = /金币\s+(\d+)寄售/i
                 let matches = blok.innerText.match(regex)
                 if (matches) {
                     coin += parseInt(matches[1])
@@ -1333,12 +1333,12 @@
         function showValid() {
             let myblok = document.getElementsByClassName("myblok")
             for (let blok of myblok) {
-                let regex = /\s+(.+?分)\d{1,2}秒有效期/i;
+                let regex = /\s+(.+?分)\d{1,2}秒有效期/i
                 let matches = blok.innerText.match(regex)
                 if (matches) {
-                    let newP = document.createElement("p");
-                    let newContent = document.createTextNode(matches[1]);
-                    newP.appendChild(newContent);
+                    let newP = document.createElement("p")
+                    let newContent = document.createTextNode(matches[1])
+                    newP.appendChild(newContent)
                     blok.firstElementChild.appendChild(newP)
                 }
             }
@@ -1363,7 +1363,7 @@
 
         let coin = "寄售最大价格总和：" + getCoin()
 
-        var badgeOrderElement = document.querySelector(".badge-order");
+        var badgeOrderElement = document.querySelector(".badge-order")
         if (badgeOrderElement) {
             const element =
                 [
@@ -1372,7 +1372,7 @@
                     '<H3>临时勋章收益</H3>', huiTemporary, faTemporary, '<br>',
                     coin, '<br>', txt
                 ]
-            badgeOrderElement.innerHTML = element.join('<p>');
+            badgeOrderElement.innerHTML = element.join('<p>')
         }
 
         showValid()
@@ -1397,33 +1397,33 @@
 
     // 计算灵魂期望并存本地
     function setlocalStoragelinghun() {
-        const xunzhang = document.querySelectorAll('.my_fenlei .myblok');
+        const xunzhang = document.querySelectorAll('.my_fenlei .myblok')
         if (!xunzhang) return
 
-        const result = {};
+        const result = {}
 
         xunzhang.forEach(element => {
-            const linghun = [...element.querySelectorAll('.jiage.shuxing')].find(p => p.textContent.includes('灵魂'));
-            const triggerProbability = [...element.querySelectorAll('.jiage')].find(p => p.textContent.includes('触发几率'));
+            const linghun = [...element.querySelectorAll('.jiage.shuxing')].find(p => p.textContent.includes('灵魂'))
+            const triggerProbability = [...element.querySelectorAll('.jiage')].find(p => p.textContent.includes('触发几率'))
 
             if (linghun && triggerProbability) {
-                const probabilityMatch = triggerProbability.textContent.match(/触发几率 (\d+)%/);
+                const probabilityMatch = triggerProbability.textContent.match(/触发几率 (\d+)%/)
                 if (probabilityMatch) {
-                    const probability = parseFloat(probabilityMatch[1]) / 100; // 转换为小数
-                    const countMatch = linghun.textContent.match(/发帖\s*[\u00A0]*灵魂\s*\+\s*(\d+)/);
-                    const count = countMatch ? parseInt(countMatch[1], 10) : 0;
+                    const probability = parseFloat(probabilityMatch[1]) / 100 // 转换为小数
+                    const countMatch = linghun.textContent.match(/发帖\s*[\u00A0]*灵魂\s*\+\s*(\d+)/)
+                    const count = countMatch ? parseInt(countMatch[1], 10) : 0
 
                     // 记录结果
                     if (result[probability]) {
-                        result[probability] += count; // 如果已经存在，累加数量
+                        result[probability] += count // 如果已经存在，累加数量
                     } else {
-                        result[probability] = count; // 否则初始化数量
+                        result[probability] = count // 否则初始化数量
                     }
                 }
             }
-        });
+        })
 
-        console.log(result); // 输出结果对象
+        console.log(result) // 输出结果对象
         localStorage.setItem('灵魂期望', JSON.stringify(result))
     }
 
@@ -1436,10 +1436,10 @@
                 action: 'UPLV',
                 jishoujiage: '',
                 userMedalid: key
-            };
+            }
 
-            const formData = objectToFormData(data);
-            const url = 'https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang';
+            const formData = objectToFormData(data)
+            const url = 'https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang'
 
             fetch(url, {
                 method: 'POST',
@@ -1451,58 +1451,58 @@
     // 展示勋章
     function showTopMedal() {
         function calculateMedals(level) {
-            const medals = [1, 6, 6, 6, 7, 7, 8, 8, 9, 9, 10];
-            return level >= 1 ? medals[Math.min(level, 10)] : 1;
+            const medals = [1, 6, 6, 6, 7, 7, 8, 8, 9, 9, 10]
+            return level >= 1 ? medals[Math.min(level, 10)] : 1
         }
 
         function getLevel(jifen) {
-            const levelThresholds = [3, 10, 35, 70, 120, 200, 300, 450, 650, 900];
+            const levelThresholds = [3, 10, 35, 70, 120, 200, 300, 450, 650, 900]
             for (let i = levelThresholds.length - 1; i >= 0; i--) {
-                if (jifen >= levelThresholds[i]) return i + 1; // 返回对应等级
+                if (jifen >= levelThresholds[i]) return i + 1 // 返回对应等级
             }
-            return 0; // 积分小于最低等级返回 0
+            return 0 // 积分小于最低等级返回 0
         }
         const jifen = document.querySelector("#extcreditmenu + span").textContent
         const level = getLevel(Number(jifen))
         const showNum = calculateMedals(level)
 
 
-        const myblok = document.getElementsByClassName("myblok");
+        const myblok = document.getElementsByClassName("myblok")
         function filterDiv(div, index) {
             const input = div.querySelector('input')
             return input && input.checked
         }
 
-        const container = document.createElement('div');
+        const container = document.createElement('div')
         container.classList.add('TopMedal-container');
 
         [...myblok]
-        .filter(filterDiv)
-        .slice(0, showNum)
-        .forEach(e => {
-            const newImg = document.createElement('img');
-            const src = e.querySelector('img').getAttribute('src');
-            const alt = e.querySelector('img').getAttribute('alt');
-            newImg.setAttribute('src', src);
-            newImg.setAttribute('alt', alt);
-    
-            if (e.querySelector('img').onmouseover) {
-                newImg.onmouseover = e.querySelector('img').onmouseover;
-            }
-    
-            const key = e.getAttribute('key');
-            newImg.setAttribute('key', key);
-            container.appendChild(newImg);
-        });
-    
+            .filter(filterDiv)
+            .slice(0, showNum)
+            .forEach(e => {
+                const newImg = document.createElement('img')
+                const src = e.querySelector('img').getAttribute('src')
+                const alt = e.querySelector('img').getAttribute('alt')
+                newImg.setAttribute('src', src)
+                newImg.setAttribute('alt', alt)
 
-        const targetElement = document.querySelector('.appl');
-        const existingContainer = document.querySelector('.appl .TopMedal-container');
+                if (e.querySelector('img').onmouseover) {
+                    newImg.onmouseover = e.querySelector('img').onmouseover
+                }
+
+                const key = e.getAttribute('key')
+                newImg.setAttribute('key', key)
+                container.appendChild(newImg)
+            })
+
+
+        const targetElement = document.querySelector('.appl')
+        const existingContainer = document.querySelector('.appl .TopMedal-container')
 
         if (!existingContainer) {
-            targetElement.appendChild(container);
+            targetElement.appendChild(container)
         } else {
-            targetElement.replaceChild(container, existingContainer);
+            targetElement.replaceChild(container, existingContainer)
         }
 
         TopMedalDomSticky()
@@ -1517,21 +1517,21 @@
     }
 
     function observeElement() {
-        const observer = new MutationObserver(showTopMedal);
+        const observer = new MutationObserver(showTopMedal)
         const myElement = document.querySelector("#medalid_f > div.my_fenlei > div.myfldiv.clearfix.ui-sortable")
 
         const config = {
             childList: true, // 观察直接子节点的变化
-        };
+        }
 
-        observer.observe(myElement, config);
+        observer.observe(myElement, config)
 
         myElement.addEventListener('change', event => {
             if (event.target.tagName === 'INPUT' && event.target.type === 'checkbox') {
                 showTopMedal()
-                console.log(`Checkbox ${event.target.checked ? '选中' : '未选中'}: ${event.target.parentNode.innerText}`);
+                console.log(`Checkbox ${event.target.checked ? '选中' : '未选中'}: ${event.target.parentNode.innerText}`)
             }
-        });
+        })
     }
 
     // 记录展示勋章成功
@@ -1547,7 +1547,7 @@
         const TopMedal = getArrayFromLocalStorage('TopMedal')
         const TopMedalKey = NameToKey(TopMedal)
 
-        const myblok = document.getElementsByClassName("myblok");
+        const myblok = document.getElementsByClassName("myblok")
         const keyBlok = [...myblok].map(e => e.getAttribute('key'))
         const array = mergeArrays(TopMedalKey, keyBlok)
         postNewOrder(array)
@@ -1561,13 +1561,13 @@
      * @returns {FormData} - 转换后的 FormData 对象
      */
     function objectToFormData(obj) {
-        const formData = new FormData();
+        const formData = new FormData()
         for (const key in obj) {
             if (obj.hasOwnProperty(key)) {
-                formData.append(key, obj[key]);
+                formData.append(key, obj[key])
             }
         }
-        return formData;
+        return formData
     }
 
     /**
@@ -1582,7 +1582,7 @@
      *   如果未找到匹配的元素，则返回 null。
      */
     function findMedal(name) {
-        const myblok = document.getElementsByClassName("myblok");
+        const myblok = document.getElementsByClassName("myblok")
         const div = [...myblok].find(e => e.textContent.includes(name))
 
         if (div) {
@@ -1597,9 +1597,9 @@
 
         function getLv(div) {
             const textContent = div.querySelector('.mingcheng').textContent
-            const match = textContent.match(/等级\s+(\w+)/);
+            const match = textContent.match(/等级\s+(\w+)/)
             if (match && match[1]) {
-                return match[1];
+                return match[1]
             } else {
                 return {}
             }
@@ -1613,21 +1613,21 @@
      * @returns {Array} - 合并后的数组，包含唯一元素。
      */
     function mergeArrays(arr1, arr2) {
-        const seen = new Set();
-        const result = [];
+        const seen = new Set()
+        const result = []
 
         function addUniqueElements(arr) {
             for (const item of arr) {
                 if (!seen.has(item)) {
-                    seen.add(item);
-                    result.push(item);
+                    seen.add(item)
+                    result.push(item)
                 }
             }
         }
 
-        addUniqueElements(arr1);
-        addUniqueElements(arr2);
+        addUniqueElements(arr1)
+        addUniqueElements(arr2)
 
-        return result;
+        return result
     }
-})();
+})()
