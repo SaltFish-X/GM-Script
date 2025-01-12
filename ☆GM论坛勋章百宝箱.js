@@ -997,7 +997,6 @@
 
     // 把存储的Name转化为Key
     function NameToKey(keys) {
-        const keys = getArrayFromLocalStorage('keyOrder')
         const divs = document.querySelectorAll(`div.myblok`)
         const array = Array.from(divs).map(div => {
             return {
