@@ -36,7 +36,7 @@
     const linkList = {
         "游戏男从": "youxi", "真人男从": "zhenren", "女从": "Maid", "装备": "Equip", "资产": "Asset",
         "宠物": "Pet", "板块": "Forum", "天赋": "Skill", "赠礼": "Gift", "咒术": "Spell", "剧情": "Plot",
-        "其他": "other", "奖品": 'Prize', '储蓄': 'Deposit', '装饰': 'Deco', '薪俸': 'Salary'
+        "其他": "other", "奖品": 'Prize', '储蓄': 'Deposit', '装饰': 'Deco', '薪俸': 'Salary', '故事': "Story"
     }
     const formhash = document.querySelector('input[name="formhash"]').value
     // 勋章总类型
@@ -1198,14 +1198,15 @@
         let result = {
             "游戏男从(10)": "", "真人男从(8)": "", "女从(4)": "", "装备(11)": "", "资产(16)": "",
             "宠物(7)": "", "板块(4)": "", "天赋(4)": "", "赠礼": "", "咒术": "", "剧情": "", "奖品": "",
-            "其他": "", "储蓄(1)": "", "装饰(6)": "", "薪俸(1)": ""
+            "其他": "", "储蓄(1)": "", "装饰(6)": "", "薪俸(1)": "", "故事": ""
         }
         let categories = {
             "youxi": "游戏男从(10)", "zhenren": "真人男从(8)", "Maid": "女从(4)",
             "Equip": "装备(11)", "Asset": "资产(16)", "Pet": "宠物(7)",
             "Forum": "板块(4)", "Skill": "天赋(4)", "Gift": "赠礼",
             "Spell": "咒术", "Plot": "剧情", "Prize": "奖品",
-            'Deposit': '储蓄(1)', "Deco": "装饰(6)", 'Salary': '薪俸(1)'
+            'Deposit': '储蓄(1)', "Deco": "装饰(6)", 'Salary': '薪俸(1)',
+            'Story': '故事'
         }
 
         // 名称匹配核心功能
