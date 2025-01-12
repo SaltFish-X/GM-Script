@@ -34,9 +34,17 @@
     const 是否自动开启茉香啤酒 = 0
 
     const linkList = {
-        "游戏男从": "youxi", "真人男从": "zhenren", "女从": "Maid", "装备": "Equip", "资产": "Asset",
-        "宠物": "Pet", "板块": "Forum", "天赋": "Skill", "赠礼": "Gift", "咒术": "Spell", "剧情": "Plot",
-        "其他": "other", "奖品": 'Prize', '储蓄': 'Deposit', '装饰': 'Deco', '薪俸': 'Salary', '故事': "Story"
+        "游戏男从": "youxi", "真人男从": "zhenren", "女从": "Maid",
+        "装备": "Equip", "资产": "Asset", "宠物": "Pet", "板块": "Forum", "天赋": "Skill",
+        "赠礼": "Gift", "咒术": "Spell", "剧情": "Plot", "奖品": 'Prize',
+        '储蓄': 'Deposit', '装饰': 'Deco', '薪俸': 'Salary', '故事': "Story",
+        "其他": "other",
+    }
+
+    // 额外提供一个对象，存储每个键对应的数字
+    const numbers = {
+        "游戏男从": 10, "真人男从": 8, "女从": 4, "装备": 11, "资产": 16,
+        "宠物": 7, "板块": 4, "天赋": 4, "储蓄": 1, "装饰": 6, "薪俸": 1
     }
     const formhash = document.querySelector('input[name="formhash"]').value
     // 勋章总类型
@@ -637,14 +645,14 @@
             // 2025年之后的新奖品
             "银色溜冰鞋",
         ],
-        // 期间限定的临时活动勋章
-        Events: [
-            // 2023-2024年的期间限定勋章
-            // https://www.gamemale.com/forum.php?mod=viewthread&tid=137437
-            "香浓罗宋汤" // https://img.gamemale.com/album/202412/31/230448aspoeushzeup66kf.gif
-        ],
-
     }
+    // 2025年元旦活动新增的类别，期间限定的临时活动勋章
+    // 不能放进categoriesData，会干扰排序，就单独放在这里做纪念吧
+    const Events = [
+        // 2023-2024年的期间限定勋章
+        // https://www.gamemale.com/forum.php?mod=viewthread&tid=137437
+        "香浓罗宋汤" // https://img.gamemale.com/album/202412/31/230448aspoeushzeup66kf.gif
+    ]
 
     // 临时把所有的真人勋章名字都加上点
     categoriesFormat(categoriesData)
@@ -1220,18 +1228,18 @@
     // 此处直接复制粘贴代码不想思考了
     // 别人的勋章分类展示和回帖期望计算
     function badgeOrder() {
-        let result = {
-            "游戏男从(10)": "", "真人男从(8)": "", "女从(4)": "", "装备(11)": "", "资产(16)": "",
-            "宠物(7)": "", "板块(4)": "", "天赋(4)": "", "赠礼": "", "咒术": "", "剧情": "", "奖品": "",
-            "其他": "", "储蓄(1)": "", "装饰(6)": "", "薪俸(1)": "", "故事": ""
-        }
-        let categories = {
-            "youxi": "游戏男从(10)", "zhenren": "真人男从(8)", "Maid": "女从(4)",
-            "Equip": "装备(11)", "Asset": "资产(16)", "Pet": "宠物(7)",
-            "Forum": "板块(4)", "Skill": "天赋(4)", "Gift": "赠礼",
-            "Spell": "咒术", "Plot": "剧情", "Prize": "奖品",
-            'Deposit': '储蓄(1)', "Deco": "装饰(6)", 'Salary': '薪俸(1)',
-            'Story': '故事'
+        let result = {}
+        let categories = {}
+
+        for (const [key, value] of Object.entries(linkList)) {
+            // 从 numbers 中获取对应的数字，如果没有则默认为空
+            const number = numbers[key] || ''
+
+            // 生成 result 对象
+            result[`${key}${number ? `(${number})` : ''}`] = ''
+
+            // 生成 categories 对象
+            categories[value] = `${key}${number ? `(${number})` : ''}`
         }
 
         // 名称匹配核心功能
@@ -1268,7 +1276,7 @@
                     const match2 = match.replace(/‧/g, '·')
 
                     function isTure(array) {
-                        return array.map(e => ~categoriesData[key].indexOf(e)).reduce((a, b) => a || b)
+                        return array.map(e => ~categoriesData[key]?.indexOf(e)).reduce((a, b) => a || b)
                     }
 
                     const matchArray = [match1, match2]
