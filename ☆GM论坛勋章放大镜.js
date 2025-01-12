@@ -83,7 +83,7 @@
         放大镜.style.zIndex = '10000'
         放大镜.style.fontWeight = 'bold'
         放大镜.style.color = '#000516'
-        放大镜.style.maxHeight = '400px' // 设置最大高度
+        放大镜.style.maxHeight = '550px' // 设置最大高度 禽兽扒手无滚动条的高度
         放大镜.style.overflowY = 'auto'  // 添加垂直滚动条
         document.body.appendChild(放大镜)
         return 放大镜
