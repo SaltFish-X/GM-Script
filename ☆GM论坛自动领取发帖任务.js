@@ -1,8 +1,9 @@
 // ==UserScript==
 // @name         GM论坛自动领取发帖任务
 // @namespace    http://tampermonkey.net/
-// @version      1.4
+// @version      1.5
 // @description  自动领取发帖任务
+// @match        https://www.gamemale.com/thread-*
 // @match        https://www.gamemale.com/forum.php?mod=viewthread&tid=*
 // @match        https://www.gamemale.com/forum.php?mod=post&action=newthread&fid=*
 // @grant        none
@@ -52,6 +53,9 @@
     console.log('已经领取每周发帖任务')
   }
 
+  // 不知道为什么发帖成功后随机两个页面，绷不住了
+  // https://www.gamemale.com/thread-*
+  // https://www.gamemale.com/forum.php?mod=viewthread&tid=*
   // 检查 referrer 是否匹配
   if (currentReferrer.includes(newThreadUrl)) {
     claimReward() // 调用你的函数
@@ -109,10 +113,6 @@
 
   // 定义目标页面的正则匹配规则，忽略额外的查询参数
   // https://www.gamemale.com/forum.php?mod=viewthread&tid=150221
-
-  // 不知道为什么发帖成功后会有两个界面，非常奇怪
-  // https://www.gamemale.com/thread-*
-  // https://www.gamemale.com/forum.php?mod=viewthread&tid=*
 
   // 可以监听标签，但是算了，有点麻烦，重复造轮子，我想弄点简单的
   // 我选择正则+document.referrer
