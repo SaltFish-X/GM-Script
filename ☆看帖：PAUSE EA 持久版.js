@@ -1,13 +1,14 @@
 // ==UserScript==
 // @name         看帖：PAUSE EA 持久版
 // @namespace    https://www.gamemale.com/space-uid-687897.html
-// @version      0.8.8.1
+// @version      0.8.8.2
 // @description  勋章触发奖励时停+发帖回帖奖励账本查询！
 // @author       瓦尼
 // @match        https://www.gamemale.com/*
 // @match        https://www.gamemale.com/forum.php
 // @grant        GM_registerMenuCommand
 // @icon         https://www.gamemale.com/template/mwt2/extend/img/favicon.ico
+// @exclude      https://www.gamemale.com/*inajax=1*
 // @license      GPL
 // ==/UserScript==
 
