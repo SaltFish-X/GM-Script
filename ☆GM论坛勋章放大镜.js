@@ -16,13 +16,12 @@
 // @icon         https://www.gamemale.com/template/mwt2/extend/img/favicon.ico
 // ==/UserScript==
 
-// 捆绑销售 博物馆传送门 https://www.gamemale.com/thread-144398-1-1.html
+// 推荐链接：博物馆传送门 https://www.gamemale.com/thread-144398-1-1.html
 // 神秘的许愿池 https://www.gamemale.com/plugin.php?id=wodexunzhang%3Ashowxunzhang&fid=24
 
 // 脚本下载地址 https://greasyfork.org/zh-CN/scripts/516559-%E5%8B%8B%E7%AB%A0%E6%94%BE%E5%A4%A7%E9%95%9C
 // 0.54血毕业男从比较 https://www.gamemale.com/thread-149145-1-2.html
 // TODO 上次补货时间
-// TODO 过长等级显示
 
 (function () {
     'use strict'
@@ -237,7 +236,10 @@
         })
 
         新内容 += 升级消耗文本
-        // 新内容 += '\n' + 回本周期
+        if (discuz_uid == 723150) {
+            新内容 += '\n' + 回本周期
+        }
+
         return 新内容
     }
 
