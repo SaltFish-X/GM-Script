@@ -50,6 +50,12 @@
     // 勋章总类型
     const orderList = Object.keys(linkList)
 
+    // 每种类型勋章数量 统计至2024年12月
+    const categoriesDataNum = {
+        "游戏男从": 87, "真人男从": 81, "女从": 24, "装备": 53, "资产": 67,
+        "宠物": 39, "板块": 27,
+    }
+
     const categoriesData = {
         "youxi": [
             "杰夫‧莫罗",
