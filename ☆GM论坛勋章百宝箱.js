@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.4.0
+// @version      2.4.1
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @grant        GM_addStyle
@@ -22,9 +22,10 @@
 // TODO 一键把自己想要展示的勋章塞最前面
 // TODO 勋章过期提示
 // TODO 勋章维持属性提示
-// TODO 好卡，该优化了！
+// DONE 好卡，该优化了！
 // DONE 分类统计勋章收益【所有、常驻、临时】
 // DONE 分类新增装饰，因为他有最大数量上限
+// TODO 有效期时长显示不稳定
 
 (function () {
     'use strict'
@@ -667,6 +668,9 @@
         "香浓罗宋汤" // https://img.gamemale.com/album/202412/31/230448aspoeushzeup66kf.gif
     ]
 
+    // 临时把所有的真人勋章名字都加上点
+    categoriesFormat(categoriesData)
+
     // 预处理名称到分类的映射（包含全角/半角转换）
     const nameCategoryMap = new Map()
     for (const [category, names] of Object.entries(categoriesData)) {
@@ -676,10 +680,6 @@
             variants.forEach(v => nameCategoryMap.set(v, category))
         }
     }
-
-
-    // 临时把所有的真人勋章名字都加上点
-    categoriesFormat(categoriesData)
 
     // 创建一个新的div元素用于管理徽章
     initbadgeManage()
