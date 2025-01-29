@@ -11,12 +11,8 @@
 // @icon         https://www.gamemale.com/template/mwt2/extend/img/favicon.ico
 // ==/UserScript==
 
-// 脚本更新地址
-// https://greasyfork.org/zh-CN/scripts/508971/versions/new
 // 下载地址
 // https://greasyfork.org/zh-CN/scripts/508971
-// 另外一个勋章名称的脚本管理
-// https://www.gamemale.com/thread-144398-1-1.html
 
 // 功能一览
 // 默认关闭回收功能，徽章按类型排序，保存/还原徽章顺序，一键续期单个勋章，勋章分类，回帖期望，一键续期所有咒术徽章，一键关闭赠礼/咒术类勋章显示，
