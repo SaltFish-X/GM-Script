@@ -1,9 +1,10 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.4.1
+// @version      2.4.2
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
+// @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
 // @grant        GM_addStyle
 // @license      GPL
 // @downloadURL  https://update.greasyfork.org/scripts/508971/GM%E8%AE%BA%E5%9D%9B%E5%8B%8B%E7%AB%A0%E7%99%BE%E5%AE%9D%E7%AE%B1.user.js
@@ -47,12 +48,6 @@
     const formhash = document.querySelector('input[name="formhash"]').value
     // 勋章总类型
     const orderList = Object.keys(linkList)
-
-    // 每种类型勋章数量 统计至2024年12月
-    const categoriesDataNum = {
-        "游戏男从": 87, "真人男从": 81, "女从": 24, "装备": 53, "资产": 67,
-        "宠物": 39, "板块": 27,
-    }
 
     const categoriesData = {
         "youxi": [
