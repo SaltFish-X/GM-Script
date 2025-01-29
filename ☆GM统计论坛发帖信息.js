@@ -11,6 +11,8 @@
 // @icon         https://www.gamemale.com/template/mwt2/extend/img/favicon.ico
 // ==/UserScript==
 
+// 为了避免其他用户误用
+// 安全起见，处于软删除状态，仅特定时间开放下载
 // 下载地址 https://greasyfork.org/zh-CN/scripts/523275
 (function () {
     'use strict'
