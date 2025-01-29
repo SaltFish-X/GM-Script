@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.3.10
+// @version      2.4.0
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @grant        GM_addStyle
@@ -11,12 +11,8 @@
 // @icon         https://www.gamemale.com/template/mwt2/extend/img/favicon.ico
 // ==/UserScript==
 
-// 脚本更新地址
-// https://greasyfork.org/zh-CN/scripts/508971/versions/new
 // 下载地址
 // https://greasyfork.org/zh-CN/scripts/508971
-// 另外一个勋章名称的脚本管理
-// https://www.gamemale.com/thread-144398-1-1.html
 
 // 功能一览
 // 默认关闭回收功能，徽章按类型排序，保存/还原徽章顺序，一键续期单个勋章，勋章分类，回帖期望，一键续期所有咒术徽章，一键关闭赠礼/咒术类勋章显示，
@@ -660,6 +656,7 @@
             "水银日报社特约调查员",
             // 2025年之后的新奖品
             "银色溜冰鞋",
+            "永亘环",
         ],
     }
     // 2025年元旦活动新增的类别，期间限定的临时活动勋章
@@ -670,6 +667,17 @@
         "香浓罗宋汤" // https://img.gamemale.com/album/202412/31/230448aspoeushzeup66kf.gif
     ]
 
+    // 预处理名称到分类的映射（包含全角/半角转换）
+    const nameCategoryMap = new Map()
+    for (const [category, names] of Object.entries(categoriesData)) {
+        for (const name of names) {
+            // 同时存储两种符号格式的键
+            const variants = [name.replace(/·/g, '‧'), name.replace(/‧/g, '·')]
+            variants.forEach(v => nameCategoryMap.set(v, category))
+        }
+    }
+
+
     // 临时把所有的真人勋章名字都加上点
     categoriesFormat(categoriesData)
 
@@ -677,7 +685,9 @@
     initbadgeManage()
 
     // 别人的勋章分类展示和回帖期望计算
-    badgeOrder()
+    // badgeOrder()
+    // 自己优化的代码（AI优化的）
+    optimizedBadgeOrder()
 
     // 默认关闭回收功能
     createLink('显示/隐藏回收按钮', setHuiShou)
@@ -1422,6 +1432,155 @@
             }
 
             return title
+        }
+    }
+
+    // 优化过的badgeOrder
+    function processBadges() {
+        const myblok = document.getElementsByClassName("myblok")
+        const blokDataList = []
+        const classificationResult = {}
+        const categoriesMapping = {}
+
+        // 初始化寄售总价
+        let coin = 0
+
+        // 初始化分类结果结构
+        Object.entries(linkList).forEach(([key, value]) => {
+            const number = numbers[key] || ''
+            const categoryKey = `${key}${number ? `(${number})` : ''}`
+            classificationResult[categoryKey] = new Set()
+            categoriesMapping[value] = categoryKey
+        })
+        classificationResult["其他"] = new Set()
+
+        // 单次遍历处理所有数据
+        for (const blok of myblok) {
+            // 名称分类处理
+            const altName = blok.querySelector('img')?.getAttribute('alt') || ''
+            const normalizedName = altName.replace(/[·‧]/g, s =>
+                s === '·' ? '‧' : '·' // 统一转换为半角符号进行匹配
+            )
+            const category = nameCategoryMap.get(normalizedName) || 'other'
+            const displayCategory = categoriesMapping[category] || "其他"
+
+            classificationResult[displayCategory].add(altName)
+            blok.setAttribute('data-category', category)
+
+            // 收益数据提取
+            if (blok.innerText.includes("已寄售")) continue
+
+            const isTemporary = blok.textContent.includes('有效期')
+            const probMatch = blok.innerText.match(/几率 (\d+)%/i)
+            const probability = probMatch ? parseInt(probMatch[1]) / 100 : 1
+
+            const extractAttributes = (pattern) =>
+                Array.from(blok.innerText.matchAll(pattern))
+                    .map(m => ({
+                        type: m[1],
+                        value: (m[2] === '+' ? 1 : -1) * parseInt(m[3]) * probability
+                    }))
+
+            blokDataList.push({
+                isTemporary,
+                hui: extractAttributes(/回帖\s+(.+?) ([+-])(\d+)/gi),
+                fa: extractAttributes(/发帖\s+(.+?) ([+-])(\d+)/gi)
+            })
+
+            // 计算寄售总价
+            const coinMatches = blok.innerText.match(/金币\s+(\d+)寄售/i)
+            if (coinMatches) {
+                coin += parseInt(coinMatches[1])
+            }
+
+            // 显示有效时长
+            if (isTemporary) {
+                const timeTatches = blok.innerText.match(/\s+(.+?分)\d{1,2}秒有效期/i)
+                if (timeTatches) {
+                    const newP = document.createElement("p")
+                    newP.textContent = timeTatches[1]
+                    blok.firstElementChild.appendChild(newP)
+                }
+            }
+        }
+
+        return { classificationResult, blokDataList, coin }
+    }
+
+    // 优化后的收益计算函数
+    function calculateExpectations(blokDataList) {
+        const initStats = () => ({
+            ALL: { 金币: 0, 血液: 0, 咒术: 0, 知识: 0, 旅程: 0, 堕落: 0, 灵魂: 0 },
+            Permanent: { 金币: 0, 血液: 0, 咒术: 0, 知识: 0, 旅程: 0, 堕落: 0, 灵魂: 0 },
+            Temporary: { 金币: 0, 血液: 0, 咒术: 0, 知识: 0, 旅程: 0, 堕落: 0, 灵魂: 0 }
+        })
+
+        const result = { hui: initStats(), fa: initStats() }
+
+        blokDataList.forEach(({ isTemporary, hui, fa }) => {
+            const types = ['ALL', isTemporary ? 'Temporary' : 'Permanent']
+
+            const process = (source, target) => {
+                source.forEach(({ type, value }) => {
+                    types.forEach(t => {
+                        if (target[t][type] !== undefined) {
+                            target[t][type] += value
+                        }
+                    })
+                })
+            }
+
+            process(hui, result.hui)
+            process(fa, result.fa)
+        })
+
+        // 数据格式化
+        const formatter = (obj) => Object.fromEntries(
+            Object.entries(obj).map(([k, v]) => [k, Number(v.toFixed(4))])
+        )
+
+        return {
+            hui: Object.fromEntries(Object.entries(result.hui).map(([k, v]) => [k, formatter(v)])),
+            fa: Object.fromEntries(Object.entries(result.fa).map(([k, v]) => [k, formatter(v)]))
+        }
+    }
+
+    // 整合后的执行函数
+    function optimizedBadgeOrder() {
+        const { classificationResult, blokDataList, coin } = processBadges()
+        const expectations = calculateExpectations(blokDataList)
+
+        // 分类结果格式化
+        const classificationText = Object.entries(classificationResult)
+            .map(([k, v]) => `${k} : (${v.size}) ${[...v].join(', ')}`)
+            .join('<br>')
+
+        // 收益结果格式化
+        const formatEarnings = (type, data) =>
+            Object.entries(data[type]).map(([k, v]) =>
+                `${k}:${v.toFixed(2)}`
+            ).join('  ')
+
+        const badgeOrderElement = document.querySelector(".badge-order")
+        if (badgeOrderElement) {
+            badgeOrderElement.innerHTML = [
+                '<H3>所有勋章收益</H3>',
+                `回帖：${formatEarnings('ALL', expectations.hui)}`,
+                `发帖：${formatEarnings('ALL', expectations.fa)}`,
+                '<br>',
+                '<H3>常驻勋章收益</H3>',
+                `回帖：${formatEarnings('Permanent', expectations.hui)}`,
+                `发帖：${formatEarnings('Permanent', expectations.fa)}`,
+                '<br>',
+                '<H3>临时勋章收益</H3>',
+                `回帖：${formatEarnings('Temporary', expectations.hui)}`,
+                `发帖：${formatEarnings('Temporary', expectations.fa)}`,
+                '<br>',
+                `寄售最大价格总和：${coin}`,
+                // '<H3>分类统计</H3>',
+                '<br>',
+                classificationText
+            ].map(s => `<p>${s}</p>`).join('')
         }
     }
 
