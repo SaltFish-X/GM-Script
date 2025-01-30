@@ -24,7 +24,7 @@
 // 脚本下载地址 https://greasyfork.org/zh-CN/scripts/516559-%E5%8B%8B%E7%AB%A0%E6%94%BE%E5%A4%A7%E9%95%9C
 // 0.54血毕业男从比较 https://www.gamemale.com/thread-149145-1-2.html
 // TODO 上次补货时间
-
+// TODO 删掉右下角的勋章显示切换，避免误触。已经有好几个人来问我了。
 (function () {
     'use strict'
     // 0为原版【上下显示】 1为新版【左右显示】
