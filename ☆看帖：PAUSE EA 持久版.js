@@ -1175,7 +1175,8 @@
 
         // 设置按钮的样式
         div.style.position = 'absolute'
-        div.style.right = '0px'
+        div.style.left = '40px'
+        div.style.top = '-20px'
         div.style.background = 'none' // 去掉默认背景
         div.style.cursor = 'pointer' // 鼠标悬停时显示为手型
 
