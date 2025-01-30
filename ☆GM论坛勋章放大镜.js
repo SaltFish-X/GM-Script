@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.3.5.6
+// @version      2.3.5.7
 // @description  泥潭勋章属性展示！
 // @author       轶致
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html*
@@ -4198,10 +4198,10 @@ var 放大镜内容映射表 = {
 【勋章类型】宠物
 【入手条件】发帖数 >= 200
 【商店售价】404金币
-【等级1】▕▏升级条件：
+【等级1】10% 回帖血液+1▕▏升级条件：消耗404金币
 【等级2】▕▏升级条件：
-【等级3】10% 回帖血液+4 咒术-1▕▏升级条件：消耗404血液
-【 Max 】`,
+【等级3】10% 回帖血液+4 咒术-1▕▏升级条件：血液≥404
+【 Max 】10% 回帖血液+3`,
 }
 创建控制面板()
 初始化放大镜()
