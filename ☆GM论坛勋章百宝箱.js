@@ -702,7 +702,8 @@
     createLink('一键续期所有咒术勋章', oneClickAllSpell)
 
     // 一键关闭赠礼/咒术类勋章显示
-    createLink('一键关闭赠礼/咒术类勋章显示', oneClickDisplay)
+    createLink('关闭赠礼/咒术勋章显示', oneClickDisplay)
+    createLink('关闭所有勋章显示', closeAllDisplay)
 
     if (是否自动开启茉香啤酒) { 自动开启茉香啤酒() }
     /* =============================================================================================================== */
@@ -1206,7 +1207,7 @@
 
             if (isKind(name, 'Gift') || isKind(name, 'Spell')) {
                 const input = blok.querySelector('input')
-                if (input.checked) {
+                if (input && input.checked) {
                     input.click()
                 }
 
@@ -1214,6 +1215,20 @@
         }
 
         alert('赠礼/咒术类勋章已全部设置为不显示')
+    }
+
+    // 关闭所有勋章显示
+    function closeAllDisplay() {
+        const myblok = document.getElementsByClassName("myblok")
+
+        for (let blok of myblok) {
+            const input = blok.querySelector('input')
+            if (input && input.checked) {
+                input.click()
+            }
+        }
+
+        alert('所有勋章已全部设置为不显示')
     }
 
     // 判断一个勋章是否属于某个类别
