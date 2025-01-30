@@ -1735,7 +1735,6 @@
         myElement.addEventListener('change', event => {
             if (event.target.tagName === 'INPUT' && event.target.type === 'checkbox') {
                 showTopMedal()
-                console.log(`Checkbox ${event.target.checked ? '选中' : '未选中'}: ${event.target.parentNode.innerText}`)
             }
         })
     }
