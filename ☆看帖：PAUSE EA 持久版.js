@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         看帖：PAUSE EA 持久版
 // @namespace    https://www.gamemale.com/space-uid-687897.html
-// @version      0.8.8.4
+// @version      0.8.8.5
 // @description  勋章触发奖励时停+发帖回帖奖励账本查询！
 // @author       瓦尼
 // @match        https://www.gamemale.com/*
@@ -350,6 +350,8 @@
 
         const settings = JSON.parse(localStorage.getItem("filterSettings"))
         const 显示灵魂期望 = 发帖灵魂统计 && settings.showFaTie
+        const 显示回帖期望 = settings.showHuiTie
+
         const headers = [
             '行号', '奖励类型', '是否触发', '分区', '旅程', '金币', '血液', '咒术', '知识', '灵魂', '堕落', '时间',
             ...(显示灵魂期望 ? ['灵魂期望'] : []),
@@ -380,16 +382,14 @@
         }
 
         const allExpectations = JSON.parse(localStorage.getItem('回帖期望'))
-        // console.log(allExpectations, { rowNumber: '理论期望', ...allExpectations })
-
+        const summaryTableData = [
+            { rowNumber: rowNumber - 1, tempLvCheng, temmpJinBi, tempXueYe, tempZhouShu, tempZhiShi, tempLingHun, tempDuoLuo },
+            qiwangFormat({ rowNumber: '实际期望', tempLvCheng, temmpJinBi, tempXueYe, tempZhouShu, tempZhiShi, tempLingHun, tempDuoLuo }, rowNumber),
+            ...(allExpectations ? [{ rowNumber: '理论期望', ...allExpectations }] : [])
+        ]
         // 小计表格
-        const summaryTable = generateSummaryTable(
-            [
-                { rowNumber: rowNumber - 1, tempLvCheng, temmpJinBi, tempXueYe, tempZhouShu, tempZhiShi, tempLingHun, tempDuoLuo },
-                qiwangFormat({ rowNumber: '实际期望', tempLvCheng, temmpJinBi, tempXueYe, tempZhouShu, tempZhiShi, tempLingHun, tempDuoLuo }, rowNumber),
-                ...(allExpectations ? [{ rowNumber: '理论期望', ...allExpectations }] : [])
+        const summaryTable = generateSummaryTable(显示回帖期望 ? summaryTableData : summaryTableData.slice(0, 1))
 
-            ])
         // 计算分区 并 生成回帖数表格
         const areaNum = getAreaNum(checkCreditHistory)
         const areaTable = generateAreaTable(areaNum)
