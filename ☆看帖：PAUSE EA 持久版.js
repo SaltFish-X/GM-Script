@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         看帖：PAUSE EA 持久版
 // @namespace    https://www.gamemale.com/space-uid-687897.html
-// @version      0.8.8.3
+// @version      0.8.8.4
 // @description  勋章触发奖励时停+发帖回帖奖励账本查询！
 // @author       瓦尼
 // @match        https://www.gamemale.com/*
@@ -12,7 +12,7 @@
 // @license      GPL
 // ==/UserScript==
 
-// 下载地址 https://greasyfork.org/zh-CN/scripts/517953-%E7%9C%8B%E5%B8%96-pause-ea-%E6%8C%81%E4%B9%85%E7%89%88
+// 下载地址 https://greasyfork.org/zh-CN/scripts/517953
 // R语言计算灵魂概率 https://www.gamemale.com/blog-723150-117070.html
 
 /**
@@ -1264,8 +1264,9 @@
 
         // 设置按钮的样式
         div.style.position = 'absolute'
-        div.style.left = '40px'
-        div.style.top = '-20px'
+        div.style.right = '0px'
+        // div.style.left = '40px'
+        // div.style.top = '-20px'
         div.style.background = 'none' // 去掉默认背景
         div.style.cursor = 'pointer' // 鼠标悬停时显示为手型
 
