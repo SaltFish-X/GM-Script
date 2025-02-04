@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         看帖：PAUSE EA 持久版
 // @namespace    https://www.gamemale.com/space-uid-687897.html
-// @version      0.8.8.2
+// @version      0.8.8.3
 // @description  勋章触发奖励时停+发帖回帖奖励账本查询！
 // @author       瓦尼
 // @match        https://www.gamemale.com/*
@@ -33,6 +33,8 @@
 // DONE 仅在发帖和回帖时，弹出提示框
 // TODO 定制颜色样式
 // TODO 如果某条回复打到阈值，突出显示
+// TODO 合并灵魂期望和回帖期望
+
 (function () {
     'use strict'
 
@@ -367,8 +369,27 @@
         }
         const mainTable = generateTable(checkCreditHistory, headers, dataKeys, dataFormat, true)
 
+        const qiwangFormat = (obj, all) => {
+            const format = (val) => (val / all).toFixed(2)
+
+            return Object.fromEntries(
+                Object.entries(obj).map(([key, val]) =>
+                    [key, key === 'rowNumber' ? val : format(val)]
+                )
+            )
+        }
+
+        const allExpectations = JSON.parse(localStorage.getItem('回帖期望'))
+        // console.log(allExpectations, { rowNumber: '理论期望', ...allExpectations })
+
         // 小计表格
-        const summaryTable = generateSummaryTable([{ rowNumber, tempLvCheng, temmpJinBi, tempXueYe, tempZhouShu, tempZhiShi, tempLingHun, tempDuoLuo }])
+        const summaryTable = generateSummaryTable(
+            [
+                { rowNumber: rowNumber - 1, tempLvCheng, temmpJinBi, tempXueYe, tempZhouShu, tempZhiShi, tempLingHun, tempDuoLuo },
+                qiwangFormat({ rowNumber: '实际期望', tempLvCheng, temmpJinBi, tempXueYe, tempZhouShu, tempZhiShi, tempLingHun, tempDuoLuo }, rowNumber),
+                ...(allExpectations ? [{ rowNumber: '理论期望', ...allExpectations }] : [])
+
+            ])
         // 计算分区 并 生成回帖数表格
         const areaNum = getAreaNum(checkCreditHistory)
         const areaTable = generateAreaTable(areaNum)
@@ -930,7 +951,7 @@
     function generateSummaryTable(data) {
         const headers = ['行数', '旅程', '金币', '血液', '咒术', '知识', '灵魂', '堕落']
         const dataKeys = ['rowNumber', 'tempLvCheng', 'temmpJinBi', 'tempXueYe', 'tempZhouShu', 'tempZhiShi', 'tempLingHun', 'tempDuoLuo']
-        return generateTable(data, headers, dataKeys, { rowNumber: (val) => val - 1 }, true)
+        return generateTable(data, headers, dataKeys, {}, true)
     }
 
     if (发帖灵魂统计) {
@@ -940,6 +961,12 @@
             })
         })
     }
+
+    GM_registerMenuCommand('更新回帖期望', () => {
+        getALLExpectations().then(res => {
+            alert('回帖期望更新成功')
+        })
+    })
 
     // 计算灵魂
     function getLinghun() {
@@ -976,6 +1003,68 @@
                 console.log(result) // 输出结果对象
                 localStorage.setItem('灵魂期望', JSON.stringify(result))
                 return result
+            })
+            .catch(error => {
+                console.error('发生错误:', error)
+            })
+
+    }
+
+    // 计算期望
+    function getALLExpectations() {
+        return fetch('https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my')
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser()
+                const doc = parser.parseFromString(html, 'text/html')
+                const xunzhangList = doc.querySelectorAll('.my_fenlei .myblok')
+
+                function qiwang(pattern) {
+                    const result = { 金币: 0, 血液: 0, 咒术: 0, 知识: 0, 旅程: 0, 堕落: 0, 灵魂: 0 }
+
+                    // 使用更快的 querySelectorAll + spread 替代 HTMLCollection 遍历
+                    const processBlock = (block) => {
+                        const text = block.textContent
+
+                        // 使用 includes 替代 indexOf 检查
+                        if (text.includes("已寄售")) return
+
+                        // 合并概率匹配和有效性检查
+                        const probMatch = text.match(/几率 (\d+)%/i)
+                        if (!probMatch) return
+
+                        // 提前计算概率系数减少重复计算
+                        const probability = parseInt(probMatch[1], 10) / 100
+
+                        // 缓存正则匹配结果避免重复匹配
+                        const matches = Array.from(text.matchAll(pattern))
+                        if (matches.length === 0) return
+
+                        // 使用解构赋值提升可读性
+                        for (const match of matches) {
+                            const [, type, sign, value] = match
+                            const numericValue = parseInt(sign + value, 10)
+                            result[type] += probability * numericValue
+                        }
+                    };
+
+                    // 使用展开运算符替代 HTMLCollection 遍历
+                    [...xunzhangList].forEach(processBlock)
+
+                    // 最后统一处理精度，避免多次toFixed造成的精度损失
+                    return Object.fromEntries(
+                        Object.entries(result).map(([k, v]) => [k, Number(v.toFixed(4))])
+                    )
+                }
+
+                const hui = qiwang(/回帖\s+(.+?) ([+-])(\d+)/gi)
+
+                let { 旅程: tempLvCheng, 金币: temmpJinBi, 血液: tempXueYe, 咒术: tempZhouShu, 知识: tempZhiShi, 灵魂: tempLingHun, 堕落: tempDuoLuo } = hui
+                let temp = { tempLvCheng, temmpJinBi, tempXueYe, tempZhouShu, tempZhiShi, tempLingHun, tempDuoLuo }
+
+                // console.log(hui, temp)
+                localStorage.setItem('回帖期望', JSON.stringify(temp))
+                return temp
             })
             .catch(error => {
                 console.error('发生错误:', error)
