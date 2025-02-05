@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛自动领取发帖任务
 // @namespace    http://tampermonkey.net/
-// @version      1.3
+// @version      1.4
 // @description  自动领取发帖任务
 // @match        https://www.gamemale.com/forum.php
 // @match        https://www.gamemale.com/thread-*
@@ -110,6 +110,16 @@
   // 月任务奖励
   // 主题奖励 https://www.gamemale.com/plugin.php?id=reply_reward&code=4&type_7ree=1
   // 回帖奖励 https://www.gamemale.com/plugin.php?id=reply_reward&code=4&type_7ree=2
+
+  // const rewardLink = Array.from(document.querySelectorAll('a[href="plugin.php?id=reply_reward"]'))
+  //   .find(el => el.textContent.trim() === '可领奖')
+
+  // const rewardLink1 = 'https://www.gamemale.com/plugin.php?id=reply_reward&code=4&type_7ree=1'
+  // const rewardLink2 = 'https://www.gamemale.com/plugin.php?id=reply_reward&code=4&type_7ree=2'
+  // if (rewardLink) {
+  //   fetch(rewardLink1)
+  //   fetch(rewardLink2)
+  // }
 
   // 发帖
   // https://www.gamemale.com/forum.php?mod=post&action=newthread&fid=206
