@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.4.2
+// @version      2.4.3
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
@@ -1469,9 +1469,11 @@
                     }))
 
             blokDataList.push({
+                name: altName,
                 isTemporary,
                 hui: extractAttributes(/回帖\s+(.+?) ([+-])(\d+)/gi),
-                fa: extractAttributes(/发帖\s+(.+?) ([+-])(\d+)/gi)
+                fa: extractAttributes(/发帖\s+(.+?) ([+-])(\d+)/gi),
+                // huiDuoluo: extractAttributes(/回帖\s+(堕落) ([+-])(\d+)/gi),
             })
 
             // 计算寄售总价
@@ -1532,10 +1534,16 @@
         }
     }
 
+    // 显示堕落相关的勋章
+    function showDuoluHui(blokDataList) {
+        return blokDataList.filter(e => e.hui.find(e => e.type === '堕落')).map(e => e.name).join(', ')
+    }
+
     // 整合后的执行函数
     function optimizedBadgeOrder() {
         const { classificationResult, blokDataList, coin } = processBadges()
         const expectations = calculateExpectations(blokDataList)
+        const duoluHui = showDuoluHui(blokDataList)
 
         // 分类结果格式化
         const classificationText = Object.entries(classificationResult)
@@ -1566,7 +1574,9 @@
                 `寄售最大价格总和：${coin}`,
                 // '<H3>分类统计</H3>',
                 '<br>',
-                classificationText
+                classificationText,
+                '<br>',
+                '堕落回帖相关：' + duoluHui,
             ].map(s => `<p>${s}</p>`).join('')
         }
     }
