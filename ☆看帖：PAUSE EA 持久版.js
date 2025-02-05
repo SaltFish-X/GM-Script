@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         看帖：PAUSE EA 持久版
 // @namespace    https://www.gamemale.com/space-uid-687897.html
-// @version      0.8.8.6
+// @version      0.8.8.7
 // @description  勋章触发奖励时停+发帖回帖奖励账本查询！
 // @author       瓦尼
 // @match        https://www.gamemale.com/*
@@ -39,10 +39,15 @@
     'use strict'
 
     // 0为关闭，1为开启
-    const 开启提示框暂停 = 1
-    const 显示默认区域 = 1
-    const 发帖灵魂统计 = 0
+    let Config = {
+        开启提示框暂停: 1,
+        显示默认区域: 1,
+        发帖灵魂统计: 0
+    }
 
+    if (localStorage.getItem('账本配置')) {
+        Config = JSON.parse(localStorage.getItem('账本配置'))
+    }
     // 自动获取用户uid，请勿随意修改
     // 目前仅与主题配色相关
     const uid = discuz_uid
@@ -266,7 +271,7 @@
         localStorage.setItem('extractedCreditHistory', JSON.stringify(historyArrayEx))
 
         // 最后弹框提示
-        if (开启提示框暂停) {
+        if (Config.开启提示框暂停) {
             if (result.creditType === '发表回复' || result.creditType === '发表主题') {
                 setTimeout(function () {
                     alert(divElement.textContent)
@@ -349,7 +354,7 @@
 
 
         const settings = JSON.parse(localStorage.getItem("filterSettings"))
-        const 显示灵魂期望 = 发帖灵魂统计 && settings.showFaTie
+        const 显示灵魂期望 = Config.发帖灵魂统计 && settings.showFaTie
         const 显示回帖期望 = settings.showHuiTie
 
         const headers = [
@@ -373,12 +378,19 @@
 
         const qiwangFormat = (obj, all) => {
             const format = (val) => (val / all).toFixed(2)
+            return Object.fromEntries(Object.entries(obj).map(([key, val]) => [key, key === 'rowNumber' ? val : format(val)]))
 
+            const num = Math.min(all, 30)
             return Object.fromEntries(
-                Object.entries(obj).map(([key, val]) =>
-                    [key, key === 'rowNumber' ? val : format(val)]
-                )
-            )
+                Object.entries(obj).map(([key, val]) => {
+                    if (key === 'rowNumber') {
+                        return [key, val]
+                    } else if (key === 'temmpJinBi') {
+                        return [key, `${format(val)}(${format(val - num * 2)})`]
+                    } else {
+                        return [key, format(val)]
+                    }
+                }))
         }
 
         const allExpectations = JSON.parse(localStorage.getItem('回帖期望'))
@@ -924,7 +936,7 @@
     // 计算分区回帖数
     function getAreaNum(historyArray) {
         let result = {}
-        if (显示默认区域) {
+        if (Config.显示默认区域) {
             result = { 'C G A I': 0, '生活爆照': 0, '和谐动漫': 0, '汉化游戏': 0, '和谐游戏': 0, }
         }
         historyArray.forEach(e => {
