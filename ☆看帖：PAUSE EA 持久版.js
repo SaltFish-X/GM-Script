@@ -954,138 +954,93 @@
         return generateTable(data, headers, dataKeys, {}, true)
     }
 
-    if (发帖灵魂统计) {
-        GM_registerMenuCommand('更新灵魂期望', () => {
-            getLinghun().then(res => {
-                alert('灵魂期望更新成功')
+    GM_registerMenuCommand('更新所有期望', () => {
+        fetchData()
+            .then(doc => {
+                const linghunResult = processLinghun(doc)
+                const huiResult = processHui(doc)
+                localStorage.setItem('灵魂期望', JSON.stringify(linghunResult))
+                localStorage.setItem('回帖期望', JSON.stringify(huiResult))
+                alert('期望更新成功')
             })
-        })
-    }
-
-    GM_registerMenuCommand('更新回帖期望', () => {
-        getALLExpectations().then(res => {
-            alert('回帖期望更新成功')
-        })
+            .catch(error => {
+                console.error('发生错误:', error)
+            })
     })
 
-    // 计算灵魂
-    function getLinghun() {
+    // 公共数据获取函数
+    function fetchData() {
         return fetch('https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my')
             .then(response => response.text())
-            .then(html => {
-                const parser = new DOMParser()
-                const doc = parser.parseFromString(html, 'text/html')
-                const xunzhang = doc.querySelectorAll('.my_fenlei .myblok')
-
-                const result = {}
-
-                xunzhang.forEach(element => {
-                    const linghun = [...element.querySelectorAll('.jiage.shuxing')].find(p => p.textContent.includes('灵魂'))
-                    const triggerProbability = [...element.querySelectorAll('.jiage')].find(p => p.textContent.includes('触发几率'))
-
-                    if (linghun && triggerProbability) {
-                        const probabilityMatch = triggerProbability.textContent.match(/触发几率 (\d+)%/)
-                        if (probabilityMatch) {
-                            const probability = parseFloat(probabilityMatch[1]) / 100 // 转换为小数
-                            const countMatch = linghun.textContent.match(/发帖\s*[\u00A0]*灵魂\s*\+\s*(\d+)/)
-                            const count = countMatch ? parseInt(countMatch[1], 10) : 0
-
-                            // 记录结果
-                            if (result[probability]) {
-                                result[probability] += count // 如果已经存在，累加数量
-                            } else {
-                                result[probability] = count // 否则初始化数量
-                            }
-                        }
-                    }
-                })
-
-                console.log(result) // 输出结果对象
-                localStorage.setItem('灵魂期望', JSON.stringify(result))
-                return result
-            })
-            .catch(error => {
-                console.error('发生错误:', error)
-            })
-
+            .then(html => new DOMParser().parseFromString(html, 'text/html'))
     }
 
-    // 计算期望
-    function getALLExpectations() {
-        return fetch('https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my')
-            .then(response => response.text())
-            .then(html => {
-                const parser = new DOMParser()
-                const doc = parser.parseFromString(html, 'text/html')
-                const xunzhangList = doc.querySelectorAll('.my_fenlei .myblok')
+    // 灵魂期望处理
+    function processLinghun(doc) {
+        const result = {}
+        doc.querySelectorAll('.my_fenlei .myblok').forEach(element => {
+            const linghun = [...element.querySelectorAll('.jiage.shuxing')].find(p => p.textContent.includes('灵魂'))
+            const triggerProbability = [...element.querySelectorAll('.jiage')].find(p => p.textContent.includes('触发几率'))
 
-                function qiwang(pattern) {
-                    const result = { 金币: 0, 血液: 0, 咒术: 0, 知识: 0, 旅程: 0, 堕落: 0, 灵魂: 0 }
+            if (linghun && triggerProbability) {
+                const probabilityMatch = triggerProbability.textContent.match(/触发几率 (\d+)%/)
+                if (probabilityMatch) {
+                    const probability = parseFloat(probabilityMatch[1]) / 100
+                    const countMatch = linghun.textContent.match(/发帖\s*[\u00A0]*灵魂\s*\+\s*(\d+)/)
+                    const count = countMatch ? parseInt(countMatch[1], 10) : 0
 
-                    // 使用更快的 querySelectorAll + spread 替代 HTMLCollection 遍历
-                    const processBlock = (block) => {
-                        const text = block.textContent
-
-                        // 使用 includes 替代 indexOf 检查
-                        if (text.includes("已寄售")) return
-
-                        // 合并概率匹配和有效性检查
-                        const probMatch = text.match(/几率 (\d+)%/i)
-                        if (!probMatch) return
-
-                        // 提前计算概率系数减少重复计算
-                        const probability = parseInt(probMatch[1], 10) / 100
-
-                        // 缓存正则匹配结果避免重复匹配
-                        const matches = Array.from(text.matchAll(pattern))
-                        if (matches.length === 0) return
-
-                        // 使用解构赋值提升可读性
-                        for (const match of matches) {
-                            const [, type, sign, value] = match
-                            const numericValue = parseInt(sign + value, 10)
-                            result[type] += probability * numericValue
-                        }
-                    };
-
-                    // 使用展开运算符替代 HTMLCollection 遍历
-                    [...xunzhangList].forEach(processBlock)
-
-                    // 最后统一处理精度，避免多次toFixed造成的精度损失
-                    return Object.fromEntries(
-                        Object.entries(result).map(([k, v]) => [k, Number(v.toFixed(4))])
-                    )
+                    result[probability] = (result[probability] || 0) + count
                 }
-
-                const hui = qiwang(/回帖\s+(.+?) ([+-])(\d+)/gi)
-
-                let { 旅程: tempLvCheng, 金币: temmpJinBi, 血液: tempXueYe, 咒术: tempZhouShu, 知识: tempZhiShi, 灵魂: tempLingHun, 堕落: tempDuoLuo } = hui
-                let temp = { tempLvCheng, temmpJinBi, tempXueYe, tempZhouShu, tempZhiShi, tempLingHun, tempDuoLuo }
-
-                // console.log(hui, temp)
-                localStorage.setItem('回帖期望', JSON.stringify(temp))
-                return temp
-            })
-            .catch(error => {
-                console.error('发生错误:', error)
-            })
-
+            }
+        })
+        return result
     }
 
+    // 回帖期望处理
+    function processHui(doc) {
+        const xunzhangList = doc.querySelectorAll('.my_fenlei .myblok')
+
+        const qiwang = pattern => {
+            const result = { 金币: 0, 血液: 0, 咒术: 0, 知识: 0, 旅程: 0, 堕落: 0, 灵魂: 0 };
+
+            [...xunzhangList].forEach(block => {
+                const text = block.textContent
+                if (text.includes("已寄售")) return
+
+                const probMatch = text.match(/几率 (\d+)%/i)
+                if (!probMatch) return
+
+                const probability = parseInt(probMatch[1], 10) / 100
+                const matches = Array.from(text.matchAll(pattern))
+
+                for (const match of matches) {
+                    const [, type, sign, value] = match
+                    result[type] += probability * parseInt(sign + value, 10)
+                }
+            })
+
+            return Object.fromEntries(
+                Object.entries(result).map(([k, v]) => [k, Number(v.toFixed(4))])
+            )
+        }
+
+        const hui = qiwang(/回帖\s+(.+?)\s([+-])(\d+)/gi)
+        return {
+            tempLvCheng: hui.旅程,
+            temmpJinBi: hui.金币,
+            tempXueYe: hui.血液,
+            tempZhouShu: hui.咒术,
+            tempZhiShi: hui.知识,
+            tempLingHun: hui.灵魂,
+            tempDuoLuo: hui.堕落
+        }
+    }
+
+    // 格式化函数保持原样
     function linghunExpectationsFormat(result) {
         if (!result) return '暂无数据'
-
-        let total = 0
-        Object.entries(result).forEach(([key, value]) => {
-            total += parseFloat(key) * value
-        })
-
-        const outputParts = Object.entries(result).map(([key, value]) => {
-            return `${key}(${value})`
-        })
-        const outputString = `${total.toFixed(2)} = ${outputParts.join(' + ')}`
-
-        return outputString
+        const total = Object.entries(result).reduce((sum, [prob, count]) => sum + prob * count, 0)
+        return `${total.toFixed(2)} = ${Object.entries(result).map(([k, v]) => `${k}(${v})`).join(' + ')}`
     }
 
     /**
