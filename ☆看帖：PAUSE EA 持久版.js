@@ -355,6 +355,7 @@
         const settings = JSON.parse(localStorage.getItem("filterSettings"))
         const 显示灵魂期望 = Config.发帖灵魂统计 && settings.showFaTie
         const 显示回帖期望 = settings.showHuiTie
+        const settingsDays = settings.days
 
         const headers = [
             '行号', '奖励类型', '是否触发', '分区', '旅程', '金币', '血液', '咒术', '知识', '灵魂', '堕落', '时间',
@@ -384,7 +385,8 @@
                 Object.entries(obj).map(([key, val]) => {
                     if (key === 'rowNumber') {
                         return [key, val]
-                    } else if (key === 'temmpJinBi') {
+                    } else if (key === 'temmpJinBi' && Number(settingsDays) === 1) {
+                        // 只在当天-30*2期望，跨天算起来就得每天判断是否慢30减了，不能简单*30再减，因此干脆不算
                         return [key, `${format(val)}(${format(val - num * 2)})`]
                     } else {
                         return [key, format(val)]
