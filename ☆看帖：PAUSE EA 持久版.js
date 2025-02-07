@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         看帖：PAUSE EA 持久版
 // @namespace    https://www.gamemale.com/space-uid-687897.html
-// @version      0.8.8.2
+// @version      0.8.8.9
 // @description  勋章触发奖励时停+发帖回帖奖励账本查询！
 // @author       瓦尼
 // @match        https://www.gamemale.com/*
@@ -12,7 +12,7 @@
 // @license      GPL
 // ==/UserScript==
 
-// 下载地址 https://greasyfork.org/zh-CN/scripts/517953-%E7%9C%8B%E5%B8%96-pause-ea-%E6%8C%81%E4%B9%85%E7%89%88
+// 下载地址 https://greasyfork.org/zh-CN/scripts/517953
 // R语言计算灵魂概率 https://www.gamemale.com/blog-723150-117070.html
 
 /**
@@ -33,14 +33,21 @@
 // DONE 仅在发帖和回帖时，弹出提示框
 // TODO 定制颜色样式
 // TODO 如果某条回复打到阈值，突出显示
+// TODO 合并灵魂期望和回帖期望
+
 (function () {
     'use strict'
 
     // 0为关闭，1为开启
-    const 开启提示框暂停 = 1
-    const 显示默认区域 = 1
-    const 发帖灵魂统计 = 0
+    let Config = {
+        开启提示框暂停: 1,
+        显示默认区域: 1,
+        发帖灵魂统计: 0
+    }
 
+    if (localStorage.getItem('账本配置')) {
+        Config = JSON.parse(localStorage.getItem('账本配置'))
+    }
     // 自动获取用户uid，请勿随意修改
     // 目前仅与主题配色相关
     const uid = discuz_uid
@@ -264,7 +271,7 @@
         localStorage.setItem('extractedCreditHistory', JSON.stringify(historyArrayEx))
 
         // 最后弹框提示
-        if (开启提示框暂停) {
+        if (Config.开启提示框暂停) {
             if (result.creditType === '发表回复' || result.creditType === '发表主题') {
                 setTimeout(function () {
                     alert(divElement.textContent)
@@ -303,7 +310,7 @@
         var creditHistory = JSON.parse(creditHistoryStr)
 
         //创建行号
-        var rowNumber = 1
+        var rowNumber = 0
         var tempLvCheng = 0
         var temmpJinBi = 0
         var tempXueYe = 0
@@ -319,6 +326,7 @@
                 if (checkItem(item)) {
                     return
                 }
+                rowNumber++
                 checkCreditHistory.push({ ...item, rowNumber })
 
                 tempLvCheng += item.lvCheng
@@ -328,8 +336,6 @@
                 tempZhiShi += item.zhiShi
                 tempLingHun += item.lingHun
                 tempDuoLuo += item.duoLuo
-
-                rowNumber++
             })
         }
 
@@ -347,7 +353,10 @@
 
 
         const settings = JSON.parse(localStorage.getItem("filterSettings"))
-        const 显示灵魂期望 = 发帖灵魂统计 && settings.showFaTie
+        const 显示灵魂期望 = Config.发帖灵魂统计 && settings.showFaTie
+        const 显示回帖期望 = settings.showHuiTie
+        const settingsDays = settings.days
+
         const headers = [
             '行号', '奖励类型', '是否触发', '分区', '旅程', '金币', '血液', '咒术', '知识', '灵魂', '堕落', '时间',
             ...(显示灵魂期望 ? ['灵魂期望'] : []),
@@ -367,8 +376,33 @@
         }
         const mainTable = generateTable(checkCreditHistory, headers, dataKeys, dataFormat, true)
 
+        const qiwangFormat = (obj, all) => {
+            const format = (val) => (val / all).toFixed(2)
+            // return Object.fromEntries(Object.entries(obj).map(([key, val]) => [key, key === 'rowNumber' ? val : format(val)]))
+
+            const num = Math.min(all, 30)
+            return Object.fromEntries(
+                Object.entries(obj).map(([key, val]) => {
+                    if (key === 'rowNumber') {
+                        return [key, val]
+                    } else if (key === 'temmpJinBi' && Number(settingsDays) === 1) {
+                        // 只在当天-30*2期望，跨天算起来就得每天判断是否慢30减了，不能简单*30再减，因此干脆不算
+                        return [key, `${format(val)}(${format(val - num * 2)})`]
+                    } else {
+                        return [key, format(val)]
+                    }
+                }))
+        }
+
+        const allExpectations = JSON.parse(localStorage.getItem('回帖期望'))
+        const summaryTableData = [
+            { rowNumber: rowNumber, tempLvCheng, temmpJinBi, tempXueYe, tempZhouShu, tempZhiShi, tempLingHun, tempDuoLuo },
+            qiwangFormat({ rowNumber: '实际期望', tempLvCheng, temmpJinBi, tempXueYe, tempZhouShu, tempZhiShi, tempLingHun, tempDuoLuo }, rowNumber),
+            ...(allExpectations ? [{ rowNumber: '理论期望', ...allExpectations }] : [])
+        ]
         // 小计表格
-        const summaryTable = generateSummaryTable([{ rowNumber, tempLvCheng, temmpJinBi, tempXueYe, tempZhouShu, tempZhiShi, tempLingHun, tempDuoLuo }])
+        const summaryTable = generateSummaryTable(显示回帖期望 ? summaryTableData : summaryTableData.slice(0, 1))
+
         // 计算分区 并 生成回帖数表格
         const areaNum = getAreaNum(checkCreditHistory)
         const areaTable = generateAreaTable(areaNum)
@@ -903,7 +937,7 @@
     // 计算分区回帖数
     function getAreaNum(historyArray) {
         let result = {}
-        if (显示默认区域) {
+        if (Config.显示默认区域) {
             result = { 'C G A I': 0, '生活爆照': 0, '和谐动漫': 0, '汉化游戏': 0, '和谐游戏': 0, }
         }
         historyArray.forEach(e => {
@@ -930,73 +964,96 @@
     function generateSummaryTable(data) {
         const headers = ['行数', '旅程', '金币', '血液', '咒术', '知识', '灵魂', '堕落']
         const dataKeys = ['rowNumber', 'tempLvCheng', 'temmpJinBi', 'tempXueYe', 'tempZhouShu', 'tempZhiShi', 'tempLingHun', 'tempDuoLuo']
-        return generateTable(data, headers, dataKeys, { rowNumber: (val) => val - 1 }, true)
+        return generateTable(data, headers, dataKeys, {}, true)
     }
 
-    if (发帖灵魂统计) {
-        GM_registerMenuCommand('更新灵魂期望', () => {
-            getLinghun().then(res => {
-                alert('灵魂期望更新成功')
-            })
-        })
-    }
-
-    // 计算灵魂
-    function getLinghun() {
-        return fetch('https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my')
-            .then(response => response.text())
-            .then(html => {
-                const parser = new DOMParser()
-                const doc = parser.parseFromString(html, 'text/html')
-                const xunzhang = doc.querySelectorAll('.my_fenlei .myblok')
-
-                const result = {}
-
-                xunzhang.forEach(element => {
-                    const linghun = [...element.querySelectorAll('.jiage.shuxing')].find(p => p.textContent.includes('灵魂'))
-                    const triggerProbability = [...element.querySelectorAll('.jiage')].find(p => p.textContent.includes('触发几率'))
-
-                    if (linghun && triggerProbability) {
-                        const probabilityMatch = triggerProbability.textContent.match(/触发几率 (\d+)%/)
-                        if (probabilityMatch) {
-                            const probability = parseFloat(probabilityMatch[1]) / 100 // 转换为小数
-                            const countMatch = linghun.textContent.match(/发帖\s*[\u00A0]*灵魂\s*\+\s*(\d+)/)
-                            const count = countMatch ? parseInt(countMatch[1], 10) : 0
-
-                            // 记录结果
-                            if (result[probability]) {
-                                result[probability] += count // 如果已经存在，累加数量
-                            } else {
-                                result[probability] = count // 否则初始化数量
-                            }
-                        }
-                    }
-                })
-
-                console.log(result) // 输出结果对象
-                localStorage.setItem('灵魂期望', JSON.stringify(result))
-                return result
+    GM_registerMenuCommand('更新所有期望', () => {
+        fetchData()
+            .then(doc => {
+                const linghunResult = processLinghun(doc)
+                const huiResult = processHui(doc)
+                localStorage.setItem('灵魂期望', JSON.stringify(linghunResult))
+                localStorage.setItem('回帖期望', JSON.stringify(huiResult))
+                alert('期望更新成功')
             })
             .catch(error => {
                 console.error('发生错误:', error)
             })
+    })
 
+    // 公共数据获取函数
+    function fetchData() {
+        return fetch('https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my')
+            .then(response => response.text())
+            .then(html => new DOMParser().parseFromString(html, 'text/html'))
     }
 
+    // 灵魂期望处理
+    function processLinghun(doc) {
+        const result = {}
+        doc.querySelectorAll('.my_fenlei .myblok').forEach(element => {
+            const linghun = [...element.querySelectorAll('.jiage.shuxing')].find(p => p.textContent.includes('灵魂'))
+            const triggerProbability = [...element.querySelectorAll('.jiage')].find(p => p.textContent.includes('触发几率'))
+
+            if (linghun && triggerProbability) {
+                const probabilityMatch = triggerProbability.textContent.match(/触发几率 (\d+)%/)
+                if (probabilityMatch) {
+                    const probability = parseFloat(probabilityMatch[1]) / 100
+                    const countMatch = linghun.textContent.match(/发帖\s*[\u00A0]*灵魂\s*\+\s*(\d+)/)
+                    const count = countMatch ? parseInt(countMatch[1], 10) : 0
+
+                    result[probability] = (result[probability] || 0) + count
+                }
+            }
+        })
+        return result
+    }
+
+    // 回帖期望处理
+    function processHui(doc) {
+        const xunzhangList = doc.querySelectorAll('.my_fenlei .myblok')
+
+        const qiwang = pattern => {
+            const result = { 金币: 0, 血液: 0, 咒术: 0, 知识: 0, 旅程: 0, 堕落: 0, 灵魂: 0 };
+
+            [...xunzhangList].forEach(block => {
+                const text = block.textContent
+                if (text.includes("已寄售")) return
+
+                const probMatch = text.match(/几率 (\d+)%/i)
+                if (!probMatch) return
+
+                const probability = parseInt(probMatch[1], 10) / 100
+                const matches = Array.from(text.matchAll(pattern))
+
+                for (const match of matches) {
+                    const [, type, sign, value] = match
+                    result[type] += probability * parseInt(sign + value, 10)
+                }
+            })
+
+            return Object.fromEntries(
+                Object.entries(result).map(([k, v]) => [k, Number(v.toFixed(4))])
+            )
+        }
+
+        const hui = qiwang(/回帖\s+(.+?)\s([+-])(\d+)/gi)
+        return {
+            tempLvCheng: hui.旅程,
+            temmpJinBi: hui.金币,
+            tempXueYe: hui.血液,
+            tempZhouShu: hui.咒术,
+            tempZhiShi: hui.知识,
+            tempLingHun: hui.灵魂,
+            tempDuoLuo: hui.堕落
+        }
+    }
+
+    // 格式化函数保持原样
     function linghunExpectationsFormat(result) {
         if (!result) return '暂无数据'
-
-        let total = 0
-        Object.entries(result).forEach(([key, value]) => {
-            total += parseFloat(key) * value
-        })
-
-        const outputParts = Object.entries(result).map(([key, value]) => {
-            return `${key}(${value})`
-        })
-        const outputString = `${total.toFixed(2)} = ${outputParts.join(' + ')}`
-
-        return outputString
+        const total = Object.entries(result).reduce((sum, [prob, count]) => sum + prob * count, 0)
+        return `${total.toFixed(2)} = ${Object.entries(result).map(([k, v]) => `${k}(${v})`).join(' + ')}`
     }
 
     /**
@@ -1175,8 +1232,9 @@
 
         // 设置按钮的样式
         div.style.position = 'absolute'
-        div.style.left = '40px'
-        div.style.top = '-20px'
+        div.style.right = '0px'
+        // div.style.left = '40px'
+        // div.style.top = '-20px'
         div.style.background = 'none' // 去掉默认背景
         div.style.cursor = 'pointer' // 鼠标悬停时显示为手型
 

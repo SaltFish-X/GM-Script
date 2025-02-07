@@ -99,6 +99,10 @@
                         followers = await getTotalFollowers(link)
                     }
 
+                    // TODO
+                    // 是否符合50字以上和至少一张图
+                    // 是否是悬赏贴
+
                     allPosts.push({
                         key,
                         追随: followers,

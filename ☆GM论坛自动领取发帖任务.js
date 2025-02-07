@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛自动领取发帖任务
 // @namespace    http://tampermonkey.net/
-// @version      1.3
+// @version      1.4
 // @description  自动领取发帖任务
 // @match        https://www.gamemale.com/forum.php
 // @match        https://www.gamemale.com/thread-*
@@ -19,27 +19,27 @@
   // 获取当前日期
   const currentDateString = getDate()
   // 检查localStorage中存储的最后执行日期
-  const lastExecutionDate = localStorage.getItem('每周发帖任务标记');
+  const lastExecutionDate = localStorage.getItem('每周发帖任务标记')
 
   if (lastExecutionDate === currentDateString) {
-    console.log('今天已经自动领取发帖任务');
+    console.log('今天已经自动领取发帖任务')
   } else {
     applyTask()
     claimReward()
 
-    localStorage.setItem('每周发帖任务标记', currentDateString);
+    localStorage.setItem('每周发帖任务标记', currentDateString)
   }
 
 
   // 获取当前时间的年、月和日
   function getDate() {
-    const currentDate = new Date();
+    const currentDate = new Date()
 
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth() + 1; // 月份从0开始，需要加1
-    const day = currentDate.getDate();
+    const year = currentDate.getFullYear()
+    const month = currentDate.getMonth() + 1 // 月份从0开始，需要加1
+    const day = currentDate.getDate()
 
-    const formattedDate = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
+    const formattedDate = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`
     return formattedDate
   }
 
@@ -71,13 +71,13 @@
     })
       .then(response => response.text())
       .then(html => {
-        const parser = new DOMParser();
+        const parser = new DOMParser()
         const doc = parser.parseFromString(html, 'text/html')
         const messagetext = doc.querySelector('#messagetext p').textContent
-        console.log(messagetext);
+        console.log(messagetext)
       })
       .catch(error => {
-        console.error('发生错误：', error);
+        console.error('发生错误：', error)
       })
   }
 
@@ -92,10 +92,10 @@
       method: 'GET'
     }).then(response => response.text())
       .then(html => {
-        const parser = new DOMParser();
+        const parser = new DOMParser()
         const doc = parser.parseFromString(html, 'text/html')
         const messagetext = doc.querySelector('#messagetext p').textContent
-        console.log(messagetext);
+        console.log(messagetext)
 
         if (messagetext.includes(messageInfo.done)) {
           // 清除系统消息
@@ -103,13 +103,23 @@
         }
       })
       .catch(error => {
-        console.error('发生错误：', error);
+        console.error('发生错误：', error)
       })
   }
 
   // 月任务奖励
   // 主题奖励 https://www.gamemale.com/plugin.php?id=reply_reward&code=4&type_7ree=1
   // 回帖奖励 https://www.gamemale.com/plugin.php?id=reply_reward&code=4&type_7ree=2
+
+  // const rewardLink = Array.from(document.querySelectorAll('a[href="plugin.php?id=reply_reward"]'))
+  //   .find(el => el.textContent.trim() === '可领奖')
+
+  // const rewardLink1 = 'https://www.gamemale.com/plugin.php?id=reply_reward&code=4&type_7ree=1'
+  // const rewardLink2 = 'https://www.gamemale.com/plugin.php?id=reply_reward&code=4&type_7ree=2'
+  // if (rewardLink) {
+  //   fetch(rewardLink1)
+  //   fetch(rewardLink2)
+  // }
 
   // 发帖
   // https://www.gamemale.com/forum.php?mod=post&action=newthread&fid=206
@@ -123,17 +133,18 @@
 
   // 检查 referrer 是否匹配
   if (/^https:\/\/www\.gamemale\.com\/forum\.php\?mod=post&action=newthread(&.*)?/.test(document.referrer)) {
-    claimReward(); // 调用你的函数
-    console.log('已经领取每周发帖奖励');
+    setTimeout(() => {
+      claimReward() // 调用你的函数
+    }, 3000)
   }
 
   // 可以监听标签，但是算了，有点麻烦，重复造轮子，我想弄点简单的
   // 我选择正则+document.referrer
   function startObserve() {
-    const targetNode = document.getElementById('append_parent');
+    const targetNode = document.getElementById('append_parent')
 
     // 观察器配置
-    const config = { attributes: false, childList: true, subtree: false };
+    const config = { attributes: false, childList: true, subtree: false }
 
     // 当检测到变化时调用的回调函数
     const callback = function () {
@@ -141,11 +152,11 @@
       // 如果检测到奖励内容再执行函数
       if (document.getElementById("creditpromptdiv")) {
 
-        var creditElement = document.getElementById("creditpromptdiv");
+        var creditElement = document.getElementById("creditpromptdiv")
         if (creditElement) {
-          const creditTypeNode = creditElement.querySelector('i');
-          console.log(creditTypeNode);
-          const parts = creditTypeNode.textContent.trim().split(' ');
+          const creditTypeNode = creditElement.querySelector('i')
+          console.log(creditTypeNode)
+          const parts = creditTypeNode.textContent.trim().split(' ')
           const creditType = parts[0]
 
           if (creditType === '发表主题') {
@@ -155,12 +166,12 @@
 
       }
 
-    };
+    }
 
     // 创建一个观察器实例并传入回调函数
-    const observer = new MutationObserver(callback);
+    const observer = new MutationObserver(callback)
 
     // 开始观察目标节点
-    observer.observe(targetNode, config);
+    observer.observe(targetNode, config)
   }
 })()
