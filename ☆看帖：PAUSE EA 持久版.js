@@ -310,7 +310,7 @@
         var creditHistory = JSON.parse(creditHistoryStr)
 
         //创建行号
-        var rowNumber = 1
+        var rowNumber = 0
         var tempLvCheng = 0
         var temmpJinBi = 0
         var tempXueYe = 0
@@ -326,6 +326,7 @@
                 if (checkItem(item)) {
                     return
                 }
+                rowNumber++
                 checkCreditHistory.push({ ...item, rowNumber })
 
                 tempLvCheng += item.lvCheng
@@ -335,8 +336,6 @@
                 tempZhiShi += item.zhiShi
                 tempLingHun += item.lingHun
                 tempDuoLuo += item.duoLuo
-
-                rowNumber++
             })
         }
 
@@ -395,7 +394,7 @@
 
         const allExpectations = JSON.parse(localStorage.getItem('回帖期望'))
         const summaryTableData = [
-            { rowNumber: rowNumber - 1, tempLvCheng, temmpJinBi, tempXueYe, tempZhouShu, tempZhiShi, tempLingHun, tempDuoLuo },
+            { rowNumber: rowNumber, tempLvCheng, temmpJinBi, tempXueYe, tempZhouShu, tempZhiShi, tempLingHun, tempDuoLuo },
             qiwangFormat({ rowNumber: '实际期望', tempLvCheng, temmpJinBi, tempXueYe, tempZhouShu, tempZhiShi, tempLingHun, tempDuoLuo }, rowNumber),
             ...(allExpectations ? [{ rowNumber: '理论期望', ...allExpectations }] : [])
         ]
