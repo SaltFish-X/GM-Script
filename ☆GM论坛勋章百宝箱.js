@@ -27,6 +27,7 @@
 // DONE 分类统计勋章收益【所有、常驻、临时】
 // DONE 分类新增装饰，因为他有最大数量上限
 // TODO 有效期时长显示不稳定
+// TODO 勋章寄售按钮里，有medalid。如果将key从name转为medalid，就不用再维护因为勋章改名引起的代码失效
 
 (function () {
     'use strict'
