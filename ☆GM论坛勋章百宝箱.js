@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.4.4
+// @version      2.4.5
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
@@ -1449,7 +1449,7 @@
             const altName = blok.querySelector('img')?.getAttribute('alt') || ''
             const normalizedName = altName.replace(/[·‧]/g, s =>
                 s === '·' ? '‧' : '·' // 统一转换为半角符号进行匹配
-            )
+            ).replace(/【不可购买】/g, '') // 去除【不可购买】
             const category = nameCategoryMap.get(normalizedName) || 'other'
             const displayCategory = categoriesMapping[category] || "其他"
 
