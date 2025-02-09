@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛自动领取发帖任务
 // @namespace    http://tampermonkey.net/
-// @version      1.5
+// @version      2.0
 // @description  自动领取发帖任务
 // @match        https://www.gamemale.com/thread-*
 // @match        https://www.gamemale.com/forum.php?mod=viewthread&tid=*
@@ -10,8 +10,8 @@
 // @icon         https://www.gamemale.com/template/mwt2/extend/img/favicon.ico
 // @license      GPL
 // ==/UserScript==
-// 每周发帖任务的刷新时间实际为每周日00：00，并不是每周一
 
+// 每周发帖任务的刷新时间实际为每周日00：00，并不是每周一
 // 下载地址 https://greasyfork.org/zh-CN/scripts/519502
 
 (function () {
@@ -40,15 +40,16 @@
   // 回复帖子 https://www.gamemale.com/forum.php?mod=post&action=reply&fid=54&tid=152292
 
   // 自动领取发帖任务
-  // TODO 领任务可以改成进入发帖页面的时候再去领，可以加个标识方便判断
+  // DONE 领任务可以改成进入发帖页面的时候再去领，可以加个标识方便判断
   // 获取当前页面的 URL
   const currentUrl = window.location.href
   const currentReferrer = document.referrer
+  // 发帖编辑页面
   const newThreadUrl = 'https://www.gamemale.com/forum.php?mod=post&action=newthread'
 
-  // 检查当前 URL 是否匹配正则表达式
+  // 如果停留在发帖编辑页面，你就去自动领取每周发帖任务
+  // 之前是每天都要去访问一次发帖任务和领取任务奖励的接口
   if (currentUrl.includes(newThreadUrl)) {
-    // 如果匹配，执行 applyTask 函数
     applyTask()
     console.log('已经领取每周发帖任务')
   }
@@ -79,6 +80,8 @@
       })
   }
 
+  // 下方内容为触碰版弹出的提示，我不好说，还得再去尝试适配
+  // <p class="del_tips"><span class="alert_error">恭喜您，任务已成功完成，您将收到奖励通知，请注意查收</span></p>
   // 自动领取任务奖励 仅防忘记
   function claimReward(params) {
     const messageInfo = {
@@ -108,16 +111,15 @@
   // 月任务奖励
   // 主题奖励 https://www.gamemale.com/plugin.php?id=reply_reward&code=4&type_7ree=1
   // 回帖奖励 https://www.gamemale.com/plugin.php?id=reply_reward&code=4&type_7ree=2
+  // 现在当回帖页面中显示可领奖的时候，会自动去领取月任务的奖励了
+  const rewardLink = [...document.querySelectorAll('a[href="plugin.php?id=reply_reward"]')].find(el => el.textContent.trim() === '可领奖')
 
-  // const rewardLink = Array.from(document.querySelectorAll('a[href="plugin.php?id=reply_reward"]'))
-  //   .find(el => el.textContent.trim() === '可领奖')
-
-  // const rewardLink1 = 'https://www.gamemale.com/plugin.php?id=reply_reward&code=4&type_7ree=1'
-  // const rewardLink2 = 'https://www.gamemale.com/plugin.php?id=reply_reward&code=4&type_7ree=2'
-  // if (rewardLink) {
-  //   fetch(rewardLink1)
-  //   fetch(rewardLink2)
-  // }
+  const rewardLink1 = 'https://www.gamemale.com/plugin.php?id=reply_reward&code=4&type_7ree=1'
+  const rewardLink2 = 'https://www.gamemale.com/plugin.php?id=reply_reward&code=4&type_7ree=2'
+  if (rewardLink) {
+    fetch(rewardLink1)
+    fetch(rewardLink2)
+  }
 
   // 发帖
   // https://www.gamemale.com/forum.php?mod=post&action=newthread&fid=206
