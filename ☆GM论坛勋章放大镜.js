@@ -351,23 +351,21 @@
 
     function 初始化放大镜() {
         document.querySelectorAll('.myimg img').forEach(function (img) {
-            const alt = img.getAttribute('alt')
-            // 有的勋章是全角· 有的勋章是‧ 这里我们判断一下来保证匹配
-            const alt1 = alt.replace(/·/g, '‧')
-            const alt2 = alt.replace(/‧/g, '·')
-            // 临时更新，真人男从勋章后面会带个.
-            const alt3 = alt1.slice(0, -1)
-            const alt4 = alt2.slice(0, -1)
+            // 去除【不可购买】并生成基础变体
+            const baseAlt = img.getAttribute('alt').replace(/【不可购买】/g, '')
+            const variants = [
+                baseAlt.replace(/·/g, '‧'),   // 全角转半角点
+                baseAlt.replace(/‧/g, '·')    // 半角点转全角
+            ]
 
-            function getAlt(array) {
-                return array.map(e => 放大镜内容映射表[e]).reduce((a, b) => a || b)
-            }
-            const altArray = [alt1, alt2, alt3, alt4]
-            const 放大镜内容 = getAlt(altArray)
+            // 处理可能存在的结尾标点（例如真人男从的. 以及其他各种特殊符号，总之去掉末尾的.是对的）
+            const trimEndDot = str => str.slice(0, -1)
+            const processedVariants = [...variants, ...variants.map(trimEndDot)]
 
-            if (放大镜内容) {
-                添加悬停监听器(img, 放大镜内容)
-            }
+            // 高效查找映射表（去重 + find短路机制）
+            const altKey = [...new Set(processedVariants)].find(alt => alt in 放大镜内容映射表)
+
+            altKey && 添加悬停监听器(img, 放大镜内容映射表[altKey])
         })
     }
     function 变化检测() {
