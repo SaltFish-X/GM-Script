@@ -12,7 +12,7 @@
 // @icon         https://www.gamemale.com/template/mwt2/extend/img/favicon.ico
 // ==/UserScript==
 
-// 下载地址
+// GM论坛勋章百宝箱下载更新地址
 // https://greasyfork.org/zh-CN/scripts/508971
 
 // 功能一览
