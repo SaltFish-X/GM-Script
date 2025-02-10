@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.4.3
+// @version      2.4.5
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
@@ -27,6 +27,7 @@
 // DONE 分类统计勋章收益【所有、常驻、临时】
 // DONE 分类新增装饰，因为他有最大数量上限
 // TODO 有效期时长显示不稳定
+// TODO 勋章寄售按钮里，有medalid。如果将key从name转为medalid，就不用再维护因为勋章改名引起的代码失效
 
 (function () {
     'use strict'
@@ -653,6 +654,7 @@
             // 2025年之后的新奖品
             "银色溜冰鞋",
             "永亘环",
+            "小狮欢舞",
         ],
     }
     // 2025年元旦活动新增的类别，期间限定的临时活动勋章
@@ -1472,7 +1474,7 @@
             const altName = blok.querySelector('img')?.getAttribute('alt') || ''
             const normalizedName = altName.replace(/[·‧]/g, s =>
                 s === '·' ? '‧' : '·' // 统一转换为半角符号进行匹配
-            )
+            ).replace(/【不可购买】/g, '') // 去除【不可购买】
             const category = nameCategoryMap.get(normalizedName) || 'other'
             const displayCategory = categoriesMapping[category] || "其他"
 
