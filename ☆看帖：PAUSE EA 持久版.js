@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         看帖：PAUSE EA 持久版
 // @namespace    https://www.gamemale.com/space-uid-687897.html
-// @version      0.8.8.9
+// @version      0.8.8.10
 // @description  勋章触发奖励时停+发帖回帖奖励账本查询！
 // @author       瓦尼
 // @match        https://www.gamemale.com/*
@@ -377,7 +377,7 @@
         const mainTable = generateTable(checkCreditHistory, headers, dataKeys, dataFormat, true)
 
         const qiwangFormat = (obj, all) => {
-            const format = (val) => (val / all).toFixed(2)
+            const format = (val) => all ? (val / all).toFixed(2) : 0
             // return Object.fromEntries(Object.entries(obj).map(([key, val]) => [key, key === 'rowNumber' ? val : format(val)]))
 
             const num = Math.min(all, 30)
