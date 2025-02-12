@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.3.6.1
+// @version      2.3.6.2
 // @description  泥潭勋章属性展示！
 // @author       轶致
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html*
@@ -3902,8 +3902,8 @@ var 放大镜内容映射表 = {
 'GM村蛋糕': `GM村蛋糕
 【勋章类型】奖品
 【入手条件】用户等级Lv3，一个月内无违规记录，如实填写并公开展示生日信息
+【订购建议】提前一天预定，毕竟现实中的生日蛋糕也是要提前预定的
 【商店售价】无
-【等级1】未知属性▕▏升级条件：自动升级
 【 Max 】30% 回帖金币+1 血液+1
 【特别说明】兔兔只按大家站内资料填写的出生日期的月日来给大家制作蛋糕哦
 【特别说明】所以记得把站内资料填写完整并且公开`,
