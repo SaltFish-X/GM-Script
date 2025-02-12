@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.4.5
+// @version      2.4.6
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
@@ -28,6 +28,7 @@
 // DONE 分类新增装饰，因为他有最大数量上限
 // TODO 有效期时长显示不稳定
 // TODO 勋章寄售按钮里，有medalid。如果将key从name转为medalid，就不用再维护因为勋章改名引起的代码失效
+// TODO 一键排序需要优化，以及存在名称bug（目前只是分类去掉了【不可购买】，但是排序还存在的这个问题没有修复）
 
 (function () {
     'use strict'
@@ -563,6 +564,7 @@
             "『逆境中的幸运女神』",
             "『南瓜拿铁』",
             "『冰雕马拉橇』",
+            "『搓粉团珠』",
         ],
         "Prize": [
             "深渊遗物",
