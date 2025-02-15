@@ -786,6 +786,12 @@
             padding: 10px;
             z-index: 1000;
         }
+        
+        .myfldiv{
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+        }
     `
 
         // 新皮肤，白色主题 
