@@ -386,7 +386,7 @@
                     if (key === 'rowNumber') {
                         return [key, val]
                     } else if (key === 'temmpJinBi' && Number(settingsDays) === 1) {
-                        // 只在当天-30*2期望，跨天算起来就得每天判断是否慢30减了，不能简单*30再减，因此干脆不算
+                        // 只在当天-30*2期望，跨天算起来就得每天判断是否满30回复，不能简单*30再减，因此干脆不算
                         return [key, `${format(val)}(${format(val - num * 2)})`]
                     } else {
                         return [key, format(val)]
