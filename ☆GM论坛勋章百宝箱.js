@@ -1548,6 +1548,7 @@
     }
 
     // 显示堕落相关的勋章
+    // TODO: 分成增加和减少堕落
     function showDuoluHui(blokDataList) {
         return blokDataList.filter(e => e.hui.find(e => e.type === '堕落')).map(e => e.name).join(', ')
     }
