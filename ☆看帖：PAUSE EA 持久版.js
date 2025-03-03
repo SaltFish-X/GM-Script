@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         看帖：PAUSE EA 持久版
 // @namespace    https://www.gamemale.com/space-uid-687897.html
-// @version      0.8.8.10
+// @version      0.8.8.11
 // @description  勋章触发奖励时停+发帖回帖奖励账本查询！
 // @author       瓦尼
 // @match        https://www.gamemale.com/*
@@ -386,7 +386,7 @@
                     if (key === 'rowNumber') {
                         return [key, val]
                     } else if (key === 'temmpJinBi' && Number(settingsDays) === 1) {
-                        // 只在当天-30*2期望，跨天算起来就得每天判断是否慢30减了，不能简单*30再减，因此干脆不算
+                        // 只在当天-30*2期望，跨天算起来就得每天判断是否满30回复，不能简单*30再减，因此干脆不算
                         return [key, `${format(val)}(${format(val - num * 2)})`]
                     } else {
                         return [key, format(val)]
@@ -1033,7 +1033,7 @@
             })
 
             return Object.fromEntries(
-                Object.entries(result).map(([k, v]) => [k, Number(v.toFixed(4))])
+                Object.entries(result).map(([k, v]) => [k, Number(v).toFixed(2)])
             )
         }
 
