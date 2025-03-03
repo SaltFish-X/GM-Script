@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.4.6
+// @version      2.4.7
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
@@ -1550,7 +1550,26 @@
     // 显示堕落相关的勋章
     // TODO: 分成增加和减少堕落
     function showDuoluHui(blokDataList) {
-        return blokDataList.filter(e => e.hui.find(e => e.type === '堕落')).map(e => e.name).join(', ')
+        const increaseDuolu = [] // 存储增加堕落的物品名称
+        const decreaseDuolu = [] // 存储减少堕落的物品名称
+
+        // 遍历数组
+        blokDataList.forEach(e => {
+            const duolu = e.hui.find(h => h.type === '堕落') // 查找堕落值
+            if (duolu) {
+                if (duolu.value > 0) {
+                    increaseDuolu.push(e.name) // 增加堕落
+                } else if (duolu.value < 0) {
+                    decreaseDuolu.push(e.name) // 减少堕落
+                }
+            }
+        })
+
+        // 返回结果
+        return {
+            increase: increaseDuolu.join(', '),
+            decrease: decreaseDuolu.join(', ')
+        }
     }
 
     // 整合后的执行函数
@@ -1590,7 +1609,8 @@
                 '<br>',
                 classificationText,
                 '<br>',
-                '堕落回帖相关：' + duoluHui,
+                '回帖增加堕落：' + duoluHui.increase,
+                '回帖减少堕落：' + duoluHui.decrease,
             ].map(s => `<p>${s}</p>`).join('')
         }
     }
