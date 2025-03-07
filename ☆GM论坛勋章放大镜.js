@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.3.6.6
+// @version      2.3.6.7
 // @description  泥潭勋章属性展示！
 // @author       轶致
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html*
@@ -2370,10 +2370,8 @@ var 放大镜内容映射表 = {
 【勋章类型】游戏男从
 【入手条件】无
 【商店售价】449金币
-【等级1】勋章博物馆资料暂缺
+【等级1】勋章博物馆资料暂缺▕▏升级条件：旅程≥31
 【等级2】7% 回帖血液+1、发帖旅程+1 血液+2▕▏升级条件：旅程≥61
-【等级3】资料暂缺
-【等级4】资料暂缺
 【 Max 】10% 回帖血液+2、发帖旅程+1 血液+3`,
 '尼克斯·乌尔里克': `尼克斯·乌尔里克
 【勋章类型】游戏男从
