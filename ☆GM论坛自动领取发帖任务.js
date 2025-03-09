@@ -14,6 +14,7 @@
 // 每周发帖任务的刷新时间实际为每周日00：00，并不是每周一
 // 下载地址 https://greasyfork.org/zh-CN/scripts/519502
 
+// 惹急了直接在领取任务的请求里做alter弹窗
 (function () {
   // 申请任务
   // https://www.gamemale.com/home.php?mod=task&do=apply&id=25
