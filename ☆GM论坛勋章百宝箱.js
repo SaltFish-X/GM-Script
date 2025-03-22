@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.4.7
+// @version      2.4.8
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
@@ -29,6 +29,7 @@
 // TODO 有效期时长显示不稳定
 // TODO 勋章寄售按钮里，有medalid。如果将key从name转为medalid，就不用再维护因为勋章改名引起的代码失效
 // TODO 一键排序需要优化，以及存在名称bug（目前只是分类去掉了【不可购买】，但是排序还存在的这个问题没有修复）
+// TODO 预设列表提示，大概是会加个开关。又开关才会弹，没开关就不弹。那感觉可以把赠礼列表全部打钩保存。
 
 (function () {
     'use strict'
@@ -565,6 +566,7 @@
             "『南瓜拿铁』",
             "『冰雕马拉橇』",
             "『搓粉团珠』",
+            "『道具超市』",
         ],
         "Prize": [
             "深渊遗物",
@@ -660,6 +662,8 @@
             "银色溜冰鞋",
             "永亘环",
             "小狮欢舞",
+            "神奇宝贝大师球",
+            "神奇宝贝图鉴",
         ],
     }
     // 2025年元旦活动新增的类别，期间限定的临时活动勋章
@@ -1573,7 +1577,7 @@
     }
 
     // 显示堕落相关的勋章
-    // TODO: 分成增加和减少堕落
+    // DONE: 分成增加和减少堕落
     function showDuoluHui(blokDataList) {
         const increaseDuolu = [] // 存储增加堕落的物品名称
         const decreaseDuolu = [] // 存储减少堕落的物品名称
