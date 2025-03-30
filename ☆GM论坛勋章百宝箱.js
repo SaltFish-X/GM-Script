@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.4.8
+// @version      2.5.0
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
@@ -460,7 +460,7 @@
             "丢肥皂",
             "千杯不醉",
             "灵光补脑剂",
-            "贞洁内裤", // 已下架
+            // "贞洁内裤", // 已下架
             "遗忘之水",
             "萨赫的蛋糕",
             "神秘商店贵宾卡",
@@ -678,6 +678,15 @@
         "香浓罗宋汤" // https://img.gamemale.com/album/202412/31/230448aspoeushzeup66kf.gif
     ]
 
+    // 可赠送勋章列表（英文变量名使用 GiftableBadges）
+    const GiftableBadges = [
+        '没有梦想的咸鱼', '灵光补脑剂', '茉香啤酒', '咆哮诅咒',
+        '丢肥皂', '千杯不醉', '变骚喷雾', '送情书',
+        '霍格沃茨五日游', '神秘商店贵宾卡', '闪光糖果盒',
+        '萨赫的蛋糕', '遗忘之水', '炼金之心', '石肤术',
+        '召唤古代战士', '水泡术', '思绪骤聚', '雷霆晶球', '杀意人偶'
+    ]
+
     // 临时把所有的真人勋章名字都加上点
     categoriesFormat(categoriesData)
 
@@ -719,6 +728,9 @@
     // 一键关闭赠礼/咒术类勋章显示
     createLink('关闭赠礼/咒术勋章显示', oneClickDisplay)
     createLink('关闭所有勋章显示', closeAllDisplay)
+
+    // 设置勋章提醒
+    createLink('设置勋章提醒', showDialog)
 
     if (是否自动开启茉香啤酒) { 自动开启茉香啤酒() }
     /* =============================================================================================================== */
@@ -1659,6 +1671,155 @@
         console.log(result) // 输出结果对象
         localStorage.setItem('灵魂期望', JSON.stringify(result))
     }
+
+    // 添加样式
+    GM_addStyle(`
+        #presetDialog {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 30%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            z-index: 9999;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+        .dialog-close {
+            position: absolute;
+            right: 10px;
+            top: 5px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        #presetDialog input {
+            vertical-align: middle;
+        }
+
+        #presetDialog label {
+            margin: 5px;
+        }
+    `)
+
+    // 创建对话框结构
+    const dialog = document.createElement('div')
+    dialog.id = 'presetDialog'
+    dialog.style.display = 'none'
+    dialog.innerHTML = `
+        <span class="dialog-close">×</span>
+        <h3 style="margin-top: 0;">预设勋章配置</h3>
+        <div id="badgeList"></div>
+        <button class="save-button" style="margin-top: 15px;">保存配置</button>
+    `
+    document.body.appendChild(dialog)
+
+    // 事件绑定
+    dialog.querySelector('.dialog-close').addEventListener('click', hideDialog)
+    dialog.querySelector('.save-button').addEventListener('click', savePreset)
+
+    // 显示/隐藏对话框
+    function showDialog() {
+        initDialog()
+        dialog.style.display = 'block'
+    }
+    function hideDialog() {
+        dialog.style.display = 'none'
+    }
+
+    // 初始化对话框内容
+    function initDialog() {
+        const badgeList = dialog.querySelector('#badgeList')
+        const badgeNames = {
+            赠礼: categoriesData.Gift,
+            咒术: categoriesData.Spell,
+        }
+
+        badgeList.innerHTML = ''
+
+        const preset = JSON.parse(localStorage.getItem('预设项') || '[]')
+
+        // 遍历所有分类
+        Object.entries(badgeNames).forEach(([category, names]) => {
+            // 添加分类标题
+            const categoryHeader = document.createElement('h4')
+            categoryHeader.style.margin = '10px 0 5px'
+            categoryHeader.textContent = category
+            badgeList.appendChild(categoryHeader)
+
+            // 添加该分类下的勋章
+            names.forEach(name => {
+                const label = document.createElement('label')
+                label.innerHTML = `
+                <input type="checkbox" 
+                       value="${name}" 
+                       ${preset.includes(name) ? 'checked' : ''}>
+                ${name}
+            `
+                badgeList.appendChild(label)
+            })
+        })
+    }
+
+    // 保存预设
+    function savePreset() {
+        const selected = Array.from(dialog.querySelectorAll('input:checked'))
+            .map(checkbox => checkbox.value)
+
+        localStorage.setItem('预设项', JSON.stringify(selected))
+        hideDialog()
+        checkPreset() // 保存后立即检查
+    }
+
+    // 检查预设内容
+    function checkPreset() {
+        const preset = JSON.parse(localStorage.getItem('预设项') || '[]')
+        const currentBadges = Array.from(document.getElementsByClassName("myblok"))
+            .map(blok => blok.querySelector('img[alt]').getAttribute('alt'))
+
+        const missing = preset.filter(name => !currentBadges.includes(name))
+        const existingWarning = document.getElementById('presetWarning')
+
+        if (existingWarning) existingWarning.remove()
+
+        const warning = document.createElement('div')
+        warning.id = 'presetWarning'
+        warning.innerHTML = `
+            <p style="margin: 10px 0; ${missing.length > 0 ? 'color: red;' : 'color: green;'} ">
+                缺少预设勋章：${missing.length > 0 ? missing.join(', ') : '无'}
+                ${missing.length > 0 ?
+                '<a class="copy-button" style="margin-left: 10px; cursor: pointer;">一键复制勋章互赠（已过滤不能互赠的勋章）</button>' : ''}
+            </p>
+        `
+        document.querySelector('.badge-order').appendChild(warning)
+        warning.querySelector('.copy-button')?.addEventListener('click', copyMissing)
+    };
+
+    // 复制缺失内容
+    function copyMissing() {
+        const preset = JSON.parse(localStorage.getItem('预设项') || '[]')
+        const currentBadges = Array.from(document.getElementsByClassName("myblok"))
+            .map(blok => blok.querySelector('img[alt]').getAttribute('alt'))
+
+        // 双重过滤条件：不在当前勋章列表 且 属于可赠送类型
+        const missing = preset.filter(name =>
+            !currentBadges.includes(name) &&
+            GiftableBadges.includes(name)
+        )
+
+        if (missing.length === 0) {
+            alert('没有可赠送的勋章')
+            return
+        } else {
+            navigator.clipboard.writeText('互赠：' + missing.join(', '))
+                .then(() => alert('可赠送缺失项已复制到剪贴板'))
+                .catch(err => console.error('复制失败:', err))
+        }
+
+    }
+
+    // 初始化脚本
+    checkPreset()
 
     // 自动开启茉香啤酒
     function 自动开启茉香啤酒() {
