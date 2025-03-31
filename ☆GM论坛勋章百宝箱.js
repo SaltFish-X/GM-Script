@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.5.0
+// @version      2.5.1
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
@@ -29,8 +29,9 @@
 // TODO 有效期时长显示不稳定
 // TODO 勋章寄售按钮里，有medalid。如果将key从name转为medalid，就不用再维护因为勋章改名引起的代码失效
 // TODO 一键排序需要优化，以及存在名称bug（目前只是分类去掉了【不可购买】，但是排序还存在的这个问题没有修复）
-// TODO 预设列表提示，大概是会加个开关。又开关才会弹，没开关就不弹。那感觉可以把赠礼列表全部打钩保存。
-// TODO 检测我背包缺少了什么赠礼然后直接生成一串让我可以粘贴到记录
+// DONE 预设列表提示，大概是会加个开关。又开关才会弹，没开关就不弹。那感觉可以把赠礼列表全部打钩保存。
+// DONE 检测我背包缺少了什么赠礼然后直接生成一串让我可以粘贴到记录
+// TODO 预设列表的一键互赠列表，支持预设互赠模版
 
 (function () {
     'use strict'
@@ -1702,13 +1703,19 @@
         }
     `)
 
-    // 创建对话框结构
+    const DefaultFormat = '互赠：{missing}'
+    // 在对话框HTML结构中添加格式输入框
     const dialog = document.createElement('div')
     dialog.id = 'presetDialog'
     dialog.style.display = 'none'
     dialog.innerHTML = `
         <span class="dialog-close">×</span>
         <h3 style="margin-top: 0;">预设勋章配置</h3>
+        <div class="format-config">
+            <p>自定义互赠格式：</p>
+            <input type="text" id="formatInput" style="width: 100%; margin: 5px 0;">
+            <small>可用占位符：{missing} = 勋章列表</small>
+        </div>
         <div id="badgeList"></div>
         <button class="save-button" style="margin-top: 15px;">保存配置</button>
     `
@@ -1737,7 +1744,7 @@
 
         badgeList.innerHTML = ''
 
-        const preset = JSON.parse(localStorage.getItem('预设项') || '[]')
+        const { badges: preset, format } = getPresetConfig()
 
         // 遍历所有分类
         Object.entries(badgeNames).forEach(([category, names]) => {
@@ -1759,21 +1766,25 @@
                 badgeList.appendChild(label)
             })
         })
+
+        document.getElementById('formatInput').value = format || DefaultFormat
     }
 
-    // 保存预设
+    // 保存时同时保存格式配置
+    // 修改后的保存函数
     function savePreset() {
         const selected = Array.from(dialog.querySelectorAll('input:checked'))
             .map(checkbox => checkbox.value)
+        const format = document.getElementById('formatInput').value || DefaultFormat
 
-        localStorage.setItem('预设项', JSON.stringify(selected))
+        savePresetConfig(selected, format)
         hideDialog()
-        checkPreset() // 保存后立即检查
+        checkPreset()
     }
 
     // 检查预设内容
     function checkPreset() {
-        const preset = JSON.parse(localStorage.getItem('预设项') || '[]')
+        const { badges: preset, format } = getPresetConfig()
         const currentBadges = Array.from(document.getElementsByClassName("myblok"))
             .map(blok => blok.querySelector('img[alt]').getAttribute('alt'))
 
@@ -1788,7 +1799,7 @@
             <p style="margin: 10px 0; ${missing.length > 0 ? 'color: red;' : 'color: green;'} ">
                 缺少预设勋章：${missing.length > 0 ? missing.join(', ') : '无'}
                 ${missing.length > 0 ?
-                '<a class="copy-button" style="margin-left: 10px; cursor: pointer;">一键复制勋章互赠（已过滤不能互赠的勋章）</button>' : ''}
+                '<a class="copy-button" style="margin-left: 10px; cursor: pointer;">点击一键复制勋章互赠（已过滤不能互赠的勋章）</button>' : ''}
             </p>
         `
         document.querySelector('.badge-order').appendChild(warning)
@@ -1797,7 +1808,8 @@
 
     // 复制缺失内容
     function copyMissing() {
-        const preset = JSON.parse(localStorage.getItem('预设项') || '[]')
+        const { badges: preset, format } = getPresetConfig()
+
         const currentBadges = Array.from(document.getElementsByClassName("myblok"))
             .map(blok => blok.querySelector('img[alt]').getAttribute('alt'))
 
@@ -1807,11 +1819,17 @@
             GiftableBadges.includes(name)
         )
 
+        // 替换模板中的占位符
+        const text = format
+            .replace(/{missing}/g, missing.join(', '))
+        // .replace(/{count}/g, missing.length) // 可扩展其他占位符
+
+
         if (missing.length === 0) {
             alert('没有可赠送的勋章')
             return
         } else {
-            navigator.clipboard.writeText('互赠：' + missing.join(', '))
+            navigator.clipboard.writeText(text)
                 .then(() => alert('可赠送缺失项已复制到剪贴板'))
                 .catch(err => console.error('复制失败:', err))
         }
@@ -1820,6 +1838,39 @@
 
     // 初始化脚本
     checkPreset()
+
+    // 获取预设项的兼容方法
+    function getPresetConfig() {
+        const rawData = localStorage.getItem('预设项')
+        let badges = []
+        let format = DefaultFormat
+
+        try {
+            // 解析旧版数组格式
+            if (rawData?.startsWith('[')) {
+                badges = JSON.parse(rawData)
+                // 自动迁移到新版格式
+                savePresetConfig(badges, format)
+            } else {
+                // 解析新版对象格式
+                const config = JSON.parse(rawData || '{}')
+                badges = config.badges || []
+                format = config.format || format
+            }
+        } catch (e) {
+            console.error('解析预设项失败', e)
+        }
+
+        return { badges, format }
+    }
+
+    // 保存时统一使用新格式
+    function savePresetConfig(badges, format) {
+        localStorage.setItem('预设项', JSON.stringify({
+            badges,
+            format
+        }))
+    }
 
     // 自动开启茉香啤酒
     function 自动开启茉香啤酒() {
