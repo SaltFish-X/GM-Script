@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.3.6.9
+// @version      2.3.6.10
 // @description  泥潭勋章属性展示！
 // @author       轶致
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html*
@@ -4214,7 +4214,7 @@ var 放大镜内容映射表 = {
 【勋章类型】奖品
 【入手条件】<a href="/thread-157767-1-1.html" target="_blank">参与音乐交流版块勋章激励活动（点击跳转）</a>
 【商店售价】无
-【 Max 】暂无资料`,
+【 Max 】10% 回帖金币+1`,
 }
 创建控制面板()
 初始化放大镜()
