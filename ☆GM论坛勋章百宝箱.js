@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.5.1
+// @version      2.5.2
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
@@ -1714,7 +1714,7 @@
         <div class="format-config">
             <p>自定义互赠格式：</p>
             <input type="text" id="formatInput" style="width: 100%; margin: 5px 0;">
-            <small>可用占位符：{missing} = 勋章列表</small>
+            <small>可用占位符：{missing} = 互赠勋章列表</small>
         </div>
         <div id="badgeList"></div>
         <button class="save-button" style="margin-top: 15px;">保存配置</button>
