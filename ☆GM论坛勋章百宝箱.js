@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.5.2
+// @version      2.5.3
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
@@ -731,7 +731,7 @@
     createLink('关闭所有勋章显示', closeAllDisplay)
 
     // 设置勋章提醒
-    createLink('设置勋章提醒', showDialog)
+    createLink('设置预设勋章提醒', showDialog)
 
     if (是否自动开启茉香啤酒) { 自动开启茉香啤酒() }
     /* =============================================================================================================== */
@@ -1609,6 +1609,7 @@
             ).join('  ')
 
         const badgeOrderElement = document.querySelector(".badge-order")
+
         if (badgeOrderElement) {
             badgeOrderElement.innerHTML = [
                 '<H3>所有勋章收益</H3>',
@@ -1622,6 +1623,7 @@
                 '<H3>临时勋章收益</H3>',
                 `回帖：${formatEarnings('Temporary', expectations.hui)}`,
                 `发帖：${formatEarnings('Temporary', expectations.fa)}`,
+                `<div class="badge-warning"></div>`,
                 '<br>',
                 `寄售最大价格总和：${coin}`,
                 // '<H3>分类统计</H3>',
@@ -1796,14 +1798,13 @@
         const warning = document.createElement('div')
         warning.id = 'presetWarning'
         warning.innerHTML = `
-            <p style="margin: 10px 0; ${missing.length > 0 ? 'color: red;' : 'color: green;'} ">
+            <p style="${missing.length > 0 ? 'color: red;' : 'color: green;'} ">
                 缺少预设勋章：${missing.length > 0 ? missing.join(', ') : '无'}
-                ${missing.length > 0 ?
-                '<a class="copy-button" style="margin-left: 10px; cursor: pointer;">点击一键复制勋章互赠（已过滤不能互赠的勋章）</button>' : ''}
+                ${missing.length > 0 ? '<a class="copy-button" style="margin-left: 10px; cursor: pointer;">点击一键复制勋章互赠（已过滤不能互赠的勋章）</a>' : ''}
             </p>
         `
-        document.querySelector('.badge-order').appendChild(warning)
         warning.querySelector('.copy-button')?.addEventListener('click', copyMissing)
+        document.querySelector('.badge-warning').appendChild(warning)
     };
 
     // 复制缺失内容
@@ -1830,7 +1831,7 @@
             return
         } else {
             navigator.clipboard.writeText(text)
-                .then(() => alert('可赠送缺失项已复制到剪贴板'))
+                .then(() => alert('需要互赠的勋章已复制'))
                 .catch(err => console.error('复制失败:', err))
         }
 
