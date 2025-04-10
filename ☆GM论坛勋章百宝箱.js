@@ -736,10 +736,12 @@
     if (是否自动开启茉香啤酒) { 自动开启茉香啤酒() }
 
     // 记录展示勋章/置顶展示勋章
-    createLink('记录展示勋章', saveTopMedal)
-    createLink('置顶展示勋章', loadTopMedal)
-    showTopMedal()
-    observeElement()
+    if (discuz_uid == 723150) {
+        createLink('记录展示勋章', saveTopMedal)
+        createLink('置顶展示勋章', loadTopMedal)
+        showTopMedal()
+        observeElement()
+    }
 
     /* =============================================================================================================== */
 
