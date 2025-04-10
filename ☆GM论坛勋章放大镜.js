@@ -152,7 +152,7 @@
                             总收益 += 收益
 
                             if (收益 !== 0) {
-                                行收益详情 += `<span style="color:${属性映射[属性].颜色};">${属性映射[属性].emoji}${收益.toFixed(2)}</span> `
+                                行收益详情 += `<span style="color:${属性映射[属性].颜色};"><span style="font-family:Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji">${属性映射[属性].emoji}</span>${收益.toFixed(2)}</span> `
                             }
 
                             if (!行.includes('≥')) {
@@ -163,7 +163,7 @@
 
                     // 如果有多个非堕落属性，显示总收益
                     if (非堕落属性计数 > 1) {
-                        行收益详情 += `<span style="color:${属性映射['总计'].颜色};">${属性映射['总计'].emoji}${总收益.toFixed(2)}</span>`
+                        行收益详情 += `<span style="color:${属性映射['总计'].颜色};"><span style="font-family:Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji">${属性映射['总计'].emoji}</span>${总收益.toFixed(2)}</span>`
                     }
 
                     // 更新最大收益
