@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.5.6
+// @version      2.5.7
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
@@ -228,6 +228,9 @@
             "奇异博士",
             "托比·马奎尔",
             "汉尼拔",
+            "John Reese",
+            "穿靴子的猫",
+            "狗狗",
         ],
         "Maid": [
             "梅格",
@@ -254,8 +257,9 @@
             "吉尔·沃瑞克",
             "叶卡捷琳娜",
             "阿丽塔",
-            '梅琳娜Melina',
-            '贝儿(Belle)',
+            "梅琳娜Melina",
+            "贝儿(Belle)",
+            "阿加莎·哈克尼斯",
         ],
         "Equip": [
             "嗜血斩首斧",
@@ -312,6 +316,7 @@
             "肃弓",
             "圣诞有铃",
             "普通羊毛球",
+            "圣水瓶",
         ],
         "Asset": [
             "知识大典",
@@ -384,6 +389,7 @@
             "神秘天球",
             "婚姻登记册",
             "健忘礼物盒",
+            "弯钩与连枷",
         ],
         "Pet": [
             "洞窟魔蛋",
@@ -455,6 +461,7 @@
             "极客的晚宴",
             "Zootopia",
             "都市：天际线2",
+            "黑神话:悟空",
         ],
         "Gift": [
             "送情书",
