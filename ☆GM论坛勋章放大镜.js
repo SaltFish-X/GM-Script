@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.4.4
+// @version      2.5.0
 // @description  泥潭勋章属性展示！
 // @author       轶致
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html*
@@ -240,9 +240,7 @@
         })
 
         新内容 += 升级消耗文本
-        if (discuz_uid == 723150) {
-            新内容 += '\n' + 回本周期
-        }
+        新内容 += '\n' + 回本周期
 
         return 新内容
     }
@@ -4276,7 +4274,7 @@ var 放大镜内容映射表 = {
 【商店售价】100金币
 【 Max 】5% 发帖旅程+1`,
 }
-创建控制面板()
+// 创建控制面板()
 初始化放大镜()
 变化检测()
 })()
