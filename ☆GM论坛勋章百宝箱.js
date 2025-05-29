@@ -1607,7 +1607,6 @@
     }
 
     // 显示堕落相关的勋章
-    // DONE: 分成增加和减少堕落
     function showDuoluHui(blokDataList) {
         const increaseDuolu = [] // 存储增加堕落的物品名称
         const decreaseDuolu = [] // 存储减少堕落的物品名称
