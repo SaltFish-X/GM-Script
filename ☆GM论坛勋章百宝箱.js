@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.5.8
+// @version      2.5.9
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
@@ -144,6 +144,7 @@
             "约书亚・罗兹菲尔德",
             "古烈",
             "【新春限定】果体 隆",
+            "巴哈姆特",
         ],
         "zhenren": [
             "托尼·史塔克",
@@ -231,6 +232,9 @@
             "John Reese",
             "穿靴子的猫",
             "狗狗",
+            "约翰·康斯坦丁",
+            "亨利.卡维尔",
+            "牛局长博戈",
         ],
         "Maid": [
             "梅格",
@@ -260,6 +264,9 @@
             "梅琳娜Melina",
             "贝儿(Belle)",
             "阿加莎·哈克尼斯",
+            "红夫人",
+            "莉莉娅·考尔德（Lilia Calderu）",
+
         ],
         "Equip": [
             "嗜血斩首斧",
@@ -390,6 +397,7 @@
             "婚姻登记册",
             "健忘礼物盒",
             "弯钩与连枷",
+            "尼特公仔",
         ],
         "Pet": [
             "洞窟魔蛋",
@@ -462,6 +470,9 @@
             "Zootopia",
             "都市：天际线2",
             "黑神话:悟空",
+            "黑暗之魂系列",
+            "女巫之路",
+
         ],
         "Gift": [
             "送情书",
@@ -682,6 +693,7 @@
             "肉乖乖",
             "灵魂残絮聚合法",
             "猫头鹰守卫",
+            "鎏彩万幢",
         ],
     }
     // 2025年元旦活动新增的类别，期间限定的临时活动勋章
