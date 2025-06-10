@@ -26,7 +26,6 @@
 // https://greasyfork.org/zh-CN/scripts/516559
 
 // TODO 上次补货时间
-// DONE 删掉右下角的勋章显示切换，避免误触。已经有好几个人来问我了。
 (function () {
     'use strict'
     // 0为原版【上下显示】 1为新版【左右显示】
@@ -51,6 +50,8 @@
     // 估计很多人没法发现过这个东西
     let 放大镜显示 = localStorage.getItem('放大镜显示') !== 'false'
 
+    // @deprecated 已弃用
+    // 删掉右下角的勋章显示切换，避免误触。已经有好几个人来问我了
     function 创建控制面板() {
         const 控制面板 = document.createElement('div')
         控制面板.id = '控制面板'
