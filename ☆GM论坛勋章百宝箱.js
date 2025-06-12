@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.6.0
+// @version      2.6.1
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
@@ -47,8 +47,8 @@
 
     // 额外提供一个对象，存储每个键对应的数字
     const numbers = {
-        "游戏男从": 10, "真人男从": 8, "女从": 4, "装备": 11, "资产": 16,
-        "宠物": 7, "板块": 4, "天赋": 4, "储蓄": 1, "装饰": 6, "薪俸": 1
+        "游戏男从": 11, "真人男从": 8, "女从": 5, "装备": 12, "资产": 16,
+        "宠物": 7, "板块": 5, "天赋": 4, "储蓄": 1, "装饰": 6, "薪俸": 1
     }
     const formhash = document.querySelector('input[name="formhash"]').value
     // 勋章总类型
