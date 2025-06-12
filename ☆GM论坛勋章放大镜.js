@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.5.4
+// @version      2.6.0
 // @description  泥潭勋章属性展示！
 // @author       轶致
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html*
@@ -15,6 +15,8 @@
 // @grant        GM_registerMenuCommand
 // @license      GPL
 // @icon         https://www.gamemale.com/template/mwt2/extend/img/favicon.ico
+// @downloadURL https://update.gf.qytechs.cn/scripts/516559/%E5%8B%8B%E7%AB%A0%E6%94%BE%E5%A4%A7%E9%95%9C.user.js
+// @updateURL https://update.gf.qytechs.cn/scripts/516559/%E5%8B%8B%E7%AB%A0%E6%94%BE%E5%A4%A7%E9%95%9C.meta.js
 // ==/UserScript==
 
 // 推荐链接：博物馆传送门 https://www.gamemale.com/thread-144398-1-1.html
@@ -24,6 +26,8 @@
 
 // 勋章放大镜下载更新地址
 // https://greasyfork.org/zh-CN/scripts/516559
+// 镜像地址
+// https://gf.qytechs.cn/zh-CN/scripts/516559
 
 // TODO 上次补货时间
 (function () {

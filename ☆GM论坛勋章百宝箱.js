@@ -1,19 +1,21 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.5.10
+// @version      2.6.0
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
 // @grant        GM_addStyle
 // @license      GPL
-// @downloadURL  https://update.greasyfork.org/scripts/508971/GM%E8%AE%BA%E5%9D%9B%E5%8B%8B%E7%AB%A0%E7%99%BE%E5%AE%9D%E7%AE%B1.user.js
-// @updateURL    https://update.greasyfork.org/scripts/508971/GM%E8%AE%BA%E5%9D%9B%E5%8B%8B%E7%AB%A0%E7%99%BE%E5%AE%9D%E7%AE%B1.meta.js
+// @downloadURL  https://update.gf.qytechs.cn/scripts/508971/GM%E8%AE%BA%E5%9D%9B%E5%8B%8B%E7%AB%A0%E7%99%BE%E5%AE%9D%E7%AE%B1.user.js
+// @updateURL    https://update.gf.qytechs.cn/scripts/508971/GM%E8%AE%BA%E5%9D%9B%E5%8B%8B%E7%AB%A0%E7%99%BE%E5%AE%9D%E7%AE%B1.meta.js
 // @icon         https://www.gamemale.com/template/mwt2/extend/img/favicon.ico
 // ==/UserScript==
 
 // GM论坛勋章百宝箱下载更新地址
 // https://greasyfork.org/zh-CN/scripts/508971
+// 镜像地址
+// https://gf.qytechs.cn/zh-CN/scripts/508971
 
 // 功能一览
 // 默认关闭回收功能，徽章按类型排序，保存/还原徽章顺序，一键续期单个勋章，勋章分类，回帖期望，一键续期所有咒术徽章，一键关闭赠礼/咒术类勋章显示，
