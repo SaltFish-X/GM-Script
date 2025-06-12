@@ -7,8 +7,6 @@
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
 // @grant        GM_addStyle
 // @license      GPL
-// @downloadURL  https://update.gf.qytechs.cn/scripts/508971/GM%E8%AE%BA%E5%9D%9B%E5%8B%8B%E7%AB%A0%E7%99%BE%E5%AE%9D%E7%AE%B1.user.js
-// @updateURL    https://update.gf.qytechs.cn/scripts/508971/GM%E8%AE%BA%E5%9D%9B%E5%8B%8B%E7%AB%A0%E7%99%BE%E5%AE%9D%E7%AE%B1.meta.js
 // @icon         https://www.gamemale.com/template/mwt2/extend/img/favicon.ico
 // ==/UserScript==
 

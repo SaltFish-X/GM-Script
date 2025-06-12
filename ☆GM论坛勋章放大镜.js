@@ -15,8 +15,6 @@
 // @grant        GM_registerMenuCommand
 // @license      GPL
 // @icon         https://www.gamemale.com/template/mwt2/extend/img/favicon.ico
-// @downloadURL https://update.gf.qytechs.cn/scripts/516559/%E5%8B%8B%E7%AB%A0%E6%94%BE%E5%A4%A7%E9%95%9C.user.js
-// @updateURL https://update.gf.qytechs.cn/scripts/516559/%E5%8B%8B%E7%AB%A0%E6%94%BE%E5%A4%A7%E9%95%9C.meta.js
 // ==/UserScript==
 
 // 推荐链接：博物馆传送门 https://www.gamemale.com/thread-144398-1-1.html
