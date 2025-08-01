@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.7.0
+// @version      2.7.1
 // @description  泥潭勋章属性展示！
 // @author       轶致
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html*
@@ -4367,7 +4367,7 @@ var 放大镜内容映射表 = {
 【等级5】13% 回帖血液+1、发帖堕落+1▕▏升级条件：堕落≥200
 【等级6】15% 回帖血液+1、发帖堕落+1▕▏升级条件：堕落≥350
 【 Max 】20% 回帖血液+1、发帖咒术+1`,
-'牛局长博戈': ` 牛局长博戈
+'牛局长博戈': `牛局长博戈
 【勋章类型】真人男从
 【入手条件】咒术 >= 20
 【商店售价】200金币
