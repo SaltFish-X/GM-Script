@@ -375,7 +375,7 @@
             let showText = 放大镜内容映射表[altKey];
             if (showImg && showText)
             {
-                showText = addImgUrl(showText);
+                // showText = addImgUrl(showText);
             }
 
             altKey && 添加悬停监听器(img, showText)
