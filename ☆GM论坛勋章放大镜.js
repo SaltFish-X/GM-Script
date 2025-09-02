@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.7.3
+// @version      2.7.4
 // @description  泥潭勋章属性展示！
 // @author       轶致
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html*
@@ -3327,7 +3327,7 @@ var 放大镜内容映射表 = {
 【入手条件】2023年【极地特快】活动隐藏奖励，成功触发隐藏剧情：平安夜前发出“相信”的声音
 【商店售价】无
 【等级 初级】无属性▕▏升级条件：消耗1旅程
-【等级1】无属性▕▏升级条件：得到1旅程
+【等级1】无属性▕▏升级条件：消耗-1旅程
 【等级2】无属性▕▏升级条件：灵魂≥1
 【 Max 】无属性`,
 '最终幻想XVI': `最终幻想XVI
@@ -3632,7 +3632,7 @@ var 放大镜内容映射表 = {
 【等级3】2% 回帖血液+8▕▏升级条件：消耗52咒术
 【等级4】2% 回帖血液+9▕▏升级条件：咒术≥180
 【 Max 】3% 回帖血液+9`,
-'星河碎片': `星河碎片
+'『星河碎片』': `『星河碎片』
 【入手条件】灵魂≥1且主题数≥1且知识≥7且旅程≥7
 【商店售价】1知识
 【等级1】无属性▕▏升级条件：消耗-1知识
@@ -4058,7 +4058,7 @@ var 放大镜内容映射表 = {
 【 Max 】2% 回帖金币+2`,
 '『居住证: Lv2~6』': `『居住证: Lv2~6』
 【勋章类型】剧情
-【入手条件】用户等级2-6
+【入手条件】Lv2＜=等级＜=Lv6，旅程＞=10，发帖数＞=2
 【商店售价】无
 【时限】7天
 【等级 初级】无属性▕▏升级条件：消耗-10金币
@@ -4432,6 +4432,179 @@ var 放大镜内容映射表 = {
 【等级4】2% 回帖旅程+1▕▏升级条件：在线时间≥777
 【等级5】3% 回帖咒术+1▕▏升级条件：消耗7咒术
 【 Max 】3% 回帖旅程+1`,
+'站员: 保卫领土': `站员: 保卫领土
+【勋章类型】薪俸与其他
+【入手条件】仅“站员”可领取
+【商店售价】无
+【时限】30天
+【等级1】无属性▕▏升级条件：消耗-100金币
+【 Max 】100% 回帖金币+1、发帖金币+1`,
+'见习版主: 神的重量': `见习版主: 神的重量
+【勋章类型】薪俸与其他
+【入手条件】仅“见习版主”可领取
+【商店售价】无
+【时限】30天
+【等级1】无属性▕▏升级条件：消耗-130金币
+【 Max 】100% 回帖金币+1、发帖金币+1`,
+'版主: 一国之主': `版主: 一国之主
+【勋章类型】薪俸与其他
+【入手条件】仅“版主”可领取
+【商店售价】无
+【时限】30天
+【等级1】无属性▕▏升级条件：消耗-200金币
+【 Max 】100% 回帖金币+1、发帖金币+1`,
+'『还乡歌』': `『还乡歌』
+【勋章类型】剧情
+【入手条件】注册天数≥1825
+【商店售价】无
+【等级 初级】无属性▕▏升级条件：灵魂≥1
+【等级1】无属性▕▏升级条件：总积分≥300
+【等级2】无属性▕▏升级条件：在线时间≥1000
+【 Max 】无属性`,
+'纯真护剑㊕': `纯真护剑㊕
+【勋章类型】装饰/特殊
+【入手条件】灵魂≥1（儿童节限时获取）
+【商店售价】无
+【等级1】无属性▕▏升级条件：？？？
+【等级2】无属性▕▏升级条件：？？？
+【等级3】无属性▕▏升级条件：？？？
+【 Max 】无属性`,
+'『日心说』': `『日心说』
+【勋章类型】剧情
+【入手条件】【星楼钟塔】成功报名参加占星仪式
+【商店售价】无
+【等级 初级】无属性▕▏升级条件：消耗-1知识
+【 Max 】1% 回帖知识+1、发帖知识+1`,
+'『圣洁化身』': `『圣洁化身』
+【勋章类型】剧情
+【入手条件】Level 10 max， 堕落≤1并且灵魂≥1
+【商店售价】1堕落
+【时限】1天
+【 Max 】1% 回帖堕落-1、发帖堕落-1`,
+'『搓粉团珠』': `『搓粉团珠』
+【勋章类型】剧情
+【入手条件】灵魂≥1或者主题数≥15（2025年元宵节限时购买）
+【商店售价】15金币
+【 Max 】无属性`,
+'『冰雕马拉橇』': `『冰雕马拉橇』
+【勋章类型】剧情
+【入手条件】在游戏大区，根据自身等级完成【冰上飞贼】或【名门圆舞】等发帖剧情任务
+【商店售价】无
+【 Max 】无属性`,
+'『南瓜拿铁』': `『南瓜拿铁』
+【勋章类型】剧情
+【入手条件】主题数≥1并且发帖数≥1并且注册天数≥1并且在线时间(小时)≥1并且旅程≥1（2024年10月31日~11月10日 限时获取）
+【商店售价】5金币
+【时限】5天（可续期）
+【 Max 】无属性`,
+'『逆境中的幸运女神』': `『逆境中的幸运女神』
+【勋章类型】剧情
+【入手条件】【英雄再聚】活动中战功卓著的小队获得
+【商店售价】无
+【 Max 】无属性`,
+'『泥潭颂唱者』': `『泥潭颂唱者』
+【勋章类型】剧情
+【入手条件】灵魂≥1并且咒术≥10并且在线时间(小时)≥100
+【商店售价】1咒术
+【时限】7天（可续期）
+【 Max 】无属性`,
+'『钟楼日暮』': `『钟楼日暮』
+【勋章类型】剧情
+【入手条件】灵魂≥1并且在线时间(小时)≥300并且发帖数≥30并且主题数≥3（限时获取）
+【商店售价】1旅程
+【时限】30天（可续期）
+【等级0】无属性▕▏升级条件：好友数≥3
+【等级1】无属性▕▏升级条件：消耗1金币
+【 Max 】无属性`,
+'『流星赶月』': `『流星赶月』
+【勋章类型】剧情
+【入手条件】灵魂≥1并且发帖数≥5并且主题数≥1（2024年5月1日~5月31日 限时获取）
+【商店售价】1旅程（2024年5月1日~5月11日）/ 5旅程（2024年5月12日~5月31日）
+【时限】30天（可续期）
+【等级1】无属性▕▏升级条件：主题数≥10
+【等级2】无属性▕▏升级条件：主题数≥50
+【等级3】无属性▕▏升级条件：主题数≥100
+【 Max 】无属性`,
+'『先知灵药』': `『先知灵药』
+【勋章类型】剧情
+【入手条件】灵魂≥1并且知识≥10（2024年4月2日~4月30日 限时获取）
+【商店售价】10金币
+【等级1】无属性▕▏升级条件：旅程≥100
+【 Max 】无属性`,
+'『酒馆蛋煲』': `『酒馆蛋煲』
+【勋章类型】剧情
+【入手条件】灵魂≥1或者发帖数≥10（限时获取）
+【商店售价】10金币
+【时限】1天（可续期）
+【 Max 】无属性`,
+'『活动代币』': `『活动代币』
+【勋章类型】剧情
+【入手条件】无（限时获取）
+【商店售价】1金币
+【时限】7天
+【等级 初级】无属性▕▏升级条件：消耗0金币
+【等级1】无属性▕▏升级条件：消耗0金币
+【等级2】无属性▕▏升级条件：消耗0金币
+【 Max 】无属性`,
+'『伊黎丝的祝福』': `『伊黎丝的祝福』
+【勋章类型】剧情
+【入手条件】灵魂≥1（限时获取）
+【商店售价】1咒术
+【时限】30天（可续期）
+【等级 初级】无属性▕▏升级条件：消耗-1咒术
+【 Max 】无属性`,
+'『 弗霖的琴』': `『弗霖的琴』
+【勋章类型】剧情
+【入手条件】【旷世奇珍】酒会：内定密谋，猜中成交价
+【商店售价】1旅程
+【 Max 】无属性`,
+'『瓶中信』': `『瓶中信』
+【勋章类型】剧情
+【入手条件】发帖数≥1并且主题数≥1（限时获取）
+【商店售价】1金币
+【时限】21天
+【等级1】无属性▕▏升级条件：消耗1旅程
+【等级2】无属性▕▏升级条件：消消耗-1旅程
+【等级3】无属性▕▏升级条件：消耗-20金币
+【 Max 】无属性`,
+'『林中过夜』': `『林中过夜』
+【勋章类型】剧情
+【入手条件】灵魂≥1并且主题数≥2并且旅程≥16
+【商店售价】1旅程
+【 Max 】无属性`,
+'『凯旋诺书』': `『凯旋诺书』
+【勋章类型】剧情
+【入手条件】【派遣远征s1】派遣先锋的天选仪式
+【商店售价】无
+【 Max 】无属性`,
+'『绿茵甘露』': `『绿茵甘露』
+【勋章类型】剧情
+【入手条件】【派遣远征s1】主题数≥1
+【商店售价】1金币
+【时限】14天
+【 Max 】无属性`,
+'『道具超市』': `『道具超市』
+【勋章类型】剧情
+【入手条件】灵魂≥1并且在线时间(小时)≥100并且主题数≥1并且发帖数≥1
+【商店售价】1旅程
+【等级1】无属性▕▏升级条件：消耗75金币
+【 Max 】无属性`,
+'『狄文卡德的残羽』': `『狄文卡德的残羽』
+【勋章类型】剧情
+【入手条件】无
+【商店售价】1堕落
+【 Max 】无属性`,
+'『厢庭望远』': `『厢庭望远』
+【勋章类型】剧情
+【入手条件】无
+【商店售价】无
+【等级1】无属性▕▏升级条件：总积分≥1000
+【 Max 】无属性`,
+'『转生经筒』': `『转生经筒』
+【勋章类型】剧情
+【入手条件】签到天数≥1460天并且灵魂≥1
+【商店售价】1旅程
+【 Max 】无属性`,
 }
 
 var imgs =
@@ -4668,7 +4841,7 @@ var imgs =
     {
         "1":["https://img.gamemale.com/album/201406/22/042226pcx22u43l84pdslx.gif", 40,],
         "2":["https://img.gamemale.com/album/201406/22/042228add94qdrh4hm88m7.gif", 40,],
-        "3":["https://img.gamemale.com/forum/202112/12/005832v16a75d5h5a70aaf.gif", 82,],
+        "3":["https://img.gamemale.com/album/201406/22/042232yedvd9be1nfz1eam.gif", 82,],
         "4":["https://img.gamemale.com/album/201406/22/042236oa44wwaudaee9kek.gif", 82,],
         "5":["https://img.gamemale.com/forum/202112/12/010415k8m0109p4wum0uum.gif", 124,],
         "6":["https://img.gamemale.com/album/201406/22/042245gi30m4j0jn53wj54.gif", 124,],
@@ -5148,7 +5321,7 @@ var imgs =
         "2":["https://img.gamemale.com/album/201401/01/135948mvv4vt11rakirty9.gif", 40,],
         "3":["https://img.gamemale.com/album/201401/01/135955kkzx01gjgi8bjg0o.gif", 40,],
         "4":["https://img.gamemale.com/album/201401/01/140003tq130jt00f5f0tv1.gif", 40,],
-        "5":["https://img.gamemale.com/forum/202103/26/230239kmukskqz459e53ke.gif", 40,],
+        "5":["https://img.gamemale.com/album/201401/01/140012np4zzv4pn4vm4jch.gif", 40,],
         "6":["https://img.gamemale.com/album/201401/01/140020jpjnqc2nykzll38j.gif", 40,],
         "Max":["https://img.gamemale.com/album/201401/01/140037ny9sih0ik9qiabei.gif", 40,],
     },
@@ -6026,7 +6199,7 @@ var imgs =
     '沃特·沙利文':
     {
         "1":["https://img.gamemale.com/album/202008/08/123422gv2t44ssx90xgs2s.gif", 40,],
-        "2":["", 40,],
+        "2":["https://img.gamemale.com/album/202008/03/121213nv71ssberh7vtssk.gif", 40,],
         "3":["https://img.gamemale.com/forum/202403/08/190216h1wlqqdt5dtsz9az.gif", 82,],
         "4":["https://img.gamemale.com/album/202008/03/121217fi8r7cj813xjjeqi.gif", 82,],
         "5":["https://img.gamemale.com/forum/202306/09/040011o6vrz5kfkrk6wj1h.gif", 124,],
@@ -6160,7 +6333,7 @@ var imgs =
     '士官长':
     {
         "1":["https://img.gamemale.com/album/202103/13/150429xqfi6ew0fz4aaef6.gif", 40,],
-        "2":["https://img.gamemale.com/forum/202102/09/200713p1o3nlq9r6njljnd.gif", 82,],
+        "2":["https://img.gamemale.com/album/202103/13/150436oncbsaxl2bssab43.gif", 82,],
         "Max":["https://img.gamemale.com/album/202103/13/150441ouvh4quqqgq0r4h7.gif", 124,],
     },
     '托尼·史塔克':
@@ -6898,10 +7071,14 @@ var imgs =
         "4":["https://img.gamemale.com/album/202308/23/225050dguvtddpdxp8ldqu.gif", 82,],
         "Max":["https://img.gamemale.com/album/202308/23/225051e3hcl8ecycwl3u8h.gif", 82,],
     },
-    '星河碎片':
+    '『星河碎片』':
     {
         "1":["https://img.gamemale.com/album/202308/21/112642ks1p19sz2f73y3p3.gif", 40,],
         "Max":["", 40,],
+    },
+    '『迷翳森林回忆录』':
+    {
+        "Max":["https://img.gamemale.com/album/202308/08/230549joklkzk9ub3ofigg.gif", 40,],
     },
     '『迷翳之中』':
     {
@@ -7335,7 +7512,7 @@ var imgs =
         "1":["https://img.gamemale.com/album/202501/27/150200nnlkqxrdtrw9i7tr.gif", 40,],
         "2":["https://img.gamemale.com/album/202501/27/150202u6i3yn4b1ybo81c8.gif", 82,],
         "3":["https://img.gamemale.com/album/202501/27/150203cep1xf5gxxf2pogo.gif", 82,],
-        "4":["https://img.gamemale.com/forum/202501/29/162753h8qb7rxxibp77xqq.gif", 82,],
+        "4":["https://img.gamemale.com/album/202501/27/150203p7ybm2vjn2t7ul5f.gif", 82,],
         "5":["https://img.gamemale.com/album/202501/27/150204hwysuurum3a2wa3s.gif", 124,],
         "Max":["https://img.gamemale.com/album/202501/27/150205fmppqvndidmqxy4q.gif", 82,],
     },
@@ -7525,6 +7702,131 @@ var imgs =
         "4":["https://img.gamemale.com/album/202506/08/195027n86ob7jw64fnr0p7.gif", 124,],
         "5":["https://img.gamemale.com/album/202506/08/195028tpaaacmbll000rbp.gif", 124,],
         "Max":["https://img.gamemale.com/album/202506/08/195030vjltsxkyytx0osvt.gif", 124,],
+    },
+    '站员: 保卫领土':
+    {
+        "1":["", 40,],
+        "Max":["https://img.gamemale.com/album/201405/01/180018mo7huror8mzm7t7c.gif", 40,],
+    },
+    '见习版主: 神的重量':
+    {
+        "1":["", 40,],
+        "Max":["https://img.gamemale.com/album/201405/01/180032jpqlthqtqwlqhq3l.gif", 40,],
+    },
+    '版主: 一国之主':
+    {
+        "1":["", 40,],
+        "Max":["https://img.gamemale.com/album/201405/01/180003ndvk1od2edda4bi1.gif", 40,],
+    },
+    '『还乡歌』':
+    {
+        "初级":["", 40,],
+        "1":["https://img.gamemale.com/album/202302/06/111902plsfztidxxxthnho.gif", 40,],
+        "2":["https://img.gamemale.com/album/202302/02/215205divfid6iiqivtf79.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202302/02/215208i9rbobbzolct7rkb.gif", 40,],
+    },
+    '纯真护剑㊕':
+    {
+        "1":["https://img.gamemale.com/album/202305/30/225653vhbtcxpzhmpcephh.gif", 40,],
+        "2":["https://img.gamemale.com/album/202305/30/230430rcfe70wfhcc227ch.gif", 40,],
+        "3":["https://img.gamemale.com/album/202405/31/215051dao7q8kxb8ckyb76.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202505/25/142732mx57txt4huugxt78.gif", 40,],
+    },
+    '『日心说』':
+    {
+        "初级":["", 40,],
+        "Max":["https://img.gamemale.com/album/202302/28/145327jebo3te43x6vegzx.gif", 40,],
+    },
+    '『搓粉团珠』':
+    {
+        "Max":["https://img.gamemale.com/album/202502/12/142803aq6uewseoouu6ei9.gif", 40,],
+    },
+    '『冰雕马拉橇』':
+    {
+        "Max":["https://img.gamemale.com/album/202501/05/123612ufb4m31zzm9kppmd.gif", 82,],
+    },
+    '『南瓜拿铁』':
+    {
+        "Max":["https://img.gamemale.com/album/202410/29/123843sl3l5l6f35tp6gf9.gif", 40,],
+    },
+    '『逆境中的幸运女神』':
+    {
+        "Max":["https://img.gamemale.com/album/202410/15/105948d0yik711643klqsp.gif", 40,],
+    },
+    '『钟楼日暮』':
+    {
+        "0":["https://img.gamemale.com/album/202407/29/161455conqqbfcbvonpizc.gif", 40,],
+        "1":["", 40,],
+        "Max":["https://img.gamemale.com/album/202407/29/163739p9ya9ky612dbpfyg.gif", 40,],
+    },
+    '『流星赶月』':
+    {
+        "1":["https://img.gamemale.com/album/202405/01/104737h8u40k09yb1buvhs.gif", 40,],
+        "2":["https://img.gamemale.com/album/202405/01/104737hf66ydgq417yp1pq.gif", 40,],
+        "3":["https://img.gamemale.com/album/202405/01/104738zbemlbquqcbhbew1.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202405/01/104738xr7w9rc9c9wkooo5.gif", 40,],
+    },
+    '『先知灵药』':
+    {
+        "1":["https://img.gamemale.com/album/202403/21/130027nqhli96ll11h9u2g.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202403/21/130053cgz5zto94bg5gbq9.gif", 40,],
+    },
+    '『酒馆蛋煲』':
+    {
+        "Max":["https://img.gamemale.com/album/202311/03/120708iaw8la01kii0ivl5.gif", 40,],
+    },
+    '『活动代币』':
+    {
+        "初级":["https://img.gamemale.com/album/202310/07/000733qml4gvgpclnv4up4.gif", 40,],
+        "1":["https://img.gamemale.com/album/202310/07/000733qml4gvgpclnv4up4.gif", 40,],
+        "2":["https://img.gamemale.com/album/202305/20/185602szvpqoukkt131qm1.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202310/07/000733qml4gvgpclnv4up4.gif", 40,],
+    },
+    '『伊黎丝的祝福』':
+    {
+        "初级":["", 40,],
+        "Max":["https://img.gamemale.com/album/202306/08/011901dp5lhljtdtkkjhoh.gif", 40,],
+    },
+    '『弗霖的琴』':
+    {
+        "Max":["https://img.gamemale.com/album/202306/03/100026pr0bbg9g9g9dpnd8.gif", 40,],
+    },
+    '『瓶中信』':
+    {
+        "1":["https://img.gamemale.com/album/202305/15/213548uz03kdqqyd6iyrqh.gif", 40,],
+        "2":["https://img.gamemale.com/album/202305/20/112800hmp2pj8msp6wz2rj.gif", 40,],
+        "3":["https://img.gamemale.com/album/202305/20/185602szvpqoukkt131qm1.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202305/15/213548uz03kdqqyd6iyrqh.gif", 40,],
+    },
+    '『林中过夜』':
+    {
+        "Max":["https://img.gamemale.com/album/202505/10/121633so0o9ow80oxjt3xm.gif", 40,],
+    },
+    '『凯旋诺书』':
+    {
+        "Max":["https://img.gamemale.com/album/202505/10/152410e8mv881bg8b0bixw.gif", 40,],
+    },
+    '『绿茵甘露』':
+    {
+        "Max":["https://img.gamemale.com/album/202504/22/150929asgg6iuggqunggq6.gif", 40,],
+    },
+    '『道具超市』':
+    {
+        "1":["", 40,],
+        "Max":["https://img.gamemale.com/album/202503/22/124623xqwr8aww4q4wwa41.gif", 40,],
+    },
+    '『狄文卡德的残羽』':
+    {
+        "Max":["https://img.gamemale.com/album/202506/07/204727k4ecjcm9lg4i5ndb.gif", 40,],
+    },
+    '『厢庭望远』':
+    {
+        "1":["https://img.gamemale.com/album/202505/27/164710yzg8pkk1jqzxg28m.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202505/27/164130pfwowm6ufc1f0ycj.gif", 40,],
+    },
+    '『转生经筒』':
+    {
+        "Max":["https://img.gamemale.com/album/202307/01/075509auuke2lwximkxlwm.gif", 40,],
     },
 };
 
