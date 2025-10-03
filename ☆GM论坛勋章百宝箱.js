@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.6.2
+// @version      2.6.3
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
@@ -145,6 +145,8 @@
             "古烈",
             "【新春限定】果体 隆",
             "巴哈姆特",
+            "“半狼”布莱泽",
+            "炽焰咆哮虎",
         ],
         "zhenren": [
             "托尼·史塔克",
@@ -235,6 +237,7 @@
             "约翰·康斯坦丁",
             "亨利.卡维尔",
             "牛局长博戈",
+            "基努·里维斯",
         ],
         "Maid": [
             "梅格",
@@ -266,6 +269,8 @@
             "阿加莎·哈克尼斯",
             "红夫人",
             "莉莉娅·考尔德（Lilia Calderu）",
+            "琴.葛蕾",
+            "Honey B Lovely",
 
         ],
         "Equip": [
@@ -324,6 +329,9 @@
             "圣诞有铃",
             "普通羊毛球",
             "圣水瓶",
+            "黑暗封印",
+            "枯木法杖",
+            "千年积木",
         ],
         "Asset": [
             "知识大典",
@@ -398,6 +406,8 @@
             "健忘礼物盒",
             "弯钩与连枷",
             "尼特公仔",
+            "辉夜姬的五难题",
+            "末影珍珠",
         ],
         "Pet": [
             "洞窟魔蛋",
@@ -440,6 +450,7 @@
             "波纹蓝蛋",
             "吸血猫蛋",
             "脏兮兮的蛋",
+            "双生蛋",
         ],
         "Forum": [
             "质量效应三部曲",
