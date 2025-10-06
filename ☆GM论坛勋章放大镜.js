@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.7.4
+// @version      2.7.5
 // @description  泥潭勋章属性展示！
 // @author       轶致
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html*
@@ -4605,6 +4605,96 @@ var 放大镜内容映射表 = {
 【入手条件】签到天数≥1460天并且灵魂≥1
 【商店售价】1旅程
 【 Max 】无属性`,
+'“半狼”布莱泽': `“半狼”布莱泽
+【勋章类型】游戏男从
+【入手条件】旅程 >= 5
+【商店售价】496金币
+【等级1】5% 回帖金币+1、发帖金币+1▕▏升级条件：消耗99金币
+【等级2】9% 回帖金币+1、发帖金币+1▕▏升级条件：咒术≥399
+【等级3】9% 回帖金币+2、发帖金币+2▕▏升级条件：消耗1199金币
+【等级4】12% 回帖金币+2、发帖金币+2▕▏升级条件：血液≥521
+【 Max 】13% 回帖金币+3、发帖金币+3`,
+'炽焰咆哮虎': `炽焰咆哮虎
+【勋章类型】游戏男从
+【入手条件】旅程 >= 30
+【商店售价】500金币
+【等级1】5% 回帖血液+1、发帖血液+1▕▏升级条件：消耗100金币
+【等级2】7% 回帖血液+1、发帖血液+1▕▏升级条件：消耗50咒术
+【等级3】8% 回帖血液+2、发帖血液+2▕▏升级条件：消耗300金币
+【 Max 】10% 回帖血液+3、发帖血液+3 堕落+2`,
+'基努·里维斯': `基努·里维斯
+【勋章类型】真人男从
+【入手条件】堕落 <= 999
+【商店售价】666金币
+【等级1】勋章博物馆资料暂缺
+【 Max 】2% 回贴堕落-1、发帖灵魂+1 堕落-3`,
+'琴.葛蕾': `琴.葛蕾
+【勋章类型】女从
+【入手条件】咒术 >= 30
+【商店售价】500金币
+【等级1】勋章博物馆资料暂缺
+【等级2】10% 回帖堕落+2▕▏升级条件：消耗66咒术
+【等级3】勋章博物馆资料暂缺
+【等级4】勋章博物馆资料暂缺
+【 Max 】10% 回帖堕落-2`,
+'Honey B Lovely': `Honey B Lovely
+【勋章类型】女从
+【入手条件】无
+【商店售价】520金币
+【等级1】勋章博物馆资料暂缺
+【等级2】10% 回帖金币+1、发帖金币+1▕▏升级条件：消耗710金币
+【等级3】11% 回帖金币+2、发帖金币+2▕▏升级条件：消耗198金币
+【 Max 】12% 回帖金币+3、发帖金币+3`,
+'黑暗封印': `黑暗封印
+【勋章类型】装备
+【入手条件】堕落 >= 130
+【商店售价】350金币
+【等级1】3% 回帖咒术+1 血液-3▕▏升级条件：消耗1250金币
+【等级2】10% 回帖咒术+1 血液-3▕▏升级条件：好友数≥13
+【等级3】8% 回帖血液-3 咒术+1▕▏升级条件：好友数≥130
+【等级4】6% 回帖血液-3 咒术+1▕▏升级条件：知识≥130
+【等级5】5% 回帖咒术+2、发帖咒术+2▕▏升级条件：灵魂≥25
+【 Max 】8% 回帖咒术+2 堕落+1`,
+'枯木法杖': `枯木法杖
+【勋章类型】装备
+【入手条件】无
+【商店售价】500金币
+【等级1】5% 回帖金币+1▕▏升级条件：消耗1000血液
+【等级2】10% 回帖金币+1▕▏升级条件：堕落≥100
+【等级3】10% 回帖金币+3 堕落-1▕▏升级条件：堕落≥300
+【等级4】10% 回帖金币+2▕▏升级条件：堕落≥500
+【 Max 】10% 回帖金币+2 堕落+1`,
+'千年积木': `千年积木
+【勋章类型】装备
+【入手条件】无
+【商店售价】200金币
+【等级1】3% 回帖咒术+1▕▏升级条件：消耗30咒术
+【 Max 】4% 回帖咒术+2`,
+'辉夜姬的五难题': `辉夜姬的五难题
+【勋章类型】资产
+【入手条件】无
+【商店售价】500金币
+【等级1】5% 回帖血液+1▕▏升级条件：消耗125金币
+【等级2】5% 回帖金币+1▕▏升级条件：消耗125血液
+【等级3】5% 回帖血液+2、发帖旅程+1▕▏升级条件：消耗125金币
+【等级4】5% 回帖金币+3、发帖旅程+1▕▏升级条件：消耗125血液
+【等级5】5% 回帖血液+4、发帖旅程+1▕▏升级条件：消耗500金币
+【 Max 】5% 回帖金币+5`,
+'末影珍珠': `末影珍珠
+【勋章类型】资产
+【入手条件】知识 >= 16
+【商店售价】256金币
+【等级1】1% 回帖咒术+1▕▏升级条件：消耗64血液
+【等级2】3% 回帖咒术+1▕▏升级条件：消耗128血液
+【等级3】2% 回帖旅程+1▕▏升级条件：在线时间≥999
+【 Max 】3% 回帖旅程+1`,
+'双生蛋': `双生蛋
+【勋章类型】宠物
+【入手条件】堕落 >= 177
+【商店售价】377金币
+【等级1】3% 回帖堕落+1▕▏升级条件：消耗377血液
+【等级2】15% 回帖堕落+1 金币+3▕▏升级条件：堕落≥17
+【 Max 】10% 回帖堕落-1 金币+1`,
 }
 
 var imgs =
@@ -7827,6 +7917,80 @@ var imgs =
     '『转生经筒』':
     {
         "Max":["https://img.gamemale.com/album/202307/01/075509auuke2lwximkxlwm.gif", 40,],
+    },
+    '“半狼”布莱泽':
+    {
+        "1":["https://img.gamemale.com/album/202510/01/143947yi5qlynxnnx9x5nx.gif", 40,],
+        "2":["https://img.gamemale.com/album/202510/01/143949v23dy8s28r6zuyta.gif", 82,],
+        "3":["https://img.gamemale.com/album/202510/01/143950e9i0d9fjpyqf00jd.gif", 82,],
+        "4":["https://img.gamemale.com/album/202510/01/143951egsqxxgshzxqxqph.gif", 82,],
+        "Max":["https://img.gamemale.com/album/202510/01/143952jnjnd5xmknkj99aa.gif", 124,],
+    },
+    '炽焰咆哮虎':
+    {
+        "1":["https://img.gamemale.com/album/202510/01/144038zo411cc2ewyywsss.gif", 40,],
+        "2":["https://img.gamemale.com/album/202510/01/144039fyyfsjtxa6ffgd08.gif", 82,],
+        "3":["https://img.gamemale.com/album/202510/01/144040fmhmgm60qjk3q7km.gif", 124,],
+        "Max":["https://img.gamemale.com/album/202510/01/144041s9zstskkn86eeoo9.gif", 124,],
+    },
+    '琴.葛蕾':
+    {
+        "1":["", 82,],
+        "2":["https://img.gamemale.com/album/202510/01/144212cc5fncef1cedlzlc.gif", 82,],
+        "3":["", 82,],
+        "4":["", 82,],
+        "Max":["https://img.gamemale.com/album/202510/01/144221wp5886c8kk84fh6h.gif", 82,],
+    },
+    'Honey B Lovely':
+    {
+        "1":["", 82,],
+        "2":["https://img.gamemale.com/album/202510/01/144029vesqhohaidfs9nki.gif", 82,],
+        "3":["https://img.gamemale.com/album/202510/01/144030vxcjyx1yjcz202ww.gif", 82,],
+        "Max":["https://img.gamemale.com/album/202510/01/144031vzugutuwvu92lc8f.gif", 82,],
+    },
+    '黑暗封印':
+    {
+        "1":["https://img.gamemale.com/album/202510/01/144057mdtrhy7kki44kuqe.gif", 40,],
+        "2":["https://img.gamemale.com/forum/202505/25/160908ffjjmmbvjb4fc4vf.gif", 40,],
+        "3":["https://img.gamemale.com/album/202510/01/144059rsgw5kh6ssgvst34.gif", 40,],
+        "4":["https://img.gamemale.com/forum/202505/25/160920qc2gp2dcp7decpg2.gif", 40,],
+        "5":["https://img.gamemale.com/album/202510/01/144101m2assar0yfaluah0.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202510/01/144102ovfggmf3cf44vfhv.gif", 40,],
+    },
+    '枯木法杖':
+    {
+        "1":["https://img.gamemale.com/forum/202510/04/001628rjeehrggggvhbgco.gif", 40,],
+        "2":["https://img.gamemale.com/forum/202510/04/001631m5hug9ogyg5qoz55.gif", 40,],
+        "3":["https://img.gamemale.com/forum/202510/04/001633vxdqqd9pmt993tee.gif", 40,],
+        "4":["https://img.gamemale.com/forum/202510/04/001634dr1wwg8l36jy5w1q.gif", 40,],
+        "Max":["https://img.gamemale.com/forum/202510/04/001636sh7yv70j1e818j5z.gif", 40,],
+    },
+    '千年积木':
+    {
+        "1":["https://img.gamemale.com/album/202501/06/033947ruj9xa87xtkdxk7x.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202501/06/033955dkdavkt200ckcdda.gif", 40,],
+    },
+    '辉夜姬的五难题':
+    {
+        "1":["https://img.gamemale.com/album/202510/01/144105t7lj61znze9z97kr.gif", 40,],
+        "2":["https://img.gamemale.com/album/202510/01/144106ooyxoyv9aete84o4.gif", 40,],
+        "3":["https://img.gamemale.com/album/202510/01/144107gpeqkdd654fb5flk.gif", 40,],
+        "4":["https://img.gamemale.com/album/202510/01/144108giqp1h6xxxpgxmp6.gif", 40,],
+        "5":["https://img.gamemale.com/album/202510/01/144109w56hhzdfk1khg84d.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202510/01/144111sav05zjjb0ffb884.gif", 82,],
+    },
+    '末影珍珠':
+    {
+        "1":["https://img.gamemale.com/album/202510/01/144157peeo6e22se6rgse2.gif", 40,],
+        "2":["https://img.gamemale.com/album/202510/01/144157jbzf3lp6hhf3bbxv.gif", 40,],
+        "3":["https://img.gamemale.com/album/202510/01/144158oouv6y2xpblvbm2f.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202510/01/144159aypgkmkx0c6kt60d.gif", 82,],
+    },
+    '双生蛋':
+    {
+        "1":["https://img.gamemale.com/album/202510/01/144224dklyukkhl51k0f5o.gif", 40,],
+        "2":["https://img.gamemale.com/forum/202510/04/005552zkwfxhllkic7lklc.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202510/01/144239ui7kzhd0ywt7voja.gif", 40,],
     },
 };
 
