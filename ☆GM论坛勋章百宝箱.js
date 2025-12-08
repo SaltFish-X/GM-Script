@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.6.4
+// @version      2.6.3
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
@@ -543,6 +543,7 @@
             "晃晃悠悠小矿车",
             "巴比伦辞典"
         ],
+        // 勋章博物馆把这些部分划分在Salary/Other类别里，我们直接划到其他类里
         "Salary": [
             // "Chris Redfield in Uroboros",
             "站员薪俸",
