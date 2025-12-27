@@ -36,7 +36,7 @@
     const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent)
 
     // 是否显示图片true or false，默认true显示
-    const showImg = true;
+    const showImg = false;
 
     if (GM_getValue("toggleSetting") === undefined) {
         // toggleSetting 代表放大镜是否位于标签左右 true为左右，false为上下
@@ -375,7 +375,7 @@
             let showText = 放大镜内容映射表[altKey];
             if (showImg && showText)
             {
-                // showText = addImgUrl(showText);
+                showText = addImgUrl(showText);
             }
 
             altKey && 添加悬停监听器(img, showText)
