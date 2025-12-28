@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.7.7
+// @version      2.7.8
 // @description  泥潭勋章属性展示！
 // @author       轶致
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html*
@@ -4704,7 +4704,8 @@ var 放大镜内容映射表 = {
 【入手条件】无
 【商店售价】680金币
 【等级1】5% 回帖金币+1▕▏升级条件：消耗80金币
-【等级2】10% 回帖金币+1▕▏升级条件：追随≥78
+【等级2】10% 回帖金币+1▕▏升级条件：血液≥300
+【等级3】10% 回帖金币+2▕▏升级条件：追随≥78
 【 Max 】11% 回帖金币+3`,
 '本・比格': `本・比格
 【勋章类型】游戏男从
@@ -4720,15 +4721,15 @@ var 放大镜内容映射表 = {
 【商店售价】700金币
 【等级1】5% 回帖金币+1▕▏升级条件：消耗300金币
 【等级2】10% 回帖金币+2▕▏升级条件：消耗1灵魂
-【等级3】勋章博物馆资料暂缺
+【等级3】13% 回帖金币+3▕▏升级条件：堕落≥700
 【 Max 】15% 回帖金币+3`,
 '大侦探皮卡丘': `大侦探皮卡丘
 【勋章类型】真人男从
 【入手条件】无
 【商店售价】300金币
-【等级1】2% 回帖金币+1▕▏升级条件：消耗99金币 或者 金币≥99
-【等级2】勋章博物馆资料暂缺
-【等级3】勋章博物馆资料暂缺
+【等级1】2% 回帖金币+1▕▏升级条件：消耗99金币
+【等级2】4% 回帖知识+1▕▏升级条件：知识≥30
+【等级3】3% 回帖 知识+1▕▏升级条件：知识≥100
 【等级4】勋章博物馆资料暂缺
 【 Max 】50% 发帖金币+1`,
 '被冰封的头盔': `被冰封的头盔
@@ -4751,12 +4752,26 @@ var 放大镜内容映射表 = {
 【勋章类型】资产
 【入手条件】旅程 >= 15
 【商店售价】500金币
-【等级1】1% 回帖咒术+1 旅程+1▕▏升级条件：消耗75咒术 或者 咒术≥75
-【等级5】2% 回帖旅程+1▕▏升级条件：消耗525咒术 或者 咒术≥525
+【等级1】1% 回帖咒术+1 旅程+1▕▏升级条件：咒术≥75
+【等级2】无属性▕▏升级条件：咒术≥175
+【等级3】3% 回帖血液-1▕▏升级条件：咒术≥350
+【等级4】2% 回帖咒术+1▕▏升级条件：咒术≥450
+【等级5】2% 回帖旅程+1▕▏升级条件：咒术≥525
 【等级7】勋章博物馆资料暂缺
-【等级9】8% 回帖咒术+1▕▏升级条件：消耗775咒术 或者 咒术≥775
+【等级9】8% 回帖咒术+1▕▏升级条件：咒术≥775
+【等级20】2% 回帖旅程+1▕▏升级条件：咒术≥1300
+【等级21】6% ?▕▏升级条件：咒术≥1375
+【等级22】7% 回帖堕落+2▕▏升级条件：咒术≥1450
 【等级32】勋章博物馆资料暂缺
-【等级46】勋章博物馆资料暂缺
+【等级33】8% 回帖血液-1 金币+1▕▏升级条件：咒术≥2070
+【等级39】9% 回帖金币-1 堕落+1▕▏升级条件：咒术≥2400
+【等级40】10% 回帖金币-2 堕落+2▕▏升级条件：咒术≥2500
+【等级41】10% 回帖血液-1 堕落+2▕▏升级条件：咒术≥2550
+【等级42】50% 回帖堕落+1 咒术+1、发帖堕落+5▕▏升级条件：咒术≥2553
+【等级43】50% 回帖堕落-1 咒术+1、发帖堕落-3▕▏升级条件：咒术≥2556
+【等级44】2% 回帖咒术+1、发帖灵魂+1 咒术+5▕▏升级条件：咒术≥2559
+【等级45】55% 回帖咒术+1、发帖咒术+5 知识+1▕▏升级条件：咒术≥2561
+【等级46】5% 回帖咒术+1、发帖咒术+1▕▏升级条件：咒术≥2700
 【 Max 】1% 回帖咒术+1 旅程+1`,
 '图书馆金蛋': `图书馆金蛋
 【勋章类型】宠物
@@ -8080,6 +8095,7 @@ var imgs =
     {
         "1":["https://img.gamemale.com/album/202512/24/180341dz2n7z558tm9t84c.gif", 40,],
         "2":["https://img.gamemale.com/album/202512/24/180341xt4yx243wgukywcj.gif", 82,],
+        "3":["https://img.gamemale.com/album/202512/24/180342mvvkdp2rvz0ddvhd.gif", 82,],
         "Max":["https://img.gamemale.com/album/202512/24/180347fuu0x47g3gef30gg.gif", 82,],
     },
     '本・比格':
@@ -8093,14 +8109,14 @@ var imgs =
     {
         "1":["https://img.gamemale.com/album/202512/24/180702xqiqqag87ar52pj3.gif", 40,],
         "2":["https://img.gamemale.com/album/202512/24/180703c5q54tn55h22255q.gif", 40,],
-        "3":["", 40,],
+        "3":["https://img.gamemale.com/album/202512/24/180704leraidpaewdwk08d.gif", 82,],
         "Max":["https://img.gamemale.com/album/202512/24/180705daa2ggcbtgs4bhk5.gif", 82,],
     },
     '大侦探皮卡丘':
     {
         "1":["https://img.gamemale.com/album/202512/24/180711dizv1nfz0bh0hkds.gif", 40,],
-        "2":["", 40,],
-        "3":["", 40,],
+        "2":["https://img.gamemale.com/album/202512/24/180712t2hic1c6ptcn57ct.gif", 82,],
+        "3":["https://img.gamemale.com/album/202512/24/180713e00fzjfin8gz1xwf.gif", 82,],
         "4":["", 40,],
         "Max":["https://img.gamemale.com/album/202512/24/180714bjpus00mr5hi0dop.gif", 82,],
     },
@@ -8121,15 +8137,24 @@ var imgs =
     '无限魔典':
     {
         "1":["https://img.gamemale.com/album/202512/24/180829oxqsxxxxnfprfxxd.gif", 40,],
-        "2":["", 40,],
-        "3":["", 40,],
-        "4":["", 40,],
+        "2":["https://img.gamemale.com/album/202512/24/180830fe4wdvcwwhx7vwdo.gif", 40,],
+        "3":["https://img.gamemale.com/album/202512/24/180831k2j94y19gyzs8mjg.gif", 40,],
+        "4":["https://img.gamemale.com/album/202512/24/180832c4damg4mpukbpblp.gif", 40,],
         "5":["https://img.gamemale.com/album/202512/24/180833h0sk183knceeskek.gif", 40,],
-        "6":["", 40,],
         "7":["https://img.gamemale.com/album/202512/24/180834ucz28cpz4dtuzssj.gif", 40,],
-        "8":["", 40,],
         "9":["https://img.gamemale.com/album/202512/24/180836c344jdzf4putu3jz.gif", 40,],
+        "20":["https://img.gamemale.com/album/202512/24/180846xstt7drrz6yc6tty.gif", 40,],
+        "21":["https://img.gamemale.com/album/202512/24/180847pf169fsw77f59ffr.gif", 40,],
+        "22":["https://img.gamemale.com/album/202512/24/180848m4ssrwwwr1rse4so.gif", 40,],
         "32":["https://img.gamemale.com/album/202512/24/180959kffgydfvg4f1gdgt.gif", 40,],
+        "33":["https://img.gamemale.com/album/202512/24/181000sc779mynn979nuc6.gif", 40,],
+        "39":["https://img.gamemale.com/album/202512/24/181014ye3dd0m83q8xzxvs.gif", 40,],
+        "40":["https://img.gamemale.com/album/202512/24/181017zz1ei1uj88i1e9bi.gif", 40,],
+        "41":["https://img.gamemale.com/album/202512/24/181019e1ff78fs8il99f9l.gif", 40,],
+        "42":["https://img.gamemale.com/album/202512/24/181021u8vgi5y79v9ggpi7.gif", 40,],
+        "43":["https://img.gamemale.com/album/202512/24/181022zdpipjfj9vvu9jzi.gif", 40,],
+        "44":["https://img.gamemale.com/album/202512/24/181024i6s1wf1xkawk1ne4.gif", 40,],
+        "45":["https://img.gamemale.com/album/202512/24/181027tjjjkogoxfivsfil.gif", 40,],
         "46":["https://img.gamemale.com/album/202512/24/181029cq7bq8x08tjyy81q.gif", 40,],
         "Max":["https://img.gamemale.com/album/202512/24/181038ellc7tbthqcq7kks.gif", 40,],
     },
