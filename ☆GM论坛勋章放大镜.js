@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.7.8
+// @version      2.7.9
 // @description  泥潭勋章属性展示！
 // @author       轶致
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html*
@@ -4638,14 +4638,14 @@ var 放大镜内容映射表 = {
 【商店售价】500金币
 【等级1】10% 回帖堕落+1▕▏升级条件：堕落≥600
 【等级2】10% 回帖堕落+2▕▏升级条件：消耗66咒术
-【等级3】勋章博物馆资料暂缺
+【等级3】10% 回帖血液+3 堕落-1▕▏升级条件：堕落≥100
 【等级4】3% 回帖旅程+1▕▏升级条件：堕落≥600
 【 Max 】10% 回帖堕落-2`,
 'Honey B Lovely': `Honey B Lovely
 【勋章类型】女从
 【入手条件】无
 【商店售价】520金币
-【等级1】勋章博物馆资料暂缺
+【等级1】10% 回帖金币 0、发帖金币 0▕▏升级条件：金币≥52
 【等级2】10% 回帖金币+1、发帖金币+1▕▏升级条件：消耗710金币
 【等级3】11% 回帖金币+2、发帖金币+2▕▏升级条件：消耗198金币
 【 Max 】12% 回帖金币+3、发帖金币+3`,
@@ -4730,13 +4730,13 @@ var 放大镜内容映射表 = {
 【等级1】2% 回帖金币+1▕▏升级条件：消耗99金币
 【等级2】4% 回帖知识+1▕▏升级条件：知识≥30
 【等级3】3% 回帖 知识+1▕▏升级条件：知识≥100
-【等级4】勋章博物馆资料暂缺
+【等级4】2% 回帖 知识+1▕▏升级条件：知识≥150
 【 Max 】50% 发帖金币+1`,
 '被冰封的头盔': `被冰封的头盔
 【勋章类型】装备
 【入手条件】旅程 >= 30
 【商店售价】400金币
-【等级1】勋章博物馆资料暂缺
+【等级1】5% 回帖金币+2 血液-1▕▏升级条件：血液≥350
 【等级2】10% 回帖金币+2 血液-1▕▏升级条件：消耗500金币
 【 Max 】10% 回帖金币+3`,
 '基础维修工具': `基础维修工具
@@ -4757,13 +4757,39 @@ var 放大镜内容映射表 = {
 【等级3】3% 回帖血液-1▕▏升级条件：咒术≥350
 【等级4】2% 回帖咒术+1▕▏升级条件：咒术≥450
 【等级5】2% 回帖旅程+1▕▏升级条件：咒术≥525
-【等级7】勋章博物馆资料暂缺
+【等级6】5% 回帖血液+1▕▏升级条件：咒术≥600
+【等级7】2% 回帖知识+1▕▏升级条件：咒术≥675
+【等级8】5% 回帖金币+1▕▏升级条件：咒术≥725
 【等级9】8% 回帖咒术+1▕▏升级条件：咒术≥775
+【等级10】3% 回帖知识+1▕▏升级条件：咒术≥825
+【等级11】55% 回帖血液+1 咒术+1、发帖血液+2▕▏升级条件：咒术≥828
+【等级12】2% 回帖旅程+1▕▏升级条件：咒术≥910
+【等级13】20% 回帖金币+1▕▏升级条件：咒术≥960
+【等级14】10% 回帖金币+3▕▏升级条件：咒术≥1010
+【等级15】55% 回帖金币+1 咒术+1、发帖金币+2▕▏升级条件：咒术≥1013
+【等级16】3% 回帖金币+1 知识+1▕▏升级条件：咒术≥1070
+【等级17】8% 回帖金币+1 咒术+1▕▏升级条件：咒术≥1120
+【等级18】15% 回帖金币+1 血液+1▕▏升级条件：咒术≥1200
+【等级19】100% 回帖金币+2 咒术+1、发帖金币+5 咒术+3▕▏升级条件：咒术≥1202
 【等级20】2% 回帖旅程+1▕▏升级条件：咒术≥1300
-【等级21】6% ?▕▏升级条件：咒术≥1375
+【等级21】6% 无属性▕▏升级条件：咒术≥1375
 【等级22】7% 回帖堕落+2▕▏升级条件：咒术≥1450
-【等级32】勋章博物馆资料暂缺
+【等级23】7% 回帖金币+2▕▏升级条件：咒术≥1500
+【等级24】8% 回帖血液+3▕▏升级条件：咒术≥1550
+【等级25】12% 回帖金币+2▕▏升级条件：咒术≥1600
+【等级26】55% 回帖咒术+1、发帖血液+2▕▏升级条件：咒术≥1603
+【等级27】5% 回帖咒术+1▕▏升级条件：咒术≥1650
+【等级28】2% 回帖咒术+3▕▏升级条件：咒术≥1700
+【等级29】1% 回帖咒术+5、发帖灵魂+1 咒术+5▕▏升级条件：咒术≥1703
+【等级30】2% 回帖血液-1 旅程+1▕▏升级条件：咒术≥1870
+【等级31】1% 回帖血液-3、发帖血液-5▕▏升级条件：咒术≥1945
+【等级32】8% 回帖血液-1 堕落+1▕▏升级条件：咒术≥2020
 【等级33】8% 回帖血液-1 金币+1▕▏升级条件：咒术≥2070
+【等级34】5% 回帖血液-3 旅程+1▕▏升级条件：咒术≥2125
+【等级35】20% 回帖金币+1 血液+1▕▏升级条件：咒术≥2130
+【等级36】100% 回帖血液+2 咒术+1、发帖血液+5 咒术+3▕▏升级条件：咒术≥2132
+【等级37】3% 回帖金币-1 堕落+1▕▏升级条件：咒术≥2200
+【等级38】6% 回帖金币-1 堕落+1▕▏升级条件：咒术≥2300
 【等级39】9% 回帖金币-1 堕落+1▕▏升级条件：咒术≥2400
 【等级40】10% 回帖金币-2 堕落+2▕▏升级条件：咒术≥2500
 【等级41】10% 回帖血液-1 堕落+2▕▏升级条件：咒术≥2550
@@ -6426,7 +6452,7 @@ var imgs =
         "2":["https://img.gamemale.com/album/202009/19/002519vh3hh53f7hrwkkb1.gif", 82,],
         "3":["https://img.gamemale.com/album/202009/19/002522w2qy7dugdezqql22.gif", 82,],
         "4":["https://img.gamemale.com/album/202009/19/002531i99l3a71k81jujnu.gif", 82,],
-        "5":["https://img.gamemale.com/forum/202011/07/070857cv3jz44fa1qnn1ut.gif", 82,],
+        "5":["https://img.gamemale.com/album/202009/19/002541veio53d5bheho5e5.gif", 82,],
         "6":["https://img.gamemale.com/album/202009/19/002546gzbe8e0t378bun5n.gif", 82,],
         "Max":["https://img.gamemale.com/album/202009/19/002559mdz650pz57ng7xxf.gif", 82,],
     },
@@ -7653,7 +7679,7 @@ var imgs =
     {
         "1":["https://img.gamemale.com/album/202412/23/095416x8a312vrzh112rvt.gif", 40,],
         "2":["https://img.gamemale.com/album/202308/06/210941v12xuljt1hu8hhux.gif", 82,],
-        "3":["https://img.gamemale.com/album/202308/06/210934ez617h4s3353f3z3.gif", 82,],
+        "3":["https://img.gamemale.com/album/202412/23/095418pb4ybbq8sspnbpef.gif", 82,],
         "Max":["https://img.gamemale.com/album/202412/23/095418my80lg8zyz8vm00t.gif", 124,],
     },
     '托比·马奎尔':
@@ -7774,7 +7800,7 @@ var imgs =
     {
         "1":["https://img.gamemale.com/album/202505/01/004325yyifpuf9tptlnhk9.gif", 40,],
         "2":["https://img.gamemale.com/album/202505/01/004327i13uxooqn2eounht.gif", 124,],
-        "3":["https://img.gamemale.com/forum/202505/06/211024yohp98glplhrhepz.gif", 82,],
+        "3":["https://img.gamemale.com/album/202505/01/004330efs63sbsff7zjisc.gif", 82,],
         "4":["https://img.gamemale.com/album/202505/01/004332j1wgew8nvnywna1n.gif", 124,],
         "5":["https://img.gamemale.com/album/202505/01/004334kkp4yqpwf5qqwppr.gif", 124,],
         "Max":["https://img.gamemale.com/album/202505/01/004337umagz9s1z9cgg8zf.gif", 124,],
@@ -8036,13 +8062,13 @@ var imgs =
     {
         "1":["http://img.gamemale.com/album/202510/01/144208tqlprrgplberbbpt.gif", 40,],
         "2":["https://img.gamemale.com/album/202510/01/144212cc5fncef1cedlzlc.gif", 82,],
-        "3":["", 82,],
+        "3":["https://img.gamemale.com/album/202510/01/144215ygrofqqx121h9bzb.gif", 82,],
         "4":["https://img.gamemale.com/album/202510/01/144218hmzf2rk5i6c22f5g.gif", 82,],
         "Max":["https://img.gamemale.com/album/202510/01/144221wp5886c8kk84fh6h.gif", 82,],
     },
     'Honey B Lovely':
     {
-        "1":["", 82,],
+        "1":["https://img.gamemale.com/album/202510/01/144028dennf8xfknohmo8m.gif", 40,],
         "2":["https://img.gamemale.com/album/202510/01/144029vesqhohaidfs9nki.gif", 82,],
         "3":["https://img.gamemale.com/album/202510/01/144030vxcjyx1yjcz202ww.gif", 82,],
         "Max":["https://img.gamemale.com/album/202510/01/144031vzugutuwvu92lc8f.gif", 82,],
@@ -8117,12 +8143,12 @@ var imgs =
         "1":["https://img.gamemale.com/album/202512/24/180711dizv1nfz0bh0hkds.gif", 40,],
         "2":["https://img.gamemale.com/album/202512/24/180712t2hic1c6ptcn57ct.gif", 82,],
         "3":["https://img.gamemale.com/album/202512/24/180713e00fzjfin8gz1xwf.gif", 82,],
-        "4":["", 40,],
+        "4":["https://img.gamemale.com/album/202512/24/180713rpsj0bs88sa583u7.gif", 82,],
         "Max":["https://img.gamemale.com/album/202512/24/180714bjpus00mr5hi0dop.gif", 82,],
     },
     '被冰封的头盔':
     {
-        "1":["", 40,],
+        "1":["https://img.gamemale.com/album/202512/24/180349k99w65m4i5weywey.gif", 40,],
         "2":["https://img.gamemale.com/album/202512/24/180350ryrvypeaze2jn9y9.gif", 40,],
         "Max":["https://img.gamemale.com/album/202512/24/180351a63ehmcgcamhgm2z.gif", 40,],
     },
@@ -8141,13 +8167,39 @@ var imgs =
         "3":["https://img.gamemale.com/album/202512/24/180831k2j94y19gyzs8mjg.gif", 40,],
         "4":["https://img.gamemale.com/album/202512/24/180832c4damg4mpukbpblp.gif", 40,],
         "5":["https://img.gamemale.com/album/202512/24/180833h0sk183knceeskek.gif", 40,],
-        "7":["https://img.gamemale.com/album/202512/24/180834ucz28cpz4dtuzssj.gif", 40,],
-        "9":["https://img.gamemale.com/album/202512/24/180836c344jdzf4putu3jz.gif", 40,],
-        "20":["https://img.gamemale.com/album/202512/24/180846xstt7drrz6yc6tty.gif", 40,],
-        "21":["https://img.gamemale.com/album/202512/24/180847pf169fsw77f59ffr.gif", 40,],
-        "22":["https://img.gamemale.com/album/202512/24/180848m4ssrwwwr1rse4so.gif", 40,],
-        "32":["https://img.gamemale.com/album/202512/24/180959kffgydfvg4f1gdgt.gif", 40,],
-        "33":["https://img.gamemale.com/album/202512/24/181000sc779mynn979nuc6.gif", 40,],
+        "6":["https://img.gamemale.com/album/202512/24/180833irjvkj40zxgmzjla.gif", 40],
+        "7":["https://img.gamemale.com/album/202512/24/180834ucz28cpz4dtuzssj.gif", 40],
+        "8":["https://img.gamemale.com/album/202512/24/180835vx5ozy9xpqx5dny9.gif", 40],
+        "9":["https://img.gamemale.com/album/202512/24/180836c344jdzf4putu3jz.gif", 40],
+        "10":["https://img.gamemale.com/album/202512/24/180837wd8oyr2z28nhri4h.gif", 40],
+        "11":["https://img.gamemale.com/album/202512/24/180838gy0h9hz37higlgi3.gif", 40],
+        "12":["https://img.gamemale.com/album/202512/24/180839cg88pcqhc584cqo8.gif", 40],
+        "13":["https://img.gamemale.com/album/202512/24/180840texdqrzl5exg4x6c.gif", 40],
+        "14":["https://img.gamemale.com/album/202512/24/180841ipaqihiyloz1hmh7.gif", 40],
+        "15":["https://img.gamemale.com/album/202512/24/180842kk6o6os0oyyc0sc4.gif", 40],
+        "16":["https://img.gamemale.com/album/202512/24/180843v2ktcyzwk9k9l9z4.gif", 40],
+        "17":["https://img.gamemale.com/album/202512/24/180844omtsdcjdcgldssdv.gif", 40],
+        "18":["https://img.gamemale.com/album/202512/24/180844owyd2dvfvyfw26yv.gif", 40],
+        "19":["https://img.gamemale.com/album/202512/24/180845waguzp46wxglsb6o.gif", 40],
+        "20":["https://img.gamemale.com/album/202512/24/180846xstt7drrz6yc6tty.gif", 40],
+        "21":["https://img.gamemale.com/album/202512/24/180847pf169fsw77f59ffr.gif", 40],
+        "22":["https://img.gamemale.com/album/202512/24/180848m4ssrwwwr1rse4so.gif", 40],
+        "23":["https://img.gamemale.com/album/202512/24/180849ecffs4zyd9yp2qwt.gif", 40],
+        "24":["https://img.gamemale.com/album/202512/24/180849emzd05mdkxj45ki2.gif", 40],
+        "25":["https://img.gamemale.com/album/202512/24/180850sb326z9m396xzez3.gif", 40],
+        "26":["https://img.gamemale.com/album/202512/24/180851bp4kkfb6bfvkvban.gif", 40],
+        "27":["https://img.gamemale.com/album/202512/24/180852rhy0hfr43qd44km4.gif", 40],
+        "28":["https://img.gamemale.com/album/202512/24/180853notxcl55o9t3zxe5.gif", 40],
+        "29":["https://img.gamemale.com/album/202512/24/180854ecqixdnd5cbndhzs.gif", 40],
+        "30":["https://img.gamemale.com/album/202512/25/113958dys4ae8chmezxe8m.gif", 40],
+        "31":["https://img.gamemale.com/album/202512/24/180957luq188eooy8hqepl.gif", 40],
+        "32":["https://img.gamemale.com/album/202512/24/180959kffgydfvg4f1gdgt.gif", 40],
+        "33":["https://img.gamemale.com/album/202512/24/181000sc779mynn979nuc6.gif", 40],
+        "34":["https://img.gamemale.com/album/202512/24/181002n4dmxsyzzv9musz9.gif", 40],
+        "35":["https://img.gamemale.com/album/202512/24/181005vc7si7aii8xaswra.gif", 40],
+        "36":["https://img.gamemale.com/album/202512/24/181006f88j8pslctjpiojr.gif", 40],
+        "37":["https://img.gamemale.com/album/202512/24/181009f1rfx1v0o2xqlpmz.gif", 40],
+        "38":["https://img.gamemale.com/album/202512/24/181012jryywrk9xdw4o1pf.gif", 40],
         "39":["https://img.gamemale.com/album/202512/24/181014ye3dd0m83q8xzxvs.gif", 40,],
         "40":["https://img.gamemale.com/album/202512/24/181017zz1ei1uj88i1e9bi.gif", 40,],
         "41":["https://img.gamemale.com/album/202512/24/181019e1ff78fs8il99f9l.gif", 40,],
