@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.6.7
+// @version      2.6.8
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
@@ -749,17 +749,26 @@
     ];
 
     // 临时把所有的真人勋章名字都加上点
-    categoriesFormat(categoriesData);
+    // categoriesFormat(categoriesData);
 
     // 预处理名称到分类的映射（包含全角/半角转换）
     const nameCategoryMap = new Map();
     for (const [category, names] of Object.entries(categoriesData)) {
         for (const name of names) {
-            // 同时存储两种符号格式的键
-            const variants = [name.replace(/·/g, '‧'), name.replace(/‧/g, '·')];
-            variants.forEach(v => nameCategoryMap.set(v, category));
+            // 预处理空格
+            let formatName = name.trim();
+            formatName = formatName
+                .replace(/[·‧]/g, s =>s === '·' ? '‧' : '·' ) // 统一转换为半角符号进行匹配
+                .replace(/\.$/g, ''); // 去除尾部的点
+            
+            // 可能尾部字符需要去掉某个特殊标识才能识别，比如：㊕
+            const sliceName = formatName.slice(0, -1);
+
+            nameCategoryMap.set(formatName, category);
+            nameCategoryMap.set(sliceName, category);
         }
     }
+    // console.log(nameCategoryMap);
 
     // 创建一个新的div元素用于管理徽章
     initbadgeManage();
