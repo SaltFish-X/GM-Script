@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.7.9
+// @version      2.7.10
 // @description  泥潭勋章属性展示！
 // @author       轶致
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html*
@@ -1226,11 +1226,11 @@ var 放大镜内容映射表 = {
 【入手条件】堕落＞10 知识≥10
 【商店售价】8咒术
 【时效】3天
-【等级1】勋章博物馆数据暂缺
+【等级1】无属性 ▏升级条件：血液≥1
 【等级2】25% 回帖金币+2 血液-1、发帖金币+2 血液-1▕▏升级条件：堕落≥25
 【等级3】勋章博物馆数据暂缺
 【等级4】25% 回帖金币+4 血液-2、发帖金币+4 血液-2▕▏升级条件：堕落≥50
-【等级5】0%▕▏升级条件：血液≥3
+【等级5】无属性▕▏升级条件：血液≥3
 【 Max 】25% 回帖金币+6 血液-3、发帖金币+6 血液-3`,
 '炼金之心': `炼金之心
 【勋章类型】咒术
@@ -4978,7 +4978,7 @@ var imgs =
         "3":["https://img.gamemale.com/album/201406/30/221002we5ai18815izy1xo.gif", 82,],
         "4":["", 82,],
         "5":["https://img.gamemale.com/forum/202104/25/112905gvvc8ucovcleozmu.gif", 124,],
-        "Max":["", 82,],
+        "Max":["https://img.gamemale.com/album/201406/30/221016kjxkgmjkai3s0xza.gif", 124,],
     },
     '戴蒙‧萨尔瓦托':
     {
@@ -4990,8 +4990,8 @@ var imgs =
         "6":["https://img.gamemale.com/album/201407/15/031701fprrrr64zwtt6rcw.gif", 82,],
         "7":["https://img.gamemale.com/album/201407/15/162329n0nd3jeecoqq766e.gif", 82,],
         "8":["", 82,],
-        "9":["", 82,],
-        "10":["", 82,],
+        "9":["https://img.gamemale.com/album/201407/15/031709z2wslg22q2e3g8qs.gif", 82,],
+        "10":["https://img.gamemale.com/album/201407/15/031711v3xv9lg3i3w39tjj.gif", 82,],
         "Max":["https://img.gamemale.com/album/201407/15/031712md6ydg1la83z5dy9.gif", 82,],
     },
     '库伦(起源)':
@@ -5328,7 +5328,7 @@ var imgs =
     {
         "1":["https://img.gamemale.com/album/201507/02/113359nsaaatonossri6h6.gif", 40,],
         "2":["https://img.gamemale.com/album/201507/02/113359pbxnjjnxsjzljtxj.gif", 40,],
-        "3":["", 40,],
+        "3":["https://img.gamemale.com/album/201507/02/113400ad64l1mx4d48ldnf.gif", 40,],
         "Max":["https://img.gamemale.com/album/201507/02/113400kqv0z0i0didl60a8.gif", 40,],
     },
     '灵光补脑剂':
@@ -5391,7 +5391,7 @@ var imgs =
     },
     '黑暗交易':
     {
-        "1":["", 82,],
+        "1":["https://img.gamemale.com/album/201507/02/114519m87886yz0h0qut01.gif", 82,],
         "2":["https://img.gamemale.com/album/201507/02/114520o7x23c7c3cgbcy4y.gif", 82,],
         "3":["", 82,],
         "4":["https://img.gamemale.com/album/201507/02/114521mpss1ns8zoffs7fp.gif", 82,],
@@ -5523,7 +5523,7 @@ var imgs =
     },
     '聚魔花盆':
     {
-        "1":["", 40,],
+        "1":["https://img.gamemale.com/album/201401/01/135939kvn26zlvee6w0xvq.gif", 40,],
         "2":["https://img.gamemale.com/album/201401/01/135948mvv4vt11rakirty9.gif", 40,],
         "3":["https://img.gamemale.com/album/201401/01/135955kkzx01gjgi8bjg0o.gif", 40,],
         "4":["https://img.gamemale.com/album/201401/01/140003tq130jt00f5f0tv1.gif", 40,],
@@ -5564,7 +5564,7 @@ var imgs =
     '婴儿泪之瓶':
     {
         "1":["https://img.gamemale.com/album/201506/30/022601prkzkzyv3xzdgx89.gif", 40,],
-        "2":["", 40,],
+        "2":["https://img.gamemale.com/album/201506/30/022601h9r55h1cshi2h9ml.gif", 40,],
         "Max":["https://img.gamemale.com/album/201506/30/022602qk3u3zx5b6vx66bw.gif", 40,],
     },
     '雪王的心脏':
@@ -5692,7 +5692,7 @@ var imgs =
         "3":["", 40,],
         "4":["https://img.gamemale.com/album/201401/01/191037ixz77stdxx4ihzsm.png", 40,],
         "5":["https://img.gamemale.com/album/201401/01/191026pzq1qlsmkqmy15mm.png", 40,],
-        "Max":["", 40,],
+        "Max":["https://img.gamemale.com/album/201401/01/191021ve51bjb3ub2u1413.png", 40,],
     },
     '浪潮之歌':
     {
@@ -5875,7 +5875,7 @@ var imgs =
         "5":["https://img.gamemale.com/album/201505/23/070312s65z653wzc3lvq63.gif", 40,],
         "6":["", 124,],
         "7":["https://img.gamemale.com/album/201505/23/070314ru4zanqch73ua7vz.gif", 40,],
-        "8":["", 124,],
+        "8":["https://img.gamemale.com/album/201505/23/070315ax0qqjmmsnx0nct7.gif", 124,],
         "9":["https://img.gamemale.com/album/201505/23/070316o9jcfoz4eg98842m.gif", 40,],
         "10":["https://img.gamemale.com/album/201505/23/070317qtrutra15rujjdu5.gif", 124,],
         "11":["https://img.gamemale.com/album/201505/23/070317afka3a331r3gao2f.gif", 40,],
@@ -6266,7 +6266,7 @@ var imgs =
     },
     '武士之魂':
     {
-        "1":["", 82,],
+        "1":["https://img.gamemale.com/album/202106/11/192931sd0d8szcy26ok0sm.gif", 82,],
         "2":["", 82,],
         "3":["https://img.gamemale.com/album/202106/11/192931mnv296weukv6bv6v.gif", 82,],
         "Max":["https://img.gamemale.com/album/202106/11/192931k1juobk53jz1pt88.gif", 82,],
@@ -7741,7 +7741,7 @@ var imgs =
     '普通羊毛球':
     {
         "1":["https://img.gamemale.com/album/202501/27/131014lijfad666oxd26a3.gif", 40,],
-        "2":["", 40,],
+        "2":["https://img.gamemale.com/album/202510/02/001333hb9m1xsbyyjtmvjx.gif", 40,],
         "3":["https://img.gamemale.com/album/202501/27/131955nzc7v6vjw744k26c.gif", 40,],
         "Max":["https://img.gamemale.com/album/202501/27/132947foobk4oar9opbrci.gif", 40,],
     },
@@ -7911,7 +7911,7 @@ var imgs =
     },
     '站员: 保卫领土':
     {
-        "1":["", 40,],
+        "1":["https://img.gamemale.com/album/201405/01/180014pp8k6tdb37abc67z.gif", 40,],
         "Max":["https://img.gamemale.com/album/201405/01/180018mo7huror8mzm7t7c.gif", 40,],
     },
     '见习版主: 神的重量':
