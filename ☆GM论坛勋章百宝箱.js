@@ -569,7 +569,7 @@
             "不起眼的空瓶"
         ],
         // [...document.querySelectorAll('.myimg img')].map(e=>e.alt)
-        "Deco": ['纯真护剑㊕', '爬行植物Ⓛ', '爬行植物Ⓡ', '特殊-家园卫士Ⓛ', '特殊-家园卫士Ⓡ', '勋章空位插槽', '16x43 隐形➀', '16x43 隐形➁', '20x43 隐形➀', '20x43 隐形➁', '40x43 隐形➀', '40x43 隐形➁', '82x43 隐形➀', '82x43 隐形➁', '124x43 隐形➀', '124x43 隐形➁', '装饰触手Ⓛ', '装饰触手Ⓡ'],
+        "Deco": ['纯真护剑', '爬行植物Ⓛ', '爬行植物Ⓡ', '特殊-家园卫士Ⓛ', '特殊-家园卫士Ⓡ', '勋章空位插槽', '16x43 隐形➀', '16x43 隐形➁', '20x43 隐形➀', '20x43 隐形➁', '40x43 隐形➀', '40x43 隐形➁', '82x43 隐形➀', '82x43 隐形➁', '124x43 隐形➀', '124x43 隐形➁', '装饰触手Ⓛ', '装饰触手Ⓡ'],
         // 『浪客便当』『酒馆蛋煲』勋章博物馆搜不到，但是还是保留 兔兔说，限时活动是不会在博物内留档的
         "Plot": [
             "『酒馆蛋煲』",
@@ -764,12 +764,8 @@
             formatName = formatName
                 .replace(/[·‧]/g, s =>s === '·' ? '‧' : '·' ) // 统一转换为半角符号进行匹配
                 .replace(/\.$/g, ''); // 去除尾部的点
-            
-            // 可能尾部字符需要去掉某个特殊标识才能识别，比如：㊕
-            const sliceName = formatName.slice(0, -1);
 
             nameCategoryMap.set(formatName, category);
-            nameCategoryMap.set(sliceName, category);
         }
     }
     // console.log(nameCategoryMap);
@@ -1575,11 +1571,16 @@
         // 单次遍历处理所有数据
         for (const blok of myblok) {
             // 名称分类处理
-            const altName = blok.querySelector('img')?.getAttribute('alt') || '';
+            // 去空格
+            const altName = blok.querySelector('img')?.getAttribute('alt').trim() || '';
             const normalizedName = altName.replace(/[·‧]/g, s =>
                 s === '·' ? '‧' : '·' // 统一转换为半角符号进行匹配
             ).replace(/【不可购买】/g, ''); // 去除【不可购买】
-            const category = nameCategoryMap.get(normalizedName) || 'other';
+
+            // 去除尾部的点or不识别的尾标识
+            const normalizedNameSlice = normalizedName.slice(0, -1);
+
+            const category = nameCategoryMap.get(normalizedName) || nameCategoryMap.get(normalizedNameSlice) || 'other';
             const displayCategory = categoriesMapping[category] || "其他";
 
             classificationResult[displayCategory].add(altName);
