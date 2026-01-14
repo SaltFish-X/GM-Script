@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.6.9
+// @version      2.6.10
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
@@ -759,12 +759,8 @@
     const nameCategoryMap = new Map();
     for (const [category, names] of Object.entries(categoriesData)) {
         for (const name of names) {
-            // 预处理空格
-            let formatName = name.trim();
-            formatName = formatName
+            const formatName = name
                 .replace(/[·‧]/g, s =>s === '·' ? '‧' : '·' ) // 统一转换为半角符号进行匹配
-                .replace(/\.$/g, ''); // 去除尾部的点
-
             nameCategoryMap.set(formatName, category);
         }
     }
