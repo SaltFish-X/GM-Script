@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.6.7
+// @version      2.6.10
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
@@ -569,7 +569,7 @@
             "不起眼的空瓶"
         ],
         // [...document.querySelectorAll('.myimg img')].map(e=>e.alt)
-        "Deco": ['纯真护剑㊕', '爬行植物Ⓛ', '爬行植物Ⓡ', '特殊-家园卫士Ⓛ', '特殊-家园卫士Ⓡ', '勋章空位插槽', '16x43 隐形➀', '16x43 隐形➁', '20x43 隐形➀', '20x43 隐形➁', '40x43 隐形➀', '40x43 隐形➁', '82x43 隐形➀', '82x43 隐形➁', '124x43 隐形➀', '124x43 隐形➁', '装饰触手Ⓛ', '装饰触手Ⓡ'],
+        "Deco": ['纯真护剑', '爬行植物Ⓛ', '爬行植物Ⓡ', '特殊-家园卫士Ⓛ', '特殊-家园卫士Ⓡ', '勋章空位插槽', '16x43 隐形➀', '16x43 隐形➁', '20x43 隐形➀', '20x43 隐形➁', '40x43 隐形➀', '40x43 隐形➁', '82x43 隐形➀', '82x43 隐形➁', '124x43 隐形➀', '124x43 隐形➁', '装饰触手Ⓛ', '装饰触手Ⓡ'],
         // 『浪客便当』『酒馆蛋煲』勋章博物馆搜不到，但是还是保留 兔兔说，限时活动是不会在博物内留档的
         "Plot": [
             "『酒馆蛋煲』",
@@ -613,6 +613,7 @@
             "『林中过夜』",
             "『厢庭望远』",
             "『狄文卡德的残羽』",
+            "『炫目的铁塔』",
         ],
         "Prize": [
             "深渊遗物",
@@ -704,7 +705,7 @@
             "梅克军徽",
             "奎兰",
             "水银日报社特约调查员",
-            // 2025年之后的新奖品
+            // 2025年奖品
             "银色溜冰鞋",
             "永亘环",
             "小狮欢舞",
@@ -727,6 +728,9 @@
             "弗雷迪玩偶",
             "河豚寿司",
             "荧光水母",
+            // 2026年奖品
+            "救命饮料",
+            "适当显灵",
         ],
     };
     // 2025年元旦活动新增的类别，期间限定的临时活动勋章
@@ -749,17 +753,18 @@
     ];
 
     // 临时把所有的真人勋章名字都加上点
-    categoriesFormat(categoriesData);
+    // categoriesFormat(categoriesData);
 
     // 预处理名称到分类的映射（包含全角/半角转换）
     const nameCategoryMap = new Map();
     for (const [category, names] of Object.entries(categoriesData)) {
         for (const name of names) {
-            // 同时存储两种符号格式的键
-            const variants = [name.replace(/·/g, '‧'), name.replace(/‧/g, '·')];
-            variants.forEach(v => nameCategoryMap.set(v, category));
+            const formatName = name
+                .replace(/[·‧]/g, s =>s === '·' ? '‧' : '·' ) // 统一转换为半角符号进行匹配
+            nameCategoryMap.set(formatName, category);
         }
     }
+    // console.log(nameCategoryMap);
 
     // 创建一个新的div元素用于管理徽章
     initbadgeManage();
@@ -1562,11 +1567,16 @@
         // 单次遍历处理所有数据
         for (const blok of myblok) {
             // 名称分类处理
-            const altName = blok.querySelector('img')?.getAttribute('alt') || '';
+            // 去空格
+            const altName = blok.querySelector('img')?.getAttribute('alt').trim() || '';
             const normalizedName = altName.replace(/[·‧]/g, s =>
                 s === '·' ? '‧' : '·' // 统一转换为半角符号进行匹配
             ).replace(/【不可购买】/g, ''); // 去除【不可购买】
-            const category = nameCategoryMap.get(normalizedName) || 'other';
+
+            // 去除尾部的点or不识别的尾标识
+            const normalizedNameSlice = normalizedName.slice(0, -1);
+
+            const category = nameCategoryMap.get(normalizedName) || nameCategoryMap.get(normalizedNameSlice) || 'other';
             const displayCategory = categoriesMapping[category] || "其他";
 
             classificationResult[displayCategory].add(altName);
