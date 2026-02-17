@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.6.12
+// @version      2.6.13
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
@@ -742,6 +742,7 @@
             "适当显灵",
             "未知纸盒",
             "光明奇幻木偶",
+            "火玛瑙",
         ],
     };
     // 2025年元旦活动新增的类别，期间限定的临时活动勋章
@@ -752,15 +753,6 @@
         // 2023-2024年的期间限定勋章
         // https://www.gamemale.com/forum.php?mod=viewthread&tid=137437
         "香浓罗宋汤" // https://img.gamemale.com/album/202412/31/230448aspoeushzeup66kf.gif
-    ];
-
-    // 可赠送勋章列表（英文变量名使用 GiftableBadges）
-    const GiftableBadges = [
-        '没有梦想的咸鱼', '灵光补脑剂', '茉香啤酒', '咆哮诅咒',
-        '丢肥皂', '千杯不醉', '变骚喷雾', '送情书',
-        '霍格沃茨五日游', '神秘商店贵宾卡', '闪光糖果盒',
-        '萨赫的蛋糕', '遗忘之水', '炼金之心', '石肤术',
-        '召唤古代战士', '水泡术', '思绪骤聚', '雷霆晶球', '杀意人偶'
     ];
 
     // 临时把所有的真人勋章名字都加上点
@@ -1920,10 +1912,15 @@
         const currentBadges = Array.from(document.getElementsByClassName("myblok"))
             .map(blok => blok.querySelector('img[alt]').getAttribute('alt'));
 
-        // 双重过滤条件：不在当前勋章列表 且 属于可赠送类型
+        // 不可赠送勋章列表
+        const NonGiftableBadges = [
+            '太空列车票', '祈祷术', '黑暗交易', '吞食魂魄'
+        ];
+
+        // 过滤条件：不在当前勋章列表 且 不属于不可赠送类型（即属于可赠送类型）
         const missing = preset.filter(name =>
             !currentBadges.includes(name) &&
-            GiftableBadges.includes(name)
+            !NonGiftableBadges.includes(name)  // 排除不可赠送的勋章
         );
 
         // 替换模板中的占位符
