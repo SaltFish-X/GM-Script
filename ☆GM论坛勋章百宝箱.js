@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.6.11
+// @version      2.6.12
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
@@ -150,7 +150,7 @@
             "傲之追猎者·雷恩加尔",
             "本・比格",
             "高桥剑痴",
-
+            "[?狮冠龙眸?] 林烈", "鲁纳尔", "塞拉斯", "果体蝙蝠侠",
         ],
         "zhenren": [
             "托尼·史塔克",
@@ -243,6 +243,7 @@
             "牛局长博戈",
             "基努·里维斯",
             "大侦探皮卡丘",
+            "威尔·格雷厄姆",
         ],
         "Maid": [
             "梅格",
@@ -276,7 +277,7 @@
             "莉莉娅·考尔德（Lilia Calderu）",
             "琴.葛蕾",
             "Honey B Lovely",
-
+            "琴瑟仙女", "光辉女郎",
         ],
         "Equip": [
             "嗜血斩首斧",
@@ -338,6 +339,7 @@
             "枯木法杖",
             "千年积木",
             "被冰封的头盔",
+            "被冰封的板甲", "被冰封的靴子", "骷髅项链",
         ],
         "Asset": [
             "知识大典",
@@ -416,6 +418,7 @@
             "末影珍珠",
             "基础维修工具",
             "无限魔典",
+            "跨越边际的旅途", "位面引航器", "学徒手册", "远行藤蔓", "呓语魔典",
         ],
         "Pet": [
             "洞窟魔蛋",
@@ -460,6 +463,8 @@
             "脏兮兮的蛋",
             "双生蛋",
             "图书馆金蛋",
+            "行走的蛋",
+            "爱心的蛋"
         ],
         "Forum": [
             "质量效应三部曲",
@@ -509,7 +514,9 @@
             "茉香啤酒",
             "香蕉特饮", //某次活动限定
             "枕套幽灵", //2024年万圣节限定
-
+            "GM马年红包",// 2026年限定
+            "青苹果",
+            "飘飘",
         ],
         "Spell": [
             "炼金之心",
@@ -538,7 +545,8 @@
             "风雪之家",
             "男色诱惑",
             "海边的邻居",
-            "五谷丰年"
+            "五谷丰年",
+            "生命赞歌"
         ],
         "Story": [
             "被祝福の新旅程",
@@ -763,7 +771,7 @@
     for (const [category, names] of Object.entries(categoriesData)) {
         for (const name of names) {
             const formatName = name
-                .replace(/[·‧]/g, s =>s === '·' ? '‧' : '·' ) // 统一转换为半角符号进行匹配
+                .replace(/[·‧]/g, s => s === '·' ? '‧' : '·'); // 统一转换为半角符号进行匹配
             nameCategoryMap.set(formatName, category);
         }
     }
