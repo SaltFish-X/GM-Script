@@ -4811,6 +4811,194 @@ var 放大镜内容映射表 = {
 【入手条件】无
 【商店售价】100金币
 【 Max 】1% 回帖旅程+1`,
+'未知纸盒': `未知纸盒
+【勋章类型】奖品
+【入手条件】参与活动【万象棋盘】
+【等级1】无属性▕▏升级条件：消耗10血液
+【 Max 】2% 回帖血液+1`,
+'『天圆地方』': `『天圆地方』
+【勋章类型】剧情
+【入手条件】参与活动【万象棋盘】并获得彩蛋奖励
+【等级1】无属性▕▏升级条件：消耗1金币
+【等级2】无属性▕▏升级条件：消耗10金币
+【 Max 】无属性`,
+'[?狮冠龙眸?] 林烈': `[?狮冠龙眸?] 林烈
+【勋章类型】游戏男从
+【入手条件】无
+【商店售价】600金币
+【等级1】5% 回帖 金币+1▕▏升级条件：消耗66金币
+【等级2】10% 回帖金币+1▕▏升级条件：金币≥500
+【等级3】10% 回帖 血液+1▕▏升级条件：血液≥500
+【 Max 】10% 回帖 金币+1 血液+1`,
+'被冰封的板甲': `被冰封的板甲
+【勋章类型】装备
+【入手条件】旅程 >= 30
+【商店售价】500金币
+【等级1】9% 回帖血液+1 堕落-1▕▏升级条件：消耗300血液
+【等级2】勋章博物馆资料暂缺
+【 Max 】9% 回帖血液+3 堕落-1`,
+'被冰封的靴子': `被冰封的靴子
+【勋章类型】装备
+【入手条件】旅程 >= 30
+【商店售价】500金币
+【等级1】5% 回帖堕落-1 血液+1 金币+1▕▏升级条件：消耗50咒术
+【等级2】无属性▕▏升级条件：消耗200金币
+【等级3】10% 回帖堕落-1 血液+1 金币+1▕▏升级条件：消耗250血液
+【 Max 】15% 回帖堕落-1 血液+1 金币+1`,
+'跨越边际的旅途': `跨越边际的旅途
+【勋章类型】资产
+【入手条件】主题数 >= 10
+【商店售价】1888金币
+【等级1】5% 回帖金币+1、发帖血液+1▕▏升级条件：消耗1灵魂
+【等级2】10% 回帖金币+1、发帖血液+1▕▏升级条件：消耗365血液
+【等级3】20% 回帖金币+1、发帖血液+1▕▏升级条件：好友数≥88
+【等级4】25% 回帖金币+1、发帖血液+1▕▏升级条件：旅程≥365
+【等级5】30% 回帖金币+1、发帖血液+1▕▏升级条件：知识≥365
+【等级6】35% 回帖金币+1、发帖血液+1▕▏升级条件：追随≥365
+【等级7】40% 回帖金币+1、发帖血液+1▕▏升级条件：主题数≥88(111?)
+【 Max 】50% 回帖金币+1、发帖血液+1`,
+'位面引航器': `位面引航器
+【勋章类型】资产
+【入手条件】旅程 >= 10
+【商店售价】300金币
+【等级1】1% 发帖旅程+1▕▏升级条件：消耗42咒术
+【等级2】勋章博物馆资料暂缺
+【等级3】勋章博物馆资料暂缺
+【 Max 】3% 回帖金币+1 旅程+1`,
+'学徒手册': `学徒手册
+【勋章类型】资产
+【入手条件】无
+【商店售价】300金币
+【等级1】1% 回帖金币+1▕▏升级条件：消耗200血液
+【等级2】2% 回帖咒术+1 金币+2▕▏升级条件：消耗200金币
+【等级3】勋章博物馆资料暂缺
+【等级4】勋章博物馆资料暂缺
+【 Max 】6% 回帖咒术+1 金币+2`,
+'远行藤蔓': `远行藤蔓
+【勋章类型】资产
+【入手条件】旅程 >= 15
+【商店售价】300金币
+【等级1】1% 回帖旅程+1 血液+1▕▏升级条件：消耗100血液
+【等级2】2% 回帖旅程+1 血液+1▕▏升级条件：消耗200金币
+【 Max 】3% 回帖旅程+1 血液+1`,
+'行走的蛋': `行走的蛋
+【勋章类型】宠物
+【入手条件】无
+【商店售价】250金币
+【等级1】1% 回帖旅程+1、发帖旅程+1▕▏升级条件：好友>50
+【等级2】2% 回帖旅程+1、发帖旅程+1▕▏升级条件：好友>100
+【 Max 】3% 回帖旅程+1、发帖旅程+1`,
+'爱心的蛋': `爱心的蛋
+【勋章类型】宠物
+【入手条件】旅程 >= 14
+【商店售价】401金币
+【等级1】1% 回帖金币+1▕▏升级条件：消耗14咒术
+【等级2】9% 回帖金币+1▕▏升级条件：消耗140血液
+【 Max 】9% 回帖咒术+1 金币-1`,
+'鲁纳尔': `鲁纳尔
+【勋章类型】游戏男从
+【入手条件】无
+【商店售价】600金币
+【等级1】2% 回帖血液+3▕▏升级条件：消耗74金币
+【等级2】5% 回帖血液+3▕▏升级条件：知识≥74
+【等级3】7% 回帖血液+3▕▏升级条件：追随≥80
+【 Max 】9% 回帖血液+3`,
+'塞拉斯': `塞拉斯
+【勋章类型】游戏男从
+【入手条件】堕落 >= 36
+【商店售价】500金币
+【等级1】3% 回帖堕落+1 金币+1 咒术+1▕▏升级条件：消耗500金币
+【等级2】5% 回帖堕落+1 金币+1 咒术+1▕▏升级条件：消耗500血液
+【 Max 】8% 回帖堕落+1 金币+1 咒术+1`,
+'果体蝙蝠侠': `果体蝙蝠侠
+【勋章类型】游戏男从
+【入手条件】在线时间(小时) >= 365
+【商店售价】365血液
+【等级1】11% 回帖金币+1▕▏升级条件：消耗1888金币
+【等级2】33% 回帖金币+1▕▏升级条件：在线时间≥8760
+【 Max 】66% 回帖金币+1、发帖旅程+1`,
+'威尔·格雷厄姆': `威尔·格雷厄姆
+【勋章类型】真人男从
+【入手条件】无
+【商店售价】664金币
+【等级1】3% 回帖金币+1▕▏升级条件：消耗500血液
+【等级2】6% 回帖金币+1▕▏升级条件：主题数≥50
+【等级3】9% 回帖金币+3 血液-1▕▏升级条件：血液≥800？？？
+【等级4】勋章博物馆资料暂缺
+【 Max 】16% 回帖金币+3 血液-1、发帖金币+5`,
+'琴瑟仙女': `琴瑟仙女
+【勋章类型】女从
+【入手条件】无
+【商店售价】300金币
+【等级1】3% 回帖旅程+1▕▏升级条件：旅程≥130
+【等级2】50% 回帖旅程+1▕▏升级条件：旅程≥131
+【等级3】2% 回帖旅程+1▕▏升级条件：旅程≥300
+【等级4】1% 回帖旅程+1▕▏升级条件：消耗80咒术
+【等级5】3% 回帖旅程+1、发帖旅程+1▕▏升级条件：消耗-30血液
+【 Max 】1% 回帖旅程+1`,
+'光辉女郎': `光辉女郎
+【勋章类型】女从
+【入手条件】知识 >= 13
+【商店售价】1350血液
+【等级1】6% 回帖血液+1▕▏升级条件：主题数＞66
+【等级2】6% 回帖血液+2▕▏升级条件：追随≥666
+【等级3】6% 回帖血液+3▕▏升级条件：消耗1灵魂
+【等级4】10% 回帖血液+3▕▏升级条件：咒术≥2888
+【等级5】10% 回帖咒术-1 金币+3 血液+3▕▏升级条件：堕落≥130
+【 Max 】16% 回帖血液+3`,
+'骷髅项链': `骷髅项链
+【勋章类型】装备
+【入手条件】堕落 >= 30
+【商店售价】250金币
+【等级1】2% 回帖堕落+1、发帖堕落+1▕▏升级条件：消耗150血液
+【等级2】4% 回帖堕落+1、发帖咒术+1 堕落+1▕▏升级条件：消耗150金币
+【等级3】6% 回帖堕落+1、发帖咒术+1 堕落+1▕▏升级条件：消耗200血液
+【 Max 】8% 回帖咒术+1 堕落+2 金币-1、发帖咒术+1 堕落+1`,
+'呓语魔典': `呓语魔典
+【勋章类型】资产
+【入手条件】无
+【商店售价】233金币
+【等级1】1% 回帖堕落+1▕▏升级条件：消耗233咒术
+【等级2】5% 回帖咒术+1▕▏升级条件：消耗1旅程
+【等级3】3% 回帖旅程+1▕▏升级条件：消耗1旅程
+【等级4】3% 回帖旅程+1▕▏升级条件：消耗1旅程
+【等级5】3% 回帖旅程+1▕▏升级条件：消耗1旅程
+【等级6】3% 回帖旅程+1▕▏升级条件：消耗-4旅程
+【等级7】10% 回帖堕落+1 咒术 +1▕▏升级条件：堕落＞233
+【等级8】1% 回帖堕落-2 金币+3 血液+3▕▏升级条件：堕落＞2333
+【 Max 】100% 回帖金币+0 血液+0 咒术+0 知识+0旅程+0`,
+'生命赞歌': `生命赞歌
+【勋章类型】天赋造诣
+【入手条件】精华帖数 >= 1、主题数 >= 5
+【商店售价】无
+【等级1】3% 回帖知识+1、发帖知识+1▕▏升级条件：精华数≥2
+【等级2】4% 回帖旅程+1、发帖旅程+1▕▏升级条件：精华数≥3
+【等级3】6% 回帖金币+3 血液+3、发帖金币+5 血液+5▕▏升级条件：精华数≥5
+【 Max 】9% 回帖金币+3 血液+3、发帖金币+5 血液+5 旅程+1 知识+1`,
+'青苹果': `青苹果
+【勋章类型】赠礼（只可赠送）
+【入手条件】无
+【商店售价】25金币
+【时限】7天
+【等级1】1% 回帖血液-1▕▏升级条件：消耗7血液
+【等级2】3% 回帖金币+1▕▏升级条件：消耗7金币
+【等级3】5% 回帖金币+1 血液+1▕▏升级条件：消耗7咒术
+【 Max 】7% 回帖咒术+1 血液+1`,
+'飘飘': `飘飘
+【勋章类型】赠礼（只可赠送）
+【入手条件】无
+【商店售价】15金币
+【时限】5天
+【等级1】3% 回帖金币-1▕▏升级条件：堕落≥100
+【等级2】5% 回帖金币-1▕▏升级条件：消耗1血液
+【 Max 】15% 回帖金币+1`,
+'GM马年红包': `GM马年红包
+【勋章类型】赠礼（只可赠送）
+【入手条件】无
+【商店售价】1金币
+【时限】15天
+【等级1】无属性▕▏升级条件：消耗-1金币
+【 Max 】1% 回帖金币+1`,
 }
 
 var imgs =
@@ -8215,6 +8403,170 @@ var imgs =
         "1":["https://img.gamemale.com/album/202512/24/183023qk0xv6es3wsgsb6v.gif", 40,],
         "2":["https://img.gamemale.com/album/202512/24/180813f85z93koo23oocn1.gif", 40,],
         "Max":["https://img.gamemale.com/album/202512/24/180814xpumddm4icnezpnw.gif", 82,],
+    },
+      '未知纸盒':
+    {
+        "1":["https://img.gamemale.com/album/202601/26/111022xz91lk5b212kckcm.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202601/26/111023ke8i9rd2n2n2rr8f.gif", 40,],
+    },
+    '『天圆地方』':
+    {
+        "1":["https://img.gamemale.com/album/202601/27/165630q87gyyf7lo7gqa2g.gif", 40,],
+                "2":["https://img.gamemale.com/album/202601/27/165626z4fwg1tpza4h1nth.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202601/27/165642vqig7hak31gq3ksb.gif", 40,],
+    },
+    '[?狮冠龙眸?] 林烈':
+    {
+        "1":["https://img.gamemale.com/album/202602/15/001256nvfe8fphfe9rceui.gif", 40,],
+                "2":["https://img.gamemale.com/album/202602/15/001301ckq067hfqi23rsfh.gif", 82,],
+                "3":["https://img.gamemale.com/album/202602/17/173148ro9pbiyl1ggi975o.gif", 82,],
+        "Max":["https://img.gamemale.com/album/202602/15/001308swzwhxnnsnfnfnwn.gif", 124,],
+    },
+    '被冰封的板甲':
+    {
+        "1":["https://img.gamemale.com/album/202602/15/023705mfd1giaz1kdl8svw.gif", 40,],
+                "2":["", 40,],
+        "Max":["https://img.gamemale.com/album/202602/15/023708dccytyrfq4o82fr7.gif", 40,],
+    },
+    '被冰封的靴子':
+    {
+        "1":["https://img.gamemale.com/album/202602/15/023710zoai383mr071refa.gif", 40,],
+                "2":["https://img.gamemale.com/album/202602/15/023711vzfyfalo062lz1y6.gif", 40,],
+                "3":["https://img.gamemale.com/album/202602/15/023712s100k9zy0e71n9sn.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202602/15/023714wwjbnzf9eepuurz0.gif", 40,],
+    },
+    '跨越边际的旅途':
+    {
+        "1":["https://img.gamemale.com/forum/202602/17/123001eqf9txt5668555nf.gif", 40,],
+                "2":["https://img.gamemale.com/forum/202602/17/123049ldkty6rtvdz0vlqr.gif", 82,],
+                "3":["https://img.gamemale.com/forum/202602/17/123057sjbmizp44flv33zl.gif", 82,],
+        "4":["https://img.gamemale.com/forum/202602/17/123107uw7v61t1riieeb1z.gif", 82,],
+                "5":["https://img.gamemale.com/forum/202602/17/123118kpnijrz7ds3u29sf.gif", 82,],
+                "6":["https://img.gamemale.com/forum/202602/17/123127kpenop76epznowlt.gif", 82,],
+        "7":["https://img.gamemale.com/forum/202602/17/123136d77d7vj11nkkbj40.gif", 82,],
+        "Max":["https://img.gamemale.com/forum/202602/17/123211jwi6wiihjeobo6hh.gif", 82,],
+    },
+    '位面引航器':
+    {
+        "1":["https://img.gamemale.com/album/202602/15/024138ml7qmq20rto2mz3h.gif", 40,],
+                "2":["", 40,],
+                "3":["", 40,],
+        "Max":["https://img.gamemale.com/album/202602/15/024140wti555pqlrty5pdl.gif", 40,],
+    },
+    '学徒手册':
+    {
+        "1":["https://img.gamemale.com/album/202602/15/024141n9l622ete6holpmp.gif", 40,],
+                "2":["https://img.gamemale.com/album/202602/15/024143t7ltvkwtt16k62vg.gif", 40,],
+                "3":["", 40,],
+        "4":["", 40,],
+                "Max":["https://img.gamemale.com/album/202602/15/024144nda44uxud0n99zel.gif", 40,],
+    },
+    '远行藤蔓':
+    {
+        "1":["https://img.gamemale.com/album/202602/15/024145yscmc9iep5w9ypw6.gif", 40,],
+                "2":["https://img.gamemale.com/forum/202602/17/134025a63kj6lcerlv7uqg.gif", 40,],
+                "Max":["https://img.gamemale.com/album/202602/15/024148p5eegeebghzeyyen.gif", 82,],
+    },
+    '行走的蛋':
+    {
+        "1":["", 40,],
+                "2":["https://img.gamemale.com/album/202602/15/015002a6ss3e70077xbsff.gif", 40,],
+                "Max":["https://img.gamemale.com/album/202602/15/015004aa1s3q1031ml1eeo.gif", 82,],
+    },
+    '爱心的蛋':
+    {
+        "1":["https://img.gamemale.com/album/202602/15/015009tnwygjwqnujsw6uq.gif", 40,],
+                "2":["", 40,],
+                "Max":["https://img.gamemale.com/album/202602/15/015013tlysrctvqndtrdkg.gif", 40,],
+    },
+    '鲁纳尔':
+    {
+        "1":["https://img.gamemale.com/album/202602/15/002605o544vi548gkrpczs.gif", 40,],
+                "2":["https://img.gamemale.com/forum/202602/17/135826hx8xcjtxbpxbxsln.gif", 82,],
+                "3":["https://img.gamemale.com/forum/202602/17/135026iu0ezl0q5x0loxnn.gif", 82,],
+        "Max":["https://img.gamemale.com/album/202602/15/002610d6epw65swlzppddw.gif", 82,],
+    },
+    '塞拉斯':
+    {
+        "1":["https://img.gamemale.com/album/202602/15/002641izs0mdkrta7advfv.gif", 40,],
+                "2":["https://img.gamemale.com/album/202602/15/002644p78wc212ws82q1v8.gif", 82,],
+        "Max":["https://img.gamemale.com/album/202602/15/002646fywom7xw0vwzev5v.gif", 82,],
+    },
+    '果体蝙蝠侠':
+    {
+        "1":["https://img.gamemale.com/album/202602/15/010245k13kplflzi2djzjd.gif", 40,],
+                "2":["https://img.gamemale.com/album/202602/15/002618a6yfmyigkgk7y6ga.gif", 82,],
+        "Max":["https://img.gamemale.com/album/202602/15/002627sjzjjpq2hnnp2j6p.gif", 124,],
+    },
+    '威尔·格雷厄姆':
+    {
+        "1":["https://img.gamemale.com/album/202602/15/010505gx44vmuj4os10d0x.gif", 40,],
+                "2":["https://img.gamemale.com/album/202602/15/010522r3bu0utabysiayvy.gif", 82,],
+                "3":["", 82,],
+        "4":["", 82,],
+        "Max":["https://img.gamemale.com/album/202602/15/010542z7ukxkqp48kjk7kw.gif", 82,],
+    },
+    '琴瑟仙女':
+    {
+        "1":["https://img.gamemale.com/album/202602/15/012504t52bh0pzip23kvkv.gif", 40,],
+                "2":["", 82,],
+                "3":["https://img.gamemale.com/album/202602/15/012513ckjwpcppzcmc1vjw.gif", 82,],
+        "4":["https://img.gamemale.com/album/202602/15/012518fvqvfzdn6vfo531d.gif", 82,],
+                "5":["https://img.gamemale.com/album/202602/15/012532v65r8krurmr1t586.gif", 124,],
+        "Max":["", 82,],
+    },
+    '光辉女郎':
+    {
+        "1":["https://img.gamemale.com/album/202602/15/012802tiggifsqaiiqnz5h.gif", 40,],
+                "2":["https://img.gamemale.com/forum/202601/15/143129k4xmqmqzhyq2myxv.gif", 82,],
+                "3":["https://img.gamemale.com/album/202602/15/012809lckkpapj90jzc7yc.gif", 82,],
+        "4":["https://img.gamemale.com/album/202602/15/012811c6cdqd7szweid3q4.gif", 82,],
+                "5":["https://img.gamemale.com/forum/202601/15/143132hpips5kdbss7bu6g.gif", 124,],
+        "Max":["https://img.gamemale.com/album/202602/15/012816gd7ugbqty8hpq7s2.gif", 82,],
+    },
+    '骷髅项链':
+    {
+        "1":["https://img.gamemale.com/album/202602/15/023715hywwqiw3q20em7is.gif", 40,],
+                "2":["https://img.gamemale.com/album/202602/15/023716n5d7055dw8atqxwz.gif", 40,],
+                "3":["https://img.gamemale.com/album/202602/15/023716t71xn0xllcjqfrfr.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202602/15/023719auw2jt42l4juxjps.gif", 40,],
+    },
+    '呓语魔典':
+    {
+        "1":["https://img.gamemale.com/album/202602/15/024149v0fm05f22d4l9303.gif", 40,],
+                "2":["https://img.gamemale.com/album/202602/15/024149kk658t7iix06zrx8.gif", 40,],
+                "3":["https://img.gamemale.com/album/202602/15/024150czl8r84g964cmr39.gif", 40,],
+        "4":["https://img.gamemale.com/album/202602/15/024150oughvuhgaudzhuu1.gif", 40,],
+                "5":["", 40,],
+                "6":["", 82,],
+        "7":["", 40,],
+                "8":["", 40,],
+        "Max":["", 82,],
+    },
+    '生命赞歌':
+    {
+        "1":["https://img.gamemale.com/album/202602/15/014226riiipif5i1dpilc3.gif", 82,],
+                "2":["https://img.gamemale.com/album/202602/15/014228p7096lummul6budd.gif", 82,],
+                "3":["https://img.gamemale.com/album/202602/15/014229x71hg4ksrk114net.gif", 82,],
+        "Max":["https://img.gamemale.com/album/202602/15/014230hg87puobuu2u255g.gif", 82,],
+    },
+    '青苹果':
+    {
+        "1":["https://img.gamemale.com/album/202602/15/020045hvnqkvskydgzshvv.gif", 40,],
+                "2":["https://img.gamemale.com/album/202602/15/020046b5s7c1sj5dydd91u.gif", 40,],
+                "3":["https://img.gamemale.com/album/202602/15/020047fs3wc3hrlllasmfs.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202602/15/020048u73vzeee7rev53kh.gif", 40,],
+    },
+    '飘飘':
+    {
+        "1":["https://img.gamemale.com/album/202602/15/020038i2okostvqteztkkl.gif", 40,],
+                "2":["https://img.gamemale.com/album/202602/15/020039kplt8ld8n85udvpf.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202602/15/020040aajpnwe1ipkjzbub.gif", 40,],
+    },
+    'GM马年红包':
+    {
+        "1":["https://img.gamemale.com/album/202602/15/020713buuwu66q660wfr60.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202602/15/020714sz61kt1xv7x14l1l.gif", 40,],
     },
 };
 
