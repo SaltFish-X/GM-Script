@@ -21,6 +21,7 @@
 // 神秘的许愿池 https://www.gamemale.com/plugin.php?id=wodexunzhang%3Ashowxunzhang&fid=24
 // 蛇年抽奖 https://www.gamemale.com/plugin.php?id=wodexunzhang%3Ashowxunzhang&fid=30
 // 0.54血毕业男从比较 https://www.gamemale.com/thread-149145-1-2.html
+// 勋章改动一览 https://www.gamemale.com/forum.php?mod=viewthread&tid=8878&extra=&authorid=63991&page=2
 
 // 勋章放大镜下载更新地址
 // https://greasyfork.org/zh-CN/scripts/516559
