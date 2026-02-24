@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.7.15
+// @version      2.7.16
 // @description  泥潭勋章属性展示！
 // @author       轶致
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html*
@@ -1227,9 +1227,9 @@ var 放大镜内容映射表 = {
 【入手条件】堕落＞10 知识≥10
 【商店售价】8咒术
 【时效】3天
-【等级1】无属性 ▏升级条件：血液≥1
+【等级1】无属性▕▏升级条件：血液≥1
 【等级2】25% 回帖金币+2 血液-1、发帖金币+2 血液-1▕▏升级条件：堕落≥25
-【等级3】勋章博物馆数据暂缺
+【等级3】无属性▕▏升级条件：血液≥2
 【等级4】25% 回帖金币+4 血液-2、发帖金币+4 血液-2▕▏升级条件：堕落≥50
 【等级5】无属性▕▏升级条件：血液≥3
 【 Max 】25% 回帖金币+6 血液-3、发帖金币+6 血液-3`,
@@ -4836,7 +4836,7 @@ var 放大镜内容映射表 = {
 【入手条件】旅程 >= 30
 【商店售价】500金币
 【等级1】9% 回帖血液+1 堕落-1▕▏升级条件：消耗300血液
-【等级2】勋章博物馆资料暂缺
+【等级2】9% 回帖血液+2 堕落-1▕▏升级条件：消耗500血液
 【 Max 】9% 回帖血液+3 堕落-1`,
 '被冰封的靴子': `被冰封的靴子
 【勋章类型】装备
@@ -4864,9 +4864,9 @@ var 放大镜内容映射表 = {
 【入手条件】旅程 >= 10
 【商店售价】300金币
 【等级1】1% 发帖旅程+1▕▏升级条件：消耗42咒术
-【等级2】勋章博物馆资料暂缺
-【等级3】勋章博物馆资料暂缺
-【 Max 】3% 回帖金币+1 旅程+1`,
+【等级2】1% 回帖旅程+1 金币+1▕▏升级条件：消耗42金币
+【等级3】2% 回帖旅程+1 金币+1▕▏升级条件：消耗42血液
+【 Max 】3% 回帖旅程+1 金币+1`,
 '学徒手册': `学徒手册
 【勋章类型】资产
 【入手条件】无
@@ -4925,8 +4925,8 @@ var 放大镜内容映射表 = {
 【商店售价】664金币
 【等级1】3% 回帖金币+1▕▏升级条件：消耗500血液
 【等级2】6% 回帖金币+1▕▏升级条件：主题数≥50
-【等级3】9% 回帖金币+3 血液-1▕▏升级条件：血液≥800？？？
-【等级4】勋章博物馆资料暂缺
+【等级3】9% 回帖金币+3 血液-1▕▏升级条件：消耗800血液
+【等级4】12% 回帖金币+3 血液-1▕▏升级条件：消耗123咒术
 【 Max 】16% 回帖金币+3 血液-1、发帖金币+5`,
 '琴瑟仙女': `琴瑟仙女
 【勋章类型】女从
@@ -5326,7 +5326,7 @@ var imgs =
     '杰森·斯坦森':
     {
         "1":["https://img.gamemale.com/forum/202311/10/171152edqemllma1b34bgb.gif", 40,],
-        "2":["https://img.gamemale.com/forum/202311/10/171202uphzhe2pks61f1kh.gif", 40,],
+        "2":["https://img.gamemale.com/album/201505/23/082854nobxpm2gfoxqdkis.gif", 40,],
         "3":["https://img.gamemale.com/album/201505/23/082854r5ronno1o5o61010.gif", 40,],
         "4":["https://img.gamemale.com/album/201505/23/082855f5fccek6p5yjf5j6.gif", 82,],
         "5":["https://img.gamemale.com/album/201505/23/082856hgookqbcc0k8vvjc.gif", 82,],
@@ -5573,7 +5573,7 @@ var imgs =
     {
         "1":["", 40,],
         "2":["https://img.gamemale.com/album/201507/02/114508t313555p7xjj5bof.gif", 40,],
-        "3":["", 40,],
+        "3":["https://img.gamemale.com/album/201507/02/114509kwizwwi6wwig466b.gif", 40,],
         "4":["", 40,],
         "5":["", 40,],
         "6":["", 40,],
@@ -5583,7 +5583,7 @@ var imgs =
     {
         "1":["https://img.gamemale.com/album/201507/02/114519m87886yz0h0qut01.gif", 82,],
         "2":["https://img.gamemale.com/album/201507/02/114520o7x23c7c3cgbcy4y.gif", 82,],
-        "3":["", 82,],
+        "3":["https://img.gamemale.com/album/201507/02/114520p01o6144f0xttno4.gif", 82,],
         "4":["https://img.gamemale.com/album/201507/02/114521mpss1ns8zoffs7fp.gif", 82,],
         "5":["https://img.gamemale.com/album/201507/02/114521i6ooexrb6bvjbseu.gif", 82,],
         "Max":["https://img.gamemale.com/album/201507/02/114522rdpozgrb218crrkd.gif", 82,],
@@ -7954,7 +7954,7 @@ var imgs =
         "2":["https://img.gamemale.com/album/202501/27/150250odm1kbhrqftc5d51.gif", 40,],
         "3":["https://img.gamemale.com/album/202501/27/150250rzoq8xd5ao89c95o.gif", 40,],
         "4":["https://img.gamemale.com/album/202501/27/150251xggsydawwgzyywls.gif", 40,],
-        "5":["", 40,],
+        "5":["https://img.gamemale.com/album/202501/27/150251mvz7q81e8rz8sp88.gif", 40,],
         "6":["https://img.gamemale.com/album/202501/27/150252wkfnfug2cgu2fue1.gif", 40,],
         "7":["https://img.gamemale.com/album/202501/27/150253b5syidtzdb7i857m.gif", 40,],
         "Max":["https://img.gamemale.com/album/202501/27/150253de4nywy1qnyz233e.gif", 40,],
@@ -8406,7 +8406,7 @@ var imgs =
         "2":["https://img.gamemale.com/album/202512/24/180813f85z93koo23oocn1.gif", 40,],
         "Max":["https://img.gamemale.com/album/202512/24/180814xpumddm4icnezpnw.gif", 82,],
     },
-      '未知纸盒':
+    '未知纸盒':
     {
         "1":["https://img.gamemale.com/album/202601/26/111022xz91lk5b212kckcm.gif", 40,],
         "Max":["https://img.gamemale.com/album/202601/26/111023ke8i9rd2n2n2rr8f.gif", 40,],
@@ -8414,155 +8414,155 @@ var imgs =
     '『天圆地方』':
     {
         "1":["https://img.gamemale.com/album/202601/27/165630q87gyyf7lo7gqa2g.gif", 40,],
-                "2":["https://img.gamemale.com/album/202601/27/165626z4fwg1tpza4h1nth.gif", 40,],
+        "2":["https://img.gamemale.com/album/202601/27/165626z4fwg1tpza4h1nth.gif", 40,],
         "Max":["https://img.gamemale.com/album/202601/27/165642vqig7hak31gq3ksb.gif", 40,],
     },
     '[?狮冠龙眸?] 林烈':
     {
         "1":["https://img.gamemale.com/album/202602/15/001256nvfe8fphfe9rceui.gif", 40,],
-                "2":["https://img.gamemale.com/album/202602/15/001301ckq067hfqi23rsfh.gif", 82,],
-                "3":["https://img.gamemale.com/album/202602/17/173148ro9pbiyl1ggi975o.gif", 82,],
+        "2":["https://img.gamemale.com/album/202602/15/001301ckq067hfqi23rsfh.gif", 82,],
+        "3":["https://img.gamemale.com/album/202602/17/173148ro9pbiyl1ggi975o.gif", 82,],
         "Max":["https://img.gamemale.com/album/202602/15/001308swzwhxnnsnfnfnwn.gif", 124,],
     },
     '被冰封的板甲':
     {
         "1":["https://img.gamemale.com/album/202602/15/023705mfd1giaz1kdl8svw.gif", 40,],
-                "2":["", 40,],
+        "2":["", 40,],
         "Max":["https://img.gamemale.com/album/202602/15/023708dccytyrfq4o82fr7.gif", 40,],
     },
     '被冰封的靴子':
     {
         "1":["https://img.gamemale.com/album/202602/15/023710zoai383mr071refa.gif", 40,],
-                "2":["https://img.gamemale.com/album/202602/15/023711vzfyfalo062lz1y6.gif", 40,],
-                "3":["https://img.gamemale.com/album/202602/15/023712s100k9zy0e71n9sn.gif", 40,],
+        "2":["https://img.gamemale.com/album/202602/15/023711vzfyfalo062lz1y6.gif", 40,],
+        "3":["https://img.gamemale.com/album/202602/15/023712s100k9zy0e71n9sn.gif", 40,],
         "Max":["https://img.gamemale.com/album/202602/15/023714wwjbnzf9eepuurz0.gif", 40,],
     },
     '跨越边际的旅途':
     {
-        "1":["https://img.gamemale.com/forum/202602/17/123001eqf9txt5668555nf.gif", 40,],
-                "2":["https://img.gamemale.com/forum/202602/17/123049ldkty6rtvdz0vlqr.gif", 82,],
-                "3":["https://img.gamemale.com/forum/202602/17/123057sjbmizp44flv33zl.gif", 82,],
-        "4":["https://img.gamemale.com/forum/202602/17/123107uw7v61t1riieeb1z.gif", 82,],
-                "5":["https://img.gamemale.com/forum/202602/17/123118kpnijrz7ds3u29sf.gif", 82,],
-                "6":["https://img.gamemale.com/forum/202602/17/123127kpenop76epznowlt.gif", 82,],
-        "7":["https://img.gamemale.com/forum/202602/17/123136d77d7vj11nkkbj40.gif", 82,],
-        "Max":["https://img.gamemale.com/forum/202602/17/123211jwi6wiihjeobo6hh.gif", 82,],
+        "1":["https://img.gamemale.com/album/202602/15/024112u44smijss3yroi4y.gif", 40,],
+        "2":["https://img.gamemale.com/album/202602/15/024114jse7tdge771ztriz.gif", 82,],
+        "3":["https://img.gamemale.com/album/202602/15/024117w88kbkk8klbkl5ra.gif", 82,],
+        "4":["https://img.gamemale.com/album/202602/15/024120b068yz9c7e488674.gif", 82,],
+        "5":["https://img.gamemale.com/forum/202602/17/123118kpnijrz7ds3u29sf.gif", 82,],
+        "6":["https://img.gamemale.com/album/202602/15/024128psu37tvrbss7htbh.gif", 82,],
+        "7":["https://img.gamemale.com/album/202602/15/024134ty0xzq5dx40qaaz4.gif", 82,],
+        "Max":["https://img.gamemale.com/album/202602/15/024136uc56cw3e5g6l9e96.gif", 82,],
     },
     '位面引航器':
     {
         "1":["https://img.gamemale.com/album/202602/15/024138ml7qmq20rto2mz3h.gif", 40,],
-                "2":["", 40,],
-                "3":["", 40,],
+        "2":["https://img.gamemale.com/album/202602/15/024139r0g30d21vcgd2vvv.gif", 40,],
+        "3":["https://img.gamemale.com/forum/202602/17/201123xdlzlxkx40n4e6ck.gif", 40,],
         "Max":["https://img.gamemale.com/album/202602/15/024140wti555pqlrty5pdl.gif", 40,],
     },
     '学徒手册':
     {
         "1":["https://img.gamemale.com/album/202602/15/024141n9l622ete6holpmp.gif", 40,],
-                "2":["https://img.gamemale.com/album/202602/15/024143t7ltvkwtt16k62vg.gif", 40,],
-                "3":["", 40,],
+        "2":["https://img.gamemale.com/album/202602/15/024143t7ltvkwtt16k62vg.gif", 40,],
+        "3":["", 40,],
         "4":["", 40,],
-                "Max":["https://img.gamemale.com/album/202602/15/024144nda44uxud0n99zel.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202602/15/024144nda44uxud0n99zel.gif", 40,],
     },
     '远行藤蔓':
     {
         "1":["https://img.gamemale.com/album/202602/15/024145yscmc9iep5w9ypw6.gif", 40,],
-                "2":["https://img.gamemale.com/forum/202602/17/134025a63kj6lcerlv7uqg.gif", 40,],
-                "Max":["https://img.gamemale.com/album/202602/15/024148p5eegeebghzeyyen.gif", 82,],
+        "2":["https://img.gamemale.com/album/202602/15/024146ib761dsvgazgyb0c.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202602/15/024148p5eegeebghzeyyen.gif", 82,],
     },
     '行走的蛋':
     {
-        "1":["", 40,],
-                "2":["https://img.gamemale.com/album/202602/15/015002a6ss3e70077xbsff.gif", 40,],
-                "Max":["https://img.gamemale.com/album/202602/15/015004aa1s3q1031ml1eeo.gif", 82,],
+        "1":["https://img.gamemale.com/album/202602/15/015002breyz5xaqtqnh1a3.gif", 40,],
+        "2":["https://img.gamemale.com/album/202602/15/015002a6ss3e70077xbsff.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202602/15/015004aa1s3q1031ml1eeo.gif", 82,],
     },
     '爱心的蛋':
     {
         "1":["https://img.gamemale.com/album/202602/15/015009tnwygjwqnujsw6uq.gif", 40,],
-                "2":["", 40,],
-                "Max":["https://img.gamemale.com/album/202602/15/015013tlysrctvqndtrdkg.gif", 40,],
+        "2":["https://img.gamemale.com/album/202602/15/015011kl0a67x838qplwqq.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202602/15/015013tlysrctvqndtrdkg.gif", 40,],
     },
     '鲁纳尔':
     {
         "1":["https://img.gamemale.com/album/202602/15/002605o544vi548gkrpczs.gif", 40,],
-                "2":["https://img.gamemale.com/forum/202602/17/135826hx8xcjtxbpxbxsln.gif", 82,],
-                "3":["https://img.gamemale.com/forum/202602/17/135026iu0ezl0q5x0loxnn.gif", 82,],
+        "2":["https://img.gamemale.com/album/202602/15/002606pk5jttjedi4i9d9e.gif", 82,],
+        "3":["https://img.gamemale.com/forum/202602/17/135026iu0ezl0q5x0loxnn.gif", 82,],
         "Max":["https://img.gamemale.com/album/202602/15/002610d6epw65swlzppddw.gif", 82,],
     },
     '塞拉斯':
     {
         "1":["https://img.gamemale.com/album/202602/15/002641izs0mdkrta7advfv.gif", 40,],
-                "2":["https://img.gamemale.com/album/202602/15/002644p78wc212ws82q1v8.gif", 82,],
+        "2":["https://img.gamemale.com/album/202602/15/002644p78wc212ws82q1v8.gif", 82,],
         "Max":["https://img.gamemale.com/album/202602/15/002646fywom7xw0vwzev5v.gif", 82,],
     },
     '果体蝙蝠侠':
     {
         "1":["https://img.gamemale.com/album/202602/15/010245k13kplflzi2djzjd.gif", 40,],
-                "2":["https://img.gamemale.com/album/202602/15/002618a6yfmyigkgk7y6ga.gif", 82,],
+        "2":["https://img.gamemale.com/album/202602/15/002618a6yfmyigkgk7y6ga.gif", 82,],
         "Max":["https://img.gamemale.com/album/202602/15/002627sjzjjpq2hnnp2j6p.gif", 124,],
     },
     '威尔·格雷厄姆':
     {
         "1":["https://img.gamemale.com/album/202602/15/010505gx44vmuj4os10d0x.gif", 40,],
-                "2":["https://img.gamemale.com/album/202602/15/010522r3bu0utabysiayvy.gif", 82,],
-                "3":["", 82,],
-        "4":["", 82,],
+        "2":["https://img.gamemale.com/album/202602/15/010522r3bu0utabysiayvy.gif", 82,],
+        "3":["https://img.gamemale.com/forum/202602/19/151715x11xl1o10mzo88l2.gif", 82,],
+        "4":["https://img.gamemale.com/album/202602/15/010532mg6wiugd3vbbbgcu.gif", 82,],
         "Max":["https://img.gamemale.com/album/202602/15/010542z7ukxkqp48kjk7kw.gif", 82,],
     },
     '琴瑟仙女':
     {
         "1":["https://img.gamemale.com/album/202602/15/012504t52bh0pzip23kvkv.gif", 40,],
-                "2":["", 82,],
-                "3":["https://img.gamemale.com/album/202602/15/012513ckjwpcppzcmc1vjw.gif", 82,],
+        "2":["https://img.gamemale.com/forum/202601/14/172728i6crkqn6b2k9xc22.gif", 82,],
+        "3":["https://img.gamemale.com/album/202602/15/012513ckjwpcppzcmc1vjw.gif", 82,],
         "4":["https://img.gamemale.com/album/202602/15/012518fvqvfzdn6vfo531d.gif", 82,],
-                "5":["https://img.gamemale.com/album/202602/15/012532v65r8krurmr1t586.gif", 124,],
-        "Max":["", 82,],
+        "5":["https://img.gamemale.com/album/202602/15/012532v65r8krurmr1t586.gif", 124,],
+        "Max":["https://img.gamemale.com/forum/202601/14/175143qocasmfm44cjomfz.gif", 82,],
     },
     '光辉女郎':
     {
         "1":["https://img.gamemale.com/album/202602/15/012802tiggifsqaiiqnz5h.gif", 40,],
-                "2":["https://img.gamemale.com/forum/202601/15/143129k4xmqmqzhyq2myxv.gif", 82,],
-                "3":["https://img.gamemale.com/album/202602/15/012809lckkpapj90jzc7yc.gif", 82,],
+        "2":["https://img.gamemale.com/album/202602/15/012804jodzhdmdvotmp8bt.gif", 82,],
+        "3":["https://img.gamemale.com/album/202602/15/012809lckkpapj90jzc7yc.gif", 82,],
         "4":["https://img.gamemale.com/album/202602/15/012811c6cdqd7szweid3q4.gif", 82,],
-                "5":["https://img.gamemale.com/forum/202601/15/143132hpips5kdbss7bu6g.gif", 124,],
+        "5":["https://img.gamemale.com/album/202602/15/012814b777j2hdjkdk2l0b.gif", 124,],
         "Max":["https://img.gamemale.com/album/202602/15/012816gd7ugbqty8hpq7s2.gif", 82,],
     },
     '骷髅项链':
     {
         "1":["https://img.gamemale.com/album/202602/15/023715hywwqiw3q20em7is.gif", 40,],
-                "2":["https://img.gamemale.com/album/202602/15/023716n5d7055dw8atqxwz.gif", 40,],
-                "3":["https://img.gamemale.com/album/202602/15/023716t71xn0xllcjqfrfr.gif", 40,],
+        "2":["https://img.gamemale.com/album/202602/15/023716n5d7055dw8atqxwz.gif", 40,],
+        "3":["https://img.gamemale.com/album/202602/15/023716t71xn0xllcjqfrfr.gif", 40,],
         "Max":["https://img.gamemale.com/album/202602/15/023719auw2jt42l4juxjps.gif", 40,],
     },
     '呓语魔典':
     {
         "1":["https://img.gamemale.com/album/202602/15/024149v0fm05f22d4l9303.gif", 40,],
-                "2":["https://img.gamemale.com/album/202602/15/024149kk658t7iix06zrx8.gif", 40,],
-                "3":["https://img.gamemale.com/album/202602/15/024150czl8r84g964cmr39.gif", 40,],
+        "2":["https://img.gamemale.com/album/202602/15/024149kk658t7iix06zrx8.gif", 40,],
+        "3":["https://img.gamemale.com/album/202602/15/024150czl8r84g964cmr39.gif", 40,],
         "4":["https://img.gamemale.com/album/202602/15/024150oughvuhgaudzhuu1.gif", 40,],
-                "5":["", 40,],
-                "6":["", 82,],
-        "7":["", 40,],
-                "8":["", 40,],
-        "Max":["", 82,],
+        "5":["https://img.gamemale.com/album/202602/15/024151ujdpzoo0aom79ydz.gif", 40,],
+        "6":["https://img.gamemale.com/album/202602/15/024154c8sh3pmezyff1p2t.gif", 82,],
+        "7":["https://img.gamemale.com/album/202602/15/024154zh0h9hpev4492pme.gif", 40,],
+        "8":["https://img.gamemale.com/album/202602/15/024155dcohwu9uop5iom5c.gif", 40,],
+        "Max":["https://img.gamemale.com/forum/202602/12/233030y11fgdnfk8k8amzm.gif", 82,],
     },
     '生命赞歌':
     {
         "1":["https://img.gamemale.com/album/202602/15/014226riiipif5i1dpilc3.gif", 82,],
-                "2":["https://img.gamemale.com/album/202602/15/014228p7096lummul6budd.gif", 82,],
-                "3":["https://img.gamemale.com/album/202602/15/014229x71hg4ksrk114net.gif", 82,],
+        "2":["https://img.gamemale.com/album/202602/15/014228p7096lummul6budd.gif", 82,],
+        "3":["https://img.gamemale.com/album/202602/15/014229x71hg4ksrk114net.gif", 82,],
         "Max":["https://img.gamemale.com/album/202602/15/014230hg87puobuu2u255g.gif", 82,],
     },
     '青苹果':
     {
         "1":["https://img.gamemale.com/album/202602/15/020045hvnqkvskydgzshvv.gif", 40,],
-                "2":["https://img.gamemale.com/album/202602/15/020046b5s7c1sj5dydd91u.gif", 40,],
-                "3":["https://img.gamemale.com/album/202602/15/020047fs3wc3hrlllasmfs.gif", 40,],
+        "2":["https://img.gamemale.com/album/202602/15/020046b5s7c1sj5dydd91u.gif", 40,],
+        "3":["https://img.gamemale.com/album/202602/15/020047fs3wc3hrlllasmfs.gif", 40,],
         "Max":["https://img.gamemale.com/album/202602/15/020048u73vzeee7rev53kh.gif", 40,],
     },
     '飘飘':
     {
         "1":["https://img.gamemale.com/album/202602/15/020038i2okostvqteztkkl.gif", 40,],
-                "2":["https://img.gamemale.com/album/202602/15/020039kplt8ld8n85udvpf.gif", 40,],
+        "2":["https://img.gamemale.com/album/202602/15/020039kplt8ld8n85udvpf.gif", 40,],
         "Max":["https://img.gamemale.com/album/202602/15/020040aajpnwe1ipkjzbub.gif", 40,],
     },
     'GM马年红包':
