@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.7.17
+// @version      2.7.18
 // @description  泥潭勋章属性展示！
 // @author       轶致
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html*
@@ -506,6 +506,36 @@
         }
 
         return textLines.join("\n");
+    }
+
+    function reloadScript() {
+        // 仅处理勋章商城默认界面
+        // console.log(window.location.href);
+        if ("https://www.gamemale.com/wodexunzhang-showxunzhang.html" === window.location.href) {
+            let count = 0;
+            let last_div_num = document.getElementsByClassName('myimg').length;
+            let cur_div_num = last_div_num;
+            const iid = setInterval(() => {
+                if (count > 300) { // 定时器持续1min
+                    clearInterval(iid);
+                    console.log("clear interval ok.");
+                    return;
+                }
+                cur_div_num = document.getElementsByClassName('myimg').length;
+                if (cur_div_num > 0 && cur_div_num > last_div_num) {
+                    console.log("init again...");
+                    初始化放大镜();
+                    变化检测();
+                }
+                last_div_num = cur_div_num;
+                count++;
+                // console.log(count);
+                return;
+            }, 200); // 0.2s检测一次
+            console.log("set interval ok.");
+            return;
+        }
+        return;
     }
 
 var 放大镜内容映射表 = {
@@ -5243,7 +5273,7 @@ var imgs =
         "6":["https://img.gamemale.com/album/201406/22/042245gi30m4j0jn53wj54.gif", 124,],
         "7":["", 124,],
         "8":["https://img.gamemale.com/album/201406/22/042253bxcdjddyyguyymy1.gif", 124,],
-        "9":["", 124,],
+        "9":["https://img.gamemale.com/album/201406/22/042257c50o7z2ez9kikk0j.gif", 124,],
         "Max":["https://img.gamemale.com/album/201406/22/042302n6dszl6ialg4het4.gif", 124,],
     },
     '虎克船长':
@@ -6737,9 +6767,9 @@ var imgs =
         "1":["https://img.gamemale.com/album/202103/13/150447bfaajyw5f3j3j2f2.gif", 40,],
         "2":["https://img.gamemale.com/album/202103/13/150443zcisi45n4bziu0ll.gif", 40,],
         "3":["https://img.gamemale.com/forum/202102/11/174545wumvuhxj4ixmpvhu.gif", 82,],
-        "4":["https://img.gamemale.com/forum/202102/11/174545gh13hoh332haz5el.gif", 82,],
+        "4":["https://img.gamemale.com/album/202103/16/113938ebl2g8f2v6qwbr8l.gif", 82,],
         "5":["https://img.gamemale.com/album/202103/16/113937yewee9gls94bsz40.gif", 82,],
-        "6":["https://img.gamemale.com/forum/202102/11/174545kzt2rv2mmt1vv3mp.gif", 82,],
+        "6":["https://img.gamemale.com/album/202103/13/150636jd9lhf2ff9vvbevb.gif", 82,],
         "7":["https://img.gamemale.com/album/202103/13/150633szdzaao15t1xofno.gif", 82,],
         "8":["https://img.gamemale.com/forum/202102/11/174546u1166fpp3630w1g6.gif", 82,],
         "9":["https://img.gamemale.com/album/202103/13/150646vy1e4n0o0e7tl3bc.gif", 82,],
@@ -8485,7 +8515,7 @@ var imgs =
     {
         "1":["https://img.gamemale.com/album/202602/15/002605o544vi548gkrpczs.gif", 40,],
         "2":["https://img.gamemale.com/album/202602/15/002606pk5jttjedi4i9d9e.gif", 82,],
-        "3":["https://img.gamemale.com/forum/202602/17/135026iu0ezl0q5x0loxnn.gif", 82,],
+        "3":["https://img.gamemale.com/album/202602/15/002608rws1pwdnd4hyns5p.gif", 82,],
         "Max":["https://img.gamemale.com/album/202602/15/002610d6epw65swlzppddw.gif", 82,],
     },
     '塞拉斯':
@@ -8572,9 +8602,11 @@ var imgs =
     },
 };
 
-// 创建控制面板()
-初始化放大镜()
-变化检测()
+    // 创建控制面板()
+    初始化放大镜()
+    变化检测()
+
+    reloadScript();
 })()
 
 // 录入模板 ≥
