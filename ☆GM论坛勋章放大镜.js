@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.7.18
+// @version      2.7.19
 // @description  泥潭勋章属性展示！
 // @author       轶致
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html*
@@ -37,11 +37,21 @@
     const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent)
 
     // 是否显示图片true or false，默认true显示
-    const showImg = true;
+    // 2.7.18版本之后不需要修改此处，直接点击菜单即可修改
+    let showImg = true;
 
     if (GM_getValue("toggleSetting") === undefined) {
         // toggleSetting 代表放大镜是否位于标签左右 true为左右，false为上下
         GM_setValue("toggleSetting", !isMobile) // 如果是移动设备，默认为 false；否则为 true
+    }
+
+    if (GM_getValue("showImgSetting") === undefined) {
+        console.log("get showImgSetting undefined, set default " + showImg);
+        GM_setValue("showImgSetting", showImg);
+    }
+    else {
+        showImg = GM_getValue("showImgSetting");
+        console.log("get showImgSetting " + showImg);
     }
 
     // 创建菜单命令用于切换设置
@@ -50,6 +60,16 @@
         const currentValue = GM_getValue("toggleSetting")
         const newValue = !currentValue
         GM_setValue("toggleSetting", newValue)
+    }
+
+    // 创建菜单命令显示图片设置
+    GM_registerMenuCommand("切换放大镜图片显示", showImgSettingFun)
+    function showImgSettingFun() {
+        showImg = !showImg;
+        console.log("set showImgSetting " + showImg);
+        GM_setValue("showImgSetting", showImg);
+        初始化放大镜();
+        变化检测();
     }
 
     // 此外右下角有一个放大器可以显示/隐藏放大镜，解决遮挡原信息问题
@@ -5031,6 +5051,11 @@ var 放大镜内容映射表 = {
 【时限】15天
 【等级1】无属性▕▏升级条件：消耗-1金币
 【 Max 】1% 回帖金币+1`,
+'火玛瑙': `火玛瑙
+【勋章类型】奖品
+【入手条件】参与<a href="/thread-179973-1-1.html" target="_blank">【花马金裘】马年新春活动（点击跳转）</a>
+【商店售价】无
+【 Max 】1% 回帖血液+1`,
 }
 
 var imgs =
