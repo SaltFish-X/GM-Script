@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.6.14
+// @version      2.6.15
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
@@ -624,6 +624,7 @@
             "『狄文卡德的残羽』",
             "『炫目的铁塔』",
             "『天圆地方』",
+            "『宝莲灯』",
         ],
         "Prize": [
             "深渊遗物",
@@ -1908,7 +1909,31 @@
 
     // 复制缺失内容
     function copyMissing() {
-        const { badges: preset, format } = getPresetConfig();
+        const { badges: expandedPreset, format } = getPresetConfig();
+
+        const shorthandMap = {
+            // 第一个数组的全称转简写
+            '送情书': '情书',
+            '丢肥皂': '肥皂',
+            '千杯不醉': '千杯',
+            '灵光补脑剂': '补脑',
+            '萨赫的蛋糕': '蛋糕',
+            '神秘商店贵宾卡': '贵宾卡',
+            '变骚喷雾': '喷雾',
+            '没有梦想的咸鱼': '咸鱼',
+            '闪光糖果盒': '糖果盒',
+            '茉香啤酒': '啤酒',
+            'GM马年红包': '红包',
+            '青苹果': '苹果',
+
+            '炼金之心': '炼金',
+            '水泡术': '水泡',
+            '召唤古代战士': '古代战士',
+            '咆哮诅咒': '咆哮',
+            '霍格沃茨五日游': '五日游',
+            '石肤术': '石肤',
+            '思绪骤聚': '思绪',
+        };
 
         const currentBadges = Array.from(document.getElementsByClassName("myblok"))
             .map(blok => blok.querySelector('img[alt]').getAttribute('alt'));
@@ -1918,17 +1943,18 @@
             '太空列车票', '祈祷术', '黑暗交易', '吞食魂魄'
         ];
 
-        // 过滤条件：不在当前勋章列表 且 不属于不可赠送类型（即属于可赠送类型）
-        const missing = preset.filter(name =>
+        // 过滤条件：不在当前勋章列表 且 不属于不可赠送类型
+        const missing = expandedPreset.filter(name =>
             !currentBadges.includes(name) &&
-            !NonGiftableBadges.includes(name)  // 排除不可赠送的勋章
+            !NonGiftableBadges.includes(name)
         );
+
+        // 将缺失的勋章名称转换为简写
+        const missingShorthand = missing.map(name => shorthandMap[name] || name);
 
         // 替换模板中的占位符
         const text = format
-            .replace(/{missing}/g, missing.join(', '));
-        // .replace(/{count}/g, missing.length) // 可扩展其他占位符
-
+            .replace(/{missing}/g, missingShorthand.join(', '));
 
         if (missing.length === 0) {
             alert('没有可赠送的勋章');
@@ -1938,9 +1964,7 @@
                 .then(() => alert('需要互赠的勋章已复制'))
                 .catch(err => console.error('复制失败:', err));
         }
-
     }
-
     // 初始化脚本
     checkPreset();
 
