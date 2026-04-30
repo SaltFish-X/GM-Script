@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.6.15
+// @version      2.6.16
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
@@ -152,6 +152,7 @@
             "高桥剑痴",
             "[?狮冠龙眸?] 林烈", "鲁纳尔", "塞拉斯", "果体蝙蝠侠",
             "狮冠龙眸 林烈",
+            "哈尔辛",
         ],
         "zhenren": [
             "托尼·史塔克",
@@ -279,6 +280,7 @@
             "琴.葛蕾",
             "Honey B Lovely",
             "琴瑟仙女", "光辉女郎",
+            "调香师",
         ],
         "Equip": [
             "嗜血斩首斧",
@@ -341,6 +343,10 @@
             "千年积木",
             "被冰封的头盔",
             "被冰封的板甲", "被冰封的靴子", "骷髅项链",
+            "凤环金佩",
+            "龙衔金戒",
+            "一袋粉末",
+
         ],
         "Asset": [
             "知识大典",
@@ -420,6 +426,9 @@
             "基础维修工具",
             "无限魔典",
             "跨越边际的旅途", "位面引航器", "学徒手册", "远行藤蔓", "呓语魔典",
+            "破碎方舟",
+            "酸涩葡萄",
+
         ],
         "Pet": [
             "洞窟魔蛋",
@@ -465,7 +474,8 @@
             "双生蛋",
             "图书馆金蛋",
             "行走的蛋",
-            "爱心的蛋"
+            "爱心的蛋",
+            "全息投影蛋",
         ],
         "Forum": [
             "质量效应三部曲",
