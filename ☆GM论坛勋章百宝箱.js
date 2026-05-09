@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.6.16
+// @version      2.6.17
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
@@ -755,8 +755,8 @@
             "未知纸盒",
             "光明奇幻木偶",
             "火玛瑙",
-            "揄人者冠冕",
-            "不拘一格"
+            "揄人者冠冕", "不拘一格",
+            "瑰香蜜露", "紫粹露饮"
         ],
     };
     // 2025年元旦活动新增的类别，期间限定的临时活动勋章
