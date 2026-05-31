@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.7.22
+// @version      2.7.23
 // @description  泥潭勋章属性展示！
 // @author       轶致
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html*
@@ -5093,7 +5093,7 @@ var 放大镜内容映射表 = {
 【入手条件】无
 【商店售价】300金币
 【等级1】1% 回帖知识+1▕▏升级条件：消耗200血液
-【等级2】勋章博物馆资料暂缺
+【等级2】3% 回帖知识+1▕▏升级条件：堕落≥20
 【 Max 】2% 回帖知识+1`,
 '一袋粉末': `一袋粉末
 【勋章类型】装备
@@ -5127,6 +5127,14 @@ var 放大镜内容映射表 = {
 【等级1】10% 回帖金币+1 堕落-1▕▏升级条件：消耗350金币
 【等级2】15% 回帖金币+1 堕落-1▕▏升级条件：消耗650金币
 【 Max 】15% 回帖金币+2 堕落-1`,
+'『领甜甜圈』': `『领甜甜圈』
+【勋章类型】剧情
+【入手条件】参与调查【领甜甜圈】
+【商店售价】0旅程
+【等级1】无属性▕▏升级条件：消耗1金币
+【等级2】无属性▕▏升级条件：消耗1金币
+【等级3】无属性▕▏升级条件：消耗1金币
+【 Max 】无属性`,
 }
 
 var imgs =
@@ -8727,8 +8735,8 @@ var imgs =
     '龙衔金戒':
     {
         "1":["https://img.gamemale.com/album/202604/29/111546boe2deev9pvdlwem.gif", 40,],
-        "2":["", 40,],
-        "Max":["https://img.gamemale.com/album/202604/29/111550wuo2pnpl2ucel866.gif", 40,],
+        "2":["https://img.gamemale.com/album/202604/29/113127duy0em39v9mcfuyu.gif", 40,],
+        "Max":["https://img.gamemale.com/forum/202605/01/105247sr3rb2rey4ygbto3.gif", 40,],
     },
     '一袋粉末':
     {
@@ -8757,6 +8765,13 @@ var imgs =
         "1":["https://img.gamemale.com/album/202604/29/111602mseeng2serygvry2.gif", 40,],
         "2":["https://img.gamemale.com/album/202604/29/111603i4pqzw0pie00sz4z.gif", 40,],
         "Max":["https://img.gamemale.com/album/202604/29/111603uliheseipfappb5p.gif", 40,],
+    },
+    '『领甜甜圈』':
+    {
+        "1":["https://img.gamemale.com/album/202301/28/151124vrgn60rdx93kkr30.gif", 40,],
+        "2":["https://img.gamemale.com/album/202605/22/200614wvwvoq3d8qfo1cfn.gif", 40,],
+        "3":["https://img.gamemale.com/album/202605/22/200613eaa3lr8u89ud6ww9.gif", 40,],
+        "4":["https://img.gamemale.com/album/202605/22/200807f2mk3m62enig56g6.gif", 40,],
     },
 };
 
