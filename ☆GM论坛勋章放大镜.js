@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.7.21
+// @version      2.7.22
 // @description  泥潭勋章属性展示！
 // @author       轶致
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html*
@@ -2448,7 +2448,7 @@ var 放大镜内容映射表 = {
 '恩惠护符': `恩惠护符
 【勋章类型】装备
 【入手条件】旅程≥10
-【商店售价】250金币
+【商店售价】350金币
 【等级1】3% 回帖金币+1、发帖金币+1▕▏升级条件：消耗350金币
 【等级2】6% 回帖金币+2，发帖金币+3▕▏升级条件：旅程≥69
 【 Max 】9% 回帖金币+3、发帖金币+5`,
