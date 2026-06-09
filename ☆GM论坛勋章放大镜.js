@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.7.23
+// @version      2.7.24
 // @description  泥潭勋章属性展示！
 // @author       轶致
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html*
@@ -522,6 +522,10 @@
                     addStr = addStr + `<img width="${max_width - imgs[name][lv][1]}px" align="middle">`;
                 }
                 textLines[i] = addStr + textLines[i];
+            }
+            else // 无图片补齐
+            {
+                textLines[i] = `<img width="${max_width}px" align="middle">` + textLines[i];
             }
         }
 
@@ -5093,7 +5097,7 @@ var 放大镜内容映射表 = {
 【入手条件】无
 【商店售价】300金币
 【等级1】1% 回帖知识+1▕▏升级条件：消耗200血液
-【等级2】3% 回帖知识+1▕▏升级条件：堕落≥20
+【等级2】3% 回帖知识+1 堕落+2▕▏升级条件：堕落≥20
 【 Max 】2% 回帖知识+1`,
 '一袋粉末': `一袋粉末
 【勋章类型】装备
@@ -5127,14 +5131,145 @@ var 放大镜内容映射表 = {
 【等级1】10% 回帖金币+1 堕落-1▕▏升级条件：消耗350金币
 【等级2】15% 回帖金币+1 堕落-1▕▏升级条件：消耗650金币
 【 Max 】15% 回帖金币+2 堕落-1`,
+'瑰香蜜露': `瑰香蜜露
+【勋章类型】奖品
+【入手条件】参与活动【春露华浓】
+【商店售价】无
+【 Max 】1% 回帖金币+1 血液+1`,
+'紫粹露饮': `紫粹露饮
+【勋章类型】奖品
+【入手条件】参与活动【春露华浓】
+【商店售价】无
+【 Max 】1% 回帖血液+1`,
 '『领甜甜圈』': `『领甜甜圈』
 【勋章类型】剧情
 【入手条件】参与调查<a href="/thread-186608-1-1.html" target="_blank">【领甜甜圈】（点击跳转）</a>
 【商店售价】0旅程
+【等级 初级】无属性▕▏升级条件：消耗1金币
 【等级1】无属性▕▏升级条件：消耗1金币
 【等级2】无属性▕▏升级条件：消耗1金币
-【等级3】无属性▕▏升级条件：消耗1金币
 【 Max 】无属性`,
+'荒漠屠夫': `荒漠屠夫
+【勋章类型】游戏男从
+【入手条件】无
+【商店售价】520金币
+【等级1】4% 回帖金币+2▕▏升级条件：消耗333血液
+【等级2】8% 回帖金币+2▕▏升级条件：消耗444血液
+【等级3】10% 回帖金币+2▕▏升级条件：堕落≥888
+【等级4】12% 回帖金币+3▕▏升级条件：消耗888血液
+【 Max 】14% 回帖金币+3、发帖金币+3`,
+'凯文·沃克': `凯文·沃克
+【勋章类型】真人男从
+【入手条件】主题数 >= 5
+【商店售价】400金币
+【等级1】5% 回帖金币+1▕▏升级条件：消耗299金币
+【等级2】8% 回帖金币+1 血液+1▕▏升级条件：在线时间≥365
+【等级3】8% 回帖血液-1 堕落+1▕▏升级条件：旅程≥81
+【 Max 】9% 回帖金币+1 血液+2 堕落-1、发帖金币+1 血液+2 堕落-1`,
+'斯科特·温德尔': `斯科特·温德尔
+【勋章类型】真人男从
+【入手条件】主题数 >= 5
+【商店售价】400金币
+【等级1】5% 回帖血液+1▕▏升级条件：消耗299血液
+【等级2】8% 回帖血液+1 堕落+1▕▏升级条件：在线时间≥365
+【等级3】10% 回帖金币+1 血液+1▕▏升级条件：灵魂≥1
+【 Max 】3% 回帖旅程+1 金币+2 堕落-1、发帖旅程+1 金币+2 堕落-1`,
+'腐坏之剑': `腐坏之剑
+【勋章类型】装备
+【入手条件】堕落 >= 200
+【商店售价】1000金币
+【等级1】10% 回帖金币+1▕▏升级条件：消耗1000血液
+【等级2】10% 回帖金币+1 金币+1▕▏升级条件：血液≥3000
+【 Max 】14% 回帖金币+1 血液+2、发帖金币+1 血液+2`,
+'玄甲金盾': `玄甲金盾
+【勋章类型】装备
+【入手条件】无
+【商店售价】300金币
+【等级1】1% 回帖咒术+2▕▏升级条件：消耗200血液
+【等级2】勋章博物馆资料暂缺
+【 Max 】3% 回帖咒术+2`,
+'暗蚀魔典': `暗蚀魔典
+【勋章类型】资产
+【入手条件】堕落 >= 14
+【商店售价】666血液
+【等级1】4% 回帖血液-1 堕落+1▕▏升级条件：堕落≥44
+【等级2】14% 回帖血液-1 堕落+1▕▏升级条件：堕落≥444
+【等级3】24% 回帖血液-1 堕落+1▕▏升级条件：堕落≥4444
+【等级4】34% 回帖堕落+1 血液-1▕▏升级条件：消耗1灵魂
+【等级5】54% 回帖血液-1 金币+1▕▏升级条件：堕落＞4444
+【 Max 】54% 回帖金币-1 血液+1`,
+'捕梦笼': `捕梦笼
+【勋章类型】资产
+【入手条件】无
+【商店售价】345金币
+【等级1】10% 回帖金币+1▕▏升级条件：消耗321血液
+【等级2】3% 回帖咒术+2 血液+1▕▏升级条件：堕落≥777
+【 Max 】9% 回帖咒术+1 血液-1`,
+'辉光心相元石': `辉光心相元石
+【勋章类型】资产
+【入手条件】血液 >= 1150
+【商店售价】500金币
+【等级1】1% 回帖旅程+1▕▏升级条件：消耗1150血液
+【等级2】2% 回帖旅程+1▕▏升级条件：灵魂≥1
+【 Max 】2% 回帖旅程+1、发帖灵魂+1`,
+'星莹水晶': `星莹水晶
+【勋章类型】资产
+【入手条件】咒术 >= 30
+【商店售价】500金币
+【等级1】3% 回帖咒术+1▕▏升级条件：消耗500金币
+【等级2】5% 回帖咒术+1 血液+1▕▏升级条件：消耗180咒术
+【 Max 】12% 回帖金币+1 血液+2`,
+'童年的蛋': `童年的蛋
+【勋章类型】宠物
+【入手条件】血液 >= 200
+【商店售价】520金币
+【等级1】5% 回帖金币+1▕▏升级条件：消耗500金币
+【等级2】10% 回帖血液+2▕▏升级条件：在线时间≥1314
+【 Max 】15% 回帖金币-1 血液+3`,
+'炉石传说': `炉石传说
+【勋章类型】场景&版块
+【入手条件】知识 >= 50
+【商店售价】100金币
+【等级1】1% 回帖咒术+1▕▏升级条件：消耗1咒术
+【等级2】1% 回帖咒术+1▕▏升级条件：消耗1咒术
+【等级3】2% 回帖咒术+1▕▏升级条件：消耗1咒术
+【等级4】2% 回帖咒术+1▕▏升级条件：消耗1咒术
+【等级5】1% 回帖旅程+1▕▏升级条件：消耗100金币
+【等级6】1% 回帖知识+1▕▏升级条件：消耗-1知识
+【等级7】2% 回帖旅程+1▕▏升级条件：在线时间≥1000
+【 Max 】3% 回帖旅程+1`,
+'GM夏日霜淇淋': `GM夏日霜淇淋
+【勋章类型】赠礼（只可赠送）
+【入手条件】金币 >= 30
+【商店售价】25金币
+【时限】15天
+【等级1】2% 回帖血液+2▕▏升级条件：消耗15金币
+【等级2】6% 回帖血液+2▕▏升级条件：消耗20金币
+【 Max 】12% 回帖血液+2`,
+'战士职业证书': `战士职业证书
+【勋章类型】职业
+【入手条件】灵魂 >= 3 并且 血液 >= 5000 并且 旅程 >= 500
+【商店售价】999金币
+【等级1】10% 发帖血液+1▕▏升级条件：知识≥500
+【等级2】15% 发帖血液+1▕▏升级条件：总积分≥1500
+【等级3】20% 发帖血液+1▕▏升级条件：知识≥1500
+【 Max 】25% 发帖血液+1`,
+'法师职业证书': `法师职业证书
+【勋章类型】职业
+【入手条件】灵魂 >= 3 并且 咒术 >= 1000 并且 旅程 >= 500
+【商店售价】999金币
+【等级1】10% 发帖咒术+1▕▏升级条件：知识≥500
+【等级2】15% 发帖咒术+1▕▏升级条件：总积分≥1500
+【等级3】20% 发帖咒术+1▕▏升级条件：知识≥1500
+【 Max 】25% 发帖咒术+1`,
+'游侠职业证书': `游侠职业证书
+【勋章类型】职业
+【入手条件】灵魂 >= 3 并且 金币 >= 5000 并且 旅程 >= 500
+【商店售价】999金币
+【等级1】10% 发帖金币+1▕▏升级条件：知识≥500
+【等级2】15% 发帖金币+1▕▏升级条件：总积分≥1500
+【等级3】20% 发帖金币+1▕▏升级条件：知识≥1500
+【 Max 】25% 发帖金币+1`,
 }
 
 var imgs =
@@ -5709,7 +5844,7 @@ var imgs =
         "2":["https://img.gamemale.com/album/201507/02/114508t313555p7xjj5bof.gif", 40,],
         "3":["https://img.gamemale.com/album/201507/02/114509kwizwwi6wwig466b.gif", 40,],
         "4":["https://img.gamemale.com/album/201507/02/114509ple4ccsdaxk4afwd.gif", 40,],
-        "5":["", 40,],
+        "5":["https://img.gamemale.com/album/201507/02/114510za368j0fjj0dzbdj.gif", 40,],
         "6":["", 40,],
         "Max":["https://img.gamemale.com/album/201507/02/114510xiw6tseiytig6sii.gif", 40,],
     },
@@ -5913,7 +6048,7 @@ var imgs =
     '充满魔力的种子':
     {
         "1":["https://img.gamemale.com/album/201406/04/062928sm3l7875n3aambka.gif", 40,],
-        "2":["https://img.gamemale.com/forum/202310/02/211843g0ldl970elxsxb97.gif", 40,],
+        "2":["https://img.gamemale.com/album/201406/04/062929waoad3e2ase3hrwr.gif", 40,],
         "3":["https://img.gamemale.com/album/201406/04/062925s8d8rlrfxxms7be9.gif", 40,],
         "4":["https://img.gamemale.com/album/201406/04/062924zm5staumrs2le7us.gif", 40,],
         "Max":["https://img.gamemale.com/album/201406/04/062922l09qfc010czbf64s.gif", 40,],
@@ -6203,7 +6338,7 @@ var imgs =
         "9":["https://img.gamemale.com/album/201505/23/070316o9jcfoz4eg98842m.gif", 40,],
         "10":["https://img.gamemale.com/album/201505/23/070317qtrutra15rujjdu5.gif", 124,],
         "11":["https://img.gamemale.com/album/201505/23/070317afka3a331r3gao2f.gif", 40,],
-        "12":["", 124,],
+        "12":["https://img.gamemale.com/album/201505/23/070318kjxxfvkiviayodvx.gif", 124,],
         "13":["https://img.gamemale.com/album/201505/23/070319zhydy6lm5ndcmbml.gif", 40,],
         "14":["https://img.gamemale.com/album/201505/23/070320lbenfgxc7sxz2e2b.gif", 124,],
         "15":["https://img.gamemale.com/album/201505/23/070320lifezxjfqpw4hx0h.gif", 40,],
@@ -8586,7 +8721,7 @@ var imgs =
     {
         "1":["https://img.gamemale.com/album/202602/15/024138ml7qmq20rto2mz3h.gif", 40,],
         "2":["https://img.gamemale.com/album/202602/15/024139r0g30d21vcgd2vvv.gif", 40,],
-        "3":["https://img.gamemale.com/forum/202602/17/201123xdlzlxkx40n4e6ck.gif", 40,],
+        "3":["https://img.gamemale.com/album/202602/15/024139zub7dx44xh74rpuu.gif", 40,],
         "Max":["https://img.gamemale.com/album/202602/15/024140wti555pqlrty5pdl.gif", 40,],
     },
     '学徒手册':
@@ -8736,7 +8871,7 @@ var imgs =
     {
         "1":["https://img.gamemale.com/album/202604/29/111546boe2deev9pvdlwem.gif", 40,],
         "2":["https://img.gamemale.com/album/202604/29/113127duy0em39v9mcfuyu.gif", 40,],
-        "Max":["https://img.gamemale.com/forum/202605/01/105247sr3rb2rey4ygbto3.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202604/29/111550wuo2pnpl2ucel866.gif", 40,],
     },
     '一袋粉末':
     {
@@ -8749,14 +8884,14 @@ var imgs =
     {
         "1":["https://img.gamemale.com/album/202604/29/111551d2p6nwgrvhjzpnhv.gif", 40,],
         "2":["https://img.gamemale.com/album/202604/29/111551zu2l9ozuuyhy1qum.gif", 40,],
-        "3":["https://img.gamemale.com/forum/202605/01/083419z88zlw00f84868bb.gif", 40,],
+        "3":["https://img.gamemale.com/album/202604/29/111553ym112ol1eua3oqoo.gif", 40,],
         "Max":["https://img.gamemale.com/album/202604/29/111555tyk1no0v11vjkkjn.gif", 40,],
     },
     '酸涩葡萄':
     {
         "1":["https://img.gamemale.com/album/202604/29/111556hny7lnfnnmn6nnly.gif", 40,],
         "2":["https://img.gamemale.com/forum/202605/01/083646xwngugfmm5elem1m.gif", 40,],
-        "3":["https://img.gamemale.com/forum/202605/01/083648xaq0jf0vkvg4jnng.gif", 40,],
+        "3":["https://img.gamemale.com/album/202604/29/111558a98t7p8s9raakq9g.gif", 40,],
         "4":["https://img.gamemale.com/album/202604/29/111559zq6juul5z96w6l6l.gif", 40,],
         "Max":["https://img.gamemale.com/album/202604/29/111600o99zdu9d5gck15dc.gif", 40,],
     },
@@ -8766,12 +8901,124 @@ var imgs =
         "2":["https://img.gamemale.com/album/202604/29/111603i4pqzw0pie00sz4z.gif", 40,],
         "Max":["https://img.gamemale.com/album/202604/29/111603uliheseipfappb5p.gif", 40,],
     },
+    /*'瑰香蜜露':
+    {
+        "Max":["https://img.gamemale.com/album/202605/09/165728dgoyige5gg05cg06.gif", 40,],
+    },
+    '紫粹露饮':
+    {
+        "Max":["https://img.gamemale.com/album/202605/09/165730z50cd6o2op0052dm.gif", 40,],
+    },*/
     '『领甜甜圈』':
     {
-        "1":["https://img.gamemale.com/album/202301/28/151124vrgn60rdx93kkr30.gif", 40,],
-        "2":["https://img.gamemale.com/album/202605/22/200614wvwvoq3d8qfo1cfn.gif", 40,],
-        "3":["https://img.gamemale.com/album/202605/22/200613eaa3lr8u89ud6ww9.gif", 40,],
-        "4":["https://img.gamemale.com/album/202605/22/200807f2mk3m62enig56g6.gif", 40,],
+        "初级":[""/*"https://img.gamemale.com/album/202301/28/151124vrgn60rdx93kkr30.gif"*/, 40,],
+        "1":["https://img.gamemale.com/album/202605/22/200614wvwvoq3d8qfo1cfn.gif", 40,],
+        "2":["https://img.gamemale.com/album/202605/22/200613eaa3lr8u89ud6ww9.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202605/22/200807f2mk3m62enig56g6.gif", 40,],
+    },
+    '荒漠屠夫':
+    {
+        "1":["https://img.gamemale.com/album/202606/07/152333g22qb47xb7w9zr00.gif", 40,],
+        "2":["https://img.gamemale.com/album/202606/07/152334o4i4772i5pj06i8d.gif", 82,],
+        "3":["https://img.gamemale.com/album/202606/07/152335qjx4fugq0heff42p.gif", 82,],
+        "4":["https://img.gamemale.com/album/202606/07/152336llu24x7a2xta2lu3.gif", 82,],
+        "Max":["https://img.gamemale.com/album/202606/07/152337pwzj25n5vffw5o2f.gif", 82,],
+    },
+    '凯文·沃克':
+    {
+        "1":["https://img.gamemale.com/album/202606/07/152346kjn7cc060r22rvc7.gif", 40,],
+        "2":["https://img.gamemale.com/forum/202603/08/213132pgcq9s9yzkyyvzkk.gif", 82,],
+        "3":["https://img.gamemale.com/album/202606/07/152348lyy5s5py5y2tsu5t.gif", 40,],
+        "Max":["https://img.gamemale.com/forum/202603/08/213132j2rh3rhijh9lflhw.gif", 82,],
+    },
+    '斯科特·温德尔':
+    {
+        "1":["https://img.gamemale.com/album/202606/07/152358ikevjb4vlq3vvvkr.gif", 40,],
+        "2":["https://img.gamemale.com/forum/202603/08/213133z4ypqz39lqyek8cq.gif", 40,],
+        "3":["https://img.gamemale.com/album/202606/07/152400bz137v2lbd9dcie3.gif", 82,],
+        "Max":["https://img.gamemale.com/forum/202603/09/210232d7hogpdl0d1zgvt6.gif", 40,],
+    },
+    '腐坏之剑':
+    {
+        "1":["https://img.gamemale.com/album/202606/08/142133b4o3d4ct5cef3ort.gif", 40,],
+        "2":["https://img.gamemale.com/album/202606/07/152329xck5icesss95xcl8.gif", 82,],
+        "Max":["https://img.gamemale.com/album/202606/08/142135oo4qq9oy94y84yly.gif", 82,],
+    },
+    '玄甲金盾':
+    {
+        "1":["https://img.gamemale.com/album/202606/07/152430g74xv0etd74ddvda.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202606/07/152432wmb2xaxk55saz2n2.gif", 40,],
+    },
+    '暗蚀魔典':
+    {
+        "1":["https://img.gamemale.com/album/202606/07/152137ju1vqkgr8q88szs0.gif", 40,],
+        "2":["https://img.gamemale.com/album/202606/07/152138zsez4metggsmtkem.gif", 40,],
+        "3":["https://img.gamemale.com/album/202606/07/152139sj9ugge1w65gggt7.gif", 40,],
+        "4":["https://img.gamemale.com/album/202606/07/152140dgkl6xl1gb4j2fjx.gif", 40,],
+        "5":["https://img.gamemale.com/album/202606/09/220715m00a0sq2yj0tttji.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202606/07/152143i0d84s44f88401ts.gif", 40,],
+    },
+    '捕梦笼':
+    {
+        "1":["https://img.gamemale.com/album/202606/07/152153vkwlvnq00ztkl2l5.gif", 40,],
+        "2":["https://img.gamemale.com/album/202606/07/152154jjo5e5jjznfmjpoz.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202606/07/152156kw122xkndg0g6xnu.gif", 40,],
+    },
+    '辉光心相元石':
+    {
+        "1":["https://img.gamemale.com/album/202606/07/152338jq1auxi5xq3395ad.gif", 40,],
+        "2":["https://img.gamemale.com/forum/202606/09/211013zdjsqty0pf4ynpan.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202606/07/152340n3i03u0zuu2uo0hc.gif", 40,],
+    },
+    '星莹水晶':
+    {
+        "1":["https://img.gamemale.com/album/202606/07/152419ddvp1jz2d2jdpz3p.gif", 40,],
+        "2":["https://img.gamemale.com/album/202606/07/152421hhgqggqh0zhj26jg.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202606/07/152422a1vdzzi61e5q22iz.gif", 40,],
+    },
+    '童年的蛋':
+    {
+        "1":["https://img.gamemale.com/album/202606/07/152410bx005qpjx5zkzp0p.gif", 40,],
+        "2":["https://img.gamemale.com/album/202606/07/152411a5w1yylzblw84bdm.gif", 82,],
+        "Max":["https://img.gamemale.com/album/202606/07/152411t8x8kkxkkhkultuw.gif", 40,],
+    },
+    '炉石传说':
+    {
+        "1":["https://img.gamemale.com/album/202606/07/152447wqzmov03mpl30mol.gif", 124,],
+        "2":["https://img.gamemale.com/album/202606/07/152448ljgd3ogmjj75ggj7.gif", 124,],
+        "3":["https://img.gamemale.com/album/202606/07/152449tkmkpsm0wl3swzk4.gif", 124,],
+        "4":["https://img.gamemale.com/album/202606/07/152451xdfp3a7pf5nf7wvz.gif", 124,],
+        "5":["https://img.gamemale.com/album/202606/07/152452mm8vmgxm2pbq9xml.gif", 124,],
+        "6":["https://img.gamemale.com/album/202606/07/152453n81tty1p3t1pdsoz.gif", 124,],
+        "7":["https://img.gamemale.com/album/202606/07/152454r6x71gh8h3cgz764.gif", 124,],
+        "Max":["https://img.gamemale.com/album/202606/07/152455zxo3xu1q2mq3uwk2.gif", 124,],
+    },
+    'GM夏日霜淇淋':
+    {
+        "1":["https://img.gamemale.com/album/202606/07/152121obtg7t7r7t0r1p2k.gif", 40,],
+        "2":["https://img.gamemale.com/album/202606/07/152122jx2l8ntxdn58xt7d.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202606/07/152123np5p6eauefeszi7j.gif", 40,],
+    },
+    '战士职业证书':
+    {
+        "1":["", 40,],
+        "2":["", 40,],
+        "3":["https://img.gamemale.com/album/202606/08/143153f9ltezetph66ohoz.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202606/08/155533e28l99t182x92t99.gif", 40,],
+    },
+    '法师职业证书':
+    {
+        "1":[""/*https://img.gamemale.com/album/202606/08/152640pk3gnjsz980oqjoc.png*/, 40,],
+        "2":[""/*https://img.gamemale.com/album/202606/08/152640pk3gnjsz980oqjoc.png*/, 40,],
+        "3":["https://img.gamemale.com/album/202606/08/143153x4igbr0s34o3z3wz.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202606/08/155533bztp60vs2kh56e8p.gif", 40,],
+    },
+    '游侠职业证书':
+    {
+        "1":[""/*https://img.gamemale.com/album/202606/08/152640sj0jj7bxiax7iaks.png*/, 40,],
+        "2":[""/*https://img.gamemale.com/album/202606/08/152640sj0jj7bxiax7iaks.png*/, 40,],
+        "3":["https://img.gamemale.com/album/202606/08/143153gnllhhrn33yntqhn.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202606/08/155532i2clxhqxs5kf22uh.gif", 40,],
     },
 };
 
