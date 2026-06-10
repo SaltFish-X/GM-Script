@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.7.25
+// @version      2.7.26
 // @description  泥潭勋章属性展示！
 // @author       轶致
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html*
@@ -2713,7 +2713,7 @@ var 放大镜内容映射表 = {
 【 Max 】25% 回帖血液+1、发帖旅程+1`,
 '三角头': `三角头
 【勋章类型】真人男从
-【入手条件】主题≥20
+【入手条件】追随≥20
 【商店售价】450金币
 【等级1】6% 回帖血液+1、发帖堕落+1▕▏升级条件：主题≥20
 【等级2】8% 回帖血液+2、发帖堕落+1▕▏升级条件：堕落≥50
