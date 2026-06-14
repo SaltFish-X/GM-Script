@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.7.26
+// @version      2.7.27
 // @description  泥潭勋章属性展示！
 // @author       轶致
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html*
@@ -5179,7 +5179,7 @@ var 放大镜内容映射表 = {
 【入手条件】堕落 >= 200
 【商店售价】1000金币
 【等级1】10% 回帖金币+1▕▏升级条件：消耗1000血液
-【等级2】10% 回帖金币+1 金币+1▕▏升级条件：血液≥3000
+【等级2】10% 回帖金币+1 血液+1▕▏升级条件：血液≥3000
 【 Max 】14% 回帖金币+1 血液+2、发帖金币+1 血液+2`,
 '玄甲金盾': `玄甲金盾
 【勋章类型】装备
