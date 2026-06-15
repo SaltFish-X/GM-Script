@@ -1,0 +1,16 @@
+# 忽略所有 .md 文件
+*
+
+# 不忽略 README.md 文件
+!☆*
+!*.md
+
+# 不忽略
+!/.gitignore
+!/.gitattributes
+
+# 不忽略 src .github 文件夹
+!/src/
+!/src/**
+!/.github/
+!/.github/**
