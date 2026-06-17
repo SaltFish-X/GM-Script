@@ -1,12 +1,25 @@
 const medalData = [
     {
         "type": "奖品",
+        "no": "0684",
+        "url_tid": "189527",
+        "name": "雾港捞月",
+        "date": "2026-6-16",
+        "buy_limit": "【十三周年】活动发表主题帖奖励",
+        "price": "无",
+        "levels": "【 Max 】13% 回帖血液+1",
+        "levels_img": {
+            "Max": ["https://img.gamemale.com/album/202606/08/205214ym4vh6654mrnl6vn.gif", 124]
+        }
+    },
+    {
+        "type": "奖品",
         "no": "0683",
         "url_tid": "188278",
         "name": "霉运小精灵[红]",
         "date": "2026-6-10",
         "buy_limit": "限定活动安慰奖（听说收集三只能够兑换不得了的奖励）",
-        "price": "0金币",
+        "price": "无",
         "levels": "【 Max 】1% 回帖血液-1、发帖灵魂+1",
         "levels_img": {
             "Max": ["https://img.gamemale.com/album/202606/09/023747o34vdyv28myyoxmo.gif", 40]
@@ -9153,7 +9166,7 @@ const medalData = [
         "levels": "【等级1】7% 回帖金币+3 血液+1 咒术 +1▕▏升级条件：消耗1灵魂\n【 Max 】10% 回帖金币+3 血液+1 咒术+1、发帖金币+5 血液+2 咒术+2",
         "levels_img": {
             "1": ["https://img.gamemale.com/album/201406/04/063026bs6eoj6j3e7ufxso.gif", 40],
-            "Max": ["https://img.gamemale.com/album/201406/04/062929waoad3e2ase3hrwr.gif", 40]
+            "Max": ["https://img.gamemale.com/forum/202306/30/032920kx7o67hxe2t5jpj6.gif", 40]
         }
     },
     {

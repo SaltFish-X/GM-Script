@@ -9,7 +9,7 @@
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang%3Ashowxunzhang&action=*
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
 // @namespace    https://www.gamemale.com/forum.php?mod=viewthread&tid=129944
-// @homepageURL     https://www.gamemale.com/thread-129944-1-1.html
+// @homepage     https://www.gamemale.com/thread-129944-1-1.html
 // @grant        GM_getValue
 // @grant        GM_setValue
 // @grant        GM_registerMenuCommand

@@ -440,12 +440,25 @@ const medalDataNoTid = [
 const medalData = [
     {
         "type": "奖品",
+        "no": "0684",
+        "url_tid": "",
+        "name": "雾港捞月",
+        "date": "2026-6-16",
+        "buy_limit": "【十三周年】活动发表主题帖奖励",
+        "price": "无",
+        "levels": "【 Max 】13% 回帖血液+1",
+        "levels_img": {
+            "Max": ["https://img.gamemale.com/album/202606/08/205214ym4vh6654mrnl6vn.gif", 124]
+        }
+    },
+    {
+        "type": "奖品",
         "no": "0683",
         "url_tid": "188278",
         "name": "霉运小精灵[红]",
         "date": "2026-6-10",
         "buy_limit": "限定活动安慰奖（听说收集三只能够兑换不得了的奖励）",
-        "price": "0金币",
+        "price": "无",
         "levels": "【 Max 】1% 回帖血液-1、发帖灵魂+1",
         "levels_img": {
             "Max": ["https://img.gamemale.com/album/202606/09/023747o34vdyv28myyoxmo.gif", 40]
@@ -9592,7 +9605,7 @@ const medalData = [
         "levels": "【等级1】7% 回帖金币+3 血液+1 咒术 +1▕▏升级条件：消耗1灵魂\n【 Max 】10% 回帖金币+3 血液+1 咒术+1、发帖金币+5 血液+2 咒术+2",
         "levels_img": {
             "1": ["https://img.gamemale.com/album/201406/04/063026bs6eoj6j3e7ufxso.gif", 40],
-            "Max": ["https://img.gamemale.com/album/201406/04/062929waoad3e2ase3hrwr.gif", 40]
+            "Max": ["https://img.gamemale.com/forum/202306/30/032920kx7o67hxe2t5jpj6.gif", 40]
         }
     },
     {
@@ -13053,7 +13066,7 @@ const medalData = [
                         const [src, width] = imgsObj[key];
 
                         result[key] = src
-                            ? `<div class="level-img"><img src="${src}" width="${width}" loading="lazy"></div>`
+                            ? `<div class="level-img"><img src="${src}" width="${width}" style="height: 43px; object-fit: contain;" loading="lazy"></div>`
                             : `<div class="level-img none">${SVG?.["缺图"] || ''}</div>`;
                     }
                 }
@@ -13184,7 +13197,14 @@ const medalData = [
          * @returns {string} 返回 Blob URL
          */
         get(fileName) {
-            return this.cache.get(fileName);
+            if (!this.cache.has(fileName)) return undefined;
+
+            const url = this.cache.get(fileName);
+
+            this.cache.delete(fileName);
+            this.cache.set(fileName, url);
+
+            return url;
         }
     }
 
@@ -13206,6 +13226,7 @@ const medalData = [
             this.isProcessing = false;
             this.idb = idbstorage;
             this.curPermission = null;
+            this.readLock = new Map(); // 用来缓存正在读取磁盘的 Promise
         }
         async #saveHandle(handle) {
             try {
@@ -13394,16 +13415,33 @@ const medalData = [
 
             const fileName = this.utilFunc.getFileNameFromUrl(url);
             const existingUrl = this.cache.get(fileName);
+
             if (existingUrl) return existingUrl;
 
-            const fileHandle = await this.dirHandle.getFileHandle(fileName);
-            const file = await fileHandle.getFile();
-            const newUrl = URL.createObjectURL(file);
+            // 直接返回正在读取的那个 Promise，大家一起等它完工
+            if (this.readLock.has(fileName)) return this.readLock.get(fileName);
 
-            this.cache.add(fileName, newUrl);
+            const readTask = (async () => {
+                try {
+                    const fileHandle = await this.dirHandle.getFileHandle(fileName);
+                    const file = await fileHandle.getFile();
+                    const newUrl = URL.createObjectURL(file);
 
-            return newUrl;
+                    // 成功后，写入 LRU 缓存
+                    this.cache.add(fileName, newUrl);
+                    return newUrl;
+                } catch (error) {
+                    console.error("失败",error)
+                } finally {
+                    // 无论是成功还是失败，任务结束了就从锁里移除
+                    this.readLock.delete(fileName);
+                }
+            })();
 
+            // 将这个正在执行的 Promise 锁住
+            this.readLock.set(fileName, readTask);
+
+            return readTask;
         }
     }
     const GLOBAL_THEME = `
@@ -13472,7 +13510,8 @@ const medalData = [
             this.nodeCache = new WeakMap();
             // 转换 this.medalData 为 以name为键的Map
             this.medalMap = null;
-
+            // 全局下载锁
+            this.globalDownloadLock = new Map();
 
             // 初始化
             this.initDB();
@@ -13794,7 +13833,6 @@ const medalData = [
             }
 
             const entries = Object.entries(imgsObj);
-            const downloadLock = new Map(); // 用于多张图指向同一 src 时，防止重复触发后台下载
 
             const processedEntries = await Promise.all(
                 entries.map(([key, [src, width]]) =>
@@ -13814,10 +13852,13 @@ const medalData = [
 
                         // 本地没有缓存，不等待下载，直接准备返回原网络 src
                         // 为了防止并行的请求同时去下载同一个 src，用 lock 锁一下后台任务
-                        if (!downloadLock.has(src)) {
+                        if (!this.globalDownloadLock.has(src)) {
                             // 触发后台下载
-                            const bgTask = this._backgroundDownloadAndCache(src);
-                            downloadLock.set(src, bgTask);
+                            const bgTask = this._backgroundDownloadAndCache(src).finally(() => {
+                                // 下载任务完成后，记得从全局锁中移除，允许以后可能重新下载
+                                this.globalDownloadLock.delete(src);
+                            });
+                            this.globalDownloadLock.set(src, bgTask);
                         }
 
                         // 立刻返回原网络 src，混合加载，不阻塞渲染
@@ -13826,7 +13867,6 @@ const medalData = [
                 )
             );
 
-            downloadLock.clear();
             return Object.fromEntries(processedEntries);
         }
         /**
@@ -14002,13 +14042,19 @@ const medalData = [
 
                     const labelRect = label.getBoundingClientRect();
                     const viewportHeight = window.innerHeight;
+                    const viewportWidth = window.innerWidth;   // 视口宽度
 
                     let left = labelRect.left - w - 1;
+                    let rightAvailableWidth = viewportWidth - labelRect.left - labelRect.width - w - 1
+
                     if (left < 0) {
-                        left = 2;
-                        this.el.style.width = labelRect.left - 4 + "px";
-                        // 重新获取放大镜的高度(包含滚动条)
-                        h = this.el.offsetHeight
+                        if (rightAvailableWidth > 0) left = labelRect.left + labelRect.width
+                        else {
+                            left = 2;
+                            this.el.style.width = labelRect.left - 4 + "px";
+                            // 重新获取放大镜的高度(包含滚动条)
+                            h = this.el.offsetHeight
+                        }
                     }
                     // 对齐 .MyshowTip2 顶部
                     let top = labelRect.top;
