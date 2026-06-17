@@ -441,7 +441,7 @@ const medalData = [
     {
         "type": "奖品",
         "no": "0684",
-        "url_tid": "",
+        "url_tid": "189527",
         "name": "雾港捞月",
         "date": "2026-6-16",
         "buy_limit": "【十三周年】活动发表主题帖奖励",
