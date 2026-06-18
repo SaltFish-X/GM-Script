@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.6.20
+// @version      2.6.21
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
@@ -835,8 +835,12 @@
 
     if (是否自动开启茉香啤酒) { 自动开启茉香啤酒(); }
 
-    // 记录展示勋章/置顶展示勋章
-    if (discuz_uid == 723150) {
+    // 内部测试/抢先体验
+    if (discuz_uid == 723150 || discuz_uid == 736635) {
+        // 设置勋章自动升级
+        createLink('设置勋章自动升级', showConfigDialog);
+
+        // 记录展示勋章/置顶展示勋章
         createLink('记录展示勋章', saveTopMedal);
         createLink('置顶展示勋章', loadTopMedal);
         showTopMedal();
@@ -1805,6 +1809,7 @@
         localStorage.setItem('灵魂期望', JSON.stringify(result));
     }
 
+    /* =========================================设置预设勋章提醒============================================================ */
     // 添加样式
     GM_addStyle(`
         #presetDialog {
@@ -2053,7 +2058,8 @@
         }
     }
 
-    // 展示勋章
+    /* =========================================勋章预览=========================================================== */
+    // 勋章预览
     function showTopMedal() {
         function calculateMedals(level) {
             const medals = [1, 6, 6, 6, 7, 7, 8, 8, 9, 9, 10];
@@ -2157,6 +2163,217 @@
         postNewOrder(array);
     }
 
+    /* =========================================赠礼勋章自动升级============================================================ */
+
+    // ---------- 配置 ----------
+    const MEDAL_CONFIG = {
+        'GM夏日霜淇淋': 2,
+        '飘飘': 2,
+        '青苹果': 3,
+        '茉香啤酒': 1,
+        '灵光补脑剂': 1,
+        '水泡术': 1          // 新增
+    };
+
+    const MEDAL_GROUPS = {
+        '赠礼': ['GM夏日霜淇淋', '飘飘', '青苹果', '茉香啤酒', '灵光补脑剂'],
+        '咒术': ['水泡术']      // 新增
+    };
+
+    const STORAGE_KEY = 'medalAutoUpgradeConfig';
+
+    // 获取配置
+    function getConfig() {
+        try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (raw) return JSON.parse(raw);
+        } catch (e) { }
+        return {};
+    }
+
+    // 保存配置
+    function saveConfig(config) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
+    }
+    const MEDAL_NAMES = Object.keys(MEDAL_CONFIG);
+
+    // 检查是否至少开启一个
+    function isAnyEnabled(config) {
+        return Object.values(config).some(v => v === true);
+    }
+
+    // 判断是否已达到最高等级（MAX 或数字 >= 5）
+    function isMaxLevel(lvText) {
+        if (!lvText) return false;
+        const upper = lvText.toUpperCase();
+        if (upper.includes('MAX')) return true;
+        const num = parseInt(lvText, 10);
+        if (!isNaN(num) && num >= 5) return true;
+        return false;
+    }
+
+    // 执行一次升级
+    function upgradeOnce(key) {
+        const data = {
+            formhash,
+            action: 'UPLV',
+            jishoujiage: '',
+            userMedalid: key
+        };
+        return fetch('https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang', {
+            method: 'POST',
+            body: objectToFormData(data)
+        }).then(res => res.text()).then(() => true).catch(() => false);
+    }
+
+    // 升级单个勋章（自动判定最高等级）
+    async function upgradeMedal(name, times) {
+        const info = findMedal(name);
+        if (!info) {
+            console.warn(`[勋章升级] 未找到勋章“${name}”，跳过`);
+            return false;
+        }
+
+        // 检查当前等级是否已经最高
+        if (isMaxLevel(info.lv)) {
+            console.log(`[勋章升级] “${name}” 已是最高等级 (${info.lv})，跳过`);
+            return false;
+        }
+
+        // 循环升级，但每次升级前重新检查等级，避免浪费
+        for (let i = 0; i < times; i++) {
+            // 再次检查最新等级
+            const current = findMedal(name);
+            if (!current) break;
+            if (isMaxLevel(current.lv)) {
+                console.log(`[勋章升级] “${name}” 在第 ${i} 次后已达最高等级，停止`);
+                break;
+            }
+
+            const ok = await upgradeOnce(current.key);
+            if (!ok) {
+                console.warn(`[勋章升级] “${name}” 第 ${i + 1} 次升级失败，停止`);
+                break;
+            }
+            console.log(`[勋章升级] “${name}” 第 ${i + 1} 次升级成功`);
+            await new Promise(r => setTimeout(r, 500));
+        }
+        console.log(`[勋章升级] “${name}” 处理完成`);
+        return true;
+    }
+
+    // 自动升级主函数
+    async function autoUpgrade() {
+        const config = getConfig();
+        if (!isAnyEnabled(config)) {
+            console.log('[勋章升级] 未开启任何勋章自动升级');
+            return;
+        }
+        console.log('[勋章升级] 开始自动升级...');
+        const enabled = Object.keys(config).filter(k => config[k] === true);
+        for (const name of enabled) {
+            const times = MEDAL_CONFIG[name];
+            if (!times) continue;
+            console.log(`[勋章升级] 升级 ${name} ${times} 次`);
+            await upgradeMedal(name, times);
+        }
+        console.log('[勋章升级] 全部完成');
+    }
+
+    // 创建配置对话框
+    function showConfigDialog() {
+        const old = document.getElementById('medalConfigDialog');
+        if (old) old.remove();
+
+        const config = getConfig();
+        const overlay = document.createElement('div');
+        overlay.id = 'medalConfigDialog';
+        overlay.style.cssText = `
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.3);
+        z-index: 99999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    `;
+        const box = document.createElement('div');
+        box.style.cssText = `
+        background: white;
+        padding: 16px 20px 20px;
+        border-radius: 10px;
+        max-width: 460px;
+        width: 100%;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    `;
+        box.innerHTML = `
+        <h3 style="margin:0 0 4px;font-size:16px;">🎖️ 自动升级设置</h3>
+        <p style="font-size:12px;color:#666;margin:0 0 10px;">勾选后每次进入页面自动静默升级</p>
+    `;
+
+        const list = document.createElement('div');
+        list.style.cssText = `
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2px 12px;
+        margin-bottom: 10px;
+    `;
+
+        Object.keys(MEDAL_GROUPS).forEach(group => {
+            // 分组标题（占两列）
+            const title = document.createElement('div');
+            title.style.cssText = 'grid-column:1/3;font-weight:600;font-size:13px;color:#4f46e5;margin:6px 0 2px;';
+            title.textContent = group;
+            list.appendChild(title);
+
+            MEDAL_GROUPS[group].forEach(name => {
+                const row = document.createElement('div');
+                row.style.cssText = 'display:flex;align-items:center;gap:4px;';
+                const cb = document.createElement('input');
+                cb.type = 'checkbox';
+                cb.id = 'cfg_' + name;
+                cb.checked = config[name] || false;
+                const label = document.createElement('label');
+                label.htmlFor = cb.id;
+                const times = MEDAL_CONFIG[name];
+                label.textContent = `${name}(${times}次)`;
+                label.style.cssText = 'font-size:13px;cursor:pointer;white-space:nowrap;';
+                row.appendChild(cb);
+                row.appendChild(label);
+                list.appendChild(row);
+            });
+        });
+
+        box.appendChild(list);
+
+        const btnRow = document.createElement('div');
+        btnRow.style.cssText = 'display:flex;gap:10px;justify-content:flex-end;';
+        const saveBtn = document.createElement('button');
+        saveBtn.textContent = '保存';
+        saveBtn.style.cssText = 'padding:4px 16px;background:#4f46e5;color:white;border:none;border-radius:6px;cursor:pointer;font-size:14px;';
+        const cancelBtn = document.createElement('button');
+        cancelBtn.textContent = '取消';
+        cancelBtn.style.cssText = 'padding:4px 16px;background:#e2e8f0;border:none;border-radius:6px;cursor:pointer;font-size:14px;';
+        btnRow.appendChild(cancelBtn);
+        btnRow.appendChild(saveBtn);
+        box.appendChild(btnRow);
+        overlay.appendChild(box);
+        document.body.appendChild(overlay);
+
+        cancelBtn.onclick = () => overlay.remove();
+        saveBtn.onclick = () => {
+            const newConfig = {};
+            const checks = list.querySelectorAll('input[type="checkbox"]');
+            checks.forEach(cb => {
+                const name = cb.id.replace('cfg_', '');
+                newConfig[name] = cb.checked;
+            });
+            saveConfig(newConfig);
+            overlay.remove();
+            alert('配置已保存！下次刷新页面将自动生效。');
+        };
+        overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
+    }
     /* =========================================工具函数区域============================================================ */
 
     /**
