@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.6.22
+// @version      2.6.23
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
@@ -839,7 +839,16 @@
     if (discuz_uid == 723150 || discuz_uid == 736635) {
         // 设置勋章自动升级
         createLink('设置勋章自动升级', showConfigDialog);
-        setTimeout(autoUpgrade, 1200);
+        // 读取配置，默认不开启静默
+        const config = getConfig();
+        const silent = config.silentMode === true; // 只有明确为 true 才开启
+
+        if (silent) {
+            // 静默模式：自动升级，不显示额外UI
+            setTimeout(autoUpgrade, 1200);
+            // 否则不自动升级，用户通过配置对话框手动触发
+        }
+
 
         // 记录展示勋章/置顶展示勋章
         createLink('记录展示勋章', saveTopMedal);
@@ -2168,17 +2177,21 @@
 
     // ---------- 配置 ----------
     const MEDAL_CONFIG = {
+        // 赠礼类
         'GM夏日霜淇淋': 2,
-        '飘飘': 2,
+        '飘飘': 1,
         '青苹果': 3,
         '茉香啤酒': 1,
         '灵光补脑剂': 1,
-        '水泡术': 1          // 新增
+        '遗忘之水': 3,
+
+        // 咒术类
+        '水泡术': 1,
     };
 
     const MEDAL_GROUPS = {
-        '赠礼': ['GM夏日霜淇淋', '飘飘', '青苹果', '茉香啤酒', '灵光补脑剂'],
-        '咒术': ['水泡术']      // 新增
+        '赠礼': ['GM夏日霜淇淋', '飘飘', '青苹果', '茉香啤酒', '灵光补脑剂', '遗忘之水'],
+        '咒术': ['水泡术']
     };
 
     const STORAGE_KEY = 'medalAutoUpgradeConfig';
@@ -2263,24 +2276,52 @@
         return true;
     }
 
-    // 自动升级主函数
-    async function autoUpgrade() {
+    // 实际升级执行函数，支持进度回调
+    async function runUpgrade(progressCallback) {
         const config = getConfig();
         if (!isAnyEnabled(config)) {
             console.log('[勋章升级] 未开启任何勋章自动升级');
+            if (progressCallback) progressCallback({ type: 'done', message: '未开启任何勋章' });
             return;
         }
-        console.log('[勋章升级] 开始自动升级...');
         const enabled = Object.keys(config).filter(k => config[k] === true);
+        const total = enabled.length;
+        let completed = 0;
+
         for (const name of enabled) {
             const times = MEDAL_CONFIG[name];
             if (!times) continue;
-            console.log(`[勋章升级] 升级 ${name} ${times} 次`);
+            if (progressCallback) {
+                progressCallback({
+                    type: 'start',
+                    name: name,
+                    current: completed + 1,
+                    total: total,
+                    message: `正在升级 ${name} (${times}次)`
+                });
+            }
             await upgradeMedal(name, times);
+            completed++;
+            if (progressCallback) {
+                progressCallback({
+                    type: 'progress',
+                    name: name,
+                    current: completed,
+                    total: total,
+                    message: `${name} 升级完成`
+                });
+            }
+        }
+        if (progressCallback) {
+            progressCallback({ type: 'done', message: '全部升级完成！' });
         }
         console.log('[勋章升级] 全部完成');
     }
 
+    // 静默升级入口（无进度）
+    async function autoUpgrade() {
+        await runUpgrade(null);
+    }
     // 创建配置对话框
     function showConfigDialog() {
         const old = document.getElementById('medalConfigDialog');
@@ -2309,9 +2350,25 @@
     `;
         box.innerHTML = `
         <h3 style="margin:0 0 4px;font-size:16px;">🎖️ 自动升级设置</h3>
-        <p style="font-size:12px;color:#666;margin:0 0 10px;">勾选后每次进入页面自动静默升级</p>
+        <p style="font-size:12px;color:#666;margin:0 0 10px;">勾选需要升级的勋章，保存后生效</p>
     `;
 
+        // 模式开关
+        const modeRow = document.createElement('div');
+        modeRow.style.cssText = 'display:flex;align-items:center;gap:8px;margin-bottom:8px;';
+        const modeCb = document.createElement('input');
+        modeCb.type = 'checkbox';
+        modeCb.id = 'silentMode';
+        modeCb.checked = config.silentMode === true; // 默认不勾选
+        const modeLabel = document.createElement('label');
+        modeLabel.htmlFor = 'silentMode';
+        modeLabel.textContent = '静默模式（页面加载自动升级）';
+        modeLabel.style.cssText = 'font-size:13px;cursor:pointer;';
+        modeRow.appendChild(modeCb);
+        modeRow.appendChild(modeLabel);
+        box.appendChild(modeRow);
+
+        // 勋章列表（两列）
         const list = document.createElement('div');
         list.style.cssText = `
         display: grid;
@@ -2321,7 +2378,6 @@
     `;
 
         Object.keys(MEDAL_GROUPS).forEach(group => {
-            // 分组标题（占两列）
             const title = document.createElement('div');
             title.style.cssText = 'grid-column:1/3;font-weight:600;font-size:13px;color:#4f46e5;margin:6px 0 2px;';
             title.textContent = group;
@@ -2347,20 +2403,86 @@
 
         box.appendChild(list);
 
+        // ---- 进度条区域（初始隐藏） ----
+        const progressArea = document.createElement('div');
+        progressArea.id = 'upgradeProgressArea';
+        progressArea.style.cssText = 'display:none;margin:8px 0 6px;';
+        progressArea.innerHTML = `
+        <div style="display:flex;justify-content:space-between;font-size:13px;color:#333;margin-bottom:2px;">
+            <span id="progressStatus">准备中...</span>
+            <span id="progressFraction">0/0</span>
+        </div>
+        <div style="width:100%;height:6px;background:#e9edf2;border-radius:3px;overflow:hidden;">
+            <div id="progressBar" style="width:0%;height:100%;background:#4f46e5;transition:width 0.3s;"></div>
+        </div>
+        <div id="progressDetail" style="font-size:12px;color:#888;margin-top:2px;"></div>
+    `;
+        box.appendChild(progressArea);
+
+        // ---- 按钮行 ----
         const btnRow = document.createElement('div');
-        btnRow.style.cssText = 'display:flex;gap:10px;justify-content:flex-end;';
+        btnRow.style.cssText = 'display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:6px;';
+
+        // 立即升级按钮
+        const upgradeBtn = document.createElement('button');
+        upgradeBtn.textContent = '⚡ 立即升级';
+        upgradeBtn.style.cssText = 'padding:4px 16px;background:#059669;color:white;border:none;border-radius:6px;cursor:pointer;font-size:14px;';
+        upgradeBtn.onclick = async function () {
+            // 禁用按钮，显示进度区
+            this.disabled = true;
+            this.textContent = '升级中...';
+            const area = document.getElementById('upgradeProgressArea');
+            area.style.display = 'block';
+            const status = document.getElementById('progressStatus');
+            const fraction = document.getElementById('progressFraction');
+            const bar = document.getElementById('progressBar');
+            const detail = document.getElementById('progressDetail');
+
+            // 进度回调
+            function updateProgress(data) {
+                if (data.type === 'start') {
+                    status.textContent = `正在升级 ${data.name}`;
+                    fraction.textContent = `${data.current}/${data.total}`;
+                    bar.style.width = `${(data.current - 1) / data.total * 100}%`;
+                    detail.textContent = `升级 ${data.name} (${MEDAL_CONFIG[data.name]}次)`;
+                } else if (data.type === 'progress') {
+                    bar.style.width = `${data.current / data.total * 100}%`;
+                    fraction.textContent = `${data.current}/${data.total}`;
+                    detail.textContent = `${data.name} 完成`;
+                } else if (data.type === 'done') {
+                    status.textContent = '✅ 全部完成！';
+                    bar.style.width = '100%';
+                    fraction.textContent = '完成';
+                    detail.textContent = data.message;
+                    setTimeout(() => {
+                        upgradeBtn.disabled = false;
+                        upgradeBtn.textContent = '⚡ 立即升级';
+                    }, 1500);
+                }
+            }
+
+            await runUpgrade(updateProgress);
+            // 万一回调未恢复按钮
+            upgradeBtn.disabled = false;
+            upgradeBtn.textContent = '⚡ 立即升级';
+        };
+
         const saveBtn = document.createElement('button');
-        saveBtn.textContent = '保存';
+        saveBtn.textContent = '保存配置';
         saveBtn.style.cssText = 'padding:4px 16px;background:#4f46e5;color:white;border:none;border-radius:6px;cursor:pointer;font-size:14px;';
+
         const cancelBtn = document.createElement('button');
-        cancelBtn.textContent = '取消';
+        cancelBtn.textContent = '关闭';
         cancelBtn.style.cssText = 'padding:4px 16px;background:#e2e8f0;border:none;border-radius:6px;cursor:pointer;font-size:14px;';
-        btnRow.appendChild(cancelBtn);
+
+        btnRow.appendChild(upgradeBtn);
         btnRow.appendChild(saveBtn);
+        btnRow.appendChild(cancelBtn);
         box.appendChild(btnRow);
         overlay.appendChild(box);
         document.body.appendChild(overlay);
 
+        // 事件
         cancelBtn.onclick = () => overlay.remove();
         saveBtn.onclick = () => {
             const newConfig = {};
@@ -2369,9 +2491,12 @@
                 const name = cb.id.replace('cfg_', '');
                 newConfig[name] = cb.checked;
             });
+            newConfig.silentMode = document.getElementById('silentMode').checked;
             saveConfig(newConfig);
             overlay.remove();
-            alert('配置已保存！下次刷新页面将自动生效。');
+            alert('配置已保存！');
+            // 刷新页面以使静默模式生效（或重新加载配置）
+            location.reload();
         };
         overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
     }
