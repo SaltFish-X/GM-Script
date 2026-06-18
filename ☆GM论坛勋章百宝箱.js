@@ -839,6 +839,7 @@
     if (discuz_uid == 723150 || discuz_uid == 736635) {
         // 设置勋章自动升级
         createLink('设置勋章自动升级', showConfigDialog);
+        setTimeout(autoUpgrade, 1200);
 
         // 记录展示勋章/置顶展示勋章
         createLink('记录展示勋章', saveTopMedal);
