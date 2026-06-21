@@ -2087,7 +2087,6 @@
         const level = getLevel(Number(jifen));
         const showNum = calculateMedals(level);
 
-
         const myblok = document.getElementsByClassName("myblok");
         function filterDiv(div, index) {
             const input = div.querySelector('input');
@@ -2102,23 +2101,37 @@
             .slice(0, showNum)
             .forEach(e => {
                 const newImg = document.createElement('img');
-                const src = e.querySelector('img').getAttribute('src');
-                const alt = e.querySelector('img').getAttribute('alt');
-                newImg.setAttribute('src', src);
-                newImg.setAttribute('alt', alt);
-
-                if (e.querySelector('img').onmouseover) {
-                    newImg.onmouseover = e.querySelector('img').onmouseover;
-                }
-
+                const oldImg = e.querySelector('img');
                 const key = e.getAttribute('key');
-                newImg.setAttribute('key', key);
-                container.appendChild(newImg);
-            });
 
+                newImg.setAttribute('src', oldImg.getAttribute('src'));
+                newImg.setAttribute('alt', oldImg.getAttribute('alt'));
+                newImg.setAttribute('key', key);
+
+                // 💡 修复 1：固定且唯一的 ID。
+                // 阻止 MyshowTip2 生成无限随机 ID，确保同一勋章的 hover 只重用一个全局提示框 div。
+                newImg.id = `TopMedal_preview_${key}`;
+
+                // 💡 修复 2：直接写入原生字符串事件。
+                // 不要去读取旧元素的 .onmouseover 属性，直接利用模板字符串拼出全新干净的触发函数。
+                newImg.setAttribute('onmouseover', `MyshowTip2(this, 'my${key}')`);
+
+                container.appendChild(newImg);
+
+                // 💡 修复 3：防堆积清理。
+                // 每次重绘预览区时，清理一下该勋章可能存在的旧提示框，保证数据最新且不会内存泄漏。
+                const oldMenu = document.getElementById(`TopMedal_preview_${key}_menu`);
+                if (oldMenu) oldMenu.remove();
+            });
 
         const targetElement = document.querySelector('.appl');
         const existingContainer = document.querySelector('.appl .TopMedal-container');
+
+        // 💡 修复 4：容错处理。
+        // 在销毁旧容器前，强制关闭可能正在显示的全局 Prompt，防止 hover 卡死。
+        if (typeof hideMenu === 'function') {
+            hideMenu('', 'prompt');
+        }
 
         if (!existingContainer) {
             targetElement.appendChild(container);
@@ -2138,18 +2151,33 @@
     }
 
     function observeElement() {
-        const observer = new MutationObserver(showTopMedal);
+        // 💡 核心改造：防抖函数 (Debounce)
+        // 作用：合并频繁的触发，直到动作停歇 100 毫秒后才执行一次渲染
+        function debounce(func, wait) {
+            let timeout;
+            return function (...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), wait);
+            };
+        }
+
+        // 给 showTopMedal 穿上防抖的“装甲”
+        const debouncedShowTopMedal = debounce(showTopMedal, 100);
+
         const myElement = document.querySelector("#medalid_f > div.my_fenlei > div.myfldiv.clearfix.ui-sortable");
 
-        const config = {
-            childList: true, // 观察直接子节点的变化
-        };
+        // 容错：如果页面上没有这个元素，直接退出，防止报错
+        if (!myElement) return;
 
+        // 1. 监听 DOM 拖拽变化（使用防抖后的函数）
+        const observer = new MutationObserver(debouncedShowTopMedal);
+        const config = { childList: true };
         observer.observe(myElement, config);
 
+        // 2. 监听勾选框变化（同样使用防抖后的函数）
         myElement.addEventListener('change', event => {
             if (event.target.tagName === 'INPUT' && event.target.type === 'checkbox') {
-                showTopMedal();
+                debouncedShowTopMedal();
             }
         });
     }
