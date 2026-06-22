@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.7.28
+// @version      2.7.29
 // @description  泥潭勋章属性展示！
 // @author       轶致
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html*
@@ -920,7 +920,7 @@ var 放大镜内容映射表 = {
 '奥利弗‧奎恩': `奥利弗‧奎恩
 【勋章类型】真人男从
 【入手条件】堕落＜50
-【商店售价】400金币
+【商店售价】680金币
 【等级1】5% 发帖血液+2▕▏升级条件：消耗40血液
 【等级2】7% 发帖血液+2▕▏升级条件：消耗65血液
 【等级3】9% 发帖血液+2▕▏升级条件：主题数≥15
