@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.7.29
+// @version      2.7.30
 // @description  泥潭勋章属性展示！
 // @author       轶致
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html*
@@ -5186,7 +5186,7 @@ var 放大镜内容映射表 = {
 【入手条件】无
 【商店售价】300金币
 【等级1】1% 回帖咒术+2▕▏升级条件：消耗200血液
-【等级2】勋章博物馆资料暂缺
+【等级2】4% 回帖咒术+2 堕落 +2▕▏升级条件：堕落≥20
 【 Max 】3% 回帖咒术+2`,
 '暗蚀魔典': `暗蚀魔典
 【勋章类型】资产
@@ -8958,6 +8958,7 @@ var imgs =
     '玄甲金盾':
     {
         "1":["https://img.gamemale.com/album/202606/07/152430g74xv0etd74ddvda.gif", 40,],
+        "2":["https://img.gamemale.com/album/202606/07/152431niaxpd7oi47gppz2.gif", 40,],
         "Max":["https://img.gamemale.com/album/202606/07/152432wmb2xaxk55saz2n2.gif", 40,],
     },
     '暗蚀魔典':
