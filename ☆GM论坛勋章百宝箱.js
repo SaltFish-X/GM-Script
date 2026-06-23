@@ -835,28 +835,6 @@
 
     if (是否自动开启茉香啤酒) { 自动开启茉香啤酒(); }
 
-    // 内部测试/抢先体验
-    if (discuz_uid == 723150 || discuz_uid == 736635) {
-        // 设置勋章自动升级
-        createLink('设置勋章自动升级', showConfigDialog);
-        // 读取配置，默认不开启静默
-        const config = getConfig();
-        const silent = config.silentMode === true; // 只有明确为 true 才开启
-
-        if (silent) {
-            // 静默模式：自动升级，不显示额外UI
-            setTimeout(autoUpgrade, 1200);
-            // 否则不自动升级，用户通过配置对话框手动触发
-        }
-
-
-        // 记录展示勋章/置顶展示勋章
-        createLink('记录展示勋章', saveTopMedal);
-        createLink('置顶展示勋章', loadTopMedal);
-        showTopMedal();
-        observeElement();
-    }
-
     /* =============================================================================================================== */
 
     // 创建一个新的div元素用于管理徽章
@@ -2527,6 +2505,28 @@
             location.reload();
         };
         overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
+    }
+
+    // ===========================内部测试/抢先体验区域（现在可以安全使用上述函数）=================================
+    if (discuz_uid == 723150 || discuz_uid == 736635) {
+        // 设置勋章自动升级
+        createLink('设置勋章自动升级', showConfigDialog);
+        // 读取配置，默认不开启静默
+        const config = getConfig();
+        const silent = config.silentMode === true; // 只有明确为 true 才开启
+
+        if (silent) {
+            // 静默模式：自动升级，不显示额外UI
+            setTimeout(autoUpgrade, 1200);
+            // 否则不自动升级，用户通过配置对话框手动触发
+        }
+
+
+        // 记录展示勋章/置顶展示勋章
+        createLink('记录展示勋章', saveTopMedal);
+        createLink('置顶展示勋章', loadTopMedal);
+        showTopMedal();
+        observeElement();
     }
     /* =========================================工具函数区域============================================================ */
 
