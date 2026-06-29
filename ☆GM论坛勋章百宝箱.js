@@ -2283,8 +2283,8 @@
     }
 
     // 实际升级执行函数，支持进度回调
-    async function runUpgrade(progressCallback) {
-        const config = getConfig();
+    async function runUpgrade(progressCallback, configOverride) {
+        const config = configOverride || getConfig();
         if (!isAnyEnabled(config)) {
             console.log('[勋章升级] 未开启任何勋章自动升级');
             if (progressCallback) progressCallback({ type: 'done', message: '未开启任何勋章' });
@@ -2444,6 +2444,14 @@
             const bar = document.getElementById('progressBar');
             const detail = document.getElementById('progressDetail');
 
+            // ---- 收集当前对话框的勾选状态（临时配置） ----
+            const tempConfig = {};
+            const checks = list.querySelectorAll('input[type="checkbox"]');
+            checks.forEach(cb => {
+                const name = cb.id.replace('cfg_', '');
+                tempConfig[name] = cb.checked;
+            });
+
             // 进度回调
             function updateProgress(data) {
                 if (data.type === 'start') {
@@ -2467,7 +2475,9 @@
                 }
             }
 
-            await runUpgrade(updateProgress);
+            // 传入临时配置
+            await runUpgrade(updateProgress, tempConfig);
+
             // 万一回调未恢复按钮
             upgradeBtn.disabled = false;
             upgradeBtn.textContent = '⚡ 立即升级';
