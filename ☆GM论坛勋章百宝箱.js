@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.6.25
+// @version      2.6.26
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
@@ -770,6 +770,7 @@
             "揄人者冠冕", "不拘一格",
             "瑰香蜜露", "紫粹露饮",
             "霉运小精灵[红]", "雾港捞月",
+            "超能留声机", "粉色大厨",
         ],
         "Major": [
             "战士职业证书",
