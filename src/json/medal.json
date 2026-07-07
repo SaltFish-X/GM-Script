@@ -488,6 +488,46 @@
   },
   {
     "type": "奖品",
+    "no": "0686",
+    "url_tid": "190672",
+    "name": "粉色大厨",
+    "date": "2026-7-3",
+    "buy_limit": "【Magic Sweet】植物与食物活动获得积分第一",
+    "price": "无",
+    "levels": "【等级1】1% 回帖血液+1▕▏升级条件：消耗100血液\n【等级2】1% 回帖咒术+1▕▏升级条件：消耗100血液\n【 Max 】1% 回帖咒术+2",
+    "levels_img": {
+      "1": [
+        "https://img.gamemale.com/album/202607/01/121146ugewizdgei7vpe0w.gif",
+        40
+      ],
+      "2": [
+        "https://img.gamemale.com/album/202607/01/121146hv82iwfhwhrvppir.gif",
+        40
+      ],
+      "Max": [
+        "https://img.gamemale.com/album/202607/01/121146i888vkgzzbq8l08h.gif",
+        40
+      ]
+    }
+  },
+  {
+    "type": "奖品",
+    "no": "0685",
+    "url_tid": "190671",
+    "name": "超能留声机",
+    "date": "2026-7-3",
+    "buy_limit": "【Magic Sweet】植物与食物活动生存获得",
+    "price": "无",
+    "levels": "【 Max 】1% 回帖金币+1",
+    "levels_img": {
+      "Max": [
+        "https://img.gamemale.com/album/202607/01/121145slf7aedod76l8jto.gif",
+        40
+      ]
+    }
+  },
+  {
+    "type": "奖品",
     "no": "0684",
     "url_tid": "189527",
     "name": "雾港捞月",
