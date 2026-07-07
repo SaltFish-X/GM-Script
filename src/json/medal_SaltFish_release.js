@@ -5269,7 +5269,7 @@ var imgs = {
     "艾利克斯": {
         "1": [
             "https://img.gamemale.com/album/202304/30/170233kyygo7849z4goy73.gif",
-            82
+            40
         ],
         "2": [
             "https://img.gamemale.com/album/202304/30/170234q338jm2ow9k2v24t.gif",

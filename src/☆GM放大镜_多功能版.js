@@ -4558,7 +4558,7 @@ const medalData = [
         "price": "600金币",
         "levels": "【等级1】4% 回帖血液+1 堕落+1▕▏升级条件：消耗150金币\n【等级2】6% 回帖血液+2 堕落+1▕▏升级条件：堕落≥120\n【等级3】8% 回帖血液+2 堕落+1▕▏升级条件：消耗150金币\n【等级4】10% 回帖血液+2 堕落+1▕▏升级条件：消耗-1旅程\n【等级5】11% 回帖血液+2 堕落+1▕▏升级条件：血液≥666\n【 Max 】12% 回帖血液+3 金币-1、发帖旅程+1",
         "levels_img": {
-            "1": ["https://img.gamemale.com/album/202304/30/170233kyygo7849z4goy73.gif", 82],
+            "1": ["https://img.gamemale.com/album/202304/30/170233kyygo7849z4goy73.gif", 40],
             "2": ["https://img.gamemale.com/album/202304/30/170234q338jm2ow9k2v24t.gif", 82],
             "3": ["", 82],
             "4": ["https://img.gamemale.com/album/202305/01/151527c2qaqzqlm4x2l802.gif", 82],
@@ -14098,7 +14098,7 @@ const medalData = [
 
             // 垂直边界判断
             if (top < 10) {
-                top = rect.bottom + 10;
+                top = rect.top;
             }
 
             // 显示在下方还超出了窗口底部，强制贴合在底部（保留10px间距）

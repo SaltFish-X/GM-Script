@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.7.28
+// @version      2.7.30
 // @description  泥潭勋章属性展示！
 // @author       轶致
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html*
@@ -5836,7 +5836,7 @@ var imgs = {
     "艾利克斯": {
         "1": [
             "https://img.gamemale.com/album/202304/30/170233kyygo7849z4goy73.gif",
-            82
+            40
         ],
         "2": [
             "https://img.gamemale.com/album/202304/30/170234q338jm2ow9k2v24t.gif",
