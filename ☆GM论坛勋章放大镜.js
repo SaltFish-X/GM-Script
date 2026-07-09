@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.7.30
+// @version      2.7.31
 // @description  泥潭勋章属性展示！
 // @author       轶致
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html*
@@ -5243,7 +5243,7 @@ var 放大镜内容映射表 = {
 【勋章类型】赠礼（只可赠送）
 【入手条件】金币 >= 30
 【商店售价】25金币
-【时限】15天
+【时限】10天
 【等级1】2% 回帖血液+2▕▏升级条件：消耗15金币
 【等级2】6% 回帖血液+2▕▏升级条件：消耗20金币
 【 Max 】12% 回帖血液+2`,
