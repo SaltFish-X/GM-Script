@@ -44,20 +44,51 @@ function loadMedalFile(filePath) {
 function buildReleaseData(medalList) {
     const textMap = {};
     const imgsMap = {};
+    const priceMap = {};
 
+    // const RE_PRICE = /^(\d+)(金币|血液|旅程|堕落|灵魂|咒术|知识)$/;
+    const RE_PRICE = /(\d+)([\u4e00-\u9fa5]+)|([\u4e00-\u9fa5]+)(\d+)/;;
+    const BuyPrice = (buy_price) => {
+
+        if (!buy_price) return { currency: "", amount: 0 };
+
+        const str = buy_price.toString();
+        const m = str.match(RE_PRICE);
+        let amount = 0;
+        let currency = "金币";
+        if (m) {
+            // "400金币" 格式 (m[1] 和 m[2] 有值)
+            if (m[1] && m[2]) {
+                amount = parseInt(m[1], 10);
+                currency = m[2];
+            }
+            // "金币400" 格式 (m[3] 和 m[4] 有值)
+            else if (m[3] && m[4]) {
+                currency = m[3];
+                amount = parseInt(m[4], 10);
+            }
+        } else {
+            // 没匹配到文字，纯数字情况
+            amount = parseInt(str, 10) || 0;
+        }
+
+        return { currency: currency, amount: amount };
+    };
     for (const medal of medalList) {
 
-        const name = medal.name ?? "未知勋章";
-        const type = medal.type ?? "";
-        const buyLimit = medal.buy_limit ?? "";
-        const price = medal.price ?? "";
-        const levels = medal.levels ?? "";
-        const levelsImg = medal.levels_img ?? {};
-        const duration = medal.duration ?? "";
-        const backstory = medal.backstory ?? "";
-        const date = medal.date ?? "2013-6-9";
-        const url_tid = medal.url_tid ?? "";
-        const special_note = medal.special_note ?? [];
+        const name = medal?.name ?? "未知勋章";
+        const type = medal?.type ?? "";
+        const buyLimit = medal?.buy_limit ?? "";
+        const price = medal?.price ?? "";
+        const levels = medal?.levels ?? "";
+        const levelsImg = medal?.levels_img ?? {};
+        const duration = medal?.duration ?? "";
+        const backstory = medal?.backstory ?? "";
+        const date = medal?.date ?? "2013-6-9";
+        const url_tid = medal?.url_tid ?? "";
+        const special_note = medal?.special_note ?? [];
+
+        priceMap[name] = BuyPrice(price);
 
         if (name === "迷之瓶" && type === "奖品") continue;
 
@@ -100,7 +131,7 @@ function buildReleaseData(medalList) {
         if (Object.keys(cleanImgs).length) imgsMap[name] = cleanImgs;
     }
 
-    return { textMap, imgsMap };
+    return { textMap, imgsMap, priceMap };
 }
 
 function writeJson(fileName, data) {
@@ -113,6 +144,18 @@ function generateReleaseJs(textMap, imgsMap) {
 
 var imgs = ${JSON.stringify(imgsMap, null, 4)};
 `;
+}
+function generateReleasePrice(priceMap) {
+    const lines = [];
+
+    for (const [key, value] of Object.entries(priceMap)) {
+        const innerStr = `{ "currency": "${value.currency}", "amount": ${value.amount} }`;
+        lines.push(`        "${key}": ${innerStr}`);
+    }
+
+    const jsonBody = `{\n${lines.join(',\n')}\n    }`;
+
+    return `    var badgePriceJson = ${jsonBody};\n`;
 }
 
 function readRawFilesContent(files) {
@@ -162,16 +205,18 @@ function main() {
     const allMedals = [];
     const totalText = {};
     const totalImgs = {};
+    const totalPrice = {};
 
     for (const file of files) {
         const medals = loadMedalFile(file);
 
         allMedals.push(...medals);
 
-        const { textMap, imgsMap } = buildReleaseData(medals);
+        const { textMap, imgsMap, priceMap } = buildReleaseData(medals);
 
         Object.assign(totalText, textMap);
         Object.assign(totalImgs, imgsMap);
+        Object.assign(totalPrice, priceMap);
     }
 
     writeJson("medal.json", allMedals);
@@ -187,6 +232,9 @@ function main() {
     insertContentToTemplate(rawCombinedText, path.join(__dirname, "js", "GM放大镜_多功能版.js"), path.join(__dirname, "☆GM放大镜_多功能版.js"));
 
     insertContentToTemplate(releaseJsText, path.join(__dirname, "js", "☆GM论坛勋章放大镜.js"), path.join(__dirname, "☆GM论坛勋章放大镜.js"));
+
+    const priceText = generateReleasePrice(totalPrice)
+    insertContentToTemplate(priceText, path.join(__dirname, "js", "二手市场大宝剑布丁特效版V028.js"), path.join(__dirname, "☆二手市场大宝剑布丁特效版V028.js"));
 
     console.log("🎉 构建完成");
 }
