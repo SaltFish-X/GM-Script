@@ -14,9 +14,3 @@
 !/src/**
 !/.github/
 !/.github/**
-
-# 忽略 src 下自动生成的文件
-src/json/**
-src/☆GM放大镜_多功能版.js
-src/☆GM论坛勋章放大镜.js
-src/☆二手市场大宝剑布丁特效版V028.js
