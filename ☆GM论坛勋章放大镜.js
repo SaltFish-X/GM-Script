@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.7.31
+// @version      2.7.32
 // @description  泥潭勋章属性展示！
 // @author       轶致
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html*
@@ -5281,6 +5281,13 @@ var 放大镜内容映射表 = {
 【入手条件】<a href="/thread-187516-1-1.html" target="_blank">参与活动【十三周年】（点击跳转）</a>
 【商店售价】无
 【 Max 】13% 回帖血液+1`,
+'GM村蛋糕(New)': `GM村蛋糕(New)
+【勋章类型】奖品
+【入手条件】<a href="/thread-80460-1-1.html" target="_blank">符合发放条件的用户（点击跳转）</a>
+【商店售价】无
+【 Max 】50% 回帖金币+1 血液+1
+【特别说明】兔兔只按大家站内资料填写的出生日期的月日来给大家制作蛋糕哦
+【特别说明】所以记得把站内资料填写完整并且公开`,
 }
 
 var imgs =
@@ -9040,6 +9047,10 @@ var imgs =
     {
         "Max":["https://img.gamemale.com/album/202606/08/205214ym4vh6654mrnl6vn.gif", 124,],
     },*/
+    'GM村蛋糕(New)':
+    {
+        "Max":["https://img.gamemale.com/album/202607/18/205210u7b1875ttiajwhas.gif", 40,],
+    },
 };
 
     // 创建控制面板()
