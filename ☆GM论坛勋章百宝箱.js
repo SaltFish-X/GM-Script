@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.6.28
+// @version      2.6.29
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
@@ -647,6 +647,7 @@
             "『天圆地方』",
             "『宝莲灯』",
             "『领甜甜圈』",
+            "『分析天平』", "『英勇赞美诗』", "『浪客便当』", "『召唤好运的角笛』"
         ],
         "Prize": [
             "深渊遗物",
