@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.6.29
+// @version      2.6.30
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
@@ -772,7 +772,8 @@
             "瑰香蜜露", "紫粹露饮",
             "霉运小精灵[红]", "雾港捞月",
             "超能留声机", "粉色大厨",
-            "GM村蛋糕(New)"
+            "GM村蛋糕(New)",
+            "猫咪合唱团（夏日）",
         ],
         "Major": [
             "战士职业证书",
@@ -2521,7 +2522,7 @@
     }
 
     // ===========================内部测试/抢先体验区域（现在可以安全使用上述函数）=================================
-    if (discuz_uid == 723150 || discuz_uid == 736635) {
+    if (discuz_uid == 723150 || discuz_uid == 736635 || discuz_uid == 737237) {
         // 设置勋章自动升级
         createLink('设置勋章自动升级', showConfigDialog);
         // 读取配置，默认不开启静默
