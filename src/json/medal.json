@@ -488,6 +488,59 @@
   },
   {
     "type": "奖品",
+    "no": "0689",
+    "url_tid": "192722",
+    "name": "猫咪合唱团（夏日）",
+    "date": "2026-8-3",
+    "buy_limit": "参与GM第四届欢唱活动",
+    "price": "无",
+    "levels": "【 Max 】1% 回帖咒术+1",
+    "levels_img": {
+      "Max": [
+        "https://img.gamemale.com/album/202608/03/155551s8adzvg4cqaiiqw4.gif",
+        124
+      ]
+    }
+  },
+  {
+    "type": "剧情",
+    "no": "0688",
+    "url_tid": "191643",
+    "name": "『英勇赞美诗』",
+    "date": "2026-7-19",
+    "buy_limit": "授予给默默守护论坛和平的勇士们",
+    "price": "无",
+    "levels": "【 Max 】无属性",
+    "levels_img": {
+      "Max": [
+        "https://img.gamemale.com/album/202504/05/180536tqesccateezkxct7.gif",
+        40
+      ]
+    }
+  },
+  {
+    "type": "奖品",
+    "no": "0687",
+    "url_tid": "191632",
+    "name": "GM村蛋糕(New)",
+    "date": "2026-7-19",
+    "buy_limit": "在生日当天或前一天进行登记<a href=\"/thread-80501-1-1.html\" target=\"_blank\">【长期有效】生日蛋糕登记处</a>",
+    "price": "无",
+    "duration": "1天",
+    "levels": "【等级1】无属性▕▏升级条件：消耗-50金币\n【 Max 】50% 回帖金币+1 血液+1",
+    "levels_img": {
+      "1": [
+        "https://img.gamemale.com/album/202607/18/205209ndx969xm4x3rxaxg.gif",
+        40
+      ],
+      "Max": [
+        "https://img.gamemale.com/album/202607/18/205210u7b1875ttiajwhas.gif",
+        40
+      ]
+    }
+  },
+  {
+    "type": "奖品",
     "no": "0686",
     "url_tid": "190672",
     "name": "粉色大厨",
@@ -5065,7 +5118,7 @@
     "url_tid": "135738",
     "name": "巴比伦辞典",
     "date": "2024-5-26",
-    "buy_limit": "<a href=\"/thread-162802-1-1.html\" target=\"_blank\">单机游戏区激励活动（点击跳转）</a>",
+    "buy_limit": "<a href=\"/thread-180869-1-1.html\" target=\"_blank\">单机游戏区激励活动（点击跳转）</a>",
     "price": "不可购买",
     "levels": "【 Max 】100% 回帖金币+1、发帖金币+1",
     "levels_img": {

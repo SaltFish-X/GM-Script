@@ -34,7 +34,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "auto-generated files from build [skip ci]"
-          file_pattern: "src/json/* src/☆GM论坛勋章放大镜.js src/☆GM放大镜_多功能版.js"
+          file_pattern: "src/json/* src/☆GM论坛勋章放大镜.js src/☆GM放大镜_多功能版.js src/☆二手市场大宝剑布丁特效版V028.js"
 
 #       - name: 上传到GitHub Pages
 #         uses: actions/upload-pages-artifact@v3

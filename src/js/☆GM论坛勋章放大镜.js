@@ -1,13 +1,15 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.7.30
+// @version      2.8.1
 // @description  泥潭勋章属性展示！
 // @author       轶致
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html*
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang%3Ashowxunzhang&fid=*
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang%3Ashowxunzhang&action=*
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
+// @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=showjishou
+// @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=combo
 // @namespace    https://www.gamemale.com/forum.php?mod=viewthread&tid=129944
 // @homepage     https://www.gamemale.com/thread-129944-1-1.html
 // @grant        GM_getValue
@@ -31,6 +33,22 @@
 // TODO 上次补货时间
 (function () {
     'use strict'
+
+    // Object.hasOwn 兼容性处理
+    if (!Object.hasOwn) {
+        Object.defineProperty(Object, "hasOwn", {
+            value: function (object, property) {
+                if (object == null) {
+                    throw new TypeError("Cannot convert undefined or null to object");
+                }
+                return Object.prototype.hasOwnProperty.call(Object(object), property);
+            },
+            configurable: true,
+            enumerable: false,
+            writable: true,
+        });
+    }
+
     // 0为原版【上下显示】 1为新版【左右显示】
     // 似乎手机上下显示没问题，那保留一下
     // 判断是否为移动设备（包括 iPhone）
@@ -69,7 +87,6 @@
         console.log("set showImgSetting " + showImg);
         GM_setValue("showImgSetting", showImg);
         初始化放大镜();
-        变化检测();
     }
 
     // 此外右下角有一个放大器可以显示/隐藏放大镜，解决遮挡原信息问题
@@ -102,7 +119,7 @@
     function 创建放大镜() {
         const 放大镜 = document.createElement('div')
         放大镜.id = '泥潭勋章放大镜'
-        放大镜.style.position = 'absolute'
+        放大镜.style.position = 'fixed'
         放大镜.style.padding = '10px'
         放大镜.style.background = 'white'
         放大镜.style.border = '1px solid black'
@@ -272,80 +289,126 @@
         return 新内容
     }
 
-    function 显示放大镜(内容, 目标) {
+    function 显示放大镜(内容, 目标, type) {
         if (!放大镜显示) return
         const 新内容 = 修改属性颜色(内容)
         放大镜.innerHTML = 新内容.replace(/\n/g, '<br>')
         放大镜.style.display = 'block'
         放大镜.style.visibility = 'hidden'
 
-        if (GM_getValue("toggleSetting")) {
+        if (GM_getValue("toggleSetting") && type ==='default') {
             定位放大镜New(目标)
-        } else {
-            定位放大镜(目标)
+        } else if(type ==='default') {
+            定位放大镜不需要提示_上下(目标)
+        }else{
+            定位放大镜不需要提示_左右(目标)
         }
 
         放大镜.style.visibility = 'visible'
     }
 
-    function 定位放大镜(目标) {
-        const 放大镜宽度 = 放大镜.offsetWidth
-        const 放大镜高度 = 放大镜.offsetHeight
-        const 目标矩形 = 目标.getBoundingClientRect()
-        let 放大镜左边 = window.pageXOffset + 目标矩形.left - (放大镜宽度 / 2) + (目标矩形.width / 2)
-        let 放大镜顶部 = window.pageYOffset + 目标矩形.top - 放大镜高度 - 10
-
-        if (放大镜顶部 < window.pageYOffset) {
-            放大镜顶部 = window.pageYOffset + 目标矩形.bottom + 10
+    function 定位放大镜不需要提示_上下(target) {
+        const rect = target.getBoundingClientRect(); // 获取目标相对于窗口的坐标
+        const elWidth = 放大镜.offsetWidth;
+        const elHeight = 放大镜.offsetHeight;
+        const vWidth = window.innerWidth; // 视口宽度
+        const vHeight = window.innerHeight; // 视口高度
+        let left = rect.left + rect.width / 2 - elWidth / 2;
+        let top = rect.top - elHeight - 10;
+        // 垂直边界判断
+        if (top < 10) {
+            top = rect.bottom + 10;
         }
-        if (放大镜左边 + 放大镜宽度 > window.pageXOffset + document.documentElement.clientWidth) {
-            放大镜左边 = window.pageXOffset + document.documentElement.clientWidth - 放大镜宽度 - 10
+        // 显示在下方还超出了窗口底部，强制贴合在底部（保留10px间距）
+        if (top + elHeight > vHeight - 10) {
+            top = vHeight - elHeight - 10;
         }
-        if (放大镜左边 < window.pageXOffset) {
-            放大镜左边 = window.pageXOffset + 10
-        }
-        if (放大镜顶部 + 放大镜高度 > window.pageYOffset + window.innerHeight) {
-            放大镜顶部 = window.pageYOffset + 目标矩形.top - 放大镜高度 - 10
-        }
-        放大镜.style.left = 放大镜左边 + 'px'
-        放大镜.style.top = 放大镜顶部 + 'px'
+        // 水平边界判断 (限制在窗口 10px 边距内)
+        const minLeft = 10;
+        const maxLeft = vWidth - elWidth - 10;
+        left = Math.max(minLeft, Math.min(left, maxLeft));
+        放大镜.style.left = left + "px";
+        放大镜.style.top = top + "px";
     }
 
     function 定位放大镜New(img) {
-        document.querySelectorAll(".MyshowTip2").forEach(label => {
-            if (label.style.display != 'none') {
-                const 放大镜宽度 = 放大镜.offsetWidth
-                const 放大镜高度 = 放大镜.offsetHeight
+        const labels = document.querySelectorAll(".MyshowTip2");
 
-                // 和原标签顶部对齐
-                let 放大镜顶部 = parseInt(label.style.top)
-
-                // 和原来标签的右对齐
-                let 放大镜左边 = parseInt(label.style.left) + 200
-
-                // 如果放不下就放左边
-                if (放大镜左边 + 放大镜左边 > window.innerWidth) {
-                    放大镜左边 = parseInt(label.style.left) - 放大镜宽度
+        labels.forEach((label) => {
+            if (label.style.display !== "none") {
+                放大镜.style.width = "";
+                // 获取放大镜的高度、宽度
+                let h = 放大镜.offsetHeight;
+                const w = 放大镜.offsetWidth;
+                const labelRect = label.getBoundingClientRect();
+                const viewportHeight = window.innerHeight;
+                const viewportWidth = window.innerWidth; // 视口宽度
+                let left = labelRect.left - w - 1;
+                let rightAvailableWidth =
+                    viewportWidth - labelRect.left - labelRect.width - w - 1;
+                if (left < 0) {
+                    if (rightAvailableWidth > 0)
+                        left = labelRect.left + labelRect.width;
+                    // else {
+                    //     left = 2;
+                    //     this.el.style.width = labelRect.left - 4 + "px";
+                    //     // 重新获取放大镜的高度(包含滚动条)
+                    //     h = this.el.offsetHeight;
+                    // }
                 }
-                // console.log(e.getBoundingClientRect())
-
-                // 原来的标签太高了，直接溢出屏幕外（废弃）
-                // 如果原标签在图片上方，从顶部对齐变成底部对齐
-                const labelTop = label.getBoundingClientRect().top
-                const imgTop = img.getBoundingClientRect().top
-                const labelHeight = label.getBoundingClientRect().height
-                // console.log(imgTop, labelTop)
-                if (labelTop < imgTop) {
-                    放大镜顶部 = 放大镜顶部 + labelHeight - 放大镜高度
+                // 对齐 .MyshowTip2 顶部
+                let top = labelRect.top;
+                const imgTop = img.getBoundingClientRect().top;
+                // 对齐 .MyshowTip2 底部
+                if (labelRect.top < imgTop) {
+                    top = labelRect.top + labelRect.height - h;
                 }
-
-                放大镜.style.top = 放大镜顶部 + 'px'
-                放大镜.style.left = 放大镜左边 + 'px'
+                top = Math.max(2, top);
+                // 对齐屏幕底部
+                if (top + h > viewportHeight) {
+                    top = viewportHeight - h - 6;
+                }
+                放大镜.style.top = top + "px";
+                放大镜.style.left = left + "px";
             }
-        })
-
+        });
     }
-
+    function 定位放大镜不需要提示_左右(target){
+        放大镜.style.width = "";
+        // 获取放大镜的高度、宽度
+        let h = 放大镜.offsetHeight;
+        const w = 放大镜.offsetWidth;
+        // 定位目标元素
+        const targetRect = target.getBoundingClientRect();
+        const targetWidth = targetRect.width;
+        const targetHeight = targetRect.height;
+        const targetLeft = targetRect.left;
+        const targetTop = targetRect.top;
+        // 视口高度、宽度
+        const viewportHeight = window.innerHeight;
+        const viewportWidth = window.innerWidth;
+        let left = targetLeft - w - 1;
+        let rightAvailableWidth =
+            viewportWidth - targetLeft - targetWidth - w - 1;
+        if (left < 0) {
+            if (rightAvailableWidth > 0) left = targetLeft + targetWidth;
+            // else {
+            //     left = 2;
+            //     放大镜.style.width = targetLeft - 4 + "px";
+            //     // 重新获取放大镜的高度(包含滚动条)
+            //     h = 放大镜.offsetHeight;
+            // }
+        }
+        // 对齐 目标元素 顶部
+        let top = targetTop + targetHeight - h;
+        top = Math.max(4, top);
+        // 对齐屏幕底部
+        if (top + h > viewportHeight) {
+            top = viewportHeight - h - 6;
+        }
+        放大镜.style.top = top + "px";
+        放大镜.style.left = left + "px";
+    }
     function 隐藏放大镜() {
         放大镜.style.display = 'none'
     }
@@ -377,50 +440,108 @@
     });
 
     function 初始化放大镜() {
-        document.querySelectorAll('.myimg img').forEach(function (img) {
-            // 去除【不可购买】并生成基础变体
-            const baseAlt = img.getAttribute('alt').replace(/【不可购买】/g, '')
-            const variants = [
-                baseAlt.replace(/·/g, '‧'),   // 全角转半角点
-                baseAlt.replace(/‧/g, '·'),    // 半角点转全角
-                baseAlt.replace('/:/g', '：'), // 全角半角冒号
-                baseAlt.replace('/：/g', ':'),
-            ]
-
-            // 处理可能存在的结尾标点（例如真人男从的. 以及其他各种特殊符号，总之去掉末尾的.是对的）
-            const trimEndDot = str => str.slice(0, -1)
-            const processedVariants = [...variants, ...variants.map(trimEndDot)]
-
-            // 高效查找映射表（去重 + find短路机制）
-            const altKey = [...new Set(processedVariants)].find(alt => alt in 放大镜内容映射表)
-
-            // 判断是否需要显示图片内容
-            let showText = 放大镜内容映射表[altKey];
-            if (showImg && showText)
+        if (初始化放大镜.已绑定事件代理) return
+        初始化放大镜.已绑定事件代理 = true
+        const bindConfigs = [
             {
-                showText = addImgUrl(showText);
+                type: "default",
+                container: "#ct.wodexunzhang",
+                target: ".myimg img",
+                delay: 50,
+                touchDelay: 350,
+                getId: (el) => el.getAttribute("alt"),
+            },
+            // 交易角-发布、交易单、勋章组合
+            {
+                type: "saltfish",
+                container: "#ct.wodexunzhang",
+                target: ".trade_medal_choice, .trade_medal, .combo_medal_img",
+                delay: 50,
+                touchDelay: 350,
+                getId: (el) => el.querySelector("img")?.getAttribute("alt"),
+            }
+        ];
+
+        const allTargetsSelector = bindConfigs.map(conf => conf.target).join(', ')
+        if (!初始化放大镜.已绑定全局关闭事件) {
+            初始化放大镜.已绑定全局关闭事件 = true
+            document.addEventListener('pointerdown', function (event) {
+                if (event.pointerType !== 'touch' || !(event.target instanceof Element)) return
+                if (event.target.closest(allTargetsSelector) || 放大镜.contains(event.target)) return
+
+                clearTimeout(timeoutId)
+                隐藏放大镜()
+            })
+        }
+
+        bindConfigs.forEach((conf) => {
+            const tryBind = () => {
+                const container = document.querySelector(conf.container)
+                if (!container) return false
+
+                let hoverTimer
+                container.addEventListener('pointerover', function (event) {
+                    if (!(event.target instanceof Element)) return
+
+                    const targetEl = event.target.closest(conf.target)
+                    if (!targetEl || (event.relatedTarget && targetEl.contains(event.relatedTarget))) return
+
+                    clearTimeout(hoverTimer)
+                    clearTimeout(timeoutId)
+
+                    const delay = event.pointerType === 'touch' ? conf.touchDelay : conf.delay
+                    hoverTimer = setTimeout(() => {
+                        const baseAlt = conf.getId(targetEl)?.replace(/【不可购买】/g, '')
+                        if (!baseAlt) return
+
+                        const variants = new Set([
+                            baseAlt,
+                            baseAlt.replace(/·/g, '‧'),
+                            baseAlt.replace(/‧/g, '·'),
+                            baseAlt.replace(/:/g, '：'),
+                            baseAlt.replace(/：/g, ':'),
+                            baseAlt.slice(0, -1),
+                            baseAlt.replace(/【.*?限定】/g, ''),
+                        ])
+                        let altKey
+                        for (const v of variants) {
+                            if (Object.hasOwn(放大镜内容映射表, v)) {
+                                altKey = v
+                                break
+                            }
+                        }
+                        let showText = 放大镜内容映射表[altKey]
+                        if (showImg && showText) showText = addImgUrl(showText)
+                        if (!showText) return
+
+                        const img = targetEl.matches('img') ? targetEl : targetEl.querySelector('img')
+                        显示放大镜(showText, targetEl, conf.type)
+                    }, delay)
+                })
+
+                container.addEventListener('pointerout', function (event) {
+                    if (event.pointerType === 'touch' || !(event.target instanceof Element)) return
+
+                    const targetEl = event.target.closest(conf.target)
+                    if (!targetEl || (event.relatedTarget && targetEl.contains(event.relatedTarget))) return
+
+                    clearTimeout(hoverTimer)
+                    timeoutId = setTimeout(() => {
+                        if (!放大镜.matches(':hover') && !targetEl.matches(':hover')) {
+                            隐藏放大镜()
+                        }
+                    }, 100)
+                })
+                return true
             }
 
-            altKey && 添加悬停监听器(img, showText)
-        })
-    }
-    function 变化检测() {
-        const 观察 = new MutationObserver(function (变化标记) {
-            变化标记.forEach(function (变化) {
-                变化.addedNodes.forEach(function (节点) {
-                    if (节点.nodeType === Node.ELEMENT_NODE && 节点.matches('.myimg img')) {
-                        const 替代文本 = 节点.getAttribute('alt')
-                        if (放大镜内容映射表.hasOwnProperty(替代文本)) {
-                            添加悬停监听器(节点)
-                        }
-                    }
-                })
+            if (tryBind()) return
+
+            const observer = new MutationObserver((mutations, obs) => {
+                if (tryBind()) obs.disconnect()
             })
+            observer.observe(document.body, { childList: true, subtree: true })
         })
-        const 目标容器 = document.querySelector('.my_fenlei')
-        if (目标容器) {
-            观察.observe(目标容器, { childList: true, subtree: true })
-        }
     }
 
     function 统计升级消耗(内容) {
@@ -534,43 +655,11 @@
         return textLines.join("\n");
     }
 
-    function reloadScript() {
-        // 仅处理勋章商城默认界面
-        // console.log(window.location.href);
-        if ("https://www.gamemale.com/wodexunzhang-showxunzhang.html" === window.location.href) {
-            let count = 0;
-            let last_div_num = document.getElementsByClassName('myimg').length;
-            let cur_div_num = last_div_num;
-            const iid = setInterval(() => {
-                if (count > 300) { // 定时器持续1min
-                    clearInterval(iid);
-                    console.log("clear interval ok.");
-                    return;
-                }
-                cur_div_num = document.getElementsByClassName('myimg').length;
-                if (cur_div_num > 0 && cur_div_num > last_div_num) {
-                    console.log("init again...");
-                    初始化放大镜();
-                    变化检测();
-                }
-                last_div_num = cur_div_num;
-                count++;
-                // console.log(count);
-                return;
-            }, 200); // 0.2s检测一次
-            console.log("set interval ok.");
-            return;
-        }
-        return;
-    }
-
     /* 插入位置 */
 
     // 创建控制面板()
     初始化放大镜()
-    变化检测()
 
-    reloadScript();
 })()
 
 // 录入模板 ≥
