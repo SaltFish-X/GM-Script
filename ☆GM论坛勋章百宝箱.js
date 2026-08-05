@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.6.30
+// @version      2.6.31
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
@@ -839,7 +839,8 @@
     // 设置勋章提醒
     createLink('设置预设勋章提醒', showDialog);
 
-    if (是否自动开启茉香啤酒) { 自动开启茉香啤酒(); }
+    // 折叠展开功能
+    createLink('展开/折叠勋章详情', toggleFold);
 
     /* =============================================================================================================== */
 
@@ -1719,48 +1720,117 @@
         };
     }
 
-    // 整合后的执行函数
-    function optimizedBadgeOrder() {
+    // 计算收益 + 展示勋章分类 + 展示堕落相关勋章
+    function optimizedBadgeOrder(isFolded = true) {
         const { classificationResult, blokDataList, coin } = processBadges();
         const expectations = calculateExpectations(blokDataList);
         const duoluHui = showDuoluHui(blokDataList);
 
-        // 分类结果格式化
+        // 格式化函数
+        const formatEarnings = (type, data) =>
+            Object.entries(data[type])
+                .map(([k, v]) => `${k}:${v.toFixed(2)}`)
+                .join('  ');
+
         const classificationText = Object.entries(classificationResult)
             .map(([k, v]) => `${k} : (${v.size}) ${[...v].join(', ')}`)
             .join('<br>');
 
-        // 收益结果格式化
-        const formatEarnings = (type, data) =>
-            Object.entries(data[type]).map(([k, v]) =>
-                `${k}:${v.toFixed(2)}`
-            ).join('  ');
-
         const badgeOrderElement = document.querySelector(".badge-order");
+        if (!badgeOrderElement) return;
 
-        if (badgeOrderElement) {
-            badgeOrderElement.innerHTML = [
-                '<H3>所有勋章收益</H3>',
-                `回帖：${formatEarnings('ALL', expectations.hui)}`,
-                `发帖：${formatEarnings('ALL', expectations.fa)}`,
-                '<br>',
-                '<H3>常驻勋章收益</H3>',
-                `回帖：${formatEarnings('Permanent', expectations.hui)}`,
-                `发帖：${formatEarnings('Permanent', expectations.fa)}`,
-                '<br>',
-                '<H3>临时勋章收益</H3>',
-                `回帖：${formatEarnings('Temporary', expectations.hui)}`,
-                `发帖：${formatEarnings('Temporary', expectations.fa)}`,
-                `<div class="badge-warning"></div>`,
-                '<br>',
-                `寄售最大价格总和：${coin}`,
-                // '<H3>分类统计</H3>',
-                '<br>',
-                classificationText,
-                '<br>',
-                '回帖增加堕落：' + duoluHui.increase,
-                '回帖减少堕落：' + duoluHui.decrease,
-            ].map(s => `<p>${s}</p>`).join('');
+        // 先渲染不含组合的总收益和其他内容
+        badgeOrderElement.innerHTML = `
+        <H3>所有勋章收益</H3>
+        <p id="all-hui">回帖：${formatEarnings('ALL', expectations.hui)}</p>
+        <p id="all-fa">发帖：${formatEarnings('ALL', expectations.fa)}</p>
+        <div class="badge-warning"></div>
+        <br>
+        <div class="foldable-content" style="display: ${isFolded ? 'none' : 'block'};">
+            <H3>常驻勋章收益</H3>
+            <p>回帖：${formatEarnings('Permanent', expectations.hui)}</p>
+            <p>发帖：${formatEarnings('Permanent', expectations.fa)}</p>
+            <br>
+            <H3>临时勋章收益</H3>
+            <p>回帖：${formatEarnings('Temporary', expectations.hui)}</p>
+            <p>发帖：${formatEarnings('Temporary', expectations.fa)}</p>
+            <br>
+            <div id="combo-earnings">
+                <H3>勋章组合收益</H3>
+                <p>加载中...</p>
+            </div>
+            <br>
+            <p>寄售最大价格总和：${coin}</p>
+            <br>
+            <div>${classificationText}</div>
+            <br>
+            <p>回帖增加堕落：${duoluHui.increase}</p>
+            <p>回帖减少堕落：${duoluHui.decrease}</p>
+        </div>
+    `;
+
+        // 按钮初始文字
+        const btn = document.querySelector('.badge-manager-button .custom-button');
+        if (btn && (btn.textContent === '展开' || btn.textContent === '折叠')) {
+            btn.textContent = isFolded ? '展开' : '折叠';
+        }
+
+        // 异步加载组合并更新总收益 + 组合区域
+        loadComboAndUpdateTotal(expectations);
+    }
+
+    // 异步更新组合收益和总收益
+    async function loadComboAndUpdateTotal(baseExpectations) {
+        const comboContainer = document.getElementById('combo-earnings');
+        const allHuiP = document.getElementById('all-hui');
+        const allFaP = document.getElementById('all-fa');
+
+        if (!comboContainer || !allHuiP || !allFaP) return;
+
+        try {
+            const comboBlokList = await getComboBlokData();
+            if (comboBlokList && comboBlokList.length > 0) {
+                const combo = comboBlokList[0];
+
+                // 1. 更新组合收益区域
+                const formatArr = (arr) =>
+                    arr.map(({ type, value }) => `${type}:${value.toFixed(2)}`).join('  ');
+                comboContainer.innerHTML = `
+                <H3>勋章组合收益</H3>
+                <p>回帖：${formatArr(combo.hui)}</p>
+                <p>发帖：${formatArr(combo.fa)}</p>
+            `;
+
+                // 2. 合并组合数据到总收益
+                const mergedHui = { ...baseExpectations.hui.ALL };
+                const mergedFa = { ...baseExpectations.fa.ALL };
+
+                // 加总回帖组合数值
+                combo.hui.forEach(({ type, value }) => {
+                    if (mergedHui[type] !== undefined) {
+                        mergedHui[type] += value;
+                    }
+                });
+                // 加总发帖组合数值
+                combo.fa.forEach(({ type, value }) => {
+                    if (mergedFa[type] !== undefined) {
+                        mergedFa[type] += value;
+                    }
+                });
+
+                // 格式化并更新总收益
+                const formatTotal = (data) =>
+                    Object.entries(data)
+                        .map(([k, v]) => `${k}:${v.toFixed(2)}`)
+                        .join('  ');
+                allHuiP.textContent = `回帖：${formatTotal(mergedHui)}`;
+                allFaP.textContent = `发帖：${formatTotal(mergedFa)}`;
+            } else {
+                comboContainer.innerHTML = '<H3>勋章组合收益</H3><p>暂无数据</p>';
+            }
+        } catch (e) {
+            comboContainer.innerHTML = '<H3>勋章组合收益</H3><p>加载失败</p>';
+            console.error('组合收益加载失败', e);
         }
     }
 
@@ -2543,6 +2613,90 @@
         createLink('置顶展示勋章', loadTopMedal);
         showTopMedal();
         observeElement();
+    }
+
+    /* =========================================折叠切换+勋章组合功能============================================================ */
+    function toggleFold() {
+        const foldable = document.querySelector('.foldable-content');
+        if (!foldable) return;
+
+        // 当前是否折叠：内联样式为 'none' 即视为折叠，否则视为展开
+        const isCurrentlyFolded = foldable.style.display === 'none';
+
+        // 切换状态
+        const newFolded = !isCurrentlyFolded;
+        foldable.style.display = newFolded ? 'none' : 'block';
+    }
+
+    /**
+     * 从组合页面获取效果，并转换为 blokDataList 格式
+     * @param {boolean} isTemporary - 组合视为临时还是常驻（默认 false，即常驻）
+     * @returns {Promise<Array>} 包含组合效果的一个 blokData 条目
+     */
+    async function getComboBlokData(isTemporary = false) {
+        try {
+            const url = 'https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=combo';
+            const response = await fetch(url, { credentials: 'include' });
+            const html = await response.text();
+
+            if (html.includes('权限不足') || html.includes('对不起')) {
+                console.warn('权限不足，无法获取组合数据');
+                return [];
+            }
+
+            // 1. 提取所有 .combo_bonus_item
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            const items = tempDiv.querySelectorAll('.combo_bonus_list .combo_bonus_item');
+
+            // 2. 按 (type, attr) 汇总期望值（数值 × 概率）
+            const map = new Map();
+            items.forEach(item => {
+                const span = item.querySelector('span');
+                const b = item.querySelector('b');
+                const em = item.querySelector('em');
+                if (!span || !b || !em) return;
+
+                const type = span.textContent.trim() === '回帖' ? '回帖' : '发帖';
+
+                const bText = b.textContent.trim();
+                const attrMatch = bText.match(/(.+?)\s*([+-])(\d+)/);
+                if (!attrMatch) return;
+                const attr = attrMatch[1].trim();
+                const val = parseInt(attrMatch[3]) * (attrMatch[2] === '+' ? 1 : -1);
+
+                const emText = em.textContent.trim();
+                const probMatch = emText.match(/(\d+)%/);
+                const prob = probMatch ? parseInt(probMatch[1]) / 100 : 0;
+
+                const key = `${type}|${attr}`;
+                const expected = val * prob;
+                map.set(key, (map.get(key) || 0) + expected);
+            });
+
+            // 3. 按回帖/发帖分组，构建 hui 和 fa 数组
+            const hui = [];
+            const fa = [];
+            for (const [key, value] of map) {
+                const [type, attr] = key.split('|');
+                const rounded = Math.round(value * 10000) / 10000; // 保留4位小数
+                if (type === '回帖') {
+                    hui.push({ type: attr, value: rounded });
+                } else {
+                    fa.push({ type: attr, value: rounded });
+                }
+            }
+
+            // 4. 返回 blokData 条目
+            return [{
+                isTemporary,
+                hui,
+                fa
+            }];
+        } catch (e) {
+            console.error('获取组合数据失败', e);
+            return [];
+        }
     }
     /* =========================================工具函数区域============================================================ */
 
