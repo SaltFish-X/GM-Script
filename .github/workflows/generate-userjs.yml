@@ -44,7 +44,7 @@ jobs:
             # 如果缺少 @updateURL，自动插入 jsDelivr CDN 链接
             if ! grep -q '@updateURL' "$OUTFILE"; then
               ENCODED_NAME=$(python3 -c "import urllib.parse; print(urllib.parse.quote('${BASENAME}.user.js'))")
-              UPDATE_URL="https://cdn.jsdelivr.net/gh/cat-fish-X/GM-Script@main/dist/${ENCODED_NAME}"
+              UPDATE_URL="https://cdn.jsdelivr.net/gh/SaltFish-X/GM-Script@main/dist/${ENCODED_NAME}"
 
               sed -i "/^\/\/ @version\b/a // @updateURL    ${UPDATE_URL}\n// @downloadURL  ${UPDATE_URL}" "$OUTFILE"
 
