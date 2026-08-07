@@ -41,10 +41,10 @@ jobs:
 
             cp "$f" "$OUTFILE"
 
-            # 如果缺少 @updateURL，自动插入 Gitee 真实链接（文件在 dist/ 下）
+            # 如果缺少 @updateURL，自动插入 jsDelivr CDN 链接
             if ! grep -q '@updateURL' "$OUTFILE"; then
               ENCODED_NAME=$(python3 -c "import urllib.parse; print(urllib.parse.quote('${BASENAME}.user.js'))")
-              UPDATE_URL="https://gitee.com/cat-fish-X/GM-Script/raw/main/dist/${ENCODED_NAME}"
+              UPDATE_URL="https://cdn.jsdelivr.net/gh/cat-fish-X/GM-Script@main/dist/${ENCODED_NAME}"
 
               sed -i "/^\/\/ @version\b/a // @updateURL    ${UPDATE_URL}\n// @downloadURL  ${UPDATE_URL}" "$OUTFILE"
 
@@ -61,10 +61,10 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # 先将所有更改加入暂存区
-          git add dist/
+          # 强制添加 dist 目录（即使被 .gitignore 忽略）
+          git add -f dist/
 
-          # 检查暂存区是否有内容需要提交
+          # 检查暂存区是否有需要提交的内容
           if git diff --staged --quiet; then
             echo "没有文件发生变化，无需提交。"
             exit 0
