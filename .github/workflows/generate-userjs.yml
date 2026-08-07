@@ -1,4 +1,4 @@
-name: 生成带更新地址的 .user.js
+name: 生成带更新地址的 .user.js 并推送至仓库
 
 on:
   push:
@@ -8,18 +8,24 @@ on:
       - '.github/workflows/generate-userjs.yml'
   workflow_dispatch:
 
+# 赋予工作流写入仓库的权限
+permissions:
+  contents: write
+
 jobs:
   generate:
     runs-on: ubuntu-latest
     steps:
       - name: 检出代码
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # 获取完整提交历史，方便后续推送
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 补全更新地址并生成 .user.js
         run: |
           mkdir -p dist
 
-          # 脚本文件名（必须和仓库里的一致）
           SCRIPTS=(
             "☆GM论坛勋章百宝箱.js"
             "☆GM论坛勋章放大镜.js"
@@ -34,28 +40,34 @@ jobs:
             BASENAME=$(basename "$f" .js)
             OUTFILE="dist/${BASENAME}.user.js"
 
-            # 复制一份原始文件
             cp "$f" "$OUTFILE"
 
-            # 如果缺少 @updateURL，就自动插入真实链接
+            # 如果缺少 @updateURL，自动插入 Gitee 真实链接
             if ! grep -q '@updateURL' "$OUTFILE"; then
-              # 对文件名进行 URL 编码（因为 Gitee raw 链接需要）
               ENCODED_NAME=$(python3 -c "import urllib.parse; print(urllib.parse.quote('${BASENAME}.user.js'))")
               UPDATE_URL="https://gitee.com/cat-fish-X/GM-Script/raw/main/${ENCODED_NAME}"
 
-              # 在第一个 @version 行后插入 @updateURL 和 @downloadURL
               sed -i "/^\/\/ @version\b/a // @updateURL    ${UPDATE_URL}\n// @downloadURL  ${UPDATE_URL}" "$OUTFILE"
 
               echo "✅ 已为 ${BASENAME} 自动添加更新地址：${UPDATE_URL}"
             else
-              echo "✓ ${BASENAME} 已包含更新地址，无需处理"
+              echo "✓ ${BASENAME} 已包含更新地址"
             fi
 
             echo "生成文件: $OUTFILE"
           done
 
-      - name: 上传 .user.js 产物
-        uses: actions/upload-artifact@v4
-        with:
-          name: user-scripts
-          path: dist/*.user.js
+      - name: 提交生成的文件到仓库
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # 检查 dist 目录是否有变化
+          if git diff --quiet && git diff --staged --quiet; then
+            echo "没有文件发生变化，无需提交。"
+            exit 0
+          fi
+
+          git add dist/
+          git commit -m "🤖 自动生成 .user.js 文件 [skip ci]"
+          git push
