@@ -3065,6 +3065,9 @@ function pLimit(concurrency) {
                         ? this.positionLeft(targetEL)
                         : this.positionTop(targetEL);
                     break;
+                case "default_2":
+                    this.positionSaltfish(targetEL);
+                    break;
                 case "rank":
                     this.positionRank(targetEL);
                     break;
@@ -3403,7 +3406,7 @@ function pLimit(concurrency) {
                 },
                 // 交易角-发布、交易单、勋章组合
                 {
-                    type: "saltfish",
+                    type: "default_2",
                     container: "#ct.wodexunzhang",
                     target: ".trade_medal_choice, .trade_medal, .combo_medal_img",
                     delay: 50,
