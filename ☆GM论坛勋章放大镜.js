@@ -24,6 +24,7 @@
 // 蛇年抽奖 https://www.gamemale.com/plugin.php?id=wodexunzhang%3Ashowxunzhang&fid=30
 // 0.54血毕业男从比较 https://www.gamemale.com/thread-149145-1-2.html
 // 勋章改动一览 https://www.gamemale.com/forum.php?mod=viewthread&tid=8878&extra=&authorid=63991&page=2
+// 从夯到拉锐评全部绝版限定和疑似绝版限定勋章 https://www.gamemale.com/thread-181334-1-1.html
 
 // 勋章放大镜下载更新地址
 // https://greasyfork.org/zh-CN/scripts/516559
@@ -4231,7 +4232,7 @@ var 放大镜内容映射表 = {
 【勋章类型】游戏男从
 【入手条件】堕落≤50
 【商店售价】460金币
-【等级1】3% 回帖金币-1 血液+2 ▕▏升级条件：需求150血液
+【等级1】3% 回帖金币-1 血液+2 ▕▏升级条件：消耗150血液
 【等级2】3% 回帖金币+1、发帖血液+2▕▏升级条件：消耗55堕落
 【等级3】10% 回帖金币+1 血液+1、发帖血液+2▕▏升级条件：知识≥30
 【等级4】25% 发帖金币+10▕▏升级条件：旅程≥99
