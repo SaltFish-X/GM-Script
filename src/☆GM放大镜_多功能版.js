@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM-勋章放大镜
 // @namespace    https://docs.scriptcat.org/
-// @version      2.2.7
+// @version      2.2.8
 // @description  暗黑模式的勋章放大镜
 // @author       1:轶致2:咸鱼鱼3:哈哈哈哈_
 // @match        *://*.gamemale.com/*
@@ -438,6 +438,47 @@ const medalDataNoTid = [
     },
 ]
 const medalData = [
+    {
+        "type": "奖品",
+        "no": "0692",
+        "url_tid": "194420",
+        "name": "伽蓝寺神秘木匣",
+        "date": "2026-8-27",
+        "buy_limit": "参与七夕活动【星河寻缘】，向伽蓝寺捐出一大笔香火钱",
+        "price": "无",
+        "duration": "17天",
+        "levels": "【等级1】37% 回帖金币+1 血液+1▕▏升级条件：消耗-777金币\n【 Max 】1% 回帖金币+1 血液+1",
+        "levels_img": {
+            "1": ["https://img.gamemale.com/album/202608/25/105411n3bay8jya5nba1d1.gif", 40],
+            "Max": ["https://img.gamemale.com/album/202608/25/105412hlul7x0w03uu0m3l.gif", 40]
+        }
+    },
+    {
+        "type": "奖品",
+        "no": "0691",
+        "url_tid": "194419",
+        "name": "金风玉露",
+        "date": "2026-8-27",
+        "buy_limit": "参与七夕活动【星河寻缘】，并与另一名坛友达成羁绊",
+        "price": "无",
+        "levels": "【 Max 】1% 回帖金币+1",
+        "levels_img": {
+            "Max": ["https://img.gamemale.com/album/202608/25/105402jh3nogn4ezfxr2gg.gif", 82]
+        }
+    },
+    {
+        "type": "奖品",
+        "no": "0690",
+        "url_tid": "194418",
+        "name": "银汉迢迢",
+        "date": "2026-8-27",
+        "buy_limit": "参与七夕活动【星河寻缘】",
+        "price": "无",
+        "levels": "【 Max 】1% 回帖血液+1",
+        "levels_img": {
+            "Max": ["https://img.gamemale.com/album/202608/25/105353eezmkez24m82v422.gif", 82]
+        }
+    },
     {
         "type": "奖品",
         "no": "0689",
