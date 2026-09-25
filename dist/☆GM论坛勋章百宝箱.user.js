@@ -1089,9 +1089,18 @@
             border-left: 3px solid #e2e8f0;
             line-height: 1.8;
         }
-        .abp-line.abp-increase { border-left-color: #48bb78; }
-        .abp-line.abp-decrease { border-left-color: #f56565; }
 
+        /* 属性块不再按增减分色，使用中性左描边 */
+        .abp-line {
+            border-left-color: #cbd5e0;
+        }
+
+        /* 类别小计为负时标红 */
+        .abp-group-total-neg {
+            color: #e53e3e !important;
+            background: #fed7d7 !important;
+        }
+         
         .abp-line-head {
             display: flex;
             align-items: baseline;
@@ -2356,9 +2365,9 @@
         ).join('');
     }
 
-    // 构建单个行为（回帖/发帖）的展示 HTML —— 每个属性外层包裹一层 .abp-attr-section 作为锚点
+    // 构建单个行为（回帖/发帖）的展示 HTML
+    // 同一属性下：先按勋章类别分组，类别内先列增加项、再列减少项
     function buildActionPaneHTML(action, composition) {
-        const changeNames = { increase: '增加', decrease: '减少' };
         let html = '';
         let hasContent = false;
 
@@ -2368,47 +2377,86 @@
             if (incGroups.length === 0 && decGroups.length === 0) return;
 
             hasContent = true;
-            let sectionHtml = `<div class="abp-attr-section" id="abp-anchor-${action}-${attr}">`;
 
-            [['increase', incGroups], ['decrease', decGroups]].forEach(([change, groups]) => {
-                if (!groups || groups.length === 0) return;
-                const total = groups.reduce((sum, g) => sum + g.total, 0);
+            // 按 displayCategory 合并 inc / dec
+            const mergedMap = new Map();
+            const orderedKeys = [];
 
-                const groupsHtml = groups.map(g => {
-                    const itemsText = g.items.map(item => {
-                        const val = item.expected;
-                        const negCls = val < 0 ? ' abp-badge-neg' : '';
-                        const keyAttr = item.key ? ` data-key="${item.key}"` : '';
-                        return `<span class="abp-badge${negCls}"${keyAttr}>` +
-                            `<span class="abp-name">${item.name}</span>` +
-                            `<span class="abp-val">(${formatExpectedValue(val)})</span>` +
-                            `</span>`;
-                    }).join('');
+            const ensure = (g) => {
+                if (!mergedMap.has(g.displayCategory)) {
+                    mergedMap.set(g.displayCategory, {
+                        category: g.category,
+                        displayCategory: g.displayCategory,
+                        items: [],
+                        total: 0
+                    });
+                    orderedKeys.push(g.displayCategory);
+                }
+                return mergedMap.get(g.displayCategory);
+            };
 
-                    return `
-                    <div class="abp-group">
-                        <div class="abp-group-tag">
-                            ${g.displayCategory}
-                            <span class="abp-group-total">${formatExpectedValue(g.total)}</span>
-                        </div>
-                        <div class="abp-group-items">${itemsText}</div>
-                    </div>
-                `;
+            // 先加后减（类别顺序沿用 incGroups 的顺序）
+            incGroups.forEach(g => {
+                const m = ensure(g);
+                m.items.push(...g.items);
+                m.total += g.total;
+            });
+            decGroups.forEach(g => {
+                const m = ensure(g);
+                m.items.push(...g.items);
+                m.total += g.total;
+            });
+
+            // 每个类别内：正数在前、负数在后；同类内按期望绝对值降序
+            orderedKeys.forEach(k => {
+                const m = mergedMap.get(k);
+                m.items.sort((a, b) => {
+                    const aPos = a.expected > 0 ? 0 : 1;
+                    const bPos = b.expected > 0 ? 0 : 1;
+                    if (aPos !== bPos) return aPos - bPos;
+                    return Math.abs(b.expected) - Math.abs(a.expected);
+                });
+            });
+
+            // 属性总额
+            const total = orderedKeys.reduce((s, k) => s + mergedMap.get(k).total, 0);
+
+            const groupsHtml = orderedKeys.map(k => {
+                const g = mergedMap.get(k);
+                const groupTotalCls = g.total < 0 ? ' abp-group-total-neg' : '';
+
+                const itemsText = g.items.map(item => {
+                    const val = item.expected;
+                    const negCls = val < 0 ? ' abp-badge-neg' : '';
+                    const keyAttr = item.key ? ` data-key="${item.key}"` : '';
+                    return `<span class="abp-badge${negCls}"${keyAttr}>` +
+                        `<span class="abp-name">${item.name}</span>` +
+                        `<span class="abp-val">(${formatExpectedValue(val)})</span>` +
+                        `</span>`;
                 }).join('');
 
-                sectionHtml += `
-                <div class="abp-line abp-${change}">
+                return `
+                <div class="abp-group">
+                    <div class="abp-group-tag">
+                        ${g.displayCategory}
+                        <span class="abp-group-total${groupTotalCls}">${formatExpectedValue(g.total)}</span>
+                    </div>
+                    <div class="abp-group-items">${itemsText}</div>
+                </div>
+            `;
+            }).join('');
+
+            html += `
+            <div class="abp-attr-section" id="abp-anchor-${action}-${attr}">
+                <div class="abp-line">
                     <div class="abp-line-head">
-                        <span class="abp-line-title">${changeNames[change]}${attr}</span>
+                        <span class="abp-line-title">${attr}</span>
                         <span class="abp-line-total">合计 ${formatExpectedValue(total)}</span>
                     </div>
                     <div class="abp-list">${groupsHtml}</div>
                 </div>
-            `;
-            });
-
-            sectionHtml += `</div>`;
-            html += sectionHtml;
+            </div>
+        `;
         });
 
         if (!hasContent) {
@@ -2416,7 +2464,6 @@
         }
         return html;
     }
-
     // 点击勋章胶囊：关闭弹窗 → 滚动 → 高亮
     function jumpToMedal(key) {
         if (!key) return;
