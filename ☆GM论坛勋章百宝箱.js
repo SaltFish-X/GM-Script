@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.7.1
+// @version      2.8.0
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
@@ -58,6 +58,8 @@
     const formhash = document.querySelector('input[name="formhash"]').value;
     // 勋章总类型
     const orderList = Object.keys(linkList);
+    // 属性名列表（供收益汇总与详细组成共用）
+    const ATTR_NAMES = ['金币', '血液', '咒术', '知识', '旅程', '堕落', '灵魂'];
 
     const categoriesData = {
         "youxi": [
@@ -845,6 +847,8 @@
     // 折叠展开功能
     createLink('展开/折叠勋章详情', toggleFold);
 
+    // 一键查看各属性收益期望详细组成
+    createLink('查看属性收益组成', showAttrBreakdown);
     /* =============================================================================================================== */
 
     // 创建一个新的div元素用于管理徽章
@@ -999,8 +1003,300 @@
             top: 40px;
         }
         `;
+
+        const attrBreakdownStyles = `
+        #attrBreakdownPanel {
+            position: fixed;
+            top: 50%; left: 50%;
+            width: 880px;              /* 720 → 880 */
+            max-width: 94vw;
+            max-height: 85vh;          /* 82 → 85 */
+            transform: translate(-50%, -50%);
+            background: #ffffff;
+            padding: 24px 30px;        /* 略微收紧内边距，给标签腾空间 */
+            z-index: 999999;
+            box-shadow: 0 16px 48px rgba(0,0,0,0.20);
+            font-family: 'Noto Sans SC', 'Microsoft Yahei', Arial, sans-serif;
+            border-radius: 14px;
+            display: none;
+            flex-direction: column;
+            color: #333;
+            border: 1px solid #e2e8f0;
+            line-height: 1.75;
+            font-size: 14px;
+        }
+
+        .abp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #edf2f7;
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+            user-select: none;
+        }
+        .abp-title {
+            font-size: 18px;
+            color: #1a202c;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+        .abp-close {
+            cursor: pointer;
+            font-size: 26px;
+            color: #a0aec0;
+            line-height: 1;
+            padding: 2px 8px;
+            border-radius: 6px;
+            transition: all 0.15s;
+        }
+        .abp-close:hover {
+            color: #4a5568;
+            background: #f7fafc;
+        }
+
+        .abp-body {
+            overflow-y: auto;
+            flex: 1;
+            padding: 2px 12px 2px 2px;
+        }
+        .abp-body::-webkit-scrollbar { width: 8px; }
+        .abp-body::-webkit-scrollbar-thumb {
+            background: #cbd5e0; border-radius: 4px;
+        }
+        .abp-body::-webkit-scrollbar-thumb:hover { background: #a0aec0; }
+
+        .abp-section { margin-bottom: 12px; }
+
+        .abp-section-title {
+            color: #2b6cb0;
+            padding: 10px 0 10px 0;
+            margin-top: 8px;
+            margin-bottom: 14px;
+            font-size: 15px;
+            font-weight: 700;
+            border-bottom: 1px dashed #e2e8f0;
+            letter-spacing: 0.3px;
+        }
+
+        .abp-line {
+            margin-bottom: 16px;
+            padding: 12px 14px;
+            background: #fafbfc;
+            border-radius: 8px;
+            border-left: 3px solid #e2e8f0;
+            line-height: 1.8;
+        }
+        .abp-line.abp-increase { border-left-color: #48bb78; }
+        .abp-line.abp-decrease { border-left-color: #f56565; }
+
+        .abp-line-head {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: 6px;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .abp-line-title { color: #2d3748; }
+        .abp-line-total {
+            font-size: 12px;
+            font-weight: 600;
+            color: #718096;
+            padding: 1px 8px;
+            background: #edf2f7;
+            border-radius: 10px;
+        }
+
+        .abp-list {
+            color: #4a5568;
+            font-size: 13px;
+            line-height: 2;
+        }
+        .abp-badge {
+            display: inline-block;
+            margin-right: 8px;
+            margin-bottom: 4px;
+            padding: 2px 8px;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 5px;
+            white-space: nowrap;
+            transition: all 0.15s;
+        }
+        .abp-badge:hover {
+            background: #f7fafc;
+            border-color: #cbd5e0;
+            transform: translateY(-1px);
+        }
+        .abp-name { font-weight: 600; color: #2d3748; }
+        .abp-val {
+            color: #4f46e5;
+            font-size: 12px;
+            margin-left: 4px;
+            font-weight: 600;
+        }
+        .abp-badge.abp-badge-neg .abp-val { color: #e53e3e; }
+
+        .abp-empty {
+            color: #a0aec0;
+            padding: 14px 16px;
+            font-style: italic;
+            font-size: 13px;
+            background: #fafbfc;
+            border-radius: 8px;
+            border-left: 3px solid #edf2f7;
+        }
+        
+        .abp-group {
+            margin-bottom: 10px;
+            padding: 8px 10px;
+            background: #fff;
+            border-radius: 6px;
+            border: 1px dashed #edf2f7;
+        }
+        .abp-group:last-child { margin-bottom: 0; }
+
+        .abp-group-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #4f46e5;
+            background: #eef2ff;
+            padding: 2px 10px;
+            border-radius: 4px;
+            margin-bottom: 6px;
+            letter-spacing: 0.3px;
+        }
+        .abp-group-total {
+            color: #4338ca;
+            background: #e0e7ff;
+            padding: 0 6px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .abp-group-items {
+            padding-left: 2px;
+            line-height: 2;
+        }
+        /* —— Tab 栏 —— */
+        .abp-tabs {
+            display: flex;
+            gap: 4px;
+            padding: 4px;
+            background: #f7fafc;
+            border-radius: 8px;
+            margin-bottom: 18px;
+        }
+        .abp-tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #718096;
+            transition: all 0.15s;
+            user-select: none;
+        }
+        .abp-tab:hover {
+            color: #4a5568;
+            background: #edf2f7;
+        }
+        .abp-tab-active {
+            color: #fff;
+            background: #4f46e5;
+            box-shadow: 0 2px 8px rgba(79,70,229,0.3);
+        }
+        .abp-tab-active:hover {
+            color: #fff;
+            background: #4338ca;
+        }
+
+        /* —— 可点击勋章胶囊 —— */
+        .abp-badge[data-key] {
+            cursor: pointer;
+        }
+        .abp-badge[data-key]:hover {
+            background: #eef2ff;
+            border-color: #a5b4fc;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(79,70,229,0.15);
+        }
+
+        /* —— 跳转高亮 —— */
+        .badge-jump-highlight {
+            animation: badgeJumpHighlight 2s ease-out;
+            outline: 3px solid #fbbf24 !important;
+            outline-offset: 2px;
+            border-radius: 6px;
+            position: relative;
+            z-index: 1;
+        }
+        @keyframes badgeJumpHighlight {
+            0%   { box-shadow: 0 0 0 0 rgba(251,191,36,0.7); }
+            50%  { box-shadow: 0 0 0 12px rgba(251,191,36,0); }
+            100% { box-shadow: 0 0 0 0 rgba(251,191,36,0); }
+        }
+        
+        /* —— 属性标签行 —— */
+        .abp-attr-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding: 0 4px 12px;
+            border-bottom: 1px solid #edf2f7;
+            margin-bottom: 16px;
+            min-height: 30px;
+        }
+        .abp-attr-tag {
+            padding: 4px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #4a5568;
+            background: #edf2f7;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.15s;
+            user-select: none;
+            line-height: 1.6;
+        }
+        .abp-attr-tag:hover {
+            background: #c7d2fe;
+            color: #3730a3;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(79,70,229,0.15);
+        }
+        .abp-attr-tag:active { transform: translateY(0); }
+        .abp-attr-tag-empty {
+            font-size: 12px;
+            color: #a0aec0;
+            font-style: italic;
+            padding: 4px 0;
+        }
+
+        /* —— 属性区块 + 锚点高亮 —— */
+        .abp-attr-section {
+            border-radius: 8px;
+            padding: 2px 4px;
+            margin-bottom: 4px;
+        }
+        .abp-attr-section.abp-anchor-highlight {
+            animation: abpAnchorFlash 1.3s ease-out;
+        }
+        @keyframes abpAnchorFlash {
+            0%   { background: rgba(251,191,36,0.30); }
+            100% { background: transparent; }
+        }
+    `;
         GM_addStyle(customStyles);
         GM_addStyle(TopMedalContainer);
+        GM_addStyle(attrBreakdownStyles);
     }
 
     // 添加功能按钮
@@ -1582,17 +1878,29 @@
         }
     }
 
-    // 优化过的badgeOrder
-    function processBadges() {
-        const myblok = document.getElementsByClassName("myblok");
-        const blokDataList = [];
+    /* ========================================= 统一采集层 ========================================= */
+
+    /**
+     * 一次性遍历 .myblok，产出统一 badges 数据结构
+     * @returns {{
+     *   badges: Array<{
+     *     name: string, category: string, displayCategory: string,
+     *     isTemporary: boolean, isListed: boolean,
+     *     hui: AttributeEntry[], fa: AttributeEntry[],
+     *     element: HTMLElement
+     *   }>,
+     *   classificationResult: Record<string, Set<string>>,
+     *   consignmentTotal: number
+     * }}
+     */
+    function parseBadgesFromDOM() {
+        const myblokList = document.querySelectorAll('.myblok');
+        const badges = [];
         const classificationResult = {};
         const categoriesMapping = {};
+        let consignmentTotal = 0;
 
-        // 初始化寄售总价
-        let coin = 0;
-
-        // 初始化分类结果结构
+        // 初始化分类容器
         Object.entries(linkList).forEach(([key, value]) => {
             const number = numbers[key] || '';
             const categoryKey = `${key}${number ? `(${number})` : ''}`;
@@ -1601,169 +1909,279 @@
         });
         classificationResult["其他"] = new Set();
 
-        // 单次遍历处理所有数据
-        for (const blok of myblok) {
-            // 名称分类处理
-            // 去空格
-            const altName = blok.querySelector('img')?.getAttribute('alt').trim() || '';
-            const normalizedName = altName.replace(/[·‧]/g, s =>
-                s === '·' ? '‧' : '·' // 统一转换为半角符号进行匹配
-            ).replace(/【不可购买】/g, ''); // 去除【不可购买】
-
-            // 去除尾部的点or不识别的尾标识
+        myblokList.forEach(blok => {
+            // —— 名称与分类 ——
+            const imgEl = blok.querySelector('img');
+            const altName = imgEl ? (imgEl.getAttribute('alt') || '').trim() : '';
+            const normalizedName = altName
+                .replace(/[·‧]/g, s => s === '·' ? '‧' : '·')
+                .replace(/【不可购买】/g, '');
             const normalizedNameSlice = normalizedName.slice(0, -1);
 
-            const category = nameCategoryMap.get(normalizedName) || nameCategoryMap.get(normalizedNameSlice) || 'other';
+            const category =
+                nameCategoryMap.get(normalizedName) ||
+                nameCategoryMap.get(normalizedNameSlice) ||
+                'other';
             const displayCategory = categoriesMapping[category] || "其他";
 
             classificationResult[displayCategory].add(altName);
             blok.setAttribute('data-category', category);
+            blok.setAttribute('categories', category);
 
-            // 收益数据提取
-            if (blok.innerText.includes("已寄售")) continue;
-
+            // —— 状态标记 ——
+            const isListed = blok.innerText.includes('已寄售');
             const isTemporary = blok.textContent.includes('有效期');
+
+            // —— 概率 ——
             const probMatch = blok.innerText.match(/几率 (\d+)%/i);
             const probability = probMatch ? parseInt(probMatch[1]) / 100 : 1;
 
-            const extractAttributes = (pattern) =>
-                Array.from(blok.innerText.matchAll(pattern))
-                    .map(m => ({
-                        type: m[1],
-                        value: (m[2] === '+' ? 1 : -1) * parseInt(m[3]) * probability
-                    }));
+            // —— 属性提取 ——
+            const extract = (pattern) =>
+                Array.from(blok.innerText.matchAll(pattern)).map(m => {
+                    const sign = m[2];
+                    const rawValue = parseInt(m[3]);
+                    const expected = (sign === '+' ? 1 : -1) * rawValue * probability;
+                    return { type: m[1], sign, rawValue, probability, expected };
+                });
 
-            blokDataList.push({
+            const hui = extract(/回帖\s+(.+?) ([+-])(\d+)/gi);
+            const fa = extract(/发帖\s+(.+?) ([+-])(\d+)/gi);
+
+            badges.push({
                 name: altName,
+                key: blok.getAttribute('key'),   // ← 新增
+                category,
+                displayCategory,
                 isTemporary,
-                hui: extractAttributes(/回帖\s+(.+?) ([+-])(\d+)/gi),
-                fa: extractAttributes(/发帖\s+(.+?) ([+-])(\d+)/gi),
-                // huiDuoluo: extractAttributes(/回帖\s+(堕落) ([+-])(\d+)/gi),
+                isListed,
+                hui,
+                fa,
+                element: blok
             });
 
-            // 计算寄售总价
-            const coinMatches = blok.innerText.match(/金币\s+(\d+)寄售/i);
-            if (coinMatches) {
-                coin += parseInt(coinMatches[1]);
-            }
+            // —— 寄售价格 ——
+            const coinMatch = blok.innerText.match(/金币\s+(\d+)寄售/i);
+            if (coinMatch) consignmentTotal += parseInt(coinMatch[1]);
 
-            // 显示有效时长
-            if (isTemporary) {
-                const timeTatches = blok.innerText.match(/\s+(.+?分)\d{1,2}秒有效期/i);
-                if (timeTatches) {
-                    const newP = document.createElement("p");
-                    newP.textContent = timeTatches[1];
-                    blok.firstElementChild.appendChild(newP);
+            // —— 有效期时长展示（防重入） ——
+            if (isTemporary && blok.firstElementChild) {
+                const timeMatch = blok.innerText.match(/\s+(.+?分)\d{1,2}秒有效期/i);
+                if (timeMatch) {
+                    const exists = blok.firstElementChild.querySelector('p.validity-time');
+                    if (!exists) {
+                        const newP = document.createElement('p');
+                        newP.className = 'validity-time';
+                        newP.textContent = timeMatch[1];
+                        blok.firstElementChild.appendChild(newP);
+                    }
                 }
             }
-        }
-
-        return { classificationResult, blokDataList, coin };
-    }
-
-    // 优化后的收益计算函数
-    function calculateExpectations(blokDataList) {
-        const initStats = () => ({
-            ALL: { 金币: 0, 血液: 0, 咒术: 0, 知识: 0, 旅程: 0, 堕落: 0, 灵魂: 0 },
-            Permanent: { 金币: 0, 血液: 0, 咒术: 0, 知识: 0, 旅程: 0, 堕落: 0, 灵魂: 0 },
-            Temporary: { 金币: 0, 血液: 0, 咒术: 0, 知识: 0, 旅程: 0, 堕落: 0, 灵魂: 0 }
         });
 
-        const result = { hui: initStats(), fa: initStats() };
+        return { badges, classificationResult, consignmentTotal };
+    }
 
-        blokDataList.forEach(({ isTemporary, hui, fa }) => {
-            const types = ['ALL', isTemporary ? 'Temporary' : 'Permanent'];
+    /* ========================================= 聚合层 A：收益汇总 ========================================= */
 
-            const process = (source, target) => {
-                source.forEach(({ type, value }) => {
-                    types.forEach(t => {
-                        if (target[t][type] !== undefined) {
-                            target[t][type] += value;
+    function createEmptyStats() {
+        const stats = {};
+        ATTR_NAMES.forEach(attr => stats[attr] = 0);
+        return stats;
+    }
+
+    /**
+     * 汇总所有/常驻/临时收益
+     * @param {ReturnType<typeof parseBadgesFromDOM>} badgesData
+     * @returns {{ hui: { ALL, Permanent, Temporary }, fa: { ALL, Permanent, Temporary } }}
+     */
+    function aggregateAllSummaries(badgesData) {
+        const result = {
+            hui: { ALL: createEmptyStats(), Permanent: createEmptyStats(), Temporary: createEmptyStats() },
+            fa: { ALL: createEmptyStats(), Permanent: createEmptyStats(), Temporary: createEmptyStats() }
+        };
+
+        badgesData.badges.forEach(badge => {
+            if (badge.isListed) return;
+
+            const scopes = badge.isTemporary ? ['ALL', 'Temporary'] : ['ALL', 'Permanent'];
+
+            const apply = (attrs, target) => {
+                attrs.forEach(({ type, expected }) => {
+                    scopes.forEach(scope => {
+                        if (target[scope][type] !== undefined) {
+                            target[scope][type] += expected;
                         }
                     });
                 });
             };
-
-            process(hui, result.hui);
-            process(fa, result.fa);
+            apply(badge.hui, result.hui);
+            apply(badge.fa, result.fa);
         });
 
-        // 数据格式化
-        const formatter = (obj) => Object.fromEntries(
-            Object.entries(obj).map(([k, v]) => [k, Number(v.toFixed(4))])
-        );
+        // 保留4位小数
+        ['hui', 'fa'].forEach(action => {
+            ['ALL', 'Permanent', 'Temporary'].forEach(scope => {
+                Object.keys(result[action][scope]).forEach(attr => {
+                    result[action][scope][attr] = Number(result[action][scope][attr].toFixed(4));
+                });
+            });
+        });
 
-        return {
-            hui: Object.fromEntries(Object.entries(result.hui).map(([k, v]) => [k, formatter(v)])),
-            fa: Object.fromEntries(Object.entries(result.fa).map(([k, v]) => [k, formatter(v)]))
-        };
+        return result;
     }
 
-    // 显示堕落相关的勋章
-    function showDuoluHui(blokDataList) {
-        const increaseDuolu = []; // 存储增加堕落的物品名称
-        const decreaseDuolu = []; // 存储减少堕落的物品名称
-
-        // 遍历数组
-        blokDataList.forEach(e => {
-            const duolu = e.hui.find(h => h.type === '堕落'); // 查找堕落值
-            if (duolu) {
-                if (duolu.value > 0) {
-                    increaseDuolu.push(e.name); // 增加堕落
-                } else if (duolu.value < 0) {
-                    decreaseDuolu.push(e.name); // 减少堕落
+    /**
+     * 收集回帖加减堕落的勋章名
+     */
+    function collectDuoluHui(badgesData) {
+        const increase = [];
+        const decrease = [];
+        badgesData.badges.forEach(badge => {
+            if (badge.isListed) return;
+            badge.hui.forEach(entry => {
+                if (entry.type === '堕落' && entry.expected !== 0) {
+                    if (entry.expected > 0) increase.push(badge.name);
+                    else decrease.push(badge.name);
                 }
-            }
+            });
         });
-
-        // 返回结果
-        return {
-            increase: increaseDuolu.join(', '),
-            decrease: decreaseDuolu.join(', ')
-        };
+        return { increase: increase.join(', '), decrease: decrease.join(', ') };
     }
 
-    // 计算收益 + 展示勋章分类 + 展示堕落相关勋章
+    /* ========================================= 聚合层 B：详细组成 ========================================= */
+
+    /**
+     * 详细组成：按 行为 × 增减 × 属性 拆分，属性内部再按勋章类型分组
+     * @param {ReturnType<typeof parseBadgesFromDOM>} badgesData
+     * @param {{ includeListed?: boolean }} options
+     */
+    function aggregateBreakdown(badgesData, options = {}) {
+        const { includeListed = false } = options;
+
+        // 类型排序映射（沿用 linkList 定义顺序，other 兜底最后）
+        const categoryOrderMap = {};
+        Object.entries(linkList).forEach(([, enKey], idx) => {
+            categoryOrderMap[enKey] = idx;
+        });
+        categoryOrderMap['other'] = 999;
+
+        // 临时容器：attrMap = Map<displayCategory, { category, displayCategory, items[] }>
+        const raw = {
+            hui: { increase: {}, decrease: {} },
+            fa: { increase: {}, decrease: {} }
+        };
+        ATTR_NAMES.forEach(attr => {
+            raw.hui.increase[attr] = new Map();
+            raw.hui.decrease[attr] = new Map();
+            raw.fa.increase[attr] = new Map();
+            raw.fa.decrease[attr] = new Map();
+        });
+
+        badgesData.badges.forEach(badge => {
+            if (!includeListed && badge.isListed) return;
+
+            const pushEntry = (attrs, bucket) => {
+                attrs.forEach(entry => {
+                    if (!(entry.type in bucket.increase)) return;
+                    if (entry.expected === 0) return;
+
+                    const target = entry.expected > 0 ? bucket.increase : bucket.decrease;
+                    const attrMap = target[entry.type];
+                    const groupKey = badge.displayCategory || '其他';
+
+                    if (!attrMap.has(groupKey)) {
+                        attrMap.set(groupKey, {
+                            category: badge.category,
+                            displayCategory: groupKey,
+                            items: []
+                        });
+                    }
+                    attrMap.get(groupKey).items.push({
+                        name: badge.name,
+                        key: badge.key,
+                        expected: entry.expected,
+                        rawValue: entry.rawValue,
+                        probability: entry.probability,
+                        sign: entry.sign,
+                        isTemporary: badge.isTemporary
+                    });
+                });
+            };
+            pushEntry(badge.hui, raw.hui);
+            pushEntry(badge.fa, raw.fa);
+        });
+
+        // 转换并排序
+        const composition = {
+            hui: { increase: {}, decrease: {} },
+            fa: { increase: {}, decrease: {} }
+        };
+
+        ['hui', 'fa'].forEach(action => {
+            ['increase', 'decrease'].forEach(change => {
+                ATTR_NAMES.forEach(attr => {
+                    const groups = Array.from(raw[action][change][attr].values());
+
+                    groups.forEach(g => {
+                        // 组内：期望绝对值降序
+                        g.items.sort((a, b) => Math.abs(b.expected) - Math.abs(a.expected));
+                        // 组小计
+                        g.total = g.items.reduce((s, it) => s + it.expected, 0);
+                    });
+
+                    // 组间：按 linkList 中勋章类型定义顺序
+                    groups.sort((a, b) => {
+                        const ai = categoryOrderMap[a.category] ?? 998;
+                        const bi = categoryOrderMap[b.category] ?? 998;
+                        return ai - bi;
+                    });
+
+                    composition[action][change][attr] = groups;
+                });
+            });
+        });
+
+        return composition;
+    }
+    /* ========================================= 渲染层 A：页面内嵌汇总面板 ========================================= */
+
     function optimizedBadgeOrder(isFolded = true) {
-        const { classificationResult, blokDataList, coin } = processBadges();
-        const expectations = calculateExpectations(blokDataList);
-        const duoluHui = showDuoluHui(blokDataList);
+        const badgesData = parseBadgesFromDOM();
+        const summaries = aggregateAllSummaries(badgesData);
+        const duoluHui = collectDuoluHui(badgesData);
 
-        // 格式化函数
-        const formatEarnings = (type, data) =>
-            Object.entries(data[type])
-                .map(([k, v]) => `${k}:${v.toFixed(2)}`)
-                .join('  ');
+        const formatEarnings = (data) =>
+            Object.entries(data).map(([k, v]) => `${k}:${v.toFixed(2)}`).join('  ');
 
-        const classificationText = Object.entries(classificationResult)
+        const classificationText = Object.entries(badgesData.classificationResult)
             .map(([k, v]) => `${k} : (${v.size}) ${[...v].join(', ')}`)
             .join('<br>');
 
         const badgeOrderElement = document.querySelector(".badge-order");
         if (!badgeOrderElement) return;
 
-        // 先渲染不含组合的总收益和其他内容
         badgeOrderElement.innerHTML = `
         <H3>所有勋章收益</H3>
-        <p id="all-hui">回帖：${formatEarnings('ALL', expectations.hui)}</p>
-        <p id="all-fa">发帖：${formatEarnings('ALL', expectations.fa)}</p>
+        <p id="all-hui">回帖：${formatEarnings(summaries.hui.ALL)}</p>
+        <p id="all-fa">发帖：${formatEarnings(summaries.fa.ALL)}</p>
         <div class="badge-warning"></div>
         <br>
         <div class="foldable-content" style="display: ${isFolded ? 'none' : 'block'};">
             <H3>常驻勋章收益</H3>
-            <p>回帖：${formatEarnings('Permanent', expectations.hui)}</p>
-            <p>发帖：${formatEarnings('Permanent', expectations.fa)}</p>
+            <p>回帖：${formatEarnings(summaries.hui.Permanent)}</p>
+            <p>发帖：${formatEarnings(summaries.fa.Permanent)}</p>
             <br>
             <H3>临时勋章收益</H3>
-            <p>回帖：${formatEarnings('Temporary', expectations.hui)}</p>
-            <p>发帖：${formatEarnings('Temporary', expectations.fa)}</p>
+            <p>回帖：${formatEarnings(summaries.hui.Temporary)}</p>
+            <p>发帖：${formatEarnings(summaries.fa.Temporary)}</p>
             <br>
             <div id="combo-earnings">
                 <H3>勋章组合收益</H3>
                 <p>加载中...</p>
             </div>
             <br>
-            <p>寄售最大价格总和：${coin}</p>
+            <p>寄售最大价格总和：${badgesData.consignmentTotal}</p>
             <br>
             <div>${classificationText}</div>
             <br>
@@ -1772,14 +2190,289 @@
         </div>
     `;
 
-        // 按钮初始文字
+        // 按钮文字同步
         const btn = document.querySelector('.badge-manager-button .custom-button');
         if (btn && (btn.textContent === '展开' || btn.textContent === '折叠')) {
             btn.textContent = isFolded ? '展开' : '折叠';
         }
 
-        // 异步加载组合并更新总收益 + 组合区域
-        loadComboAndUpdateTotal(expectations);
+        // 组合收益异步合并
+        loadComboAndUpdateTotal(summaries);
+    }
+
+    /* ========================================= 渲染层 B：属性收益详细组成弹窗 ========================================= */
+
+    /* ========================================= 渲染层 B：属性收益详细组成弹窗 ========================================= */
+
+    let attrBreakdownPanel = null;
+
+    function showAttrBreakdown() {
+        const badgesData = parseBadgesFromDOM();
+        if (badgesData.badges.length === 0) {
+            alert('未检测到任何勋章');
+            return;
+        }
+        const composition = aggregateBreakdown(badgesData);
+        renderAttrBreakdownPanel(composition);
+    }
+
+    function formatExpectedValue(val) {
+        if (Math.abs(val) < 0.0001) return '0';
+        const sign = val > 0 ? '+' : '';
+        if (Number.isInteger(val)) return sign + val;
+        return sign + Number(val.toFixed(2));
+    }
+
+    function renderAttrBreakdownPanel(composition) {
+        // —— 首次创建 ——
+        if (!attrBreakdownPanel) {
+            attrBreakdownPanel = document.createElement('div');
+            attrBreakdownPanel.id = 'attrBreakdownPanel';
+            attrBreakdownPanel.innerHTML = `
+            <div class="abp-header">
+                <span class="abp-title">🎖️ 各属性收益期望详细组成</span>
+                <span class="abp-close">×</span>
+            </div>
+            <div class="abp-tabs">
+                <div class="abp-tab abp-tab-active" data-tab="hui">💬 回帖属性</div>
+                <div class="abp-tab" data-tab="fa">⭐ 发帖属性</div>
+            </div>
+            <div class="abp-attr-tags" data-for="hui"></div>
+            <div class="abp-body">
+                <div class="abp-pane" data-pane="hui"></div>
+                <div class="abp-pane" data-pane="fa" style="display:none;"></div>
+            </div>
+        `;
+            document.body.appendChild(attrBreakdownPanel);
+
+            attrBreakdownPanel.querySelector('.abp-close').onclick = () => {
+                attrBreakdownPanel.style.display = 'none';
+            };
+
+            // —— 行为 Tab 切换 ——
+            attrBreakdownPanel.querySelectorAll('.abp-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const target = tab.dataset.tab;
+                    attrBreakdownPanel.querySelectorAll('.abp-tab').forEach(t => {
+                        t.classList.toggle('abp-tab-active', t.dataset.tab === target);
+                    });
+                    attrBreakdownPanel.querySelectorAll('.abp-pane').forEach(p => {
+                        p.style.display = p.dataset.pane === target ? 'block' : 'none';
+                    });
+                    // 重建属性标签
+                    updateAttrTags(target, attrBreakdownPanel.__composition);
+                    // 滚动回顶部
+                    attrBreakdownPanel.querySelector('.abp-body').scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            });
+
+            // —— 属性标签点击：滚动到对应锚点 ——
+            attrBreakdownPanel.querySelector('.abp-attr-tags').addEventListener('click', e => {
+                const tag = e.target.closest('.abp-attr-tag');
+                if (!tag) return;
+
+                const action = attrBreakdownPanel.querySelector('.abp-attr-tags').dataset.for;
+                const attr = tag.dataset.attr;
+                const anchor = attrBreakdownPanel.querySelector(`#abp-anchor-${action}-${attr}`);
+                if (!anchor) return;
+
+                const body = attrBreakdownPanel.querySelector('.abp-body');
+                const bodyRect = body.getBoundingClientRect();
+                const anchorRect = anchor.getBoundingClientRect();
+                const targetTop = body.scrollTop + (anchorRect.top - bodyRect.top) - 8;
+
+                body.scrollTo({ top: targetTop, behavior: 'smooth' });
+
+                // 短暂高亮
+                anchor.classList.remove('abp-anchor-highlight');
+                void anchor.offsetWidth; // 强制重排，重启动画
+                anchor.classList.add('abp-anchor-highlight');
+                setTimeout(() => anchor.classList.remove('abp-anchor-highlight'), 1300);
+            });
+
+            // —— 勋章胶囊点击：跳转到页面对应勋章 ——
+            attrBreakdownPanel.querySelector('.abp-body').addEventListener('click', e => {
+                const badge = e.target.closest('.abp-badge[data-key]');
+                if (!badge) return;
+                jumpToMedal(badge.dataset.key);
+            });
+
+            makeElementDraggable(
+                attrBreakdownPanel.querySelector('.abp-header'),
+                attrBreakdownPanel
+            );
+        }
+
+        // —— 缓存 composition 供 Tab 切换时复用 ——
+        attrBreakdownPanel.__composition = composition;
+
+        // —— 每次打开重置到回帖 Tab ——
+        attrBreakdownPanel.querySelectorAll('.abp-tab').forEach(t => {
+            t.classList.toggle('abp-tab-active', t.dataset.tab === 'hui');
+        });
+        attrBreakdownPanel.querySelectorAll('.abp-pane').forEach(p => {
+            p.style.display = p.dataset.pane === 'hui' ? 'block' : 'none';
+        });
+
+        // —— 渲染两个 pane ——
+        ['hui', 'fa'].forEach(action => {
+            const pane = attrBreakdownPanel.querySelector(`.abp-pane[data-pane="${action}"]`);
+            pane.innerHTML = buildActionPaneHTML(action, composition);
+        });
+
+        // —— 刷新属性标签 ——
+        updateAttrTags('hui', composition);
+
+        // —— 重置位置到屏幕中央 & 滚回顶部 ——
+        attrBreakdownPanel.style.transform = 'translate(-50%, -50%)';
+        attrBreakdownPanel.style.margin = '';
+        attrBreakdownPanel.style.left = '50%';
+        attrBreakdownPanel.style.top = '50%';
+        attrBreakdownPanel.style.display = 'flex';
+        attrBreakdownPanel.querySelector('.abp-body').scrollTop = 0;
+    }
+
+    // 根据当前行为，列出该行为下出现过的所有属性标签
+    function updateAttrTags(action, composition) {
+        const container = attrBreakdownPanel.querySelector('.abp-attr-tags');
+        if (!container || !composition) return;
+        container.dataset.for = action;
+
+        const presentAttrs = ATTR_NAMES.filter(attr => {
+            const inc = composition[action].increase[attr];
+            const dec = composition[action].decrease[attr];
+            return (inc && inc.length > 0) || (dec && dec.length > 0);
+        });
+
+        if (presentAttrs.length === 0) {
+            container.innerHTML = `<span class="abp-attr-tag-empty">当前行为下无属性加成</span>`;
+            return;
+        }
+
+        container.innerHTML = presentAttrs.map(attr =>
+            `<span class="abp-attr-tag" data-attr="${attr}">${attr}</span>`
+        ).join('');
+    }
+
+    // 构建单个行为（回帖/发帖）的展示 HTML —— 每个属性外层包裹一层 .abp-attr-section 作为锚点
+    function buildActionPaneHTML(action, composition) {
+        const changeNames = { increase: '增加', decrease: '减少' };
+        let html = '';
+        let hasContent = false;
+
+        ATTR_NAMES.forEach(attr => {
+            const incGroups = composition[action].increase[attr] || [];
+            const decGroups = composition[action].decrease[attr] || [];
+            if (incGroups.length === 0 && decGroups.length === 0) return;
+
+            hasContent = true;
+            let sectionHtml = `<div class="abp-attr-section" id="abp-anchor-${action}-${attr}">`;
+
+            [['increase', incGroups], ['decrease', decGroups]].forEach(([change, groups]) => {
+                if (!groups || groups.length === 0) return;
+                const total = groups.reduce((sum, g) => sum + g.total, 0);
+
+                const groupsHtml = groups.map(g => {
+                    const itemsText = g.items.map(item => {
+                        const val = item.expected;
+                        const negCls = val < 0 ? ' abp-badge-neg' : '';
+                        const keyAttr = item.key ? ` data-key="${item.key}"` : '';
+                        return `<span class="abp-badge${negCls}"${keyAttr}>` +
+                            `<span class="abp-name">${item.name}</span>` +
+                            `<span class="abp-val">(${formatExpectedValue(val)})</span>` +
+                            `</span>`;
+                    }).join('');
+
+                    return `
+                    <div class="abp-group">
+                        <div class="abp-group-tag">
+                            ${g.displayCategory}
+                            <span class="abp-group-total">${formatExpectedValue(g.total)}</span>
+                        </div>
+                        <div class="abp-group-items">${itemsText}</div>
+                    </div>
+                `;
+                }).join('');
+
+                sectionHtml += `
+                <div class="abp-line abp-${change}">
+                    <div class="abp-line-head">
+                        <span class="abp-line-title">${changeNames[change]}${attr}</span>
+                        <span class="abp-line-total">合计 ${formatExpectedValue(total)}</span>
+                    </div>
+                    <div class="abp-list">${groupsHtml}</div>
+                </div>
+            `;
+            });
+
+            sectionHtml += `</div>`;
+            html += sectionHtml;
+        });
+
+        if (!hasContent) {
+            html = `<div class="abp-empty">该类行为下暂无任何属性加成勋章</div>`;
+        }
+        return html;
+    }
+
+    // 点击勋章胶囊：关闭弹窗 → 滚动 → 高亮
+    function jumpToMedal(key) {
+        if (!key) return;
+        const target = document.querySelector(`.myblok[key="${key}"]`);
+        if (!target) {
+            alert('未能在页面中定位该勋章，可能已被回收或页面已刷新');
+            return;
+        }
+
+        attrBreakdownPanel.style.display = 'none';
+
+        // 目标被隐藏时先确保可见
+        const input = target.querySelector('input[type="checkbox"]');
+        if (input && !input.checked) {
+            input.click();
+        }
+
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        // 短暂高亮
+        target.classList.add('badge-jump-highlight');
+        setTimeout(() => target.classList.remove('badge-jump-highlight'), 2000);
+    }
+    /* ========================================= 面板拖拽 ========================================= */
+
+    function makeElementDraggable(header, panel) {
+        let isDragging = false;
+        let startX, startY, initialLeft, initialTop;
+
+        header.style.cursor = 'move';
+
+        header.addEventListener('mousedown', (e) => {
+            if (e.button !== 0) return;
+            isDragging = true;
+            startX = e.clientX;
+            startY = e.clientY;
+
+            const rect = panel.getBoundingClientRect();
+            initialLeft = rect.left;
+            initialTop = rect.top;
+
+            panel.style.transform = 'none';
+            panel.style.margin = '0';
+            panel.style.left = initialLeft + 'px';
+            panel.style.top = initialTop + 'px';
+
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+            panel.style.left = (initialLeft + dx) + 'px';
+            panel.style.top = (initialTop + dy) + 'px';
+        });
+
+        document.addEventListener('mouseup', () => { isDragging = false; });
     }
 
     // 异步更新组合收益和总收益
