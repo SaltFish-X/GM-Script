@@ -2428,12 +2428,6 @@
 
         attrBreakdownPanel.style.display = 'none';
 
-        // 目标被隐藏时先确保可见
-        const input = target.querySelector('input[type="checkbox"]');
-        if (input && !input.checked) {
-            input.click();
-        }
-
         target.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
         // 短暂高亮
