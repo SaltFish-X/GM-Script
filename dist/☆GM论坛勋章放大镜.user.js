@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.8.1
+// @version      2.8.2
 // @updateURL    https://cdn.jsdelivr.net/gh/SaltFish-X/GM-Script@main/dist/%E2%98%86GM%E8%AE%BA%E5%9D%9B%E5%8B%8B%E7%AB%A0%E6%94%BE%E5%A4%A7%E9%95%9C.user.js
 // @downloadURL  https://cdn.jsdelivr.net/gh/SaltFish-X/GM-Script@main/dist/%E2%98%86GM%E8%AE%BA%E5%9D%9B%E5%8B%8B%E7%AB%A0%E6%94%BE%E5%A4%A7%E9%95%9C.user.js
 // @description  泥潭勋章属性展示！
@@ -815,7 +815,7 @@ var 放大镜内容映射表 = {
 【等级4】8% 回帖金币+1、发帖旅程+1▕▏升级条件：消耗300血液
 【等级5】10% 回帖金币+1、发帖旅程+1▕▏升级条件：积分≥300
 【等级6】11% 回帖金币+1、发帖旅程+1 金币+3▕▏升级条件：消耗500金币
-【等级7】13% 回帖金币+2、发帖旅程+1 金币+3▕▏升级条件：消耗700血液
+【等级7】13% 回帖金币+2、发帖旅程+1 金币+3▕▏升级条件：血液≥700
 【 Max 】50% 发帖金币+7 咒术+1`,
 '亚当‧简森': `亚当‧简森
 【勋章类型】游戏男从
