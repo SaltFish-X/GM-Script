@@ -116,6 +116,8 @@
         "『转生经筒』": { "currency": "旅程", "amount": 1 },
         "『绿茵甘露』": { "currency": "金币", "amount": 1 },
         "GM马年红包": { "currency": "金币", "amount": 1 },
+        "悬浮滑板": { "currency": "金币", "amount": 0 },
+        "德罗瑞安": { "currency": "金币", "amount": 0 },
         "伽蓝寺神秘木匣": { "currency": "金币", "amount": 0 },
         "金风玉露": { "currency": "金币", "amount": 0 },
         "银汉迢迢": { "currency": "金币", "amount": 0 },

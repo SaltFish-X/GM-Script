@@ -440,11 +440,37 @@ const medalDataNoTid = [
 const medalData = [
     {
         "type": "奖品",
+        "no": "0694",
+        "url_tid": "196361",
+        "name": "悬浮滑板",
+        "date": "2026-9-29",
+        "buy_limit": "参与活动<a href=\"/thread-170842-1-1.html\" target=\"_blank\">【时异势殊】</a>",
+        "price": "无",
+        "levels": "【 Max 】1% 回帖金币+1",
+        "levels_img": {
+            "Max": ["https://img.gamemale.com/album/202510/20/183516b2u5suf32psuupz5.gif", 40]
+        }
+    },
+    {
+        "type": "奖品",
+        "no": "0693",
+        "url_tid": "196360",
+        "name": "德罗瑞安",
+        "date": "2026-9-29",
+        "buy_limit": "参与活动<a href=\"/thread-170842-1-1.html\" target=\"_blank\">【时异势殊】</a>，获取特殊胜利",
+        "price": "无",
+        "levels": "【 Max 】2% 发帖咒术+1",
+        "levels_img": {
+            "Max": ["https://img.gamemale.com/album/202510/20/163607zu2xlc0um0l4xfnm.gif", 40]
+        }
+    },
+    {
+        "type": "奖品",
         "no": "0692",
         "url_tid": "194420",
         "name": "伽蓝寺神秘木匣",
         "date": "2026-8-27",
-        "buy_limit": "参与七夕活动【星河寻缘】，向伽蓝寺捐出一大笔香火钱",
+        "buy_limit": "参与七夕活动<a href=\"/thread-193134-1-1.html\" target=\"_blank\">【星河寻缘】</a>，向伽蓝寺捐出一大笔香火钱",
         "price": "无",
         "duration": "17天",
         "levels": "【等级1】37% 回帖金币+1 血液+1▕▏升级条件：消耗-777金币\n【 Max 】1% 回帖金币+1 血液+1",
@@ -459,7 +485,7 @@ const medalData = [
         "url_tid": "194419",
         "name": "金风玉露",
         "date": "2026-8-27",
-        "buy_limit": "参与七夕活动【星河寻缘】，并与另一名坛友达成羁绊",
+        "buy_limit": "参与七夕活动<a href=\"/thread-193134-1-1.html\" target=\"_blank\">【星河寻缘】</a>，并与另一名坛友达成羁绊",
         "price": "无",
         "levels": "【 Max 】1% 回帖金币+1",
         "levels_img": {
@@ -472,7 +498,7 @@ const medalData = [
         "url_tid": "194418",
         "name": "银汉迢迢",
         "date": "2026-8-27",
-        "buy_limit": "参与七夕活动【星河寻缘】",
+        "buy_limit": "参与七夕活动<a href=\"/thread-193134-1-1.html\" target=\"_blank\">【星河寻缘】</a>",
         "price": "无",
         "levels": "【 Max 】1% 回帖血液+1",
         "levels_img": {
@@ -485,7 +511,7 @@ const medalData = [
         "url_tid": "192722",
         "name": "猫咪合唱团（夏日）",
         "date": "2026-8-3",
-        "buy_limit": "参与GM第四届欢唱活动",
+        "buy_limit": "参与GM第四届欢唱活动<a href=\"/thread-191685-1-1.html\" target=\"_blank\">【夏日欢歌】</a>",
         "price": "无",
         "levels": "【 Max 】1% 回帖咒术+1",
         "levels_img": {
@@ -10367,7 +10393,7 @@ const medalData = [
         "date": "2015-4-26",
         "buy_limit": "堕落<30",
         "price": "500金币",
-        "levels": "【等级1】1% 回帖金币+1 知识+1▕▏升级条件：堕落≥10\n【等级2】2% 回帖金币+1 知识+1▕▏升级条件：消耗200金币\n【等级3】5% 回帖金币+1、发帖旅程+1▕▏升级条件：主题数≥35\n【等级4】8% 回帖金币+1、发帖旅程+1▕▏升级条件：消耗300血液\n【等级5】10% 回帖金币+1、发帖旅程+1▕▏升级条件：总积分≥300\n【等级6】11% 回帖金币+1、发帖旅程+1 金币+3▕▏升级条件：消耗500金币\n【等级7】13% 回帖金币+2、发帖旅程+1 金币+3▕▏升级条件：消耗700血液\n【 Max 】50% 发帖金币+7 咒术+1",
+        "levels": "【等级1】1% 回帖金币+1 知识+1▕▏升级条件：堕落≥10\n【等级2】2% 回帖金币+1 知识+1▕▏升级条件：消耗200金币\n【等级3】5% 回帖金币+1、发帖旅程+1▕▏升级条件：主题数≥35\n【等级4】8% 回帖金币+1、发帖旅程+1▕▏升级条件：消耗300血液\n【等级5】10% 回帖金币+1、发帖旅程+1▕▏升级条件：总积分≥300\n【等级6】11% 回帖金币+1、发帖旅程+1 金币+3▕▏升级条件：消耗500金币\n【等级7】13% 回帖金币+2、发帖旅程+1 金币+3▕▏升级条件：血液≥700\n【 Max 】50% 发帖金币+7 咒术+1",
         "levels_img": {
             "1": ["https://img.gamemale.com/album/201405/01/173405o3cw5ffxy72e6s4v.gif", 40],
             "2": ["https://img.gamemale.com/album/201405/01/173412a9elgex0xn9anrxn.gif", 40],
