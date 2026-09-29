@@ -48,6 +48,7 @@ medalData、medalDataNoTid 为数组`any[]`
   - `@property {string} price` ── 商店售价
   - `@property {string} [backstory]` ── 背景故事（可选，该字段可不存在）
   - `@property {string} [duration]` ── 持续时长（可选，该字段可不存在）
+  - `@property {Object} [special_note]` ── 特殊说明（可选，该字段可不存在）
   - `@property {string} levels` ── 各等级的收益信息。等级间\n分隔；比较符号统一使用 `≥` `≤` `>` `<` `=` 单个半角符号。
   - `@property {Object} levels_img` ── 各等级对应的图片信息
     - `["初级"]` ── 【等级 初级】的图片配置 `[url, width]`
