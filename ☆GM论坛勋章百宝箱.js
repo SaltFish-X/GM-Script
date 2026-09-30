@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.8.1
+// @version      2.8.2
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
@@ -255,6 +255,7 @@
             "大侦探皮卡丘",
             "威尔·格雷厄姆",
             "凯文·沃克", "斯科特·温德尔",
+            "杜隆坦", "大白"
         ],
         "Maid": [
             "梅格",
@@ -355,7 +356,8 @@
             "凤环金佩",
             "龙衔金戒",
             "一袋粉末",
-            "腐坏之剑", "腐坏之剑"
+            "腐坏之剑",
+            "深林の假面", "一捆蛛丝",
         ],
         "Asset": [
             "知识大典",
@@ -440,7 +442,8 @@
             "暗蚀魔典",
             "捕梦笼",
             "辉光心相元石",
-            "星莹水晶"
+            "星莹水晶",
+            "深渊立方", "袋中の鱼", "超级名贵斑驳时钟"
 
         ],
         "Pet": [
