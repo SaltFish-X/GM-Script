@@ -1,5 +1,131 @@
 const medalData = [
     {
+        "type": "赠礼",
+        "no": "0702",
+        "url_tid": "196509",
+        "name": "疯狂GM食",
+        "date": "2026-10-1",
+        "buy_limit": "只可赠送，咒术≥44",
+        "price": "50金币",
+        "duration": "7天",
+        "levels": "【等级1】无属性▕▏升级条件：消耗1血液\n【等级2】4% 回帖血液+4、发帖堕落-4▕▏升级条件：消耗-1血液\n【等级3】4% 回帖血液+4、发帖堕落-4▕▏升级条件：消耗-2血液\n【等级4】4% 回帖血液+4、发帖堕落-4▕▏升级条件：消耗-3血液\n【等级5】4% 回帖血液+4、发帖堕落-4▕▏升级条件：消耗-4血液\n【 Max 】4% 回帖堕落-4、发帖血液+4",
+        "levels_img": {
+            "1": ["https://img.gamemale.com/album/202609/29/204235rsdb0sucggajjgm4.gif", 40],
+            "2": ["https://img.gamemale.com/album/202609/29/204235b3ght0em8hohg03b.gif", 40],
+            "3": ["https://img.gamemale.com/album/202609/29/204236hlvlczoyacbhjyza.gif", 40],
+            "4": ["https://img.gamemale.com/album/202609/29/204236izzykmbk1l7l787z.gif", 40],
+            "5": ["https://img.gamemale.com/album/202609/29/204237fakzb7tmk5qkfr7r.gif", 40],
+            "Max": ["https://img.gamemale.com/album/202609/29/204237tc8q8c8sek5jkcuq.gif", 40]
+        }
+    },
+    {
+        "type": "资产",
+        "no": "0701",
+        "url_tid": "196508",
+        "name": "超级名贵斑驳时钟",
+        "date": "2026-10-1",
+        "buy_limit": "无",
+        "price": "788金币",
+        "levels": "【 Max 】100% 回帖咒术+0",
+        "levels_img": {
+            "Max": ["https://img.gamemale.com/album/202609/29/204318wodhtpd1ydevb607.gif", 124]
+        }
+    },
+    {
+        "type": "资产",
+        "no": "0700",
+        "url_tid": "196507",
+        "name": "袋中の鱼",
+        "date": "2026-10-1",
+        "buy_limit": "血液≥50",
+        "price": "350金币",
+        "levels": "【等级1】5% 回帖金币+1▕▏升级条件：消耗50血液\n【等级2】2% 回帖旅程+1▕▏升级条件：消耗50金币\n【 Max 】12% 回帖金币+1 血液+1",
+        "levels_img": {
+            "1": ["https://img.gamemale.com/album/202609/29/204312u3tau07n2ht372e2.gif", 40],
+            "2": ["https://img.gamemale.com/album/202609/29/204313nc3somoo8g9ufj03.gif", 40],
+            "Max": ["https://img.gamemale.com/album/202609/29/204313ju77sfuysdffdzzi.gif", 40]
+        }
+    },
+    {
+        "type": "资产",
+        "no": "0699",
+        "url_tid": "196506",
+        "name": "深渊立方",
+        "date": "2026-10-1",
+        "buy_limit": "无",
+        "price": "500金币",
+        "levels": "【等级1】5% 回帖金币+1▕▏升级条件：消耗456血液\n【等级2】10% 回帖金币+1▕▏升级条件：堕落≥100\n【等级3】10% 回帖金币+3 堕落-1▕▏升级条件：堕落≥300\n【等级4】10% 回帖金币+2▕▏升级条件：堕落≥500\n【 Max 】10% 回帖金币+2 堕落-1",
+        "levels_img": {
+            "1": ["https://img.gamemale.com/album/202609/29/204301c8dtxutu82ux5xwr.gif", 40],
+            "2": ["https://img.gamemale.com/album/202609/29/204302d4wkwkpkk1a9mfzs.gif", 40],
+            "3": ["https://img.gamemale.com/album/202609/29/204302nbn476lp54w4v37b.gif", 40],
+            "4": ["https://img.gamemale.com/album/202609/29/204302xyupjickpioyg1jz.gif", 40],
+            "Max": ["https://img.gamemale.com/album/202609/29/204303ph4u7z9ikuak9hih.gif", 40]
+        }
+    },
+    {
+        "type": "装备",
+        "no": "0698",
+        "url_tid": "196505",
+        "name": "一捆蛛丝",
+        "date": "2026-10-1",
+        "buy_limit": "咒术≥20",
+        "price": "500金币",
+        "levels": "【等级1】5% 回帖金币+1▕▏升级条件：消耗300金币\n【等级2】10% 回帖金币+1▕▏升级条件：消耗200血液\n【等级3】10% 回帖金币+2▕▏升级条件：咒术≥400\n【 Max 】10% 回帖金币+3 血液-1",
+        "levels_img": {
+            "1": ["https://img.gamemale.com/album/202609/29/204251gcdn2ullz2znzzuh.gif", 40],
+            "2": ["https://img.gamemale.com/album/202609/29/204251r4dgn7dm84d7vhes.gif", 40],
+            "3": ["https://img.gamemale.com/album/202609/29/204251cf59q1udq9z0d8mm.gif", 40],
+            "Max": ["https://img.gamemale.com/album/202609/29/204252qklz6onknczsc66t.gif", 40]
+        }
+    },
+    {
+        "type": "装备",
+        "no": "0697",
+        "url_tid": "196504",
+        "name": "深林の假面",
+        "date": "2026-10-1",
+        "buy_limit": "堕落≥10",
+        "price": "400金币",
+        "levels": "【等级1】5% 回帖堕落+1 血液-1▕▏升级条件：消耗400血液\n【 Max 】8% 回帖堕落+1 咒术+1",
+        "levels_img": {
+            "1": ["https://img.gamemale.com/album/202609/29/204245esn7njaatzwcnsnx.gif", 40],
+            "Max": ["https://img.gamemale.com/album/202609/29/204246i869n9ik1aac9siq.gif", 40]
+        }
+    },
+    {
+        "type": "真人男从",
+        "no": "0696",
+        "url_tid": "196503",
+        "name": "大白",
+        "date": "2026-10-1",
+        "buy_limit": "主题数≥10",
+        "price": "1000金币",
+        "levels": "【等级1】5% 回帖血液+1、发帖血液+1▕▏升级条件：消耗300金币\n【等级2】8% 回帖血液+1 金币+2▕▏升级条件：消耗700金币\n【等级3】12% 回帖血液+1 金币+2▕▏升级条件：消耗1灵魂\n【 Max 】16% 回帖血液+1 金币+2",
+        "levels_img": {
+            "1": ["https://img.gamemale.com/album/202609/29/203923vm6t6yyklufxm5um.gif", 40],
+            "2": ["https://img.gamemale.com/album/202609/29/203924tfds0dsl7wqklq7q.gif", 124],
+            "3": ["https://img.gamemale.com/album/202609/29/203925vz8z9ka7nk0ld4z0.gif", 82],
+            "Max": ["https://img.gamemale.com/album/202609/29/203925wee7fgjq24gc21l2.gif", 82]
+        }
+    },
+    {
+        "type": "真人男从",
+        "no": "0695",
+        "url_tid": "196502",
+        "name": "杜隆坦",
+        "date": "2026-10-1",
+        "buy_limit": "追随≥20",
+        "price": "666金币",
+        "levels": "【等级1】5% 回帖血液+1、发帖血液+1▕▏升级条件：消耗300血液\n【等级2】7% 回帖血液+1、发帖血液+1▕▏升级条件：消耗66咒术\n【等级3】7% 回帖血液+1 咒术+1、发帖血液+1 咒术+1▕▏升级条件：消耗66咒术\n【 Max 】14% 回帖血液+3、发帖血液+3",
+        "levels_img": {
+            "1": ["https://img.gamemale.com/album/202609/29/203613nbx9j9zy9kfqk3j3.gif", 40],
+            "2": ["https://img.gamemale.com/album/202609/29/203613t9eirgd2udsx5z0u.gif", 82],
+            "3": ["https://img.gamemale.com/album/202609/29/203614nz0lh2il0h1hh09n.gif", 82],
+            "Max": ["https://img.gamemale.com/album/202609/29/203615cllazmyyw1jyllvg.gif", 124]
+        }
+    },
+    {
         "type": "奖品",
         "no": "0694",
         "url_tid": "196361",
