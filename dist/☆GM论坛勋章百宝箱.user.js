@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.8.1
+// @version      2.8.2
 // @updateURL    https://cdn.jsdelivr.net/gh/SaltFish-X/GM-Script@main/dist/%E2%98%86GM%E8%AE%BA%E5%9D%9B%E5%8B%8B%E7%AB%A0%E7%99%BE%E5%AE%9D%E7%AE%B1.user.js
 // @downloadURL  https://cdn.jsdelivr.net/gh/SaltFish-X/GM-Script@main/dist/%E2%98%86GM%E8%AE%BA%E5%9D%9B%E5%8B%8B%E7%AB%A0%E7%99%BE%E5%AE%9D%E7%AE%B1.user.js
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
@@ -257,6 +257,7 @@
             "大侦探皮卡丘",
             "威尔·格雷厄姆",
             "凯文·沃克", "斯科特·温德尔",
+            "杜隆坦", "大白"
         ],
         "Maid": [
             "梅格",
@@ -357,7 +358,8 @@
             "凤环金佩",
             "龙衔金戒",
             "一袋粉末",
-            "腐坏之剑", "腐坏之剑"
+            "腐坏之剑",
+            "深林の假面", "一捆蛛丝",
         ],
         "Asset": [
             "知识大典",
@@ -442,7 +444,8 @@
             "暗蚀魔典",
             "捕梦笼",
             "辉光心相元石",
-            "星莹水晶"
+            "星莹水晶",
+            "深渊立方", "袋中の鱼", "超级名贵斑驳时钟"
 
         ],
         "Pet": [
@@ -3008,13 +3011,14 @@
         '茉香啤酒': 1,
         '灵光补脑剂': 1,
         '遗忘之水': 3,
+        '疯狂GM食': 4,
 
         // 咒术类
         '水泡术': 1,
     };
 
     const MEDAL_GROUPS = {
-        '赠礼': ['GM夏日霜淇淋', '飘飘', '青苹果', '茉香啤酒', '灵光补脑剂', '遗忘之水'],
+        '赠礼': ['GM夏日霜淇淋', '飘飘', '青苹果', '茉香啤酒', '灵光补脑剂', '遗忘之水', '疯狂GM食'],
         '咒术': ['水泡术']
     };
 
