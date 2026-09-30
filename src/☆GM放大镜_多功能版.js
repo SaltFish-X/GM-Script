@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM-勋章放大镜
 // @namespace    https://docs.scriptcat.org/
-// @version      2.2.10
+// @version      2.2.11
 // @description  暗黑模式的勋章放大镜
 // @author       1:轶致2:咸鱼鱼3:哈哈哈哈_
 // @match        *://*.gamemale.com/*
@@ -524,7 +524,7 @@ const medalData = [
         "url_tid": "196504",
         "name": "深林の假面",
         "date": "2026-10-1",
-        "buy_limit": "堕落≥10",
+        "buy_limit": "堕落≥100",
         "price": "400金币",
         "levels": "【等级1】5% 回帖堕落+1 血液-1▕▏升级条件：消耗400血液\n【 Max 】8% 回帖堕落+1 咒术+1",
         "levels_img": {
@@ -930,7 +930,7 @@ const medalData = [
         "levels": "【等级1】5% 回帖血液+1▕▏升级条件：消耗299血液\n【等级2】8% 回帖血液+1 堕落+1▕▏升级条件：在线时间≥365\n【等级3】10% 回帖血液+1 金币+1▕▏升级条件：灵魂≥1\n【 Max 】3% 回帖旅程+1 金币+2 堕落-1、发帖旅程+1 金币+2 堕落-1",
         "levels_img": {
             "1": ["https://img.gamemale.com/album/202606/07/152358ikevjb4vlq3vvvkr.gif", 40],
-            "2": ["https://img.gamemale.com/forum/202603/08/213133z4ypqz39lqyek8cq.gif", 40],
+            "2": ["https://img.gamemale.com/album/202606/07/152359p255x6x2500hu824.gif", 40],
             "3": ["https://img.gamemale.com/album/202606/07/152400bz137v2lbd9dcie3.gif", 82],
             "Max": ["https://img.gamemale.com/album/202606/07/152401jbx9vbicqr1nbybb.gif", 40]
         }
@@ -948,7 +948,7 @@ const medalData = [
             "1": ["https://img.gamemale.com/album/202606/07/152346kjn7cc060r22rvc7.gif", 40],
             "2": ["https://img.gamemale.com/forum/202603/08/213132pgcq9s9yzkyyvzkk.gif", 82],
             "3": ["https://img.gamemale.com/album/202606/07/152348lyy5s5py5y2tsu5t.gif", 40],
-            "Max": ["https://img.gamemale.com/forum/202603/08/213132j2rh3rhijh9lflhw.gif", 82]
+            "Max": ["https://img.gamemale.com/album/202606/07/152350qop3t3xxapzjuo52.gif", 82]
         }
     },
     {
@@ -1259,7 +1259,7 @@ const medalData = [
             "6": ["https://img.gamemale.com/album/202602/15/024154c8sh3pmezyff1p2t.gif", 82],
             "7": ["https://img.gamemale.com/album/202602/15/024154zh0h9hpev4492pme.gif", 40],
             "8": ["https://img.gamemale.com/album/202602/15/024155dcohwu9uop5iom5c.gif", 40],
-            "Max": ["https://img.gamemale.com/forum/202602/12/233030y11fgdnfk8k8amzm.gif", 82]
+            "Max": ["https://img.gamemale.com/album/202602/15/024156t95fsfow3fkyom9z.gif", 82]
         }
     },
     {
@@ -2597,7 +2597,7 @@ const medalData = [
             "3": ["https://img.gamemale.com/album/202501/27/151231q9ipy325gsow6hzj.gif", 40],
             "4": ["https://img.gamemale.com/album/202501/27/151412g7qzd77z3fsxabd7.gif", 40],
             "5": ["https://img.gamemale.com/album/202501/27/151412b34d6r4ped3z860m.gif", 40],
-            "6": ["", 40],
+            "6": ["https://img.gamemale.com/album/202501/27/150402goskto0pytws2fa0.gif", 40],
             "Max": ["https://img.gamemale.com/album/202501/27/150402l52szqvsqlgpytsl.gif", 40]
         }
     },
@@ -3520,7 +3520,7 @@ const medalData = [
             "4": ["https://img.gamemale.com/forum/202402/12/194407v96eq9gyqtb6qx61.gif", 124],
             "5": ["https://img.gamemale.com/forum/202402/12/113841i189z7p6mz1p4947.gif", 124],
             "6": ["https://img.gamemale.com/forum/202402/12/113427f082z542u4enjc22.gif", 124],
-            "Max": ["https://img.gamemale.com/album/202402/09/010523nud6mc32f8vqqgtp.gif", 124]
+            "Max": ["https://img.gamemale.com/album/202402/09/010529fo8iyudd7p5dupgy.gif", 124]
         }
     },
     {
@@ -5472,7 +5472,7 @@ const medalData = [
         "name": "莱托·厄崔迪",
         "date": "2022-6-11",
         "buy_limit": "无",
-        "price": "350金币",
+        "price": "380金币",
         "levels": "【等级1】6% 回帖血液+2▕▏升级条件：消耗50金币\n【等级2】8% 回帖血液+2、发帖旅程+1▕▏升级条件：消耗50血液\n【等级3】10% 回帖血液+2、发帖旅程+1▕▏升级条件：消耗150金币\n【 Max 】12% 回帖血液+2、发帖知识+1",
         "levels_img": {
             "1": ["https://img.gamemale.com/album/202205/30/153010hllprzpfrlx6offp.gif", 40],
@@ -5565,7 +5565,7 @@ const medalData = [
             "8": ["https://img.gamemale.com/album/202205/30/154011rwzs30aslssscere.gif", 124],
             "9": ["https://img.gamemale.com/album/202205/30/154016hh16ods26t9p2tp2.gif", 124],
             "10": ["https://img.gamemale.com/forum/202206/11/012457thwqzq44hvhhm8hh.gif", 124],
-            "11": ["https://img.gamemale.com/forum/202206/11/012501xlwxj3282e6q2kq6.gif", 124],
+            "11": ["https://img.gamemale.com/album/202205/30/204825cwontw8sm3ods3zm.gif", 124],
             "Max": ["https://img.gamemale.com/album/202205/30/154024iwff9hfi5b30i05u.gif", 40]
         }
     },
@@ -5637,8 +5637,8 @@ const medalData = [
         "url_tid": "91415",
         "name": "阿不思·邓布利多",
         "date": "2022-6-10",
-        "buy_limit": "旅程≥10",
-        "price": "250金币",
+        "buy_limit": "追随≥69",
+        "price": "400金币",
         "levels": "【等级1】6% 回帖血液+1、发帖血液+3▕▏升级条件：消耗333金币\n【等级2】8% 回帖血液+1、发帖血液+3▕▏升级条件：消耗444血液\n【等级3】10% 回帖血液+2、发帖血液+3▕▏升级条件：消耗77咒术\n【等级4】15% 回帖血液+2、发帖知识+1▕▏升级条件：旅程≥115\n【 Max 】16% 回帖血液+3、发帖知识+1",
         "levels_img": {
             "1": ["https://img.gamemale.com/album/202205/30/152901xndc1ll91zn1cv11.gif", 40],
@@ -5883,7 +5883,7 @@ const medalData = [
             "4": ["https://img.gamemale.com/album/202201/26/151514jnn2hro3r3op3vrg.gif", 124],
             "5": ["https://thumbsnap.com/i/PMiQHtNk.gif?0527", 124],
             "6": ["https://thumbsnap.com/i/WkpmxzrZ.gif?0527", 124],
-            "7": ["https://thumbsnap.com/i/1YooFb2Z.gif?0527", 124],
+            "7": ["https://img.gamemale.com/album/202201/26/150830rghhanm5a74ca4jx.gif", 124],
             "8": ["https://img.gamemale.com/album/202201/26/150830ra2abgt2ctqzbazj.gif", 124],
             "9": ["https://thumbsnap.com/i/LiDVpRtA.gif?0527", 124],
             "10": ["https://thumbsnap.com/i/KGvThK9R.gif?0527", 124],
@@ -6044,7 +6044,7 @@ const medalData = [
             "2": ["https://img.gamemale.com/album/202111/30/152021lqz8vgqfqss77qt1.gif", 124],
             "3": ["https://img.gamemale.com/album/202111/30/152021djx7b94b92zo9wwh.gif", 124],
             "4": ["https://img.gamemale.com/forum/202201/30/100903l97yaqan99gmgima.gif", 124],
-            "5": ["https://img.gamemale.com/forum/202201/30/100905kz1ztzt8i0u18qaz.gif", 124],
+            "5": ["https://img.gamemale.com/album/202111/30/152022ohbzt9cexttcmqbj.gif", 124],
             "6": ["https://img.gamemale.com/forum/202201/30/100909xrx7s5ssakj573sj.gif", 124],
             "7": ["https://img.gamemale.com/forum/202201/30/100910wnf3nzdede5j955f.gif", 124],
             "8": ["https://img.gamemale.com/album/202111/30/152022vd2dws6rrsre9z2d.gif", 124],
@@ -6970,7 +6970,7 @@ const medalData = [
             "3": ["", 40],
             "4": ["", 40],
             "5": ["", 40],
-            "6": ["", 40],
+            "6": ["https://img.gamemale.com/album/202008/03/120819ed3bzyy5ooz84o33.gif", 40],
             "Max": ["https://img.gamemale.com/album/202008/03/120819f85b558m8ess56zv.gif", 40]
         }
     },
@@ -8054,7 +8054,7 @@ const medalData = [
             "1": ["https://img.gamemale.com/album/201908/07/000439c4ys4khmukll4rgr.gif", 40],
             "2": ["https://img.gamemale.com/album/201908/07/000440nlllwslrlwmllxis.gif", 40],
             "3": ["https://img.gamemale.com/album/201908/07/000440q6ak4doawyfobou3.gif", 40],
-            "4": ["https://img.gamemale.com/forum/202001/31/134831p0zfhhgtvj1tb12a.gif", 40],
+            "4": ["https://img.gamemale.com/album/201908/07/000440r7xag70zw0i36ttd.gif", 40],
             "5": ["https://img.gamemale.com/album/201908/07/000441q33c0232mgg1jp2u.gif", 40],
             "Max": ["https://img.gamemale.com/album/201908/07/000441fod52mmdddmklwo1.gif", 40]
         }
