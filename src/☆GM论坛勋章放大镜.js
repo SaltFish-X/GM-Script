@@ -687,6 +687,14 @@ var 放大镜内容映射表 = {
     "『转生经筒』": "『转生经筒』\n【勋章类型】剧情\n【创建时间】2023-1-4\n【入手条件】签到天数≥1460，灵魂≥1（限时活动）\n【商店售价】1旅程\n【 Max 】无属性",
     "『绿茵甘露』": "『绿茵甘露』\n【勋章类型】剧情\n【创建时间】2023-6-22\n【入手条件】主题数≥1（【派遣远征s1】活动）\n【商店售价】1金币\n【持续时间】14天\n【 Max 】无属性",
     "GM马年红包": "GM马年红包\n【勋章类型】赠礼\n【创建时间】2026-2-16\n【入手条件】2026春节期间，只可赠送\n【商店售价】1金币\n【持续时间】15天\n【等级1】无属性▕▏升级条件：消耗-1金币\n【 Max 】1% 回帖金币+1",
+    "疯狂GM食": "疯狂GM食\n【勋章类型】赠礼\n【创建时间】<a href=\"/thread-196509-1-1.html\" target=\"_blank\">2026-10-1（前往博物馆）</a>\n【入手条件】只可赠送，咒术≥44\n【商店售价】50金币\n【持续时间】7天\n【等级1】无属性▕▏升级条件：消耗1血液\n【等级2】4% 回帖血液+4、发帖堕落-4▕▏升级条件：消耗-1血液\n【等级3】4% 回帖血液+4、发帖堕落-4▕▏升级条件：消耗-2血液\n【等级4】4% 回帖血液+4、发帖堕落-4▕▏升级条件：消耗-3血液\n【等级5】4% 回帖血液+4、发帖堕落-4▕▏升级条件：消耗-4血液\n【 Max 】4% 回帖堕落-4、发帖血液+4",
+    "超级名贵斑驳时钟": "超级名贵斑驳时钟\n【勋章类型】资产\n【创建时间】<a href=\"/thread-196508-1-1.html\" target=\"_blank\">2026-10-1（前往博物馆）</a>\n【入手条件】无\n【商店售价】788金币\n【 Max 】100% 回帖咒术+0",
+    "袋中の鱼": "袋中の鱼\n【勋章类型】资产\n【创建时间】<a href=\"/thread-196507-1-1.html\" target=\"_blank\">2026-10-1（前往博物馆）</a>\n【入手条件】血液≥50\n【商店售价】350金币\n【等级1】5% 回帖金币+1▕▏升级条件：消耗50血液\n【等级2】2% 回帖旅程+1▕▏升级条件：消耗50金币\n【 Max 】12% 回帖金币+1 血液+1",
+    "深渊立方": "深渊立方\n【勋章类型】资产\n【创建时间】<a href=\"/thread-196506-1-1.html\" target=\"_blank\">2026-10-1（前往博物馆）</a>\n【入手条件】无\n【商店售价】500金币\n【等级1】5% 回帖金币+1▕▏升级条件：消耗456血液\n【等级2】10% 回帖金币+1▕▏升级条件：堕落≥100\n【等级3】10% 回帖金币+3 堕落-1▕▏升级条件：堕落≥300\n【等级4】10% 回帖金币+2▕▏升级条件：堕落≥500\n【 Max 】10% 回帖金币+2 堕落-1",
+    "一捆蛛丝": "一捆蛛丝\n【勋章类型】装备\n【创建时间】<a href=\"/thread-196505-1-1.html\" target=\"_blank\">2026-10-1（前往博物馆）</a>\n【入手条件】咒术≥20\n【商店售价】500金币\n【等级1】5% 回帖金币+1▕▏升级条件：消耗300金币\n【等级2】10% 回帖金币+1▕▏升级条件：消耗200血液\n【等级3】10% 回帖金币+2▕▏升级条件：咒术≥400\n【 Max 】10% 回帖金币+3 血液-1",
+    "深林の假面": "深林の假面\n【勋章类型】装备\n【创建时间】<a href=\"/thread-196504-1-1.html\" target=\"_blank\">2026-10-1（前往博物馆）</a>\n【入手条件】堕落≥10\n【商店售价】400金币\n【等级1】5% 回帖堕落+1 血液-1▕▏升级条件：消耗400血液\n【 Max 】8% 回帖堕落+1 咒术+1",
+    "大白": "大白\n【勋章类型】真人男从\n【创建时间】<a href=\"/thread-196503-1-1.html\" target=\"_blank\">2026-10-1（前往博物馆）</a>\n【入手条件】主题数≥10\n【商店售价】1000金币\n【等级1】5% 回帖血液+1、发帖血液+1▕▏升级条件：消耗300金币\n【等级2】8% 回帖血液+1 金币+2▕▏升级条件：消耗700金币\n【等级3】12% 回帖血液+1 金币+2▕▏升级条件：消耗1灵魂\n【 Max 】16% 回帖血液+1 金币+2",
+    "杜隆坦": "杜隆坦\n【勋章类型】真人男从\n【创建时间】<a href=\"/thread-196502-1-1.html\" target=\"_blank\">2026-10-1（前往博物馆）</a>\n【入手条件】追随≥20\n【商店售价】666金币\n【等级1】5% 回帖血液+1、发帖血液+1▕▏升级条件：消耗300血液\n【等级2】7% 回帖血液+1、发帖血液+1▕▏升级条件：消耗66咒术\n【等级3】7% 回帖血液+1 咒术+1、发帖血液+1 咒术+1▕▏升级条件：消耗66咒术\n【 Max 】14% 回帖血液+3、发帖血液+3",
     "悬浮滑板": "悬浮滑板\n【勋章类型】奖品\n【创建时间】<a href=\"/thread-196361-1-1.html\" target=\"_blank\">2026-9-29（前往博物馆）</a>\n【入手条件】参与活动<a href=\"/thread-170842-1-1.html\" target=\"_blank\">【时异势殊】</a>\n【 Max 】1% 回帖金币+1",
     "德罗瑞安": "德罗瑞安\n【勋章类型】奖品\n【创建时间】<a href=\"/thread-196360-1-1.html\" target=\"_blank\">2026-9-29（前往博物馆）</a>\n【入手条件】参与活动<a href=\"/thread-170842-1-1.html\" target=\"_blank\">【时异势殊】</a>，获取特殊胜利\n【 Max 】2% 发帖咒术+1",
     "伽蓝寺神秘木匣": "伽蓝寺神秘木匣\n【勋章类型】奖品\n【创建时间】<a href=\"/thread-194420-1-1.html\" target=\"_blank\">2026-8-27（前往博物馆）</a>\n【入手条件】参与七夕活动<a href=\"/thread-193134-1-1.html\" target=\"_blank\">【星河寻缘】</a>，向伽蓝寺捐出一大笔香火钱\n【持续时间】17天\n【等级1】37% 回帖金币+1 血液+1▕▏升级条件：消耗-777金币\n【 Max 】1% 回帖金币+1 血液+1",
@@ -1612,6 +1620,138 @@ var imgs = {
         "Max": [
             "https://img.gamemale.com/album/202602/15/020714sz61kt1xv7x14l1l.gif",
             40
+        ]
+    },
+    "疯狂GM食": {
+        "1": [
+            "https://img.gamemale.com/album/202609/29/204235rsdb0sucggajjgm4.gif",
+            40
+        ],
+        "2": [
+            "https://img.gamemale.com/album/202609/29/204235b3ght0em8hohg03b.gif",
+            40
+        ],
+        "3": [
+            "https://img.gamemale.com/album/202609/29/204236hlvlczoyacbhjyza.gif",
+            40
+        ],
+        "4": [
+            "https://img.gamemale.com/album/202609/29/204236izzykmbk1l7l787z.gif",
+            40
+        ],
+        "5": [
+            "https://img.gamemale.com/album/202609/29/204237fakzb7tmk5qkfr7r.gif",
+            40
+        ],
+        "Max": [
+            "https://img.gamemale.com/album/202609/29/204237tc8q8c8sek5jkcuq.gif",
+            40
+        ]
+    },
+    "超级名贵斑驳时钟": {
+        "Max": [
+            "https://img.gamemale.com/album/202609/29/204318wodhtpd1ydevb607.gif",
+            124
+        ]
+    },
+    "袋中の鱼": {
+        "1": [
+            "https://img.gamemale.com/album/202609/29/204312u3tau07n2ht372e2.gif",
+            40
+        ],
+        "2": [
+            "https://img.gamemale.com/album/202609/29/204313nc3somoo8g9ufj03.gif",
+            40
+        ],
+        "Max": [
+            "https://img.gamemale.com/album/202609/29/204313ju77sfuysdffdzzi.gif",
+            40
+        ]
+    },
+    "深渊立方": {
+        "1": [
+            "https://img.gamemale.com/album/202609/29/204301c8dtxutu82ux5xwr.gif",
+            40
+        ],
+        "2": [
+            "https://img.gamemale.com/album/202609/29/204302d4wkwkpkk1a9mfzs.gif",
+            40
+        ],
+        "3": [
+            "https://img.gamemale.com/album/202609/29/204302nbn476lp54w4v37b.gif",
+            40
+        ],
+        "4": [
+            "https://img.gamemale.com/album/202609/29/204302xyupjickpioyg1jz.gif",
+            40
+        ],
+        "Max": [
+            "https://img.gamemale.com/album/202609/29/204303ph4u7z9ikuak9hih.gif",
+            40
+        ]
+    },
+    "一捆蛛丝": {
+        "1": [
+            "https://img.gamemale.com/album/202609/29/204251gcdn2ullz2znzzuh.gif",
+            40
+        ],
+        "2": [
+            "https://img.gamemale.com/album/202609/29/204251r4dgn7dm84d7vhes.gif",
+            40
+        ],
+        "3": [
+            "https://img.gamemale.com/album/202609/29/204251cf59q1udq9z0d8mm.gif",
+            40
+        ],
+        "Max": [
+            "https://img.gamemale.com/album/202609/29/204252qklz6onknczsc66t.gif",
+            40
+        ]
+    },
+    "深林の假面": {
+        "1": [
+            "https://img.gamemale.com/album/202609/29/204245esn7njaatzwcnsnx.gif",
+            40
+        ],
+        "Max": [
+            "https://img.gamemale.com/album/202609/29/204246i869n9ik1aac9siq.gif",
+            40
+        ]
+    },
+    "大白": {
+        "1": [
+            "https://img.gamemale.com/album/202609/29/203923vm6t6yyklufxm5um.gif",
+            40
+        ],
+        "2": [
+            "https://img.gamemale.com/album/202609/29/203924tfds0dsl7wqklq7q.gif",
+            124
+        ],
+        "3": [
+            "https://img.gamemale.com/album/202609/29/203925vz8z9ka7nk0ld4z0.gif",
+            82
+        ],
+        "Max": [
+            "https://img.gamemale.com/album/202609/29/203925wee7fgjq24gc21l2.gif",
+            82
+        ]
+    },
+    "杜隆坦": {
+        "1": [
+            "https://img.gamemale.com/album/202609/29/203613nbx9j9zy9kfqk3j3.gif",
+            40
+        ],
+        "2": [
+            "https://img.gamemale.com/album/202609/29/203613t9eirgd2udsx5z0u.gif",
+            82
+        ],
+        "3": [
+            "https://img.gamemale.com/album/202609/29/203614nz0lh2il0h1hh09n.gif",
+            82
+        ],
+        "Max": [
+            "https://img.gamemale.com/album/202609/29/203615cllazmyyw1jyllvg.gif",
+            124
         ]
     },
     "悬浮滑板": {
