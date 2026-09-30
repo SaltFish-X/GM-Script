@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.8.2
+// @version      2.8.3
 // @updateURL    https://cdn.jsdelivr.net/gh/SaltFish-X/GM-Script@main/dist/%E2%98%86GM%E8%AE%BA%E5%9D%9B%E5%8B%8B%E7%AB%A0%E6%94%BE%E5%A4%A7%E9%95%9C.user.js
 // @downloadURL  https://cdn.jsdelivr.net/gh/SaltFish-X/GM-Script@main/dist/%E2%98%86GM%E8%AE%BA%E5%9D%9B%E5%8B%8B%E7%AB%A0%E6%94%BE%E5%A4%A7%E9%95%9C.user.js
 // @description  泥潭勋章属性展示！
@@ -640,7 +640,7 @@
             {
                 continue;
             }
-            if (lv in imgs[name])
+            if ((lv in imgs[name]) && (imgs[name][lv][0].length > 0))
             {
                 let addStr = `<img src="${imgs[name][lv][0]}" width="${imgs[name][lv][1]}px" align="middle">`;
                 if (imgs[name][lv][1] < max_width)
@@ -3092,7 +3092,7 @@ var 放大镜内容映射表 = {
 '莱托·厄崔迪': `莱托·厄崔迪
 【勋章类型】真人男从
 【入手条件】无
-【商店售价】350金币
+【商店售价】380金币
 【等级1】6% 回帖血液+2▕▏升级条件：消耗50金币
 【等级2】8% 回帖血液+2、发帖旅程+1▕▏升级条件：消耗50血液
 【等级3】10% 回帖血液+2、发帖旅程+1▕▏升级条件：消耗150金币
@@ -3108,8 +3108,8 @@ var 放大镜内容映射表 = {
 【 Max 】2% 回帖旅程+1、发帖灵魂+1`,
 '阿不思·邓布利多': `阿不思·邓布利多
 【勋章类型】真人男从
-【入手条件】旅程≥10
-【商店售价】250金币
+【入手条件】追随≥69
+【商店售价】400金币
 【等级1】6% 回帖血液+1、发帖血液+3▕▏升级条件：消耗333金币
 【等级2】8% 回帖血液+1、发帖血液+3▕▏升级条件：消耗444血液
 【等级3】10% 回帖血液+2、发帖血液+3▕▏升级条件：消耗77咒术
@@ -5385,6 +5385,67 @@ var 放大镜内容映射表 = {
 【 Max 】50% 回帖金币+1 血液+1
 【特别说明】兔兔只按大家站内资料填写的出生日期的月日来给大家制作蛋糕哦
 【特别说明】所以记得把站内资料填写完整并且公开`,
+'杜隆坦': `杜隆坦
+【勋章类型】真人男从
+【入手条件】追随 >= 20
+【商店售价】666金币
+【等级1】5% 回帖血液+1、发帖血液+1▕▏升级条件：消耗300血液
+【等级2】7% 回帖血液+1、发帖血液+1▕▏升级条件：消耗66咒术
+【等级3】7% 回帖血液+1 咒术+1、发帖血液+1 咒术+1▕▏升级条件：消耗66咒术
+【 Max 】14% 回帖血液+3、发帖血液+3`,
+'大白': `大白
+【勋章类型】真人男从
+【入手条件】主题数 >= 10
+【商店售价】1000金币
+【等级1】5% 回帖血液+1、发帖血液+1▕▏升级条件：消耗300金币
+【等级2】8% 回帖血液+1 金币+2▕▏升级条件：消耗700金币
+【等级3】12% 回帖血液+1 金币+2▕▏升级条件：消耗1灵魂
+【 Max 】16% 回帖血液+1 金币+2`,
+'深林の假面': `深林の假面
+【勋章类型】装备
+【入手条件】堕落 >= 100
+【商店售价】400金币
+【等级1】5% 回帖堕落+1 血液-1▕▏升级条件：消耗400血液
+【 Max 】8% 回帖咒术+1 堕落+1`,
+'一捆蛛丝': `一捆蛛丝
+【勋章类型】装备
+【入手条件】咒术 >= 20
+【商店售价】500金币
+【等级1】5% 回帖金币+1▕▏升级条件：消耗300金币
+【等级2】10% 回帖金币+1▕▏升级条件：消耗200血液
+【等级3】10% 回帖金币+2▕▏升级条件：咒术≥400
+【 Max 】10% 回帖金币+3 血液-1`,
+'深渊立方': `深渊立方
+【勋章类型】资产
+【入手条件】无
+【商店售价】500金币
+【等级1】5% 回帖金币+1▕▏升级条件：消耗456血液
+【等级2】10% 回帖金币+1▕▏升级条件：堕落≥100
+【等级3】10% 回帖金币+3 堕落-1▕▏升级条件：堕落≥300
+【等级4】10% 回帖金币+2▕▏升级条件：堕落≥500
+【 Max 】10% 回帖金币+2 堕落-1`,
+'袋中の鱼': `袋中の鱼
+【勋章类型】资产
+【入手条件】血液 >= 50
+【商店售价】350金币
+【等级1】5% 回帖金币+1▕▏升级条件：消耗50血液
+【等级2】2% 回帖旅程+1▕▏升级条件：消耗50金币
+【 Max 】12% 回帖金币+1 血液+1`,
+'超级名贵斑驳时钟': `超级名贵斑驳时钟
+【勋章类型】资产
+【入手条件】无
+【商店售价】788金币
+【 Max 】100% 回帖咒术 0`,
+'疯狂GM食': `疯狂GM食
+【勋章类型】赠礼（只可赠送）
+【入手条件】咒术 >= 44
+【商店售价】50金币
+【等级1】无属性▕▏升级条件：消耗1血液
+【等级2】4% 回帖血液+4、发帖堕落-4▕▏升级条件：消耗-1血液
+【等级3】4% 回帖血液+4、发帖堕落-4▕▏升级条件：消耗-2血液
+【等级4】4% 回帖血液+4、发帖堕落-4▕▏升级条件：消耗-3血液
+【等级5】4% 回帖血液+4、发帖堕落-4▕▏升级条件：消耗-4血液
+【 Max 】4% 回帖堕落-4、发帖血液+4`,
 }
 
 var imgs =
@@ -6715,7 +6776,7 @@ var imgs =
         "3":["", 40,],
         "4":["", 40,],
         "5":["", 40,],
-        "6":["", 40,],
+        "6":["https://img.gamemale.com/album/202008/03/120819ed3bzyy5ooz84o33.gif", 40,],
         "Max":["https://img.gamemale.com/album/202008/03/120819f85b558m8ess56zv.gif", 40,],
     },
     'GM論壇初心者勛章':
@@ -6752,7 +6813,7 @@ var imgs =
         "4":["https://img.gamemale.com/album/202201/26/151514jnn2hro3r3op3vrg.gif", 124,],
         "5":["https://thumbsnap.com/i/PMiQHtNk.gif?0527", 124,],
         "6":["https://thumbsnap.com/i/WkpmxzrZ.gif?0527", 124,],
-        "7":["https://thumbsnap.com/i/1YooFb2Z.gif?0527", 124,],
+        "7":["https://img.gamemale.com/album/202201/26/150830rghhanm5a74ca4jx.gif", 124,],
         "8":["https://img.gamemale.com/album/202201/26/150830ra2abgt2ctqzbazj.gif", 124,],
         "9":["https://thumbsnap.com/i/LiDVpRtA.gif?0527", 124,],
         "10":["https://thumbsnap.com/i/KGvThK9R.gif?0527", 124,],
@@ -6777,7 +6838,7 @@ var imgs =
         "8":["https://img.gamemale.com/album/202205/30/154011rwzs30aslssscere.gif", 124,],
         "9":["https://img.gamemale.com/album/202205/30/154016hh16ods26t9p2tp2.gif", 124,],
         "10":["https://img.gamemale.com/forum/202206/11/012457thwqzq44hvhhm8hh.gif", 124,],
-        "11":["https://img.gamemale.com/forum/202206/11/012501xlwxj3282e6q2kq6.gif", 124,],
+        "11":["https://img.gamemale.com/album/202205/30/204825cwontw8sm3ods3zm.gif", 124,],
         "Max":["https://img.gamemale.com/album/202205/30/154024iwff9hfi5b30i05u.gif", 40,],
     },
     '冒险专用绳索':
@@ -6890,7 +6951,7 @@ var imgs =
         "1":["https://img.gamemale.com/album/201908/07/000439c4ys4khmukll4rgr.gif", 40,],
         "2":["https://img.gamemale.com/album/201908/07/000440nlllwslrlwmllxis.gif", 40,],
         "3":["https://img.gamemale.com/album/201908/07/000440q6ak4doawyfobou3.gif", 40,],
-        "4":["https://img.gamemale.com/forum/202001/31/134831p0zfhhgtvj1tb12a.gif", 40,],
+        "4":["https://img.gamemale.com/album/201908/07/000440r7xag70zw0i36ttd.gif", 40,],
         "5":["https://img.gamemale.com/album/201908/07/000441q33c0232mgg1jp2u.gif", 40,],
         "Max":["https://img.gamemale.com/album/201908/07/000441fod52mmdddmklwo1.gif", 40,],
     },
@@ -7459,7 +7520,7 @@ var imgs =
         "2":["https://img.gamemale.com/album/202111/30/152021lqz8vgqfqss77qt1.gif", 124,],
         "3":["https://img.gamemale.com/album/202111/30/152021djx7b94b92zo9wwh.gif", 124,],
         "4":["https://img.gamemale.com/forum/202201/30/100903l97yaqan99gmgima.gif", 124,],
-        "5":["https://img.gamemale.com/forum/202201/30/100905kz1ztzt8i0u18qaz.gif", 124,],
+        "5":["https://img.gamemale.com/album/202111/30/152022ohbzt9cexttcmqbj.gif", 124,],
         "6":["https://img.gamemale.com/forum/202201/30/100909xrx7s5ssakj573sj.gif", 124,],
         "7":["https://img.gamemale.com/forum/202201/30/100910wnf3nzdede5j955f.gif", 124,],
         "8":["https://img.gamemale.com/album/202111/30/152022vd2dws6rrsre9z2d.gif", 124,],
@@ -7509,7 +7570,7 @@ var imgs =
         "4":["https://img.gamemale.com/forum/202402/12/194407v96eq9gyqtb6qx61.gif", 124,],
         "5":["https://img.gamemale.com/forum/202402/12/113841i189z7p6mz1p4947.gif", 124,],
         "6":["https://img.gamemale.com/forum/202402/12/113427f082z542u4enjc22.gif", 124,],
-        "Max":["https://img.gamemale.com/album/202402/09/010523nud6mc32f8vqqgtp.gif", 124,],
+        "Max":["https://img.gamemale.com/album/202402/09/010529fo8iyudd7p5dupgy.gif", 124,],
     },
     '克莱夫・罗兹菲尔德':
     {
@@ -8358,7 +8419,7 @@ var imgs =
         "3":["https://img.gamemale.com/album/202501/27/151231q9ipy325gsow6hzj.gif", 40,],
         "4":["https://img.gamemale.com/album/202501/27/151412g7qzd77z3fsxabd7.gif", 40,],
         "5":["https://img.gamemale.com/album/202501/27/151412b34d6r4ped3z860m.gif", 40,],
-        "6":["", 40,],
+        "6":["https://img.gamemale.com/album/202501/27/150402goskto0pytws2fa0.gif", 40,],
         "Max":["https://img.gamemale.com/album/202501/27/150402l52szqvsqlgpytsl.gif", 40,],
     },
     'John Reese':
@@ -8927,7 +8988,7 @@ var imgs =
         "6":["https://img.gamemale.com/album/202602/15/024154c8sh3pmezyff1p2t.gif", 82,],
         "7":["https://img.gamemale.com/album/202602/15/024154zh0h9hpev4492pme.gif", 40,],
         "8":["https://img.gamemale.com/album/202602/15/024155dcohwu9uop5iom5c.gif", 40,],
-        "Max":["https://img.gamemale.com/forum/202602/12/233030y11fgdnfk8k8amzm.gif", 82,],
+        "Max":["https://img.gamemale.com/album/202602/15/024156t95fsfow3fkyom9z.gif", 82,],
     },
     '生命赞歌':
     {
@@ -9044,12 +9105,12 @@ var imgs =
         "1":["https://img.gamemale.com/album/202606/07/152346kjn7cc060r22rvc7.gif", 40,],
         "2":["https://img.gamemale.com/forum/202603/08/213132pgcq9s9yzkyyvzkk.gif", 82,],
         "3":["https://img.gamemale.com/album/202606/07/152348lyy5s5py5y2tsu5t.gif", 40,],
-        "Max":["https://img.gamemale.com/forum/202603/08/213132j2rh3rhijh9lflhw.gif", 82,],
+        "Max":["https://img.gamemale.com/album/202606/07/152350qop3t3xxapzjuo52.gif", 82,],
     },
     '斯科特·温德尔':
     {
         "1":["https://img.gamemale.com/album/202606/07/152358ikevjb4vlq3vvvkr.gif", 40,],
-        "2":["https://img.gamemale.com/forum/202603/08/213133z4ypqz39lqyek8cq.gif", 40,],
+        "2":["https://img.gamemale.com/album/202606/07/152359p255x6x2500hu824.gif", 40,],
         "3":["https://img.gamemale.com/album/202606/07/152400bz137v2lbd9dcie3.gif", 82,],
         "Max":["https://img.gamemale.com/album/202606/07/152401jbx9vbicqr1nbybb.gif", 40,],
     },
@@ -9149,13 +9210,65 @@ var imgs =
         "1":["https://img.gamemale.com/album/202607/18/205209ndx969xm4x3rxaxg.gif", 40,],
         "Max":["https://img.gamemale.com/album/202607/18/205210u7b1875ttiajwhas.gif", 40,],
     },
+    '杜隆坦':
+    {
+        "1":["https://img.gamemale.com/album/202609/29/203613nbx9j9zy9kfqk3j3.gif", 40,],
+        "2":["https://img.gamemale.com/album/202609/29/203613t9eirgd2udsx5z0u.gif", 82,],
+        "3":["https://img.gamemale.com/album/202609/29/203614nz0lh2il0h1hh09n.gif", 82,],
+        "Max":["https://img.gamemale.com/album/202609/29/203615cllazmyyw1jyllvg.gif", 124,],
+    },
+    '大白':
+    {
+        "1":["https://img.gamemale.com/album/202609/29/203923vm6t6yyklufxm5um.gif", 40,],
+        "2":["https://img.gamemale.com/album/202609/29/203924tfds0dsl7wqklq7q.gif", 124,],
+        "3":["https://img.gamemale.com/album/202609/29/203925vz8z9ka7nk0ld4z0.gif", 82,],
+        "Max":["https://img.gamemale.com/album/202609/29/203925wee7fgjq24gc21l2.gif", 82,],
+    },
+    '深林の假面':
+    {
+        "1":["https://img.gamemale.com/album/202609/29/204245esn7njaatzwcnsnx.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202609/29/204246i869n9ik1aac9siq.gif", 40,],
+    },
+    '一捆蛛丝':
+    {
+        "1":["https://img.gamemale.com/album/202609/29/204251gcdn2ullz2znzzuh.gif", 40,],
+        "2":["https://img.gamemale.com/album/202609/29/204251r4dgn7dm84d7vhes.gif", 40,],
+        "3":["https://img.gamemale.com/album/202609/29/204251cf59q1udq9z0d8mm.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202609/29/204252qklz6onknczsc66t.gif", 40,],
+    },
+    '深渊立方':
+    {
+        "1":["https://img.gamemale.com/album/202609/29/204301c8dtxutu82ux5xwr.gif", 40,],
+        "2":["https://img.gamemale.com/album/202609/29/204302d4wkwkpkk1a9mfzs.gif", 40,],
+        "3":["https://img.gamemale.com/album/202609/29/204302nbn476lp54w4v37b.gif", 40,],
+        "4":["https://img.gamemale.com/album/202609/29/204302xyupjickpioyg1jz.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202609/29/204303ph4u7z9ikuak9hih.gif", 40,],
+    },
+    '袋中の鱼':
+    {
+        "1":["https://img.gamemale.com/album/202609/29/204312u3tau07n2ht372e2.gif", 40,],
+        "2":["https://img.gamemale.com/album/202609/29/204313nc3somoo8g9ufj03.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202609/29/204313ju77sfuysdffdzzi.gif", 40,],
+    },
+    '超级名贵斑驳时钟':
+    {
+        "Max":["https://img.gamemale.com/album/202609/29/204318wodhtpd1ydevb607.gif", 124,],
+    },
+    '疯狂GM食':
+    {
+        "1":["https://img.gamemale.com/album/202609/29/204235rsdb0sucggajjgm4.gif", 40,],
+        "2":["https://img.gamemale.com/album/202609/29/204235b3ght0em8hohg03b.gif", 40,],
+        "3":["https://img.gamemale.com/album/202609/29/204236hlvlczoyacbhjyza.gif", 40,],
+        "4":["https://img.gamemale.com/album/202609/29/204236izzykmbk1l7l787z.gif", 40,],
+        "5":["https://img.gamemale.com/album/202609/29/204237fakzb7tmk5qkfr7r.gif", 40,],
+        "Max":["https://img.gamemale.com/album/202609/29/204237tc8q8c8sek5jkcuq.gif", 40,],
+    },
 };
 
     // 创建控制面板()
     初始化放大镜()
     // 变化检测()
 
-    // reloadScript();
 })()
 
 // 录入模板 ≥
