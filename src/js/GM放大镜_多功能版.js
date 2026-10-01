@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM-勋章放大镜
 // @namespace    https://docs.scriptcat.org/
-// @version      2.2.11
+// @version      2.2.12
 // @description  暗黑模式的勋章放大镜
 // @author       1:轶致2:咸鱼鱼3:哈哈哈哈_
 // @match        *://*.gamemale.com/*
@@ -1511,9 +1511,10 @@ function pLimit(concurrency) {
                         }
                     }
                 });
+                this.data.weights = resetWeights;
                 this.toast.show({
-                    type: "warning",
-                    msg: "权重数值已重置，请点击保存生效！",
+                    type: "success",
+                    msg: "权重数值已重置！",
                 });
             };
         }
