@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM-勋章放大镜
 // @namespace    https://docs.scriptcat.org/
-// @version      2.2.12
+// @version      2.3.1
 // @description  暗黑模式的勋章放大镜
 // @author       1:轶致2:咸鱼鱼3:哈哈哈哈_
 // @match        *://*.gamemale.com/*
@@ -2742,7 +2742,7 @@ function pLimit(concurrency) {
                     padding: 4px;
                     font-size: 13px;
                     border-radius: 5px;
-                    z-index: 10000;
+                    z-index: 100002;
                     font-weight: 500;
                     color: var(--text-primary);
                     box-shadow: 0 6px 24px 6px var(--shadow);
@@ -3404,6 +3404,15 @@ function pLimit(concurrency) {
                     delay: 50,
                     touchDelay: 350,
                     getId: (el) => el.getAttribute("alt"),
+                },
+                // 悬浮层的勋章组合
+                {
+                    type: "default_2",
+                    container: ".pg_wodexunzhang",
+                    target: ".combo-dialog-picture",
+                    delay: 50,
+                    touchDelay: 350,
+                    getId: (el) => el.querySelector("img").getAttribute("alt"),
                 },
                 // 交易角-发布、交易单、勋章组合
                 {
