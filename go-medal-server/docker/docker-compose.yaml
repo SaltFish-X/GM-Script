@@ -1,0 +1,21 @@
+#version: '3.3'
+services:
+  gm_medal_1:
+    image: "gm_medal:1.0"
+    container_name: gm_medal_1
+    volumes:
+      - "../json:/app/json"
+    ports:
+      - "10082:8080"
+    environment:
+      - TZ=Asia/Shanghai
+      - app_dir=./json
+      - app_port=8080
+      - update_url=https://raw.githubusercontent.com/SaltFish-X/GM-Script/main/src/json/medal.json
+    logging:
+      driver: json-file
+      options:
+        max-size: 30m
+        max-file: 5
+    restart: unless-stopped
+    network_mode: bridge
