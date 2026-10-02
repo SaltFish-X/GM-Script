@@ -3351,7 +3351,6 @@
             // 否则不自动升级，用户通过配置对话框手动触发
         }
 
-
         // 记录展示勋章/置顶展示勋章
         createLink('记录展示勋章', saveTopMedal);
         createLink('置顶展示勋章', loadTopMedal);
