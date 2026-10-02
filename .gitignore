@@ -15,5 +15,11 @@
 !/.github/
 !/.github/**
 
+# 不忽略 medal-api-server
+!/go-medal-server/
+!/go-medal-server/**
+/go-medal-server/docs/
+/go-medal-server/json/
+
 # 不忽略 dist 文件夹
 !dist/

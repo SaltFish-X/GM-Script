@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.8.3
+// @version      2.9.1
 // @description  泥潭勋章属性展示！
 // @author       轶致
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html*
@@ -126,7 +126,7 @@
         放大镜.style.border = '1px solid black'
         放大镜.style.borderRadius = '5px'
         放大镜.style.display = 'none'
-        放大镜.style.zIndex = '10000'
+        放大镜.style.zIndex = '100002'
         放大镜.style.fontWeight = 'bold'
         放大镜.style.color = '#000516'
         放大镜.style.maxHeight = '550px' // 设置最大高度 禽兽扒手无滚动条的高度
@@ -451,6 +451,15 @@
                 delay: 50,
                 touchDelay: 350,
                 getId: (el) => el.getAttribute("alt"),
+            },
+            // 悬浮层的勋章组合
+            {
+                type: "saltfish",
+                container: ".pg_wodexunzhang",
+                target: ".combo-dialog-picture",
+                delay: 50,
+                touchDelay: 350,
+                getId: (el) => el.querySelector("img").getAttribute("alt"),
             },
             // 交易角-发布、交易单、勋章组合
             {
