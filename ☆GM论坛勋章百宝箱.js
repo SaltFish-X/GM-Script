@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.8.2
+// @version      2.8.3
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
@@ -2802,7 +2802,14 @@
             return;
         } else {
             navigator.clipboard.writeText(text)
-                .then(() => alert('需要互赠的勋章已复制'))
+                .then(() => {
+                    alert('需要互赠的勋章已复制');
+
+                    const url = 'https://www.gamemale.com/home.php?mod=space&do=doing&view=all';
+                    // 新标签页打开；若被浏览器拦截则当前页跳转
+                    const win = window.open(url, '_blank');
+                    if (!win) location.href = url;
+                })
                 .catch(err => console.error('复制失败:', err));
         }
     }
