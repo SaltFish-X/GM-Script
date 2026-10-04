@@ -40,8 +40,6 @@
 
 (function () {
     'use strict';
-    const 是否自动开启茉香啤酒 = 0;
-
     const linkList = {
         "游戏男从": "youxi", "真人男从": "zhenren", "女从": "Maid",
         "装备": "Equip", "资产": "Asset", "宠物": "Pet", "板块": "Forum", "天赋": "Skill",
