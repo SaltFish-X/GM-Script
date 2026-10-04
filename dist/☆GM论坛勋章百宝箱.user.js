@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.8.2
+// @version      2.8.3
 // @updateURL    https://cdn.jsdelivr.net/gh/SaltFish-X/GM-Script@main/dist/%E2%98%86GM%E8%AE%BA%E5%9D%9B%E5%8B%8B%E7%AB%A0%E7%99%BE%E5%AE%9D%E7%AE%B1.user.js
 // @downloadURL  https://cdn.jsdelivr.net/gh/SaltFish-X/GM-Script@main/dist/%E2%98%86GM%E8%AE%BA%E5%9D%9B%E5%8B%8B%E7%AB%A0%E7%99%BE%E5%AE%9D%E7%AE%B1.user.js
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
@@ -42,8 +42,6 @@
 
 (function () {
     'use strict';
-    const 是否自动开启茉香啤酒 = 0;
-
     const linkList = {
         "游戏男从": "youxi", "真人男从": "zhenren", "女从": "Maid",
         "装备": "Equip", "资产": "Asset", "宠物": "Pet", "板块": "Forum", "天赋": "Skill",
@@ -2806,7 +2804,14 @@
             return;
         } else {
             navigator.clipboard.writeText(text)
-                .then(() => alert('需要互赠的勋章已复制'))
+                .then(() => {
+                    alert('需要互赠的勋章已复制');
+
+                    const url = 'https://www.gamemale.com/home.php?mod=space&do=doing&view=all';
+                    // 新标签页打开；若被浏览器拦截则当前页跳转
+                    const win = window.open(url, '_blank');
+                    if (!win) location.href = url;
+                })
                 .catch(err => console.error('复制失败:', err));
         }
     }
