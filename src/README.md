@@ -33,9 +33,13 @@ Gm_Scripts
   - medal_SaltFish_release.js 转换来的旧版勋章数据格式，包括 `var 放大镜内容映射表`、`var imgs`
   - medal_imgs.json 严格JSON版，可以API直接请求
   - medal_info.json 严格JSON版，可以API直接请求
+  - onlyPrice.json 严格JSON版，可以API直接请求，给二手市场大宝剑布丁调用
   - xxx 提交版本，用来判断数据是否为最新（暂时未做）
 - ☆GM论坛勋章放大镜.js
   - 外层的`☆GM论坛勋章放大镜.js`为脚本自动输出的最终版本
+> [!Warning] 特殊数据
+> medal.json中存在【奖品】迷之瓶和【资产】迷之瓶；medal_info.json中只保留了【资产】迷之瓶
+
 ## 勋章数据结构
 medalData、medalDataNoTid 为数组`any[]`
 - 数组内部的item详细说明

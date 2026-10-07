@@ -4,6 +4,7 @@ const medalDataNoTid = [
         "type": "剧情",
         "name": "香蕉特饮",
         "date": "2023-5-16",
+        "price": "？金币",
         "buy_limit": "购买头衔参加【派对沙滩】活动",
         "levels": "【等级 初级】无属性▕▏升级条件：消耗-1堕落\n【 Max 】无属性",
         "levels_img": {

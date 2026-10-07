@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.9.1
+// @version      2.9.2
 // @updateURL    https://cdn.jsdelivr.net/gh/SaltFish-X/GM-Script@main/dist/%E2%98%86GM%E8%AE%BA%E5%9D%9B%E5%8B%8B%E7%AB%A0%E6%94%BE%E5%A4%A7%E9%95%9C.user.js
 // @downloadURL  https://cdn.jsdelivr.net/gh/SaltFish-X/GM-Script@main/dist/%E2%98%86GM%E8%AE%BA%E5%9D%9B%E5%8B%8B%E7%AB%A0%E6%94%BE%E5%A4%A7%E9%95%9C.user.js
 // @description  泥潭勋章属性展示！
@@ -12,6 +12,7 @@
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=showjishou
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=combo
+// @match        https://badge.saltfish.cc.cd/*
 // @namespace    https://www.gamemale.com/forum.php?mod=viewthread&tid=129944
 // @homepage     https://www.gamemale.com/thread-129944-1-1.html
 // @grant        GM_getValue
@@ -60,6 +61,8 @@
     // 是否显示图片true or false，默认true显示
     // 2.7.18版本之后不需要修改此处，直接点击菜单即可修改
     let showImg = true;
+    // 排行榜显示放大镜开关
+    let disableOnRank = GM_getValue("disableOnRankSetting");
 
     if (GM_getValue("toggleSetting") === undefined) {
         // toggleSetting 代表放大镜是否位于标签左右 true为左右，false为上下
@@ -73,6 +76,12 @@
     else {
         showImg = GM_getValue("showImgSetting");
         console.log("get showImgSetting " + showImg);
+    }
+
+    if (disableOnRank === undefined) {
+        // disableOnRankSetting 持久化
+        GM_setValue("disableOnRankSetting", false)
+        disableOnRank = false
     }
 
     // 创建菜单命令用于切换设置
@@ -90,6 +99,15 @@
         console.log("set showImgSetting " + showImg);
         GM_setValue("showImgSetting", showImg);
         初始化放大镜();
+    }
+
+    // 创建排行榜设置
+    GM_registerMenuCommand(`排行榜禁用放大镜开关`, disableOnRankFunc)
+    function disableOnRankFunc() {
+        disableOnRank = !(GM_getValue("disableOnRankSetting"));
+        console.log("set disableOnRankSetting " + disableOnRank);
+        GM_setValue("disableOnRankSetting", disableOnRank);
+        // location.reload()
     }
 
     // 此外右下角有一个放大器可以显示/隐藏放大镜，解决遮挡原信息问题
@@ -454,6 +472,17 @@
                 touchDelay: 350,
                 getId: (el) => el.getAttribute("alt"),
             },
+            // 排行榜
+            {
+                get disable() {
+                    return disableOnRank;
+                },
+                type: "saltfish",
+                container: "#rank-info-scroll.clusterize-scroll",
+                target: ".rank-info-row",
+                delay: 150,
+                getId: (el) => el.querySelector(".rank-info-name")?.textContent?.trim(),
+            },
             // 悬浮层的勋章组合
             {
                 type: "saltfish",
@@ -471,7 +500,15 @@
                 delay: 50,
                 touchDelay: 350,
                 getId: (el) => el.querySelector("img")?.getAttribute("alt"),
-            }
+            },
+            // 勋章补货记录网站
+            {
+                type: "saltfish",
+                container: ".el-table__body-wrapper",
+                target: "tr.el-table__row td:first-child",
+                delay: 150,
+                getId: (el) => el.querySelector(".cell div")?.title?.trim(),
+            },
         ];
 
         const allTargetsSelector = bindConfigs.map(conf => conf.target).join(', ')
@@ -493,6 +530,7 @@
 
                 let hoverTimer
                 container.addEventListener('pointerover', function (event) {
+                    if (conf?.disable) return
                     if (!(event.target instanceof Element)) return
 
                     const targetEl = event.target.closest(conf.target)
@@ -649,7 +687,7 @@
             {
                 continue;
             }
-            if ((lv in imgs[name]) && (imgs[name][lv][0].length > 0))
+            if ((lv in imgs[name]) && (imgs[name][lv][0].length > 0) && window.location.host != "badge.saltfish.cc.cd")
             {
                 let addStr = `<img src="${imgs[name][lv][0]}" width="${imgs[name][lv][1]}px" align="middle">`;
                 if (imgs[name][lv][1] < max_width)

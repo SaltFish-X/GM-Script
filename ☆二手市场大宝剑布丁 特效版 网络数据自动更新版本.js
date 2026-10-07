@@ -1,16 +1,16 @@
 // ==UserScript==
-// @name         二手市场大宝剑布丁 特效版
+// @name         二手市场大宝剑布丁 特效版 网络数据自动更新版本
 // @namespace    https://www.gamemale.com/space-uid-687897.html
 // @supportURL   https://www.gamemale.com/thread-136247-1-1.html
-// @version      0.28
-// @description  删除所有非寄售交易类的记录，并且直接显示页面内勋章的寄售价格和寄售用户！脚本可能会造成卡顿，如需抢购请关闭此脚本！
+// @version      0.30.1
+// @description  删除所有非寄售交易类的记录，并且直接显示页面内勋章的寄售价格和寄售用户！脚本可能会造成卡顿，如需抢购请关闭此脚本！D
 // @author       瓦尼
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=showjishou
 // @icon         https://img.gamemale.com/album/201405/01/175008icuedsbvi0btdc7c.gif
 // @grant        GM_addStyle
 // ==/UserScript==
 
-(function() {
+(async function () {
     'use strict';
 
     /////////////////////////快速设置////////////////////////////////
@@ -59,24 +59,24 @@
     // 快速设置赋值
     document.documentElement.style.setProperty('--animation-time', animationTime);
 
-    if( primaryAnimationOn ){
+    if (primaryAnimationOn) {
         document.documentElement.style.setProperty('--color', primaryColor);
         document.documentElement.style.setProperty('--shiny-percentage', primaryPercentage);
-    }else{
+    } else {
         document.documentElement.style.setProperty('--color', '#fff');
     }
 
-    if( greenAnimationOn ){
+    if (greenAnimationOn) {
         document.documentElement.style.setProperty('--green-color', greenColor);
         document.documentElement.style.setProperty('--green-percentage', greenPercentage);
-    }else{
+    } else {
         document.documentElement.style.setProperty('--green-color', '#fff');
     }
 
-    if( redAnimationOn ){
+    if (redAnimationOn) {
         document.documentElement.style.setProperty('--red-color', redColor);
         document.documentElement.style.setProperty('--red-percentage', redPercentage);
-    }else{
+    } else {
         document.documentElement.style.setProperty('--red-color', '#fff');
     }
 
@@ -84,8 +84,8 @@
     // u老师提供的勋章价格数据，特此鸣谢！
     // u老师的空间: https://www.gamemale.com/space-uid-714849.html
     // 已将数据转换为JSON格式
-    /* 插入位置 */
-
+    var response= await fetch('https://raw.githubusercontent.com/SaltFish-X/GM-Script/main/src/json/onlyPrice.json');
+    var badgePriceJson = await response.json();
 
     // 添加模板：
     // "勋章名":{"currency":"金币","amount":0},
@@ -97,7 +97,7 @@
     const huiShouPriceRate = 0.65;
 
     // 删除非寄售相关的交易记录
-    function removeNotJishou(){
+    function removeNotJishou() {
         // 选中与ID为'medalid_f'的<form>元素同级的，类名为 'el pbw mbw' 的<ul>元素
         let targetUl = document.querySelector('form#medalid_f ~ ul.el.pbw.mbw');
 
@@ -117,10 +117,10 @@
         }
     }
 
-    function showUserAndPrice(){
+    function showUserAndPrice() {
 
         // 如果开启逆序，则越新的寄售显示越靠前
-        if( reverseOn ){
+        if (reverseOn) {
             let container = document.querySelector('.myfldiv');
             let myblokArray = Array.from(document.getElementsByClassName("myblok"));
 
@@ -140,15 +140,15 @@
 
             // 获取勋章名称
             // ？可以在空值是防止错误
-            let badgeName = blok.querySelector('.myimg p b')?.textContent;
-            if(!badgeName){
+            let badgeName = blok.querySelector('.myimg p b')?.textContent?.trim();
+            if (!badgeName) {
                 console.log("未找到页面信息：勋章名")
                 continue;
             }
 
             // 获取jiage类的p元素
             let jiageP = blok.querySelectorAll('.mytip .jiage');
-            if(!jiageP){
+            if (!jiageP) {
                 console.log("未找到页面信息：价格");
                 continue;
             }
@@ -159,7 +159,7 @@
             // 寄售价格
             let priceContent = jiageP[1].querySelector('b')?.textContent;
 
-            if((!userContent) || (!priceContent)){
+            if ((!userContent) || (!priceContent)) {
                 console.log("未找到页面信息：用户或寄售价格");
                 continue;
             }
@@ -167,7 +167,7 @@
             // 获取价格金币数字
             const regex = /\d+/;
             let priceMatch = priceContent.match(regex);
-            if(!priceMatch){
+            if (!priceMatch) {
                 console.log("价格信息提取错误");
                 continue;
             }
@@ -187,29 +187,29 @@
             let hasDataFlag = 1;
             // 根据寄售的原价对对应勋章进行变色
             let oriBadgePrice;
-            if(!(badgePriceJson[badgeName])){
+            if (!(badgePriceJson[badgeName])) {
                 console.log("未在勋章数据库中找到对应勋章：" + badgeName);
                 hasDataFlag = 0;
                 oriBadgePrice = "未收录"
-            }else{
+            } else {
                 oriBadgePrice = badgePriceJson[badgeName].amount;
             }
 
             //如果有价格则改变样式
-            if(hasDataFlag){
+            if (hasDataFlag) {
                 let maxJishouPrice = Math.floor(oriBadgePrice * maxPriceRate);
                 let huiShouPrice = Math.floor(oriBadgePrice * huiShouPriceRate);
 
                 // 如果小于最大寄售价，变成蓝色
-                if( priceNumber < maxJishouPrice){
+                if (priceNumber < maxJishouPrice) {
                     blok.classList.add("shinyBlok");
                 }
 
                 // 如果小于等于勋章回收价格，变成红色
                 // 如果小于等于原价，变成绿色
-                if( priceNumber <= huiShouPrice ){
+                if (priceNumber <= huiShouPrice) {
                     blok.classList.add("redBlok");
-                }else if( priceNumber <= oriBadgePrice){
+                } else if (priceNumber <= oriBadgePrice) {
                     blok.classList.add("greenBlok");
                 }
 
@@ -219,7 +219,7 @@
             if (userContent && priceContent) {
                 var newP = document.createElement("p");
                 newP.classList.add("pudding");
-                var newContent = document.createTextNode( priceNumber + "/" + oriBadgePrice + " " + userContent );
+                var newContent = document.createTextNode(priceNumber + "/" + oriBadgePrice + " " + userContent);
                 newP.appendChild(newContent);
 
                 // 设置样式，使其紧贴标题
@@ -245,7 +245,7 @@
     showUserAndPrice();
 
     // 如果设置中开启动画则修改样式
-    if( animationOn ){
+    if (animationOn) {
 
         // 流水灯边框样式
         // 来源：ckjdygc - 创客界的一根葱
@@ -290,7 +290,7 @@
 
     // 如果开启最低售价功能，则载入动画
     // https://www.bilibili.com/video/BV1xr4y1n7hx/
-    if(lowPriceReminder){
+    if (lowPriceReminder) {
         GM_addStyle(`
             :root {
             --color-1: #186cb8;
@@ -341,6 +341,6 @@
     }
 
          `);
-    };
+    }
 
 })();
