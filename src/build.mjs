@@ -13,6 +13,11 @@ const PARENT_DIR = path.join(__dirname, "..");
 
 if (!fs.existsSync(JSON_DIR)) fs.mkdirSync(JSON_DIR, { recursive: true });
 
+/**
+ * 加载medalData和medalDataNoTid JS数据，转换为标准的JSON格式数据
+ * @param {*} filePath 文件（带路径）
+ * @returns {*} JSON格式数据
+ */
 function loadMedalFile(filePath) {
     try {
         const source = fs.readFileSync(filePath, "utf8");
@@ -41,14 +46,23 @@ function loadMedalFile(filePath) {
     }
 }
 
+/**
+ * 读取勋章数据，构建为Map数据
+ * @param {*} medalList 勋章数据
+ * @returns {*} { 文本数据, 图片数据, 价格数据 }
+ */
 function buildReleaseData(medalList) {
+    // 文本数据
     const textMap = {};
+    // 图片数据
     const imgsMap = {};
+    // 价格数据
     const priceMap = {};
 
     // const RE_PRICE = /^(\d+)(金币|血液|旅程|堕落|灵魂|咒术|知识)$/;
     const RE_PRICE = /(\d+)([\u4e00-\u9fa5]+)|([\u4e00-\u9fa5]+)(\d+)/;;
-    const BuyPrice = (buy_price) => {
+    // 提取price函数
+    const BuyPriceFunc = (buy_price) => {
 
         if (!buy_price) return { currency: "", amount: 0 };
 
@@ -88,7 +102,7 @@ function buildReleaseData(medalList) {
         const url_tid = medal?.url_tid ?? "";
         const special_note = medal?.special_note ?? [];
 
-        priceMap[name] = BuyPrice(price);
+        priceMap[name] = BuyPriceFunc(price);
 
         if (name === "迷之瓶" && type === "奖品") continue;
 
@@ -134,30 +148,32 @@ function buildReleaseData(medalList) {
     return { textMap, imgsMap, priceMap };
 }
 
+/**
+ * 写入本地文件 （JSON文件）
+ * @param {*} fileName 待写入本地的文件名
+ * @param {*} data 待写入的数据
+ */
 function writeJson(fileName, data) {
     fs.writeFileSync(path.join(JSON_DIR, fileName), JSON.stringify(data, null, 2), "utf8");
     console.log(`💾 json/${fileName}`);
 }
-
+/**
+ * 转换为最终版本（咸鱼鱼版本 带var）JS文件
+ * @param {*} textMap 文本数据
+ * @param {*} imgsMap 图片数据
+ * @returns
+ */
 function generateReleaseJs(textMap, imgsMap) {
     return `var 放大镜内容映射表 = ${JSON.stringify(textMap, null, 4)};
 
 var imgs = ${JSON.stringify(imgsMap, null, 4)};
 `;
 }
-function generateReleasePrice(priceMap) {
-    const lines = [];
-
-    for (const [key, value] of Object.entries(priceMap)) {
-        const innerStr = `{ "currency": "${value.currency}", "amount": ${value.amount} }`;
-        lines.push(`        "${key}": ${innerStr}`);
-    }
-
-    const jsonBody = `{\n${lines.join(',\n')}\n    }`;
-
-    return `    var badgePriceJson = ${jsonBody};\n`;
-}
-
+/**
+ * 直接读取原本的文件，将medalData_NoTid.js和medalData.js拼接为一个
+ * @param {*} files 文件
+ * @returns 拼接文件
+ */
 function readRawFilesContent(files) {
     let result = "";
 
@@ -173,7 +189,14 @@ function readRawFilesContent(files) {
 
     return result;
 }
-
+/**
+ * 插入字符串到指定位置
+ * @param {*} insertText
+ * @param {*} templatePath
+ * @param {*} outputPath
+ * @param {*} marker
+ * @returns
+ */
 function insertContentToTemplate(insertText, templatePath, outputPath, marker = "/* 插入位置 */") {
     if (!fs.existsSync(templatePath)) {
         console.error(`❌ 模板不存在: ${templatePath}`);
@@ -195,7 +218,9 @@ function insertContentToTemplate(insertText, templatePath, outputPath, marker = 
 
     return true;
 }
-
+/**
+ * 主程序
+ */
 function main() {
     const files = [
         path.join(DATA_DIR, "medalData_NoTid.js"),
@@ -222,6 +247,8 @@ function main() {
     writeJson("medal.json", allMedals);
     writeJson("medal_info.json", totalText);
     writeJson("medal_imgs.json", totalImgs);
+    writeJson("onlyPrice.json", totalPrice);
+
 
     const releaseJsText = generateReleaseJs(totalText, totalImgs);
     fs.writeFileSync(path.join(JSON_DIR, "medal_SaltFish_release.js"), releaseJsText, "utf8");
@@ -232,9 +259,6 @@ function main() {
     insertContentToTemplate(rawCombinedText, path.join(__dirname, "js", "GM放大镜_多功能版.js"), path.join(__dirname, "☆GM放大镜_多功能版.js"));
 
     insertContentToTemplate(releaseJsText, path.join(__dirname, "js", "☆GM论坛勋章放大镜.js"), path.join(__dirname, "☆GM论坛勋章放大镜.js"));
-
-    const priceText = generateReleasePrice(totalPrice)
-    insertContentToTemplate(priceText, path.join(__dirname, "js", "二手市场大宝剑布丁特效版V028.js"), path.join(__dirname, "☆二手市场大宝剑布丁特效版V028.js"));
 
     console.log("🎉 构建完成");
 }
