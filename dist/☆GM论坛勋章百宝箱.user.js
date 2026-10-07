@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.8.5
+// @version      2.8.7
 // @updateURL    https://cdn.jsdelivr.net/gh/SaltFish-X/GM-Script@main/dist/%E2%98%86GM%E8%AE%BA%E5%9D%9B%E5%8B%8B%E7%AB%A0%E7%99%BE%E5%AE%9D%E7%AE%B1.user.js
 // @downloadURL  https://cdn.jsdelivr.net/gh/SaltFish-X/GM-Script@main/dist/%E2%98%86GM%E8%AE%BA%E5%9D%9B%E5%8B%8B%E7%AB%A0%E7%99%BE%E5%AE%9D%E7%AE%B1.user.js
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
@@ -952,7 +952,6 @@
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            gap: 8px;
         }
 
         /* ========== 管理标签过滤栏 ========== */
@@ -1056,6 +1055,9 @@
 
         /* 被过滤隐藏的勋章 */
         .badge-filter-hidden { display: none !important; }
+
+        /* 屏蔽臃肿的「我的勋章统计」 */
+        .my_medal_stats { display: none !important; }
     `;
 
         // 新皮肤，白色主题 
@@ -2332,8 +2334,8 @@
         <p id="all-hui">回帖：${formatEarnings(summaries.hui.ALL)}</p>
         <p id="all-fa">发帖：${formatEarnings(summaries.fa.ALL)}</p>
         <div class="badge-warning"></div>
-        <br>
         <div class="foldable-content" style="display: ${isFolded ? 'none' : 'block'};">
+            <br>
             <H3>常驻勋章收益</H3>
             <p>回帖：${formatEarnings(summaries.hui.Permanent)}</p>
             <p>发帖：${formatEarnings(summaries.fa.Permanent)}</p>
@@ -3228,13 +3230,13 @@
     async function upgradeMedal(name, times) {
         const info = findMedal(name);
         if (!info) {
-            console.warn(`[勋章升级] 未找到勋章“${name}”，跳过`);
+            // console.warn(`[勋章升级] 未找到勋章“${name}”，跳过`);
             return false;
         }
 
         // 检查当前等级是否已经最高
         if (isMaxLevel(info.lv)) {
-            console.log(`[勋章升级] “${name}” 已是最高等级 (${info.lv})，跳过`);
+            // console.log(`[勋章升级] “${name}” 已是最高等级 (${info.lv})，跳过`);
             return false;
         }
 
@@ -3676,7 +3678,7 @@
 
         // —— 渲染按钮 ——
         const parts = [];
-        parts.push(`<span class="badge-filter-label">🎯 管理标签</span>`);
+        // parts.push(`<span class="badge-filter-label">🎯 管理标签</span>`);
 
         // 全部：只显示当前总数
         parts.push(makeBtn('全部', counts['全部'], 0));
@@ -3687,11 +3689,6 @@
             const max = numbers[cn] || 0;
             parts.push(makeBtn(cn, counts[cn], max));
         });
-
-        // 其他：不显示最大值
-        if (counts['其他']) {
-            parts.push(makeBtn('其他', counts['其他'], 0));
-        }
 
         medalFilterBarEl.innerHTML = parts.join('');
 
