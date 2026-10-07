@@ -3494,7 +3494,9 @@
     }
 
     // ===========================内部测试/抢先体验区域（现在可以安全使用上述函数）=================================
-    if (discuz_uid == 723150 || discuz_uid == 736635 || discuz_uid == 737237) {
+    const ALLOW_UIDS = [723150, 736635, 737237, 717473];
+
+    if (ALLOW_UIDS.includes(+discuz_uid)) {
         // 设置勋章自动升级
         createLink('设置勋章自动升级', showConfigDialog);
         // 读取配置，默认不开启静默
