@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.8.3
+// @version      2.8.4
 // @updateURL    https://cdn.jsdelivr.net/gh/SaltFish-X/GM-Script@main/dist/%E2%98%86GM%E8%AE%BA%E5%9D%9B%E5%8B%8B%E7%AB%A0%E7%99%BE%E5%AE%9D%E7%AE%B1.user.js
 // @downloadURL  https://cdn.jsdelivr.net/gh/SaltFish-X/GM-Script@main/dist/%E2%98%86GM%E8%AE%BA%E5%9D%9B%E5%8B%8B%E7%AB%A0%E7%99%BE%E5%AE%9D%E7%AE%B1.user.js
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
@@ -30,15 +30,15 @@
 // DONE 分类新增装饰，因为他有最大数量上限
 // TODO 有效期时长显示不稳定
 // TODO 勋章寄售按钮里，有medalid。如果将key从name转为medalid，就不用再维护因为勋章改名引起的代码失效
-// TODO 一键排序需要优化，以及存在名称bug（目前只是分类去掉了【不可购买】，但是排序还存在的这个问题没有修复）
+// DONE 一键排序需要优化，以及存在名称bug（目前只是分类去掉了【不可购买】，但是排序还存在的这个问题没有修复）
 // DONE 预设列表提示，大概是会加个开关。又开关才会弹，没开关就不弹。那感觉可以把赠礼列表全部打钩保存。
 // DONE 检测我背包缺少了什么赠礼然后直接生成一串让我可以粘贴到记录
 // DONE 预设列表的一键互赠列表，支持预设互赠模版
 // DONE 设置自动升级勋章到最高级，配置项：GM夏日霜淇淋、青苹果、飘飘、茉香啤酒、灵光补脑剂。均需手动打开
-// BUG 预览界面最后一个勋章hover不到属性，要刷新才正常
+// DONE 预览界面最后一个勋章hover不到属性，要刷新才正常（似乎修复了）
 // DONE 新增统计，勋章组合属性
 // DONE 隐藏新增的数量统计，改成点击查看弹窗
-// TODO 新增统计每个属性的勋章来源，方便优化勋章
+// DONE 新增统计每个属性的勋章来源，方便优化勋章
 
 (function () {
     'use strict';
@@ -1363,72 +1363,104 @@
 
     }
 
-    // 勋章排序
+    /* ========================================= 一键按类型排序（重写版） ========================================= */
+
+    /**
+     * 名称 → 分类 key（通用）
+     * 归一化规则：
+     *   - trim 首尾空白
+     *   - · / ‧ 统一
+     *   - 去【不可购买】前缀
+     *   - 兜底：去尾部一个字符再试一次
+     * 无匹配时返回 'other'
+     *
+     * @param {string} rawName 原始名称，可为空
+     * @returns {string} 英文分类 key（youxi / Gift / other ...）
+     */
+    function resolveBadgeKind(rawName) {
+        if (!rawName) return 'other';
+
+        const normalized = String(rawName)
+            .trim()
+            .replace(/[·‧]/g, s => s === '·' ? '‧' : '·')
+            .replace(/【不可购买】/g, '');
+
+        return nameCategoryMap.get(normalized)
+            || nameCategoryMap.get(normalized.slice(0, -1))
+            || 'other';
+    }
+
+    /**
+     * 一键按类型排序勋章
+     * 采集 → 用户确认顺序 → 分类分桶 → 按桶顺序拼 key → 提交
+     */
     function kindOrder() {
-        // 获取所有匹配的元素
-        const elements = document.querySelectorAll('.my_fenlei .myblok');
-        const elementsArray = Array.from(elements);
-
-        // 使用 map 函数处理每个元素
-        const xunzhangList = elementsArray.map(myBlock => {
-            const key = myBlock.getAttribute('key');
-            const nameElement = myBlock.querySelector('p b'); // 找到包含名称的 <b> 标签
-            const name = nameElement ? nameElement.textContent : '';
-            return { [name]: key };
-        });
-        // 使用 reduce 合并字典
-        const mergedDict = xunzhangList.reduce((acc, curr) => {
-            return { ...acc, ...curr };
-        }, {});
-
-        // 填补未知的勋章
-        const mergedDictKey = Object.keys(mergedDict);
-        const allCategoriesData = Object.values(categoriesData).flat();
-        categoriesData.other = findUniqueValues(mergedDictKey, allCategoriesData);
-
-        function findUniqueValues(a, b) {
-            // 将数组 b 转换为一个 Set，以提高查找效率
-            const setB = new Set(b);
-
-            // 过滤出在 a 中且不在 b 中的值
-            const uniqueValues = a.filter(value => !setB.has(value));
-
-            return uniqueValues;
+        const blocks = document.querySelectorAll('.my_fenlei .myblok');
+        if (blocks.length === 0) {
+            alert('未找到任何勋章');
+            return;
         }
 
+        // 1. 采集：保留原 DOM 顺序
+        const medals = Array.from(blocks)
+            .map(blok => {
+                const img = blok.querySelector('img');
+                const name = img ? (img.getAttribute('alt') || '').trim() : '';
+                return {
+                    key: blok.getAttribute('key'),
+                    kind: resolveBadgeKind(name)
+                };
+            })
+            .filter(m => m.key);
+
+        // 2. 让用户确认类别顺序
         const previousInput = localStorage.getItem('sortInput') || orderList.join(' ');
+        const userInput = prompt(
+            '您正在进行一键排序，是否需要修改排序顺序（用空格分隔）:',
+            previousInput
+        );
+        if (userInput === null) return;
 
-        // 弹出输入框，默认值为之前的内容
-        const userInput = prompt("您正在进行一键排序，是否需要修改排序顺序（用空格分隔）:", previousInput);
-
-        // 如果用户输入了内容
-        if (userInput !== null) {
-            // 将输入的内容转换为数组并进行排序
-            const sortedArray = userInput.split(' ').map(item => item.trim());
-
-            // 验证用户输入的合理性，如果不全或者输入错误，就给他补全
-            // 过滤 userInput，保留在 orderList 中的项
-            const filteredInput = sortedArray.filter(item => orderList.includes(item));
-
-            // 找出 orderList 中缺失的元素
-            const missingItems = orderList.filter(item => !filteredInput.includes(item));
-
-            // 将 filteredInput 和 missingItems 合并，missingItems 加在最后
-            const resultInput = [...filteredInput, ...missingItems];
-
-            // 保存到 localStorage
-            localStorage.setItem('sortInput', resultInput.join(' '));
-
-            // 按类别拼接对应的Key
-            const order1 = sortedArray.map(e => categoriesData[linkList[e]]);
-            const order2 = [].concat(...order1);
-            const result = order2.map(key => mergedDict[key]).filter(value => value !== undefined);
-
-            postNewOrder(result);
-
-            // 输出排序后的结果
-            // alert("排序后的结果:\n" + sortedArray.join(', '));
+        // 3. 解析并规范化输入：过滤非法项、去重、补全缺失
+        const rawParts = userInput.split(/\s+/).map(s => s.trim()).filter(Boolean);
+        const seen = new Set();
+        const filtered = [];
+        for (const item of rawParts) {
+            if (!orderList.includes(item)) continue;
+            if (seen.has(item)) continue;
+            seen.add(item);
+            filtered.push(item);
         }
+        const missing = orderList.filter(k => !seen.has(k));
+        const finalOrder = [...filtered, ...missing];
+
+        localStorage.setItem('sortInput', finalOrder.join(' '));
+
+        // 4. 按类别顺序建桶
+        const buckets = new Map();
+        finalOrder.forEach(cn => {
+            const en = linkList[cn];
+            if (!buckets.has(en)) buckets.set(en, []);
+        });
+        // 兜底桶：万一 '其他' 未出现在 orderList 中
+        if (!buckets.has('other')) buckets.set('other', []);
+
+        // 5. 分发勋章到对应桶（保留原 DOM 顺序）
+        medals.forEach(m => {
+            const bucket = buckets.get(m.kind) || buckets.get('other');
+            bucket.push(m.key);
+        });
+
+        // 6. 按桶顺序拼回 key 数组
+        const newOrder = [];
+        buckets.forEach(arr => newOrder.push(...arr));
+
+        if (newOrder.length === 0) {
+            alert('无勋章可排序');
+            return;
+        }
+
+        postNewOrder(newOrder);
     }
 
     // 保存勋章顺序
@@ -1928,15 +1960,8 @@
             // —— 名称与分类 ——
             const imgEl = blok.querySelector('img');
             const altName = imgEl ? (imgEl.getAttribute('alt') || '').trim() : '';
-            const normalizedName = altName
-                .replace(/[·‧]/g, s => s === '·' ? '‧' : '·')
-                .replace(/【不可购买】/g, '');
-            const normalizedNameSlice = normalizedName.slice(0, -1);
 
-            const category =
-                nameCategoryMap.get(normalizedName) ||
-                nameCategoryMap.get(normalizedNameSlice) ||
-                'other';
+            const category = resolveBadgeKind(altName);
             const displayCategory = categoriesMapping[category] || "其他";
 
             classificationResult[displayCategory].add(altName);
