@@ -54,10 +54,25 @@
         "宠物": 7, "板块": 5, "天赋": 4, "储蓄": 1, "装饰": 6, "薪俸": 1, "职业": 1,
     };
     const formhash = document.querySelector('input[name="formhash"]').value;
-    // 勋章总类型
-    const orderList = Object.keys(linkList);
+
     // 属性名列表（供收益汇总与详细组成共用）
     const ATTR_NAMES = ['金币', '血液', '咒术', '知识', '旅程', '堕落', '灵魂'];
+
+    // 勋章总类型
+    const orderList = Object.keys(linkList);
+
+    // 英文 key → 中文显示名（供管理标签使用）
+    const REVERSE_LINK = {};
+    Object.entries(linkList).forEach(([cn, en]) => {
+        if (!REVERSE_LINK[en]) REVERSE_LINK[en] = cn;
+    });
+
+    // 管理标签（按分类过滤）
+    const MEDAL_FILTER_STORAGE_KEY = 'gmMedalFilterSelected';
+    const MEDAL_FILTER_HIDDEN = 'badge-filter-hidden';
+    let medalFilterBarEl = null;
+    let medalFilterSelected = localStorage.getItem(MEDAL_FILTER_STORAGE_KEY) || '全部';
+
 
     const categoriesData = {
         "youxi": [
@@ -929,6 +944,116 @@
             flex-wrap: wrap;
             align-items: flex-start;
         }
+
+        /* ========== 我的勋章标题 + 过滤栏布局 ========== */
+        .my_biaoti {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* ========== 管理标签过滤栏 ========== */
+        .badge-filter-bar {
+            flex-basis: 100%;
+            margin-top: 8px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #f7f9fb 0%, #eef3f8 100%);
+            padding: 10px 12px;
+            border: 1px solid #d9dfe5;
+            border-radius: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+            color: #3b4652;
+            font: inherit;             /* 继承页面字体 */
+            font-size: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+
+        .badge-filter-bar .badge-filter-label {
+            font-weight: 600;
+            color: #3b4652;
+            margin-right: 6px;
+            user-select: none;
+            font-size: 12px;
+        }
+
+        .badge-filter-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            border: 1px solid #cbd4dd;
+            border-radius: 8px;
+            background: #fff;
+            color: #425467;
+            padding: 5px 10px;
+            cursor: pointer;
+            font: inherit;
+            font-size: 12px;
+            font-weight: 400;
+            transition: all 0.18s ease;
+            white-space: nowrap;
+            line-height: 1.4;
+        }
+
+        .badge-filter-btn:hover {
+            border-color: #467cac;
+            background: #eef5fc;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(70,124,172,0.15);
+        }
+
+        .badge-filter-btn.active {
+            background: linear-gradient(135deg, #467cac 0%, #3a6b96 100%);
+            border-color: #3a6b96;
+            color: #fff;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(70,124,172,0.30);
+        }
+
+        .badge-filter-btn .bfb-name {
+            line-height: 1;
+        }
+
+        .badge-filter-btn .bfb-count {
+            display: inline-block;
+            padding: 1px 6px;
+            border-radius: 10px;
+            background: #eef3f8;
+            color: #5a6d80;
+            font-size: 10px;
+            font-weight: 600;
+            line-height: 1.4;
+            min-width: 18px;
+            text-align: center;
+            transition: all 0.18s ease;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .badge-filter-btn:hover .bfb-count {
+            background: #d9e7f4;
+            color: #3a6b96;
+        }
+
+        .badge-filter-btn.active .bfb-count {
+            background: rgba(255,255,255,0.22);
+            color: #fff;
+        }
+
+        .badge-filter-btn .bfb-count.bfb-full {
+            background: #fff4d6;
+            color: #b8860b;
+        }
+
+        .badge-filter-btn.active .bfb-count.bfb-full {
+            background: rgba(255,215,0,0.35);
+            color: #fff8dc;
+        }
+
+        /* 被过滤隐藏的勋章 */
+        .badge-filter-hidden { display: none !important; }
     `;
 
         // 新皮肤，白色主题 
@@ -1315,6 +1440,7 @@
     // 添加功能按钮
     function createLink(label, onClickMethod) {
         const button = document.createElement('button');
+        button.type = 'button';
         button.className = 'custom-button';
         button.textContent = label;
         button.onclick = (event) => {
@@ -3386,6 +3512,9 @@
         createLink('置顶展示勋章', loadTopMedal);
         showTopMedal();
         observeElement();
+
+        // 屏蔽统计 + 管理标签过滤栏
+        initBadgeFilterBar();
     }
 
     /* =========================================折叠切换+勋章组合功能============================================================ */
@@ -3470,6 +3599,129 @@
             console.error('获取组合数据失败', e);
             return [];
         }
+    }
+
+    /* ========================================= 管理标签（按分类过滤） ========================================= */
+    /**
+     * 取勋章卡片的中文分类显示名
+     */
+    function getMedalDisplayCategory(blok) {
+        // 优先使用 parseBadgesFromDOM 已写入的 data-category
+        let category = blok.getAttribute('data-category');
+        if (!category) {
+            const img = blok.querySelector('img');
+            const name = img ? (img.getAttribute('alt') || '').trim() : '';
+            category = resolveBadgeKind(name);
+            blok.setAttribute('data-category', category);
+        }
+        return REVERSE_LINK[category] || '其他';
+    }
+
+    /**
+     * 构建 / 刷新管理标签过滤栏
+     * 按钮显示：分类名 + 当前数量（有最大值时显示 当前/最大）
+     * 集满类别时数字胶囊金色高亮
+     */
+    function initBadgeFilterBar() {
+        const myfldiv = document.querySelector('.my_fenlei .myfldiv');
+        if (!myfldiv) return;
+
+        // 首次创建容器 + 事件委托
+        if (!medalFilterBarEl) {
+            medalFilterBarEl = document.createElement('div');
+            medalFilterBarEl.className = 'badge-filter-bar';
+            medalFilterBarEl.addEventListener('click', e => {
+                const btn = e.target.closest('.badge-filter-btn');
+                if (!btn) return;
+                medalFilterSelected = btn.dataset.cat;
+                localStorage.setItem(MEDAL_FILTER_STORAGE_KEY, medalFilterSelected);
+                applyBadgeFilter();
+            });
+        }
+
+        // —— 统计各类勋章数量 ——
+        const blocks = document.querySelectorAll('.my_fenlei .myblok');
+        const counts = { '全部': blocks.length };
+        orderList.forEach(cn => counts[cn] = 0);
+        counts['其他'] = 0;
+
+        blocks.forEach(blok => {
+            const cat = getMedalDisplayCategory(blok);
+            counts[cat] = (counts[cat] || 0) + 1;
+        });
+
+        // 记忆的分类若已无对应勋章，回退到「全部」
+        if (medalFilterSelected !== '全部' && !counts[medalFilterSelected]) {
+            medalFilterSelected = '全部';
+            localStorage.setItem(MEDAL_FILTER_STORAGE_KEY, '全部');
+        }
+
+        // —— 内部小工具：生成数量胶囊 ——
+        const makeCount = (current, max) => {
+            const isFull = max && current >= max;
+            const fullCls = isFull ? ' bfb-full' : '';
+            const text = max ? `${current}/${max}` : `${current}`;
+            return `<span class="bfb-count${fullCls}">${text}</span>`;
+        };
+
+        const makeBtn = (cat, current, max) => {
+            const active = medalFilterSelected === cat ? ' active' : '';
+            return `<button type="button" class="badge-filter-btn${active}" data-cat="${cat}">` +
+                `<span class="bfb-name">${cat}</span>${makeCount(current, max)}</button>`;
+        };
+
+        // —— 渲染按钮 ——
+        const parts = [];
+        parts.push(`<span class="badge-filter-label">🎯 管理标签</span>`);
+
+        // 全部：只显示当前总数
+        parts.push(makeBtn('全部', counts['全部'], 0));
+
+        // 各类别：有最大值时显示 当前/最大
+        orderList.forEach(cn => {
+            if (!counts[cn]) return;
+            const max = numbers[cn] || 0;
+            parts.push(makeBtn(cn, counts[cn], max));
+        });
+
+        // 其他：不显示最大值
+        if (counts['其他']) {
+            parts.push(makeBtn('其他', counts['其他'], 0));
+        }
+
+        medalFilterBarEl.innerHTML = parts.join('');
+
+        // —— 挂载到 .my_biaoti 内部（标题下方） ——
+        if (!medalFilterBarEl.isConnected) {
+            const biaoti = document.querySelector('.my_fenlei .my_biaoti');
+            if (biaoti) {
+                biaoti.appendChild(medalFilterBarEl);
+            } else {
+                // 兜底：找不到 .my_biaoti 时退回原位置
+                myfldiv.parentNode.insertBefore(medalFilterBarEl, myfldiv);
+            }
+        }
+
+        // —— 应用过滤 ——
+        applyBadgeFilter();
+    }
+
+    /**
+     * 把当前过滤状态应用到所有勋章卡片
+     */
+    function applyBadgeFilter() {
+        if (!medalFilterBarEl) return;
+        const blocks = document.querySelectorAll('.my_fenlei .myblok');
+
+        blocks.forEach(blok => {
+            const cat = getMedalDisplayCategory(blok);
+            const show = medalFilterSelected === '全部' || cat === medalFilterSelected;
+            blok.classList.toggle(MEDAL_FILTER_HIDDEN, !show);
+        });
+
+        medalFilterBarEl.querySelectorAll('.badge-filter-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.cat === medalFilterSelected);
+        });
     }
     /* =========================================工具函数区域============================================================ */
 
