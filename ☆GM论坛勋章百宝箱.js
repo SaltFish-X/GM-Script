@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.8.6
+// @version      2.8.7
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
@@ -950,7 +950,6 @@
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            gap: 8px;
         }
 
         /* ========== 管理标签过滤栏 ========== */
@@ -1054,6 +1053,9 @@
 
         /* 被过滤隐藏的勋章 */
         .badge-filter-hidden { display: none !important; }
+
+        /* 屏蔽臃肿的「我的勋章统计」 */
+        .my_medal_stats { display: none !important; }
     `;
 
         // 新皮肤，白色主题 
@@ -2330,8 +2332,8 @@
         <p id="all-hui">回帖：${formatEarnings(summaries.hui.ALL)}</p>
         <p id="all-fa">发帖：${formatEarnings(summaries.fa.ALL)}</p>
         <div class="badge-warning"></div>
-        <br>
         <div class="foldable-content" style="display: ${isFolded ? 'none' : 'block'};">
+            <br>
             <H3>常驻勋章收益</H3>
             <p>回帖：${formatEarnings(summaries.hui.Permanent)}</p>
             <p>发帖：${formatEarnings(summaries.fa.Permanent)}</p>
@@ -3674,7 +3676,7 @@
 
         // —— 渲染按钮 ——
         const parts = [];
-        parts.push(`<span class="badge-filter-label">🎯 管理标签</span>`);
+        // parts.push(`<span class="badge-filter-label">🎯 管理标签</span>`);
 
         // 全部：只显示当前总数
         parts.push(makeBtn('全部', counts['全部'], 0));
