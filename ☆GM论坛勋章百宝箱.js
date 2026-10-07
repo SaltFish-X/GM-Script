@@ -3226,13 +3226,13 @@
     async function upgradeMedal(name, times) {
         const info = findMedal(name);
         if (!info) {
-            console.warn(`[勋章升级] 未找到勋章“${name}”，跳过`);
+            // console.warn(`[勋章升级] 未找到勋章“${name}”，跳过`);
             return false;
         }
 
         // 检查当前等级是否已经最高
         if (isMaxLevel(info.lv)) {
-            console.log(`[勋章升级] “${name}” 已是最高等级 (${info.lv})，跳过`);
+            // console.log(`[勋章升级] “${name}” 已是最高等级 (${info.lv})，跳过`);
             return false;
         }
 
