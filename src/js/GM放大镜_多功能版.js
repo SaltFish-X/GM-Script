@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         GM-勋章放大镜
+// @name         GM-勋章放大镜-黑
 // @namespace    https://docs.scriptcat.org/
-// @version      2.3.1
+// @version      2.4.1
 // @description  暗黑模式的勋章放大镜
 // @author       1:轶致2:咸鱼鱼3:哈哈哈哈_
 // @match        *://*.gamemale.com/*
@@ -2067,8 +2067,8 @@ function pLimit(concurrency) {
             /**
              * 转换为收益浮点数 HTML 标签，并找出最大收益等级
              */
-            LevelsFloat: (levelsObj, type = "replay") => {
-                let BeatLv = { value: -Infinity, level: "1" };
+            LevelsFloat: (levelsObj, type = "replay", costData) => {
+                let BestLv = { value: -Infinity, level: "1" };
                 let MaxLv = 0;
 
                 const map = {};
@@ -2100,8 +2100,14 @@ function pLimit(concurrency) {
 
                     const totalFixed = total.toFixed(2);
 
-                    if (total >= parseFloat(BeatLv.value)) {
-                        BeatLv = { value: totalFixed, level: k };
+                    if (totalFixed > parseFloat(BestLv.value)) {
+                        // 判断BestLv前，过滤维持区间过小的情况
+                        const data = costData[k] || {};
+                        const conds = data.条件 || {};
+                        const isTooSmall = Object.values(conds).some(({ lower, upper }) => {
+                            return upper && upper.val - lower.val <= 6;
+                        });
+                        if(!isTooSmall) BestLv = { value: totalFixed, level: k };
                     }
                     if (k.toLowerCase() == "max") MaxLv = totalFixed;
 
@@ -2109,11 +2115,11 @@ function pLimit(concurrency) {
                     map[k] =
                         `<span class="medal-floats item">${itemsHtml}</span><span class="medal-floats total">${totalEmoji}${totalFixed}</span>`;
                 }
-                if (BeatLv.value === -Infinity) {
-                    BeatLv.value = "0.00";
+                if (BestLv.value === -Infinity) {
+                    BestLv.value = "0.00";
                 }
 
-                return { map, BeatLv, MaxLv };
+                return { map, BestLv, MaxLv };
             },
 
             /**
@@ -2176,8 +2182,7 @@ function pLimit(concurrency) {
             /**
              * 渲染升级成本及回本周期 HTML
              */
-            CostInfo: (levelsObj, buy_price, BeatLv, MaxLv) => {
-                const costData = compute.UpgradeCost(levelsObj);
+            CostInfo: (costData, buy_price, BestLv, MaxLv) => {
                 const buyPriceValue = parse.BuyPrice(buy_price);
 
                 const renderLvl = (lvl, award, isMaxHeader = false) => {
@@ -2202,8 +2207,8 @@ function pLimit(concurrency) {
                         awardNum > 0 ? `${Math.floor(base / awardNum)}贴` : "无法计算";
 
                     const title = isMaxHeader
-                        ? `【 Max 】回帖收益（<span style="color:#ff4b4b;">${award}</span>）${BeatLv.level === lvl ? "最大" : ""}`
-                        : `【等级${lvl}】回帖收益（<span style="color:#ff4b4b;">${award}</span>）${BeatLv.level === lvl ? "最大" : ""}`;
+                        ? `【 Max 】回帖收益（<span style="color:#ff4b4b;">${award}</span>）${BestLv.level === lvl ? "最大" : ""}`
+                        : `【等级${lvl}】回帖收益（<span style="color:#ff4b4b;">${award}</span>）${BestLv.level === lvl ? "最大" : ""}`;
 
                     return `<div style="margin-bottom:4px;">
                     <div>${title}${costHtml ? `，升级消耗（${costHtml}）` : ""}${condHtml ? `，维持 ${condHtml}` : ""}</div>
@@ -2211,8 +2216,8 @@ function pLimit(concurrency) {
                 };
 
                 let html = "";
-                if (BeatLv.level !== "Max") {
-                    html += renderLvl(BeatLv.level, BeatLv.value, false);
+                if (BestLv.level !== "Max") {
+                    html += renderLvl(BestLv.level, BestLv.value, false);
                 }
                 html += renderLvl("Max", MaxLv, true);
                 return html;
@@ -2232,15 +2237,17 @@ function pLimit(concurrency) {
             if (utilInstance.objType(levelsStr) === "Array") levelsObj = levelsStr;
             levelsObj = parse.Levels(levelsStr);
 
+            const costData = compute.UpgradeCost(levelsObj);
+
             //  数据转换
             const {
                 map: floatMap,
-                BeatLv,
+                BestLv,
                 MaxLv,
-            } = toHtml.LevelsFloat(levelsObj, "replay");
+            } = toHtml.LevelsFloat(levelsObj, "replay", costData);
             const rawMap = toHtml.LevelsRaw(levelsObj);
             const imgMap = toHtml.Imgs(imgsObj);
-            const costHTML = toHtml.CostInfo(levelsObj, buy_price, BeatLv, MaxLv);
+            const costHTML = toHtml.CostInfo(costData, buy_price, BestLv, MaxLv);
 
             // 排序与拼接
             const toNum = (v) =>
