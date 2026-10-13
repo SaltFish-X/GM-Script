@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.9.2
+// @version      2.9.3
 // @updateURL    https://cdn.jsdelivr.net/gh/SaltFish-X/GM-Script@main/dist/%E2%98%86GM%E8%AE%BA%E5%9D%9B%E5%8B%8B%E7%AB%A0%E6%94%BE%E5%A4%A7%E9%95%9C.user.js
 // @downloadURL  https://cdn.jsdelivr.net/gh/SaltFish-X/GM-Script@main/dist/%E2%98%86GM%E8%AE%BA%E5%9D%9B%E5%8B%8B%E7%AB%A0%E6%94%BE%E5%A4%A7%E9%95%9C.user.js
 // @description  泥潭勋章属性展示！
@@ -4288,15 +4288,15 @@ var 放大镜内容映射表 = {
 【 Max 】1% 回帖血液+5、发帖灵魂+1`,
 '『任天堂Switch』灰黑√': `『任天堂Switch』灰黑√
 【勋章类型】剧情
-【入手条件】咒术＞=20
-【商店售价】100金币
+【入手条件】金币＞＝1000
+【商店售价】750金币
 【等级 初级】无属性▕▏升级条件：消耗0灵魂
 【等级1】2% 回帖旅程+1▕▏升级条件：灵魂≥1
 【 Max 】2% 回帖旅程+1、发帖灵魂+1`,
 '『任天堂Switch』红蓝√': `『任天堂Switch』红蓝√
 【勋章类型】剧情
-【入手条件】咒术＞=20
-【商店售价】100金币
+【入手条件】金币＞＝1000
+【商店售价】750金币
 【等级 初级】无属性▕▏升级条件：消耗0灵魂
 【等级1】2% 回帖知识+1▕▏升级条件：灵魂≥1
 【 Max 】2% 回帖知识+1、发帖灵魂+1`,
