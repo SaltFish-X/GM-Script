@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GM论坛勋章百宝箱
 // @namespace    http://tampermonkey.net/
-// @version      2.8.7
+// @version      2.8.8
 // @description  主要用于管理GM论坛的个人勋章，查看其他勋章属性请下载【勋章放大镜】
 // @match        https://www.gamemale.com/wodexunzhang-showxunzhang.html?action=my
 // @match        https://www.gamemale.com/plugin.php?id=wodexunzhang:showxunzhang&action=my
@@ -804,7 +804,8 @@
             "GM村蛋糕(New)",
             "猫咪合唱团（夏日）",
             "银汉迢迢", "金风玉露",
-            "月圆花好"
+            "月圆花好",
+            "蘑菇舞会",
         ],
     };
     // 2025年元旦活动新增的类别，期间限定的临时活动勋章
