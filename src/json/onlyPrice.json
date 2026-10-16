@@ -119,6 +119,18 @@
     "currency": "金币",
     "amount": 1
   },
+  "蘑菇舞会": {
+    "currency": "",
+    "amount": 0
+  },
+  "月圆花好": {
+    "currency": "",
+    "amount": 0
+  },
+  "拍卖证书": {
+    "currency": "",
+    "amount": 0
+  },
   "疯狂GM食": {
     "currency": "金币",
     "amount": 50
@@ -1293,11 +1305,11 @@
   },
   "『任天堂Switch』灰黑√": {
     "currency": "金币",
-    "amount": 100
+    "amount": 750
   },
   "『任天堂Switch』红蓝√": {
     "currency": "金币",
-    "amount": 100
+    "amount": 750
   },
   "『日心说』": {
     "currency": "金币",
