@@ -1,5 +1,47 @@
 const medalData = [
     {
+        "type": "奖品",
+        "no": "0705",
+        "url_tid": "197966",
+        "name": "蘑菇舞会",
+        "date": "2026-10-16",
+        "buy_limit": "参与活动<a href=\"/thread-196427-1-1.html\" target=\"_blank\">【山雨催红】</a>",
+        "price": "",
+        "duration": "",
+        "levels": "【 Max 】1% 发帖血液+1",
+        "levels_img": {
+            "Max": ["https://img.gamemale.com/album/202610/03/140436ld4i8dt837b41a08.gif", 40]
+        }
+    },
+    {
+        "type": "奖品",
+        "no": "0704",
+        "url_tid": "197619",
+        "name": "月圆花好",
+        "date": "2026-10-10",
+        "buy_limit": "参与活动<a href=\"/thread-195948-1-1.html\" target=\"_blank\">【蟾宫祭礼】</a>",
+        "price": "",
+        "duration": "",
+        "levels": "【 Max 】2% 回帖血液+1",
+        "levels_img": {
+            "Max": ["https://img.gamemale.com/album/202609/29/204525wjrstvrv6sjsvhx6.gif", 40]
+        }
+    },
+    {
+        "type": "剧情",
+        "no": "0703",
+        "url_tid": "197560",
+        "name": "拍卖证书",
+        "date": "2026-10-10",
+        "buy_limit": "参与活动【蟾宫祭礼】并且竞拍成功",
+        "price": "",
+        "duration": "",
+        "levels": "【 Max 】无属性",
+        "levels_img": {
+            "Max": ["https://img.gamemale.com/album/202609/29/204524b65q3emt4mt8y6de.gif", 40]
+        }
+    },
+    {
         "type": "赠礼",
         "no": "0702",
         "url_tid": "196509",
@@ -4562,8 +4604,8 @@ const medalData = [
         "url_tid": "108202",
         "name": "『任天堂Switch』灰黑√",
         "date": "2023-3-14",
-        "buy_limit": "咒术≥20",
-        "price": "100金币",
+        "buy_limit": "金币≥1000",
+        "price": "750金币",
         "levels": "【等级 初级】无属性▕▏升级条件：消耗0灵魂\n【等级1】2% 回帖旅程+1▕▏升级条件：灵魂≥1\n【 Max 】2% 回帖旅程+1、发帖灵魂+1",
         "levels_img": {
             "1": ["https://img.gamemale.com/album/202303/02/125534hntc1o7nioiv0ekz.gif", 82],
@@ -4577,8 +4619,8 @@ const medalData = [
         "url_tid": "108201",
         "name": "『任天堂Switch』红蓝√",
         "date": "2023-3-14",
-        "buy_limit": "咒术≥20",
-        "price": "100金币",
+        "buy_limit": "金币≥1000",
+        "price": "750金币",
         "levels": "【等级 初级】无属性▕▏升级条件：消耗0灵魂\n【等级1】2% 回帖知识+1▕▏升级条件：灵魂≥1\n【 Max 】2% 回帖知识+1、发帖灵魂+1",
         "levels_img": {
             "1": ["https://img.gamemale.com/album/202303/02/125534e3zc5ch9suoifucs.gif", 82],
