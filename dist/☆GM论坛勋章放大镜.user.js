@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         勋章放大镜
 // @namespace    http://tampermonkey.net/
-// @version      2.9.3
+// @version      2.9.4
 // @updateURL    https://cdn.jsdelivr.net/gh/SaltFish-X/GM-Script@main/dist/%E2%98%86GM%E8%AE%BA%E5%9D%9B%E5%8B%8B%E7%AB%A0%E6%94%BE%E5%A4%A7%E9%95%9C.user.js
 // @downloadURL  https://cdn.jsdelivr.net/gh/SaltFish-X/GM-Script@main/dist/%E2%98%86GM%E8%AE%BA%E5%9D%9B%E5%8B%8B%E7%AB%A0%E6%94%BE%E5%A4%A7%E9%95%9C.user.js
 // @description  泥潭勋章属性展示！
@@ -5426,12 +5426,10 @@ var 放大镜内容映射表 = {
 【 Max 】13% 回帖血液+1`,
 'GM村蛋糕(New)': `GM村蛋糕(New)
 【勋章类型】奖品
-【入手条件】<a href="/thread-80460-1-1.html" target="_blank">符合发放条件的用户（点击跳转）</a>
+【入手条件】<a href="/thread-80501-1-1.html" target="_blank">LV3以上、注册时长≥120天、一个月内无违规记录、站内资料填写生日并公开展示（点击跳转）</a>
 【商店售价】无
 【等级1】无属性▕▏升级条件：消耗-50金币
-【 Max 】50% 回帖金币+1 血液+1
-【特别说明】兔兔只按大家站内资料填写的出生日期的月日来给大家制作蛋糕哦
-【特别说明】所以记得把站内资料填写完整并且公开`,
+【 Max 】50% 回帖金币+1 血液+1`,
 '杜隆坦': `杜隆坦
 【勋章类型】真人男从
 【入手条件】追随 >= 20
